@@ -6,9 +6,9 @@
 	[Name] ControllerConfigContainer
 
 	# Window
-	[WindowTitle] MVC_GDevFramework
-	[WindowWidth] 800
-	[WindowHeight] 600
+	[WindowTitle] Lone Spectre - PreAlpha
+	[WindowWidth] 1280
+	[WindowHeight] 720
 
 	# Refresh Rates
 	[ViewRefreshRate] 60

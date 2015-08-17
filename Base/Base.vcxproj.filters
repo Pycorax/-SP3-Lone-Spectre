@@ -87,9 +87,6 @@
     <ClCompile Include="Source\RenderTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Geometry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Minimap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -237,11 +234,11 @@
     <ClCompile Include="Source\GhostEnemy.cpp">
       <Filter>Source Files\Legacy Stuff</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MVC_Model_Spectre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Geometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -409,6 +406,9 @@
     </ClInclude>
     <ClInclude Include="Source\TargetEnemy.h">
       <Filter>Header Files\Legacy Stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MVC_Model_Spectre.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

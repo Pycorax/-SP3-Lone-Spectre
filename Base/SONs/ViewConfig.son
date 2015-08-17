@@ -13,6 +13,6 @@
 
 	# Resolution
 	#	These should have the same aspect ratio as the Window Width and Window Height in ControllerConfig.son
-	[ViewWidth] 800
-	[ViewHeight] 600
+	[ViewWidth] 1280
+	[ViewHeight] 720
 }

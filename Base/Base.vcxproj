@@ -23,7 +23,6 @@
     <ClCompile Include="Source\ElementalWeapon.cpp" />
     <ClCompile Include="Source\EnemyObject.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
-    <ClCompile Include="Source\Geometry.cpp" />
     <ClCompile Include="Source\GhostEnemy.cpp" />
     <ClCompile Include="Source\GhostStrategy.cpp" />
     <ClCompile Include="Source\GoodieObject.cpp" />
@@ -39,6 +38,7 @@
     <ClCompile Include="Source\MVC_Model_Mario.cpp" />
     <ClCompile Include="Source\MVC_Model_3D.cpp" />
     <ClCompile Include="Source\MVC_Model_Shadow.cpp" />
+    <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
     <ClCompile Include="Source\MVC_Model_Zombie.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\PhysicsObject.cpp" />
@@ -95,13 +95,13 @@
     <ClInclude Include="Source\MVC_Model_Mario.h" />
     <ClInclude Include="Source\MVC_Model_3D.h" />
     <ClInclude Include="Source\MVC_Model_Shadow.h" />
+    <ClInclude Include="Source\MVC_Model_Spectre.h" />
     <ClInclude Include="Source\MVC_Model_Zombie.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\PhysicsObject.h" />
     <ClInclude Include="Source\PlayerObject.h" />
     <ClInclude Include="Source\RangedWeapon.h" />
     <ClInclude Include="Source\RenderTree.h" />
-    <ClInclude Include="Source\Geometry.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
