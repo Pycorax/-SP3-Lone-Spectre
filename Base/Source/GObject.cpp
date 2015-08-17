@@ -3,24 +3,24 @@
 
 GObject::GObject(void)
 {
-}
 
+}
 
 GObject::~GObject(void)
 {
 }
 
-void GObject::SetPos(Vector3 pos)
+void GObject::SetPos(const Vector3 pos)
 {
 	m_transforms.Translation = pos;
 }
 
-void GObject::SetRot(Vector3 rot)
+void GObject::SetRot(const Vector3 rot)
 {
 	m_transforms.Rotation = rot;
 }
 
-void GObject::SetScale(Vector3 scale)
+void GObject::SetScale(const Vector3 scale)
 {
 	m_transforms.Scale = scale;
 }
@@ -28,4 +28,9 @@ void GObject::SetScale(Vector3 scale)
 Transform GObject::GetTransform(void) const
 {
 	return m_transforms;
+}
+
+Mesh* GObject::GetMesh(void) const
+{
+	return m__mesh;
 }
