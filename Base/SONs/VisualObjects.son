@@ -1,0 +1,247 @@
+# GameObjects.son #
+###################
+# A SON File that specifies the GameObjects to load into the game
+# All GameObjects must be contained in a branch named GObjectContainer
+# Type can have the following values: DEFAULT_TYPE, PHYSICS_TYPE, ENEMY_TYPE
+# Translation, Rotation, Scale are 3 floats
+# Scale CANNOT have 0s in it
+# Active and Collidable can have the following values: true/1 OR false/0
+{
+	[Name] VObjectContainer
+	{
+		[Name] VerticalRightRoad_Right_Sidewalk
+		[Mesh] Sidewalk_1x40
+		[Translation] 475.0f, 180.0f, -2005.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] VerticalRightRoad_Left_Sidewalk
+		[Mesh] Sidewalk_1x40
+		[Translation] 725.0f, 180.0f, -2005.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[DeltaTranslation] 0.0f, 0.0f, -50.0f
+		[DeltaRotation] 0.0f, 0.0f, 0.0f
+		[DeltaScale] 0.0f, 0.0f, 0.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftVerticalRoad_LeftFront_Sidewalk
+		[Mesh] Sidewalk_1x40
+		[Translation] -500.0f, 180.0f, -1005.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftVerticalRoad_LeftBack_Sidewalk
+		[Mesh] Sidewalk_1x40
+		[Translation] -500.0f, 180.0f, -755.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftVerticalRoad_FrontRight_Sidewalk
+		[Mesh] Sidewalk_1x26
+		[Translation] 1350.0f, 180.0f, -1005.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftVerticalRoad_BackRight_Sidewalk
+		[Mesh] Sidewalk_1x26
+		[Translation] 1350.0f, 180.0f, -755.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] RightPark_VerticalRightRoad_Sidewalk
+		[Mesh] Sidewalk_1x56
+		[Translation] 475.0f, 180.0f, 645.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] BottomVerticalRightRoad_RightUpper_Sidewalk
+		[Mesh] Sidewalk_1x56
+		[Translation] 725.0f, 180.0f, 645.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] BelowPark_Sidewalk
+		[Mesh] Sidewalk_1x40
+		[Translation] -500.0f, 180.0f, 2045.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] BelowPark_BelowRoad_Sidewalk
+		[Mesh] Sidewalk_1x40
+		[Translation] -500.0f, 180.0f, 2295.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] VerticalRightRoad_RightBottom_Sidewalk
+		[Mesh] Sidewalk_1x20
+		[Translation] 1200.0f, 180.0f, 2045.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] VerticalRightRoad_RightBottom_Sidewalk
+		[Mesh] Sidewalk_1x20
+		[Translation] 1200.0f, 180.0f, 2295.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] VerticalRightRoad_BottomLeft_Sidewalk
+		[Mesh] Sidewalk_1x13
+		[Translation] 475.0f, 180.0f, 2645.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] VerticalRightRoad_BottomRight_Sidewalk
+		[Mesh] Sidewalk_1x13
+		[Translation] 725.0f, 180.0f, 2645.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftOfPark_Sidewalk
+		[Mesh] Sidewalk_1x56
+		[Translation] -1475.0f, 180.0f, 645.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftVerticalRoad_BottomRight_Sidewalk
+		[Mesh] Sidewalk_1x13
+		[Translation] -1475.0f, 180.0f, 2645.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftVerticalRoad_Left_Sidewalk
+		[Mesh] Sidewalk_1x128
+		[Translation] -1725.0f, 180.0f, -175.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftVerticalRoad_Right_Sidewalk
+		[Mesh] Sidewalk_1x47
+		[Translation] -1475.0f, 180.0f, -2200.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] RightVerticalRoad
+		[Mesh] Asphalt_1x33
+		[Translation] 600.0f, 180.0f, -100.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 200.0f, 200.0f, 200.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] LeftVerticalRoad
+		[Mesh] Asphalt_1x33
+		[Translation] -1600.0f, 180.0f, -100.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 200.0f, 200.0f, 200.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] TopHorizontalRoad
+		[Mesh] Asphalt_1x21
+		[Translation] 500.0f, 180.0f, -880.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 200.0f, 200.0f, 200.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	{
+		[Name] BottomHorizontalRoad
+		[Mesh] Asphalt_1x21
+		[Translation] 500.0f, 180.0f, 2170.0f
+		[Rotation] -90.0f, 0.0f, 90.0f
+		[Scale] 200.0f, 200.0f, 200.0f
+		[Lighted] true
+		[Fogged] false
+		[Billboard] false
+	}
+	###########################################################################################
+	# Render Last
+	###########################################################################################
+	{
+		[Name] RektCarFire
+		[Mesh] AnimFire
+		[Translation] 400.0f, 210.0f, -750.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 50.0f, 50.0f, 50.0f
+		[Collidable] true
+		[Lighted] false
+		[Billboard] true
+	}
+}

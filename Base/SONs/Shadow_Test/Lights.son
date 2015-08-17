@@ -1,0 +1,20 @@
+# Lights.son #
+#################
+# A SON File that specifies the Lights to load into the game
+# All Materials must be contained in a branch named LightContainer
+{
+	[Name] LightContainer
+	{
+		[Type] LIGHT_DIRECTIONAL
+		[Position] 0.0f, 2.0f, 2.0f
+		[Color] 1.0f, 1.0f, 1.0f
+		[Power] 1.0f
+		[ConstantAttenuation] 0.1f
+		[LinearAttenuation] 0.01f
+		[QuadraticAttenuation] 0.001f
+		[CosineCutOff] 45.0f
+		[CosineInner] 90.0f
+		[Exponent] 3.0f
+		[SpotDirection] 0.0f, 1.0f, 0.0f
+	}
+}

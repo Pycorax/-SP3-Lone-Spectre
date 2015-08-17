@@ -1,0 +1,15 @@
+# Colours.son #
+#################
+# A SON File that specifies the Colours to load into the game
+# All Colors must be contained in a branch named ColorContainer
+{
+	[Name] ColorContainer
+	{
+		[Name] White
+		[RGB] 0.0f, 0.0f, 0.0f
+	}
+	{
+		[Name] Pale Yellow
+		[RGB] 1.0f, 1.0f, 0.5f
+	}
+}

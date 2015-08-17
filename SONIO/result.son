@@ -1,0 +1,22 @@
+{
+	[Name] Body
+	[MeshType] Cube
+	[MeshDir] Mesh
+	[MeshMaterial] Metal
+
+	{
+		[Name] Level2
+
+		{
+			[Name] Level3
+			[MeshType] Sphere
+			[MeshDir] Mesh
+			[MeshMaterial] Plastic
+
+		}
+	}
+	{
+		[Name] Level2-2
+
+	}
+}

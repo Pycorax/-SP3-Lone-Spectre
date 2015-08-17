@@ -1,0 +1,23 @@
+{
+	# This is level 1
+	[Name]Body
+	[MeshType]Cube
+	[MeshDir]Mesh
+	[MeshMaterial]Metal
+	
+	{
+		# This is level 2
+		[Name]Level2
+		{
+			# This is level 3
+			[Name]Level3
+			[MeshType]Sphere
+			[MeshDir]Mesh
+			[MeshMaterial]Plastic
+		}
+	}
+	
+	{
+		[Name]Level2-2
+	}
+}

@@ -2,7 +2,6 @@
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
@@ -11,7 +10,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -20,9 +18,26 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
 *.out
 *.app
+Base/Debug/
+Common/Debug/
+ipch/
+DM2231_Framework.opensdf
+LoadSON/Debug/
+*.sdf
+*.pdb
+*.lib
+Sound/Debug/
+.vs/
+LoadSON/Release/
+Common/Release/
+Base/Release/
+Sound/Release/
+Base/Base.vcxproj.user
+SONIO/Debug/
+SONIO/Release/
+*.user

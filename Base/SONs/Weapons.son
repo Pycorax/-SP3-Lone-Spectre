@@ -1,0 +1,94 @@
+# Weapons.son #
+###################
+# A SON File that specifies the Weapons to load into the game
+# All Weapons must be contained in a branch named WeaponContainer
+# [BulletScale] is 3 floats and CANNOT have 0.0f in it
+# [Type] is either "RANGED_TYPE" (default) or "MELEE_TYPE"
+{
+	[Name] WeaponContainer
+	{
+		[Name] P90
+		[Mesh] P90
+		[Type] RANGED_TYPE
+		[ADSFOV] 40.0
+		[ADSOffset] -4.18164e-010, -0.3f, 1.13f
+		[Damage] 25
+		[Range] 5.0f
+		[BulletSpeed] 800.0f
+		[BulletScale] 0.2f, 0.2f, 0.2f
+		[FireRate] 1000.0f
+		[MagazineSize] 50
+		[ReserveMagazineSize] 150
+		[FullReloadSpeed] 1.5f
+		[ReloadSpeed] 1.2f
+		[ShotSoundFilePath] Sounds//ump45_shot.mp3
+	}
+	{
+		[Name] AK-47
+		[Mesh] AK47
+		[Type] RANGED_TYPE
+		[ADSFOV] 35.0
+		[ADSOffset] -0.001f, -0.152001f, 0.579999f
+		[Damage] 35
+		[Range] 5.0f
+		[BulletSpeed] 800.0f
+		[BulletScale] 0.2f, 0.2f, 0.2f
+		[FireRate] 750.0f
+		[MagazineSize] 30
+		[ReserveMagazineSize] 120
+		[FullReloadSpeed] 1.2f
+		[ReloadSpeed] 1.0f
+		[ShotSoundFilePath] Sounds//ak47_shot.mp3
+	}
+	{
+		[Name] M4A1
+		[Mesh] M4A1_ExtMags
+		[Type] RANGED_TYPE
+		[ADSFOV] 38.5
+		[ADSOffset] -0.002f, -0.319001f, 0.72999f
+		[Damage] 32
+		[Range] 5.0f
+		[BulletSpeed] 800.0f
+		[BulletScale] 0.25f, 0.25f, 0.25f
+		[FireRate] 700.0f
+		[MagazineSize] 120
+		[ReserveMagazineSize] 720
+		[FullReloadSpeed] 5.7f
+		[ReloadSpeed] 3.7f
+		[ShotSoundFilePath] Sounds//m4a1_shot.mp3
+	}
+	{
+		[Name] AWP
+		[Mesh] AWP
+		[ScopeMesh] AWP_Scope
+		[ADSFOV] 25.0
+		[Type] RANGED_TYPE
+		[Damage] 134
+		[Range] 5.0f
+		[BulletSpeed] 800.0f
+		[BulletScale] 0.35f, 0.35f, 0.35f
+		[FireRate] 100.0f
+		[MagazineSize] 10
+		[ReserveMagazineSize] 30
+		[FullReloadSpeed] 1.9f
+		[ReloadSpeed] 1.4f
+		[ShotSoundFilePath] Sounds//deagle_shot.mp3
+	}
+	{
+		[Name] M9
+		[Mesh] M9
+		[Type] RANGED_TYPE
+		[ADSFOV] 42.5
+		[ADSOffset] -0.001f, -0.157001, -0.0500007
+		[Damage] 20
+		[Range] 5.0f
+		[BulletSpeed] 800.0f
+		[BulletScale] 0.15f, 0.15f, 0.15f
+		[FireRate] 200.0f
+		[MagazineSize] 15
+		[ReserveMagazineSize] 60
+		[FullReloadSpeed] 0.6f
+		[ReloadSpeed] 0.45f
+		[ShotSoundFilePath] Sounds//glock18_shot.mp3
+	}
+}

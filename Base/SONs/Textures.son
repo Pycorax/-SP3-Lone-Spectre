@@ -1,0 +1,88 @@
+# Colours.son #
+#################
+# A SON File that specifies the Textures to load into the game
+# All Textures must be contained in a branch named TextureContainer
+{
+	[Name] TextureContainer
+
+	# # Criticals DO NOT TOUCH
+	{
+		[Name] Calibri
+		[FilePath] Image//calibri.tga
+	}
+	# Skyplane
+	{
+		[Name] Skyplane
+		[FilePath] Image//skyplane.tga
+	}
+
+	# Font
+	{
+		[Name] Calibri
+		[FilePath] Image//calibri.tga
+	}
+
+	# Other Textures
+	{
+		[Name] AnimBillboard
+		[FilePath] Image//billboard.tga
+	}
+	{
+		[Name] AnimFire
+		[FilePath] Image//fire2.tga
+	}
+	{
+		[Name] Cement
+		[FilePath] Image//cement.tga
+	}
+	{
+		[Name] Skyscraper
+		[FilePath] Image//skyscraper.tga
+	}
+	{
+		[Name] LampPost
+		[FilePath] Image//LampPost.tga
+	}
+	{
+		[Name] Moss
+		[FilePath] Image//moss1.tga
+	}
+	{
+		[Name] Sea
+		[FilePath] Image//sea.tga
+	}
+	{
+		[Name] Ember
+		[FilePath] Image//ember.tga
+	}
+	# RektCar
+	{
+		[Name] RektCar_Bottom
+		[FilePath] Image//RektCar//RektCar_Bottom.tga
+	}
+	{
+		[Name] RektCar_Decals
+		[FilePath] Image//RektCar//RektCar_Decals.tga
+	}
+	{
+		[Name] RektCar_Design
+		[FilePath] Image//RektCar//RektCar_Design.tga
+	}
+	{
+		[Name] RektCar_Glass
+		[FilePath] Image//RektCar//RektCar_Glass.tga
+	}
+	{
+		[Name] RektCar_Interior
+		[FilePath] Image//RektCar//RektCar_Interior.tga
+	}
+	# Car
+	{
+		[Name] Car
+		[FilePath] Image//Car//car_white.tga
+	}
+	{
+		[Name] Car_Hatch
+		[FilePath] Image//Car//car001_hatchback_02.tga
+	}
+}

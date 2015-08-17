@@ -1,0 +1,318 @@
+# GameObjects.son #
+###################
+# A SON File that specifies the GameObjects to load into the game
+# All GameObjects must be contained in a branch named GObjectContainer
+# Type can have the following values: DEFAULT_TYPE, PHYSICS_TYPE, ENEMY_TYPE
+# Translation, Rotation, Scale are 3 floats
+# Scale CANNOT have 0s in it
+# Active and Collidable can have the following values: true/1 OR false/0
+{
+	[Name] GObjectContainer
+	{
+		[Name] Skyplane
+		[Mesh] Skyplane
+		[Translation] 500.0f, 5000.0f, -500.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 1.0f, 1.0f, 1.0f
+		[Collidable] false
+		[Lighted] false
+		[Fogged] true
+	}
+	{
+		[Name] Pond
+		[Mesh] Pond
+		[Translation] -366.7f, 150.0f, 1444.0f
+		[Rotation] -90.0f, 0.0f, 0.0f
+		[Scale] 1500.0f, 1500.0f, 1.0f
+		[Collidable] false
+	}
+	{
+		[Name] PondUpsidedown
+		[Mesh] Pond
+		[Translation] -366.7f, 149.9f, 1444.0f
+		[Rotation] 90.0f, 0.0f, 0.0f
+		[Scale] 1500.0f, 1500.0f, 1.0f
+		[Collidable] false
+	}
+	{
+		[Name] Statue
+		[Mesh] Statue
+		[Translation] 868.0f, 175.0f, -612.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 180.0f, 180.0f, 180.0f
+		[Collidable] true
+	}
+	# Lamp Posts between the buildings
+	{
+		[Name] LampPost_1
+		[Mesh] LampPost
+		[Translation] 472.0f, 180.0f, -1192.0f
+		[Rotation] 0.0f, -90.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	{
+		[Name] LampPost_2
+		[Mesh] LampPost
+		[Translation] 732.0f, 180.0f, -1792.0f
+		[Rotation] 0.0f, 90.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	{
+		[Name] LampPost_3
+		[Mesh] LampPost
+		[Translation] 472.0f, 180.0f, -2392.0f
+		[Rotation] 0.0f, -90.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	#Lamp Posts beside park that road
+	{
+		[Name] LampPost_4
+		[Mesh] LampPost
+		[Translation] 472.0f, 180.0f, -672.0f
+		[Rotation] 0.0f, -90.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	{
+		[Name] LampPost_5
+		[Mesh] LampPost
+		[Translation] 732.0f, 180.0f, -72.0f
+		[Rotation] 0.0f, 90.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	{
+		[Name] LampPost_6
+		[Mesh] LampPost
+		[Translation] 472.0f, 180.0f, 572.0f
+		[Rotation] 0.0f, -90.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	{
+		[Name] LampPost_7
+		[Mesh] LampPost
+		[Translation] 732.0f, 180.0f, 1172.0f
+		[Rotation] 0.0f, 90.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	{
+		[Name] LampPost_8
+		[Mesh] LampPost
+		[Translation] 472.0f, 180.0f, 1772.0f
+		[Rotation] 0.0f, -90.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	# Left side of the Horizontal road where the gunshop is
+	{
+		[Name] LampPost_9
+		[Mesh] LampPost
+		[Translation] 240.0f, 180.0f, -1005.0f
+		[Rotation] 0.0f, 180.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	{
+		[Name] LampPost_10
+		[Mesh] LampPost
+		[Translation] -440.0f, 180.0f, -765.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	{
+		[Name] LampPost_11
+		[Mesh] LampPost
+		[Translation] -1040.0f, 180.0f, -1005.0f
+		[Rotation] 0.0f, 180.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	# Right side of the Horizontal road where the gunshop is
+	{
+		[Name] LampPost_13
+		[Mesh] LampPost
+		[Translation] 890.0f, 180.0f, -765.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 5.0f, 5.0f, 5.0f
+		[Collidable] true
+	}
+	# Billboard
+	{
+		[Name] Billboard
+		[Mesh] NYCBoard
+		[Translation] 899.0f, 500.0f, -1025.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 200.0f, 200.0f, 200.0f
+		[Collidable] true
+	}
+	# Skyscrapers on the Middle Vertical Back Road (right side)
+	{
+		[Name] Skyscraper_1
+		[Mesh] Skyscraper2
+		[Translation] 899.0f, 175.0f, -1178.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_2
+		[Mesh] Skyscraper
+		[Translation] 899.0f, 175.0f, -1528.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_3
+		[Mesh] Skyscraper
+		[Translation] 899.0f, 175.0f, -1878.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_4
+		[Mesh] Skyscraper2
+		[Translation] 899.0f, 175.0f, -2228.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_5
+		[Mesh] Skyscraper
+		[Translation] 899.0f, 175.0f, -2578.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_6
+		[Mesh] Skyscraper
+		[Translation] 899.0f, 175.0f, -2928.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	# Skyscrapers on the Middle Vertical Back Road (left side)
+	{
+		[Name] Skyscraper_7
+		[Mesh] Skyscraper
+		[Translation] 300.0f, 175.0f, -1178.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_8
+		[Mesh] Skyscraper
+		[Translation] 300.0f, 175.0f, -1528.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_9
+		[Mesh] Skyscraper2
+		[Translation] 300.0f, 175.0f, -1878.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_10
+		[Mesh] Skyscraper2
+		[Translation] 300.0f, 175.0f, -2228.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_11
+		[Mesh] Skyscraper
+		[Translation] 300.0f, 175.0f, -2578.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper_12
+		[Mesh] Skyscraper2
+		[Translation] 300.0f, 175.0f, -2928.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	# Skyscrapers on the left of the crossroads
+	{
+		[Name] Skyscraper2_3
+		[Mesh] Skyscraper2
+		[Translation] -25.0f, 175.0f, -1178.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper2_4
+		[Mesh] Skyscraper2
+		[Translation] -325.0f, 175.0f, -1178.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper2_5
+		[Mesh] Skyscraper
+		[Translation] -650.0f, 175.0f, -1178.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper2_6
+		[Mesh] Skyscraper2
+		[Translation] -975.0f, 175.0f, -1178.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	# Skyscrapers on the right of the park
+	{
+		[Name] Skyscraper2_0
+		[Mesh] Skyscraper2
+		[Translation] 899.0f, 180.0f, 995.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper2_1
+		[Mesh] Skyscraper2
+		[Translation] 899.0f, 180.0f, 1355.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] Skyscraper2_2
+		[Mesh] Skyscraper
+		[Translation] 899.0f, 180.0f, 1705.0f
+		[Rotation] 0.0f, 0.0f, 0.0f
+		[Scale] 150.0f, 150.0f, 150.0f
+		[Collidable] true
+	}
+	{
+		[Name] RektCar
+		[Mesh] RektCar
+		[Translation] 400.0f, 180.0f, -750.0f
+		[Rotation] 0.0f, 90.0f, 0.0f
+		[Scale] 1.5f, 1.5f, 1.5f
+		[Collidable] true
+	}
+}

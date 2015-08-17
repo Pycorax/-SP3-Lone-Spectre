@@ -1,0 +1,185 @@
+# Colours.son #
+#################
+# A SON File that specifies the Textures to load into the game
+# All Textures must be contained in a branch named TextureContainer
+{
+	[Name] TextureContainer
+
+	# # Criticals DO NOT TOUCH
+	{
+		[Name] Calibri
+		[FilePath] Image//calibri.tga
+	}
+
+	# Buttons
+	{
+		[Name] BT_Continue
+		[FilePath] Image//UI//bt_continue.tga
+	}
+	
+	# Background
+	{
+		[Name] Background
+		[FilePath] Image//ashBackground.tga
+	}
+
+	# Hero
+	{
+		[Name] TopDown_Hero_0
+		[FilePath] Image//Hero//TopDown//Hero_0.tga
+	}
+	{
+		[Name] TopDown_Hero_1
+		[FilePath] Image//Hero//TopDown//Hero_1.tga
+	}
+	{
+		[Name] TopDown_Hero_2
+		[FilePath] Image//Hero//TopDown//Hero_2.tga
+	}
+	{
+		[Name] TopDown_WaterHero_0
+		[FilePath] Image//Hero//TopDown//WaterHero_0.tga
+	}
+	{
+		[Name] TopDown_WaterHero_1
+		[FilePath] Image//Hero//TopDown//WaterHero_1.tga
+	}
+	{
+		[Name] TopDown_WaterHero_2
+		[FilePath] Image//Hero//TopDown//WaterHero_2.tga
+	}
+	{
+		[Name] TopDown_LightningHero_0
+		[FilePath] Image//Hero//TopDown//LightningHero_0.tga
+	}
+	{
+		[Name] TopDown_LightningHero_1
+		[FilePath] Image//Hero//TopDown//LightningHero_1.tga
+	}
+	{
+		[Name] TopDown_LightningHero_2
+		[FilePath] Image//Hero//TopDown//LightningHero_2.tga
+	}
+	{
+		[Name] TopDown_EarthHero_0
+		[FilePath] Image//Hero//TopDown//EarthHero_0.tga
+	}
+	{
+		[Name] TopDown_EarthHero_1
+		[FilePath] Image//Hero//TopDown//EarthHero_1.tga
+	}
+	{
+		[Name] TopDown_EarthHero_2
+		[FilePath] Image//Hero//TopDown//EarthHero_2.tga
+	}
+	{
+		[Name] SideScroll_Hero
+		[FilePath] Image//Hero//SideScroll//Hero.tga
+	}
+	{
+		[Name] SideScroll_WaterHero
+		[FilePath] Image//Hero//SideScroll//WaterHero.tga
+	}
+	{
+		[Name] SideScroll_LightningHero
+		[FilePath] Image//Hero//SideScroll//LightningHero.tga
+	}
+	{
+		[Name] SideScroll_EarthHero
+		[FilePath] Image//Hero//SideScroll//EarthHero.tga
+	}
+	
+	# Ghosts
+	{
+		[Name] Ghost
+		[FilePath] Image//Ghosts//Ghost.tga
+	}
+	{
+		[Name] WaterGhost
+		[FilePath] Image//Ghosts//WaterGhost.tga
+	}
+	{
+		[Name] LightningGhost
+		[FilePath] Image//Ghosts//LightningGhost.tga
+	}
+	{
+		[Name] EarthGhost
+		[FilePath] Image//Ghosts//EarthGhost.tga
+	}
+	
+	# Bullets
+	{
+		[Name] Bullet
+		[FilePath] Image//Weapons//bullet.tga
+	}
+	{
+		[Name] WaterBullet
+		[FilePath] Image//Weapons//waterBullet.tga
+	}
+	{
+		[Name] LightningBullet
+		[FilePath] Image//Weapons//lightningBullet.tga
+	}
+	{
+		[Name] EarthBullet
+		[FilePath] Image//Weapons//earthBullet.tga
+	}
+	
+	# Targets
+	{
+		[Name] Target
+		[FilePath] Image//Targets//target.tga
+	}
+	{
+		[Name] WaterTarget
+		[FilePath] Image//Targets//waterTarget.tga
+	}
+	{
+		[Name] LightningTarget
+		[FilePath] Image//Targets//lightningTarget.tga
+	}
+	{
+		[Name] EarthTarget
+		[FilePath] Image//Targets//earthTarget.tga
+	}
+	
+	# HealthBar
+	{
+		[Name] HealthBar
+		[FilePath] Image//healthbar.tga
+	}
+	
+	# Tiles
+	{
+		[Name] Tile_Ground
+		[FilePath] Image//ashWall.tga
+	}
+	{
+		[Name] Tile_Structure
+		[FilePath] Image//Tiles//tile3_structure.tga
+	}
+	{
+		[Name] Tile_Hero_0
+		[FilePath] Image//Tiles//tile2_hero_frame_0.tga
+	}
+	{
+		[Name] Tile_Hero_1
+		[FilePath] Image//Tiles//tile2_hero_frame_1.tga
+	}
+	{
+		[Name] Tile_Hero_2
+		[FilePath] Image//Tiles//tile2_hero_frame_2.tga
+	}
+	{
+		[Name] Tile_Hero_3
+		[FilePath] Image//Tiles//tile2_hero_frame_3.tga
+	}
+	{
+		[Name] Tile_DarkBlock
+		[FilePath] Image//Tiles//tile_darkblock.tga
+	}
+	{
+		[Name] Tile_Portal
+		[FilePath] Image//Tiles//tile_portal.tga
+	}
+}

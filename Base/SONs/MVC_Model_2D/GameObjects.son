@@ -1,0 +1,11 @@
+# GameObjects.son #
+###################
+# A SON File that specifies the GameObjects to load into the game
+# All GameObjects must be contained in a branch named GObjectContainer
+# Type can have the following values: DEFAULT_TYPE, PHYSICS_TYPE, ENEMY_TYPE
+# Translation, Rotation, Scale are 3 floats
+# Scale CANNOT have 0s in it
+# Active and Collidable can have the following values: true/1 OR false/0
+{
+	[Name] GObjectContainer
+}

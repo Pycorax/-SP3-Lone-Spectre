@@ -1,0 +1,421 @@
+# Meshes.son #
+##############
+# A SON File that specifies the Meshes to load into the game
+# All Meshes must be contained in a branch named MeshContainer
+# Different Meshes will require different attributes, see below for details
+# Mesh [FileName] must have no spaces
+{
+	[Name] MeshContainer
+	# Criticals DO NOT TOUCH
+	{
+		[Name] DefaultFont
+		[Type] Font
+		[Texture] Calibri
+	}
+	
+	# Buttons
+	{
+		[Name] BT_Continue
+		[Type] 2D
+		[PosX] 0
+		[PosY] 0
+		[Width] 250.0f
+		[Height] 50.0f
+		[Texture] BT_Continue
+	}
+	
+	# Background
+	{
+		[Name] Background
+		[Type] 2D
+		[PosX] 0
+		[PosY] 0
+		[Width] 1024.0f
+		[Height] 800.0f
+		[Texture] Background
+	}
+	
+	# Hero
+	{
+		[Name] TopDown_Hero_0
+		[Type] 2D
+		[Color] 1.0f, 0.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_Hero_0
+	}
+	{
+		[Name] TopDown_Hero_1
+		[Type] 2D
+		[Color] 1.0f, 0.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_Hero_1
+	}
+	{
+		[Name] TopDown_Hero_2
+		[Type] 2D
+		[Color] 1.0f, 0.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_Hero_2
+	}
+	{
+		[Name] TopDown_Hero_Lightning_0
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_LightningHero_0
+	}
+	{
+		[Name] TopDown_Hero_Lightning_1
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_LightningHero_1
+	}
+	{
+		[Name] TopDown_Hero_Lightning_2
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_LightningHero_2
+	}
+	{
+		[Name] TopDown_Hero_Water_0
+		[Type] 2D
+		[Color] 0.0f, 0.0f, 1.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_WaterHero_0
+	}
+	{
+		[Name] TopDown_Hero_Water_1
+		[Type] 2D
+		[Color] 0.0f, 0.0f, 1.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_WaterHero_1
+	}
+	{
+		[Name] TopDown_Hero_Water_2
+		[Type] 2D
+		[Color] 0.0f, 0.0f, 1.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_WaterHero_2
+	}
+	{
+		[Name] TopDown_Hero_Earth_0
+		[Type] 2D
+		[Color] 0.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_EarthHero_0
+	}
+	{
+		[Name] TopDown_Hero_Earth_1
+		[Type] 2D
+		[Color] 0.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_EarthHero_1
+	}
+	{
+		[Name] TopDown_Hero_Earth_2
+		[Type] 2D
+		[Color] 0.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] TopDown_EarthHero_2
+	}
+	
+	# Hero
+	{
+		[Name] SideScroll_Hero
+		#[Type] SpriteAnimation
+		[Type] 2D
+		[Color] 1.0f, 0.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[SpriteAnimationColumn] 2
+		[SpriteAnimationRow] 1
+		[SpriteAnimationRepeat] 0
+		[SpriteAnimationTime] 4.0f
+		[SpriteAnimationAutoPlay] false
+		[Texture] SideScroll_Hero
+	}
+	{
+		[Name] SideScroll_Hero_Lightning
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] SideScroll_LightningHero
+	}
+	{
+		[Name] SideScroll_Hero_Water
+		[Type] 2D
+		[Color] 0.0f, 0.0f, 1.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] SideScroll_WaterHero
+	}
+	{
+		[Name] SideScroll_Hero_Earth
+		[Type] 2D
+		[Color] 0.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] SideScroll_EarthHero
+	}
+	
+	# Ghosts
+	{
+		[Name] Ghost
+		[Type] 2D
+		[Color] 1.0f, 0.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] Ghost
+	}
+	{
+		[Name] Ghost_Lightning
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] LightningGhost
+	}
+	{
+		[Name] Ghost_Water
+		[Type] 2D
+		[Color] 0.0f, 0.0f, 1.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] WaterGhost
+	}
+	{
+		[Name] Ghost_Earth
+		[Type] 2D
+		[Color] 0.0f, 1.0f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] EarthGhost
+	}
+	
+	# Bullets
+	{
+		[Name] Bullet
+		[Type] 2D
+		[PosX] -5
+		[PosY] -5
+		[Width] 10.0f
+		[Height] 10.0f
+		[Texture] Bullet
+	}
+	{
+		[Name] WaterBullet
+		[Type] 2D
+		[PosX] -5
+		[PosY] -5
+		[Width] 10.0f
+		[Height] 10.0f
+		[Texture] WaterBullet
+	}
+	{
+		[Name] LightningBullet
+		[Type] 2D
+		[PosX] -5
+		[PosY] -5
+		[Width] 10.0f
+		[Height] 10.0f
+		[Texture] LightningBullet
+	}
+	{
+		[Name] EarthBullet
+		[Type] 2D
+		[PosX] -5
+		[PosY] -5
+		[Width] 10.0f
+		[Height] 10.0f
+		[Texture] EarthBullet
+	}
+
+	# Targets
+	{
+		[Name] Target
+		[Type] 2D
+		[PosX] -16
+		[PosY] -16
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] Target
+	}
+	{
+		[Name] WaterTarget
+		[Type] 2D
+		[PosX] -16
+		[PosY] -16
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] WaterTarget
+	}
+	{
+		[Name] LightningTarget
+		[Type] 2D
+		[PosX] -16
+		[PosY] -16
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] LightningTarget
+	}
+	{
+		[Name] EarthTarget
+		[Type] 2D
+		[PosX] -16
+		[PosY] -16
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] EarthTarget
+	}
+	
+	# HealthBar
+	{
+		[Name] HealthBar
+		[Type] 2D
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 6.0f
+		[Texture] HealthBar
+	}
+	
+	# Tiles
+	{
+		[Name] Tile_Ground
+		[Type] 2D
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] Tile_Ground
+	}
+	{
+		[Name] Tile_Structure
+		[Type] 2D
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] Tile_Structure
+	}
+	{
+		[Name] Tile_Hero
+		[Type] 2D
+		[Color] 1.0f, 0.5f, 0.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		#[Texture] Tile_Hero_0
+	}
+	{
+		[Name] Tile_Exit
+		[Type] 2D
+		[Color] 0.0f, 0.0f, 1.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] Tile_Portal
+	}
+	{
+		[Name] Tile_DarkBlock
+		[Type] 2D
+		[Color] 0.0f, 0.0f, 1.0f
+		[PosX] 0
+		[PosY] 0
+		[Width] 32.0f
+		[Height] 32.0f
+		[Texture] Tile_DarkBlock
+	}
+}
+
+#############################################
+# Required Attributes for Each Type of Mesh #
+#############################################
+#		All: 
+#			 - [Name]
+#			 - [Color](Except OBJ & Text)
+#			 - [Texture]
+#			 - [Material]
+# Axes, Quad, Cube: 
+#			 - [Length]
+#	   Ring: [InnerRadius][OuterRadius]
+#	 Sphere: [Slices][Stacks][Radius]
+#	   Cone: [Slices][Radius][Height]
+#		OBJ: [FilePath]
+#  SkyPlane: [Slices][PlanetRadius][AtmosphereRadius][HorizontalTile][VerticalTile]
+# 		 2D: [PosX][PosY][Width][Height]				# PosX and PosY are offsets for the origin (bottom left)
+#############################################
+# List of All Tags (For Reference)
+#############################################
+#[Name]
+#[Color]
+#[Length]
+#[Height]
+#[Radius]
+#[InnerRadius]
+#[OuterRadius]
+#[Slices]
+#[Stacks]
+#[PlanetRadius]
+#[AtmosphereRadius]
+#[HorizontalTile]
+#[VerticalTile]
+#[FilePath]
+#[Texture]

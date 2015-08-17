@@ -1,0 +1,48 @@
+# ModelConfig_2D.son #
+###################
+# A SON File that specifies the properties of a MVC_Model class for a Scene
+# All properties are to be stored in a "ModelConfigContainer"
+{
+	[Name] ModelConfigContainer
+
+	# Background
+	[BackgroundColor] 0.0f, 0.0f, 0.0f
+
+	# Fog
+	[FogStart] 0.0f
+	[FogEnd] 10000.0f
+	[FogDensity] 0.00000004f
+	[FogType] 2
+	[FogColor] 0.5f, 0.5f, 0.5f
+	[FogEnabled] false
+
+	# Camera
+	[CameraType] Camera3
+	[CameraPosition] 0.0f, 0.0f, 0.0f
+	[CameraTarget] 0.0f, 0.0f, -1.0f
+	[CameraUp] 0.0f, 1.0f, 0.0f
+	[CameraFOV] 45.0f
+	[CameraNear] -10.0f
+	[CameraFar] 10.0f
+
+	# Resources
+	[MeshSONFile] SONs//MVC_Model_2D//Meshes.son
+	[TextureSONFile] SONs//MVC_Model_2D//Textures.son
+	[MaterialSONFile] SONs//Materials.son
+	[ColorSONFile] SONs//Colors.son
+	[GameObjectSONFile] SONs//MVC_Model_2D//GameObjects.son
+	[LightSONFile] SONs//Lights.son
+	
+	# Fonts
+	[DefaultFontMesh] DefaultFont
+
+	# Other Properties
+	[MouseFree] true
+
+	# World
+	[WorldSize] 100.0f, 100.0f, 100.0f
+	
+	# Terrain
+	#[HeightMapFile]
+	#[TerrainScale]
+}

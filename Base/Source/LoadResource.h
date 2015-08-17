@@ -1,0 +1,30 @@
+#ifndef LOAD_RESOURCE_H
+#define LOAD_RESOURCE_H
+
+#include "Material.h"
+#include "Light.h"
+#include "Mesh.h"
+#include <vector>
+#include <map>
+#include <string>
+#include "GameObject.h"
+#include "VisualObject.h"
+#include "Weapon.h"
+
+using std::vector;
+using std::map;
+using std::string;
+
+// Load Resource Function
+map<string, Material>	LoadMaterial(string filename);
+vector<Color>			LoadColor(string filename, vector<string> &colListMap);
+vector<Light>			LoadLight(string filename);
+vector<GameObject*>		LoadGameObject(string filename, const vector<Mesh*>& meshList);
+vector<VisualObject*>	LoadVisualObject(string filename, const vector<Mesh*>& meshList);
+vector<Weapon*>			LoadWeapon(string filename, const vector<Mesh*> &meshList);
+
+// Helper Functions
+vector<float> StringToFloats(string str);
+bool ReadTextualBool(string str);
+
+#endif

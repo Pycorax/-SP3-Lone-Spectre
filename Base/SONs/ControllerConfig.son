@@ -1,0 +1,16 @@
+# ControllerConfig.son #
+###################
+# A SON File that specifies the properties of a MVC_Controller class
+# All properties are to be stored in a "ControllerConfigContainer"
+{
+	[Name] ControllerConfigContainer
+
+	# Window
+	[WindowTitle] MVC_GDevFramework
+	[WindowWidth] 800
+	[WindowHeight] 600
+
+	# Refresh Rates
+	[ViewRefreshRate] 60
+	[InputRefreshRate] 60
+}

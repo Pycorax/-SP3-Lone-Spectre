@@ -1,0 +1,18 @@
+# ViewConfig.son #
+###################
+# A SON File that specifies the properties of a MVC_View class
+# All properties are to be stored in a "ViewConfigContainer"
+{
+	[Name] ViewConfigContainer
+
+	# Shaders
+	[GPassVertexShaderFile] Shader//GPass.vertexshader
+	[GPassFragmentShaderFile] Shader//GPass.fragmentshader
+	[MainPassVertexShaderFile] Shader//Shadow.vertexshader
+	[MainPassFragmentShaderFile] Shader//Shadow.fragmentshader
+
+	# Resolution
+	#	These should have the same aspect ratio as the Window Width and Window Height in ControllerConfig.son
+	[ViewWidth] 1024
+	[ViewHeight] 800
+}
