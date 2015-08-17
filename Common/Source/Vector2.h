@@ -11,7 +11,7 @@ struct Vector2
 
 	float x, y;
 
-	bool IsEqual(float a, float b) const;
+	virtual bool IsEqual(float a, float b) const;
 
 	Vector2( float a = 0, float b = 0 ); //default constructor
 	Vector2( const Vector2 &rhs ); //copy constructor
@@ -29,15 +29,15 @@ struct Vector2
 	Vector2& operator+=(const Vector2& rhs); //Vector addition
 	Vector2& operator-=(const Vector2& rhs); //Vector subtraction
 
-	Vector2& operator+=(const float scalar); //Scalar addition
-	Vector2& operator-=(const float scalar); //Scalar subtraction
+	virtual Vector2& operator+=(const float scalar); //Scalar addition
+	virtual Vector2& operator-=(const float scalar); //Scalar subtraction
 
 	bool operator==(const Vector2& rhs) const; //Vector comparison
 	bool operator!=(const Vector2& rhs) const; //Vector NOT comparison
 
-	float Length(void) const; //Get magnitude
-	float LengthSquared(void) const; //Get magnitude
-	float Dot(const Vector2& rhs) const; //Dot product
+	virtual float Length(void) const; //Get magnitude
+	virtual float LengthSquared(void) const; //Get magnitude
+	virtual float Dot(const Vector2& rhs) const; //Dot product
 	Vector2& Normalize(void); //Return a copy of this vector, normalized
 	Vector2 Normalized(void) const; //Return a copy of this vector, normalized
 

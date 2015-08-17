@@ -11,9 +11,7 @@
 #include "timer.h"
 
 // Models
-#include "MVC_MAddon_TileSys.h"
 #include "MVC_Model_3D.h"
-#include "MVC_Model_Shadow.h"
 
 // OpenGL Specific
 #include "shader.hpp"
@@ -43,8 +41,8 @@ void MVC_View::Init()
 	InitShadersAndLights();
 	InitFog();
 
-	// Inform Model of the View Resolution
-	m_model->SetViewRes(m_viewWidth, m_viewHeight);
+	// Get the Resolution from the View
+	m_model->GetViewRes(m_viewWidth, m_viewHeight);
 
 	// Load GL Specific Resources to the Model
 #ifdef _DEBUG
@@ -85,13 +83,6 @@ void MVC_View::Init()
 
 void MVC_View::Render(void)
 {
-	MVC_Model_Shadow* modelShadow = dynamic_cast<MVC_Model_Shadow*>(m_model);
-
-	if (modelShadow != NULL)
-	{
-		modelShadow->m_lightDepthQuad->GetMesh()->textureArray[0] = m_lightDepthFBO->GetTexture();
-	}
-
 	//************************************ PRE-RENDER-PASS ************************************//
 	renderPassGPass();
 	//************************************ MAIN-RENDER-PASS ************************************//
@@ -458,14 +449,6 @@ void MVC_View::loadConfig()
 			else if (attrib->name == "MainPassFragmentShaderFile")
 			{
 				m_mainPassFragmentShaderFile = attrib->value;
-			}
-			else if (attrib->name == "ViewWidth")
-			{
-				m_viewWidth = stoi(attrib->value);
-			}
-			else if (attrib->name == "ViewHeight")
-			{
-				m_viewHeight = stoi(attrib->value);
 			}
 		}
 	}
@@ -1149,8 +1132,6 @@ void MVC_View::renderObjects2D(void)
 {
 	SetHUD(true);
 
-	renderMVC_MAddon_TileSys();
-
 	// Get objects to render from model
 	vector<GameObject*> renderList2D = m_model->Get2DRenderList();
 
@@ -1161,77 +1142,6 @@ void MVC_View::renderObjects2D(void)
 	}
 
 	SetHUD(false);
-}
-
-void MVC_View::renderMVC_MAddon_TileSys(void)
-{
-	MVC_MAddon_TileSys* model2d = dynamic_cast<MVC_MAddon_TileSys*>(m_model);
-
-	if (model2d == NULL)
-	{
-		return;
-	}
-
-	// Get the Early 2D RenderList
-	vector<GameObject*> earlyList = model2d->Get2DFirstRenderList();
-	for (vector<GameObject*>::iterator it = earlyList.begin(); it != earlyList.end(); ++it)
-	{
-		RenderGameObject2D(*it);
-	}
-
-	// Get the MapLayers
-	vector<MapLayer*> mapLayers = model2d->GetMapLayers();
-
-	// Render Tile Map from the MapLayers
-	// -- Iterate from the back to render the stuff behind first
-	for (vector<MapLayer*>::reverse_iterator it = mapLayers.rbegin(); it != mapLayers.rend(); ++it)
-	{
-		renderMapLayer(*it, model2d);
-	}
-}
-
-void MVC_View::renderMapLayer(MapLayer* mapLayer, MVC_MAddon_TileSys* model2d)
-{
-	if (model2d == NULL)
-	{
-		return;
-	}
-
-	int offsettedCol = 0;
-	int offsettedRow = 0;
-	int tileSize = mapLayer->map->GetTileSize();
-
-	for (int row = 0; row < mapLayer->map->GetNumOfTiles_Height() + 1; ++row)
-	{
-		// If we have reached the bottom of the Map, then do not display the extra row of tiles
-		if ((mapLayer->tileOffset.y + row >= mapLayer->map->GetNumOfTiles_MapHeight()))
-		{
-			break;
-		}
-		offsettedRow = static_cast<int>(mapLayer->tileOffset.y + row);
-
-		for (int col = 0; col < mapLayer->map->GetNumOfTiles_Width() + 1; ++col)
-		{
-			// If we have reached the right side of the Map, then do not display the extra column of tiles
-			if ((mapLayer->tileOffset.x + col >= mapLayer->map->GetNumOfTiles_MapWidth()))
-			{
-				break;
-			}
-
-			offsettedCol = static_cast<int>(mapLayer->tileOffset.x + col);
-
-			if (offsettedCol >= mapLayer->map->GetNumOfTiles_MapWidth())
-			{
-				break;
-			}
-
-			MVC_MAddon_TileSys::TILE_TYPE tile = static_cast<MVC_MAddon_TileSys::TILE_TYPE>(mapLayer->map->GetMapAt(offsettedCol, offsettedRow));
-			if (tile > 0)
-			{
-				Render2DMesh(model2d->GetTileMesh(tile), false, 1.0f, 1.0f, col * tileSize - mapLayer->mapFineOffset.x, (m_viewHeight - tileSize) - row * tileSize + mapLayer->mapFineOffset.y);
-			}
-		}
-	}
 }
 
 void MVC_View::framePrep(void)

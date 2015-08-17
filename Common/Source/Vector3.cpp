@@ -12,11 +12,6 @@ Struct to define a 3D vector
 
 const Vector3 Vector3::ZERO_VECTOR = Vector3();
 
-bool Vector3::IsEqual(float a, float b) const
-{
-	return a - b <= Math::EPSILON && b - a <= Math::EPSILON;
-}
-
 /******************************************************************************/
 /*!
 \brief	Vector3 default constructor
@@ -29,7 +24,7 @@ bool Vector3::IsEqual(float a, float b) const
 	z value
 */
 /******************************************************************************/
-Vector3::Vector3(float a, float b, float c) : x(a), y(b), z(c)
+Vector3::Vector3(float a, float b, float c) : Vector2(a, b), z(c)
 {
 }
 
@@ -41,11 +36,19 @@ Vector3::Vector3(float a, float b, float c) : x(a), y(b), z(c)
 	Vector to copy from
 */
 /******************************************************************************/
-Vector3::Vector3(const Vector3 &rhs) : x(rhs.x), y(rhs.y), z(rhs.z)
+Vector3::Vector3(const Vector3 &rhs) : Vector2(rhs.x, rhs.y), z(rhs.z)
 {
 }
 
-Vector3::Vector3(const Vector2 & rhs) : x(rhs.x), y(rhs.y), z(0.0f)
+/******************************************************************************/
+/*!
+\brief	Vector3 copy constructor for Vector2
+
+\param	rhs
+	Vector to copy from
+*/
+/******************************************************************************/
+Vector3::Vector3(const Vector2 &rhs) : Vector2(rhs.x, rhs.y), z(0.0f)
 {
 }
 
@@ -370,11 +373,6 @@ Vector3& Vector3::Normalize( void ) throw( DivideByZero )
 	y /= d;
 	z /= d;
 	return *this;
-}
-
-Vector2 Vector3::ToVector2(void)
-{
-	return Vector2(x, y);
 }
 
 Vector3 Vector3::StringToVector3(string str)

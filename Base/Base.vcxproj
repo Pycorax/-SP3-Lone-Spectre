@@ -36,12 +36,8 @@
     <ClCompile Include="Source\Minimap.cpp" />
     <ClCompile Include="Source\MVC_Model.cpp" />
     <ClCompile Include="Source\MVC_Controller.cpp" />
-    <ClCompile Include="Source\MVC_MAddon_TileSys.cpp" />
-    <ClCompile Include="Source\MVC_Model_Mario.cpp" />
     <ClCompile Include="Source\MVC_Model_3D.cpp" />
-    <ClCompile Include="Source\MVC_Model_Shadow.cpp" />
     <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
-    <ClCompile Include="Source\MVC_Model_Zombie.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\PhysicsObject.cpp" />
     <ClCompile Include="Source\PlayerObject.cpp" />
@@ -95,12 +91,8 @@
     <ClInclude Include="Source\Minimap.h" />
     <ClInclude Include="Source\MVC_Model.h" />
     <ClInclude Include="Source\MVC_Controller.h" />
-    <ClInclude Include="Source\MVC_MAddon_TileSys.h" />
-    <ClInclude Include="Source\MVC_Model_Mario.h" />
     <ClInclude Include="Source\MVC_Model_3D.h" />
-    <ClInclude Include="Source\MVC_Model_Shadow.h" />
     <ClInclude Include="Source\MVC_Model_Spectre.h" />
-    <ClInclude Include="Source\MVC_Model_Zombie.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\PhysicsObject.h" />
     <ClInclude Include="Source\PlayerObject.h" />

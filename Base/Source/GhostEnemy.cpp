@@ -32,7 +32,7 @@ void GhostEnemy::Init(CHAR_TYPE type, Mesh * mesh, Vector3 startPos, Vector3 sca
 void GhostEnemy::Update(double dt)
 {
 	// Get a direction to the target
-	Vector2 moveVector = (Vector3(m_target.x, m_target.y) - m_transforms.Translation).ToVector2();
+	Vector2 moveVector = Vector3(m_target.x, m_target.y) - m_transforms.Translation;
 	if (moveVector != Vector2::ZERO_VECTOR)
 	{
 		moveVector.Normalize();

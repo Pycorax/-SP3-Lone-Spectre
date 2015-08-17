@@ -10,9 +10,4 @@
 	[GPassFragmentShaderFile] Shader//GPass.fragmentshader
 	[MainPassVertexShaderFile] Shader//Shadow.vertexshader
 	[MainPassFragmentShaderFile] Shader//Shadow.fragmentshader
-
-	# Resolution
-	#	These should have the same aspect ratio as the Window Width and Window Height in ControllerConfig.son
-	[ViewWidth] 1280
-	[ViewHeight] 720
 }
