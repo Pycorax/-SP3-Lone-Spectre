@@ -70,6 +70,12 @@
     <Filter Include="Source Files\GameObjects\Characters">
       <UniqueIdentifier>{0b3a2ab4-9f7f-43d2-b345-f8ae534b8249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Legacy Stuff">
+      <UniqueIdentifier>{3954fe37-a255-46d3-807e-24b61f6d5c4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Legacy Stuff">
+      <UniqueIdentifier>{5b46b85e-8271-4f3b-95b8-6a79bc5c35f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -141,9 +147,6 @@
     <ClCompile Include="Source\TextObject.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MVC_Model_Zombie.cpp">
-      <Filter>Source Files\MVC</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MVC_Model_3D.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
@@ -153,14 +156,8 @@
     <ClCompile Include="Source\BasicObject.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MVC_Model_Shadow.cpp">
-      <Filter>Source Files\MVC</Filter>
-    </ClCompile>
     <ClCompile Include="Source\BulletObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MVC_Model_Mario.cpp">
-      <Filter>Source Files\MVC</Filter>
     </ClCompile>
     <ClCompile Include="Source\Strategy.cpp">
       <Filter>Source Files\AI</Filter>
@@ -176,9 +173,6 @@
     </ClCompile>
     <ClCompile Include="Source\ParticleEmitter.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MVC_MAddon_TileSys.cpp">
-      <Filter>Source Files\MVC</Filter>
     </ClCompile>
     <ClCompile Include="Source\HealthGoodie.cpp">
       <Filter>Source Files\GamePlay</Filter>
@@ -213,23 +207,35 @@
     <ClCompile Include="Source\GhostStrategy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GhostEnemy.cpp">
+    <ClCompile Include="Source\UIButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Elemental.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\TargetEnemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ElementalWeapon.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Legacy Stuff</Filter>
     </ClCompile>
     <ClCompile Include="Source\ElementalBullet.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Legacy Stuff</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UIButton.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\ElementalWeapon.cpp">
+      <Filter>Source Files\Legacy Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TargetEnemy.cpp">
+      <Filter>Source Files\Legacy Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MVC_MAddon_TileSys.cpp">
+      <Filter>Source Files\Legacy Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MVC_Model_Mario.cpp">
+      <Filter>Source Files\Legacy Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MVC_Model_Zombie.cpp">
+      <Filter>Source Files\Legacy Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MVC_Model_Shadow.cpp">
+      <Filter>Source Files\Legacy Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GhostEnemy.cpp">
+      <Filter>Source Files\Legacy Stuff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -377,32 +383,32 @@
     <ClInclude Include="Source\HealthGoodie.h">
       <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EnemyObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Strategy.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Source\GhostStrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GhostEnemy.h">
+    <ClInclude Include="Source\UIButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EnemyObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Elemental.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\TargetEnemy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Legacy Stuff</Filter>
     </ClInclude>
     <ClInclude Include="Source\ElementalWeapon.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Legacy Stuff</Filter>
     </ClInclude>
     <ClInclude Include="Source\ElementalBullet.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Legacy Stuff</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UIButton.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Source\GhostEnemy.h">
+      <Filter>Header Files\Legacy Stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TargetEnemy.h">
+      <Filter>Header Files\Legacy Stuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
