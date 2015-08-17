@@ -6,7 +6,7 @@ Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in
 ###Classes
 | Type  | Formatting |
 | ------------- | ------------- |
-| Class | `PascalCase`` |
+| Class | `PascalCase` |
 | Public Symbols | `PascalCase` |
 | Protected/Private Symbols | `camelCase` |
 | Member Variables | `m_` |
