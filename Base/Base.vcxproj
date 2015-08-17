@@ -23,9 +23,9 @@
     <ClCompile Include="Source\ElementalWeapon.cpp" />
     <ClCompile Include="Source\EnemyObject.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
-    <ClCompile Include="Source\Geometry.cpp" />
     <ClCompile Include="Source\GhostEnemy.cpp" />
     <ClCompile Include="Source\GhostStrategy.cpp" />
+    <ClCompile Include="Source\GObject.cpp" />
     <ClCompile Include="Source\GoodieObject.cpp" />
     <ClCompile Include="Source\GoodieObjectFactory.cpp" />
     <ClCompile Include="Source\HealthGoodie.cpp" />
@@ -81,6 +81,7 @@
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GhostEnemy.h" />
     <ClInclude Include="Source\GhostStrategy.h" />
+    <ClInclude Include="Source\GObject.h" />
     <ClInclude Include="Source\GoodieObject.h" />
     <ClInclude Include="Source\GoodieObjectFactory.h" />
     <ClInclude Include="Source\HealthGoodie.h" />
@@ -101,7 +102,6 @@
     <ClInclude Include="Source\PlayerObject.h" />
     <ClInclude Include="Source\RangedWeapon.h" />
     <ClInclude Include="Source\RenderTree.h" />
-    <ClInclude Include="Source\Geometry.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />

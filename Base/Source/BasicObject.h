@@ -11,25 +11,7 @@ Structs and class to store data about an object that is to exist in the game
 
 #include "Vector3.h"
 #include "Mesh.h"
-
-/******************************************************************************/
-/*!
-		Struct Transform:
-\brief	Consists of 3 Vector3 that control Transformation (Translate, Rotate, Scale)
-*/
-/******************************************************************************/
-struct Transform
-{
-	Vector3 Translation;
-	Vector3 Rotation;
-	Vector3 Scale;
-
-	Transform(void)
-	{
-		Scale = Vector3(1.0f, 1.0f, 1.0f);
-	}
-};
-
+#include "GObject.h"
 
 class BasicObject
 {
