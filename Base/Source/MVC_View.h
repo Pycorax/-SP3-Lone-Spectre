@@ -2,7 +2,6 @@
 #define MVC_VIEW_H
 
 #include "MVC_Model.h"
-#include "MVC_MAddon_TileSys.h"
 
 //Include GLEW
 #include <GL/glew.h>
@@ -178,12 +177,6 @@ class MVC_View
 		void renderLights(void);
 		void renderObjects3D(void);
 		void renderObjects2D(void);
-
-		/*
-		 * Rendering - MVC_MAddon_TileSys
-		 */
-		void renderMVC_MAddon_TileSys(void);
-		void renderMapLayer(MapLayer* mapLayer, MVC_MAddon_TileSys* model2d);
 
 		void framePrep(void);
 };

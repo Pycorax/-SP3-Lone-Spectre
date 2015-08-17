@@ -27,12 +27,11 @@ using std::string;
 \brief	Defines a 3D vector and its methods
 */
 /******************************************************************************/
-struct Vector3
+struct Vector3 : public Vector2
 {
 	static const Vector3 ZERO_VECTOR;
 
-	float x, y, z;
-	bool IsEqual(float a, float b) const;
+	float z;
 
 	Vector3(float a = 0.0, float b = 0.0, float c = 0.0);
 	Vector3(const Vector3 &rhs);
@@ -73,8 +72,6 @@ struct Vector3
 	//Throw a divide by zero exception if normalizing a zero vector
 	Vector3& Normalize( void ) throw( DivideByZero );
 	
-	Vector2 ToVector2(void);
-
 	static Vector3 StringToVector3(string str);
 
 	friend std::ostream& operator<<( std::ostream& os, Vector3& rhs); //print to ostream

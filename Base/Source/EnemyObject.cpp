@@ -47,7 +47,7 @@ void EnemyObject::ChangeStrategy(Strategy * newStrat, bool deleteOld)
 
 	if (m_strat != NULL)
 	{
-		m_strat->SetEnemyPosition(m_transforms.Translation.ToVector2());
+		m_strat->SetEnemyPosition(m_transforms.Translation);
 	}
 }
 

@@ -219,28 +219,10 @@
     <ClCompile Include="Source\TargetEnemy.cpp">
       <Filter>Source Files\Legacy Stuff</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MVC_MAddon_TileSys.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MVC_Model_Mario.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MVC_Model_Zombie.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MVC_Model_Shadow.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GhostEnemy.cpp">
       <Filter>Source Files\Legacy Stuff</Filter>
     </ClCompile>
     <ClCompile Include="Source\MVC_Model_Spectre.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collider2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -320,9 +302,6 @@
     <ClInclude Include="Source\TextObject.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MVC_Model_Zombie.h">
-      <Filter>Header Files\MVC</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MVC_Model_3D.h">
       <Filter>Header Files\MVC</Filter>
     </ClInclude>
@@ -341,12 +320,6 @@
     <ClInclude Include="Source\MapLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MVC_Model_Mario.h">
-      <Filter>Header Files\MVC</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MVC_Model_Shadow.h">
-      <Filter>Header Files\MVC</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ParticleEmitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -358,9 +331,6 @@
     </ClInclude>
     <ClInclude Include="Source\TreasureGoodie.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MVC_MAddon_TileSys.h">
-      <Filter>Header Files\MVC</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlayerObject.h">
       <Filter>Header Files\GameObjects\Characters</Filter>
