@@ -12,9 +12,9 @@
 /******************************************************************************/
 struct Transform
 {
-	Vector3 Translation;
-	Vector3 Rotation;
-	Vector3 Scale;
+	Vector3 Translation;			// Translate Vector
+	Vector3 Rotation;				// Rotate Vector
+	Vector3 Scale;					// Scale Vector
 
 	Transform(void)
 	{
@@ -30,21 +30,25 @@ struct Transform
 class GObject
 {
 private:	// Variables
-	Transform m_transforms;
-	Mesh* m__mesh;
-	bool m_active;
+	Transform m_transforms;			// Stores this object's Transforms info
+	Mesh* m__mesh;					// Stores this object's mesh
+	bool m_active;					// Controls if this object can be collided with
 
 public:		// Functions
 	GObject(void);
 	virtual ~GObject(void);
 	
-	// Setters
+	/*
+	* Setters
+	*/
 	void SetPos(const Vector3 pos);
 	void SetRot(const Vector3 rot);
 	void SetScale(const Vector3 scale);
-	void SetMesh(const Mesh* _mesh);
+	void SetMesh(Mesh* _mesh);
 
-	// Getters
+	/*
+	* Getters
+	*/
 	Transform GetTransform(void) const;
 	Mesh* GetMesh(void) const;
 };

@@ -17,6 +17,7 @@
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\CharObject.cpp" />
+    <ClCompile Include="Source\Collider2D.cpp" />
     <ClCompile Include="Source\DepthFBO.cpp" />
     <ClCompile Include="Source\Elemental.cpp" />
     <ClCompile Include="Source\ElementalBullet.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\CharObject.h" />
+    <ClInclude Include="Source\Collider2D.h" />
     <ClInclude Include="Source\DepthFBO.h" />
     <ClInclude Include="Source\Elemental.h" />
     <ClInclude Include="Source\ElementalBullet.h" />

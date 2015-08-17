@@ -25,6 +25,11 @@ void GObject::SetScale(const Vector3 scale)
 	m_transforms.Scale = scale;
 }
 
+void GObject::SetMesh(Mesh * _mesh)
+{
+	m__mesh = _mesh;
+}
+
 Transform GObject::GetTransform(void) const
 {
 	return m_transforms;
