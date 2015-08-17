@@ -43,10 +43,10 @@ void MVC_Model::AssignTextures(map<string, unsigned>& _texList)
 	texList = _texList;
 }
 
-void MVC_Model::SetViewRes(int x, int y)
+void MVC_Model::GetViewRes(int& x, int& y)
 {
-	m_viewWidth = x;
-	m_viewHeight = y;
+	x = m_viewWidth;
+	y = m_viewHeight;
 }
 
 void MVC_Model::Init(void)
@@ -392,6 +392,15 @@ void MVC_Model::loadConfig()
 			{
 				vector<float> size = StringToFloats(attrib->value);
 				m_worldSize.Set(size[0], size[1], size[2]);
+			}
+			// Game Resolution
+			else if (attrib->name == "ViewWidth")
+			{
+				m_viewWidth = stoi(attrib->value);
+			}
+			else if (attrib->name == "ViewHeight")
+			{
+				m_viewHeight = stoi(attrib->value);
 			}
 			// Other
 			else if (attrib->name == "MouseFree")

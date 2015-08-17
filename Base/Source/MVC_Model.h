@@ -136,7 +136,7 @@ class MVC_Model
 		/*
 		 * These functions are to be called during the program initialization to send critical information from other components to the model
 		 */
-		void SetViewRes(int x, int y);
+		void GetViewRes(int& x, int& y);
 
 		virtual void Init(void);
 		virtual void Update(double dt);

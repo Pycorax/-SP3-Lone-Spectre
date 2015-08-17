@@ -41,8 +41,8 @@ void MVC_View::Init()
 	InitShadersAndLights();
 	InitFog();
 
-	// Inform Model of the View Resolution
-	m_model->SetViewRes(m_viewWidth, m_viewHeight);
+	// Get the Resolution from the View
+	m_model->GetViewRes(m_viewWidth, m_viewHeight);
 
 	// Load GL Specific Resources to the Model
 #ifdef _DEBUG
@@ -449,14 +449,6 @@ void MVC_View::loadConfig()
 			else if (attrib->name == "MainPassFragmentShaderFile")
 			{
 				m_mainPassFragmentShaderFile = attrib->value;
-			}
-			else if (attrib->name == "ViewWidth")
-			{
-				m_viewWidth = stoi(attrib->value);
-			}
-			else if (attrib->name == "ViewHeight")
-			{
-				m_viewHeight = stoi(attrib->value);
 			}
 		}
 	}
