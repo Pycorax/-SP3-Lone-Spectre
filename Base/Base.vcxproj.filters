@@ -237,6 +237,12 @@
     <ClCompile Include="Source\MVC_Model_Spectre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collider2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utility.h">
@@ -408,6 +414,12 @@
       <Filter>Header Files\Legacy Stuff</Filter>
     </ClInclude>
     <ClInclude Include="Source\MVC_Model_Spectre.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collider2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
