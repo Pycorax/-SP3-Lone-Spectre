@@ -41,3 +41,4 @@ Base/Base.vcxproj.user
 SONIO/Debug/
 SONIO/Release/
 *.user
+*.suo
