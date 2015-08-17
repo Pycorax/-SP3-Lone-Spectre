@@ -3,9 +3,9 @@
 Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in development to be Team 4's Studio Project 3 game.
 
 ## Commit Convention
-`Title of Commit`
-`-----` (5 Dashes)
-`Commit Message`
+`Title of Commit`</br>
+`-----` (5 Dashes)</br>
+`Commit Message`</br>
 
 ## Coding Conventions
 - Do not use `<#pragma once>` use proper C++ standard header guards!
@@ -41,6 +41,7 @@ Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in
 
 The order of declarations in a class should be in this order:
 
+```C++
     class MyClass
     {
     	// Public Enums
@@ -57,3 +58,4 @@ The order of declarations in a class should be in this order:
     	// Protected Functions
     	// Private Functions
     };
+```
