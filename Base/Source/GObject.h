@@ -2,6 +2,7 @@
 #define GOBJECT_H
 
 #include "Vector3.h"
+#include "Mesh.h"
 
 /******************************************************************************/
 /*!
@@ -23,17 +24,19 @@ struct Transform
 
 class GObject
 {
+private:	// Variables
 	Transform m_transforms;
+	Mesh* m__mesh;
 
-	public:
-		GObject(void);
-		virtual ~GObject(void);
+public:		// Functions
+	GObject(void);
+	virtual ~GObject(void);
 
-		void SetPos(Vector3 pos);
-		void SetRot(Vector3 rot);
-		void SetScale(Vector3 scale);
+	void SetPos(Vector3 pos);
+	void SetRot(Vector3 rot);
+	void SetScale(Vector3 scale);
 
-		Transform GetTransform(void) const;
+	Transform GetTransform(void) const;
 };
 
 #endif
