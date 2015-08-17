@@ -1,4 +1,4 @@
-# ModelConfig_Zombie.son #
+# ModelConfig_Spectre.son #
 ###################
 # A SON File that specifies the properties of a MVC_Model class for a Scene
 # All properties are to be stored in a "ModelConfigContainer"
@@ -6,35 +6,37 @@
 	[Name] ModelConfigContainer
 
 	# Background
-	[BackgroundColor] 0.0f, 0.0f, 0.4f
+	[BackgroundColor] 0.0f, 0.0f, 0.0f
 
 	# Fog
 	[FogStart] 0.0f
 	[FogEnd] 10000.0f
-	[FogDensity] 0.00000004f
+	[FogDensity] 0.0001f
 	[FogType] 2
 	[FogColor] 0.5f, 0.5f, 0.5f
-	[FogEnabled] false
+	[FogEnabled] true
 
 	# Camera
 	[CameraType] Camera3
-	[CameraPosition] 0.0f, 0.0f, 10.0f
-	[CameraTarget] 0.0f, 0.0f, 0.0f
+	[CameraPosition] 0.0f, 0.0f, 0.0f
+	[CameraTarget] 0.0f, 0.0f, -1.0f
 	[CameraUp] 0.0f, 1.0f, 0.0f
 	[CameraFOV] 45.0f
+	[CameraNear] -10.0f
+	[CameraFar] 10.0f
 
 	# Resources
-	[MeshSONFile] SONs//Shadow_Test//Meshes.son
+	[MeshSONFile] SONs//Meshes.son
 	[TextureSONFile] SONs//Textures.son
 	[MaterialSONFile] SONs//Materials.son
 	[ColorSONFile] SONs//Colors.son
-	[GameObjectSONFile] SONs//Shadow_Test//GameObjects.son
-	[VisualObjectSONFile] SONs//Shadow_Test//VisualObjects.son
-	[LightSONFile] SONs//Shadow_Test//Lights.son
+	[GameObjectSONFile] SONs//GameObjects.son
+	[VisualObjectSONFile] SONs//VisualObjects.son
+	[LightSONFile] SONs//Lights.son
 	
 	# Fonts
 	[DefaultFontMesh] DefaultFont
 
 	# Other Properties
-	[MouseFree] false
+	[MouseFree] true
 }

@@ -39,6 +39,7 @@
     <ClCompile Include="Source\MVC_Model_Mario.cpp" />
     <ClCompile Include="Source\MVC_Model_3D.cpp" />
     <ClCompile Include="Source\MVC_Model_Shadow.cpp" />
+    <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
     <ClCompile Include="Source\MVC_Model_Zombie.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\PhysicsObject.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="Source\MVC_Model_Mario.h" />
     <ClInclude Include="Source\MVC_Model_3D.h" />
     <ClInclude Include="Source\MVC_Model_Shadow.h" />
+    <ClInclude Include="Source\MVC_Model_Spectre.h" />
     <ClInclude Include="Source\MVC_Model_Zombie.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\PhysicsObject.h" />

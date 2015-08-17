@@ -30,7 +30,6 @@ DM2231_Framework.opensdf
 LoadSON/Debug/
 *.sdf
 *.pdb
-*.lib
 Sound/Debug/
 .vs/
 LoadSON/Release/
