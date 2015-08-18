@@ -15,7 +15,7 @@ void Collider2D::SetColliderType(const E_COLLIDER_TYPE type)
 	m_colliderType = type;
 }
 
-bool Collider2D::CollideWith(Collider2D* _other, double dt)
+bool Collider2D::CollideWith(Collider2D* _other, const double DT)
 {
 	if (!isActive() || !_other->isActive()) 
 	{
@@ -25,7 +25,7 @@ bool Collider2D::CollideWith(Collider2D* _other, double dt)
 	// Use more precise but expensive box collision detection algorithms if a normal is provided and a velocity is returned by the other
 	if (getNormal() != Vector3::ZERO_VECTOR && getVelocity() != Vector3::ZERO_VECTOR)
 	{
-		return preciseCollideWith(_other, dt);
+		return preciseCollideWith(_other, DT);
 	}
 
 	// Delegate the correct collider function
@@ -38,6 +38,8 @@ bool Collider2D::CollideWith(Collider2D* _other, double dt)
 			return aabbCollideWith(_other);
 			break;
 	}
+
+	return false;
 }
 
 void Collider2D::calcAABBBounds()
@@ -100,7 +102,7 @@ bool Collider2D::aabbCollideWith(Collider2D * _other)
 	}
 }
 
-bool Collider2D::preciseCollideWith(Collider2D * _other, double dt)
+bool Collider2D::preciseCollideWith(Collider2D * _other, const double DT)
 {
 	Transform t = getTransforms();
 	Transform ot = _other->getTransforms();
@@ -108,7 +110,7 @@ bool Collider2D::preciseCollideWith(Collider2D * _other, double dt)
 	// For Thickness
 	// |(w0 - b1).N| < r + h / 2
 	Vector3 w0 = t.Translation;
-	Vector3 b1 = ot.Translation + _other->getVelocity() * dt;
+	Vector3 b1 = ot.Translation + _other->getVelocity() * static_cast<float>(DT);
 	Vector3 N = getNormal();
 	float r = _other->getTransforms().Scale.x;
 	float h = getTransforms().Scale.x;

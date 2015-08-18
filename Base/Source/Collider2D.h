@@ -30,7 +30,7 @@ public:		// Functions
 	/*
 	 * Other Functions
 	 */
-	bool CollideWith(Collider2D* _other, double dt);
+	bool CollideWith(Collider2D* _other, const double DT);
 
 private:	// Functions
 	// Calculates m_minBound and m_maxBound

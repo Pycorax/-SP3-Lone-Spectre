@@ -65,7 +65,7 @@ void Physics2D::AddForce(const Vector2 FORCE, const double DT)
 	Vector2 acceleration = FORCE * (1.0f / m_mass);
 
 	// v = u + a
-	m_velocity += acceleration * DT;
+	m_velocity += acceleration * static_cast<float>(DT);
 }
 
 void Physics2D::UpdatePhysics(const double DT)
@@ -74,7 +74,7 @@ void Physics2D::UpdatePhysics(const double DT)
 	Transform t = getTransform();
 
 	// Update position according to the velocity
-	t.Translation += m_velocity * DT;
+	t.Translation += m_velocity * static_cast<float>(DT);
 
 	// Set the transforms to the new transforms
 	setTransform(t);
