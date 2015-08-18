@@ -21,6 +21,14 @@
 	#	[Type] Terrain
 	#	[Texture] Moss
 	#}
+	
+	{
+		[Name] Quad
+		[Type] Quad
+		[Color] 1.0f, 1.0f, 1.0f
+		[Length] 1.0f
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad

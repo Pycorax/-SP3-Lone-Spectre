@@ -192,14 +192,6 @@
     <ClCompile Include="Source\MVC_Model_Spectre.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
-    <ClCompile Include="Source\NPC.cpp">
-      <Filter>Source Files\GameObjects\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CChar.cpp">
-      <Filter>Source Files\GameObjects\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>Source Files\GameObjects\Characters</Filter>
     <ClCompile Include="Source\MapEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -334,6 +326,9 @@
     <ClInclude Include="Source\Collider2D.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Physics2D.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
     <ClInclude Include="Source\TextObject.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
@@ -343,19 +338,6 @@
     <ClInclude Include="Source\MVC_Model_Spectre.h">
       <Filter>Header Files\MVC</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Collider2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CChar.h">
-      <Filter>Header Files\GameObjects\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\NPC.h">
-      <Filter>Header Files\GameObjects\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Player.h">
-      <Filter>Header Files\GameObjects\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PhysicsObject.h">
     <ClInclude Include="Source\MapEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>

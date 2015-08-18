@@ -69,7 +69,7 @@ void MVC_Model::Init(void)
 	// GameObjects
 	InitGameObjects();
 	// VisualObjects
-	InitVisualObjects();
+	// InitVisualObjects();		// TODO: Reimplement when 3D is required
 	// DefaultFont
 	m_defaultFont = GetMeshResource(m_fontName);
 
@@ -91,18 +91,18 @@ void MVC_Model::Update(double dt)
 	// Empties the render lists for this update
 	if (m_renderList3D.size() > 0)
 	{
-		m_renderList3D.clear();
+		throw std::runtime_error("RenderList3D leak detected!");
 	}
 
 	if (m_renderList2D.size() > 0)
 	{
-		m_renderList2D.clear();
+		//throw std::runtime_error("RenderList2D leak detected!");
 	}
 
-	// Update Sprite Animations
-	for (std::vector<GameObject2D*>::iterator it = goList.begin(); it != goList.end(); ++it)
+	// Update Sprite Animations in the Mesh List
+	for (std::vector<Mesh*>::iterator it = meshList.begin(); it != meshList.end(); ++it)
 	{
-		SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>((*it)->GetMesh());
+		SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>((*it));
 		if (sa != NULL)
 		{
 			sa->Update(dt);
@@ -193,14 +193,14 @@ Vector3 MVC_Model::GetWorldSize() const
 	return m_worldSize;
 }
 
-const vector<GameObject2D*>& MVC_Model::Get3DRenderList(void) const
+queue<GameObject2D*>* MVC_Model::Get3DRenderList(void)
 {
-	return m_renderList3D;
+	return &m_renderList3D;
 }
 
-const vector<GameObject2D*>& MVC_Model::Get2DRenderList(void) const
+queue<GameObject2D*>* MVC_Model::Get2DRenderList(void)
 {
-	return m_renderList2D;
+	return &m_renderList2D;
 }
 
 bool MVC_Model::IsMouseFree(void)
@@ -525,6 +525,8 @@ void MVC_Model::InitGameObjects()
 #endif
 }
 
+//TODO: Reimplement when 3D is required
+/*
 void MVC_Model::InitVisualObjects()
 {
 #ifdef _DEBUG
@@ -534,12 +536,13 @@ void MVC_Model::InitVisualObjects()
 	std::cout << "Loading " << m_voSONFile << "... ";
 #endif
 
-	m_renderList3DStatic = LoadVisualObject(m_voSONFile, meshList);
+	//m_renderList3DStatic = LoadVisualObject(m_voSONFile, meshList);
 
 #ifdef _DEBUG
 	std::cout << "Loaded! (" << initTimer.getElapsedTime() << "s)" << std::endl;
 #endif
 }
+*/
 
 Mesh * MVC_Model::GetMeshResource(string name)
 {

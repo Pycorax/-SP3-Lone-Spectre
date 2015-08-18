@@ -1087,12 +1087,13 @@ void MVC_View::renderLights(void)
 void MVC_View::renderObjects3D(void)
 {
 	// Get objects to render from model
-	vector<GameObject2D*> renderList3D = m_model->Get3DRenderList();
+	queue<GameObject2D*>* renderList3D = m_model->Get3DRenderList();
 
 	// Render objects from the model
-	for (vector<GameObject2D*>::iterator it = renderList3D.begin(); it != renderList3D.end(); ++it)
+	while (renderList3D->size() > 0)
 	{
-		RenderGameObject3D(*it);
+		RenderGameObject3D(renderList3D->front());
+		renderList3D->pop();
 	}
 }
 
@@ -1101,12 +1102,12 @@ void MVC_View::renderObjects2D(void)
 	SetHUD(true);
 
 	// Get objects to render from model
-	vector<GameObject2D*> renderList2D = m_model->Get2DRenderList();
+	queue<GameObject2D*>* renderList2D = m_model->Get2DRenderList();
 
-	// Render objects from the model
-	for (vector<GameObject2D*>::iterator it = renderList2D.begin(); it != renderList2D.end(); ++it)
+	while (renderList2D->size() > 0)
 	{
-		RenderGameObject2D(*it);
+		RenderGameObject2D(renderList2D->front());
+		renderList2D->pop();
 	}
 
 	SetHUD(false);

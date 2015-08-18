@@ -7,9 +7,10 @@
 
 class MVC_Model_Spectre : public MVC_Model
 {
-	private:
-		TileMap* _test;
-		Player* _player;
+private:	// Variables
+	TileMap *test;
+	Player* _player;
+	GameObject2D* m__testGO;
 
 public:
 	MVC_Model_Spectre(string configSONFile);
@@ -20,8 +21,6 @@ public:
 	virtual void Exit();
 
 	void processKeyAction(double dt);
-
-private:
 };
 
 #endif

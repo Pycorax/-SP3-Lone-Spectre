@@ -3,6 +3,7 @@
 
 // Include STLs
 #include <vector>
+#include <queue>
 #include <map>
 
 #include "Camera3.h"
@@ -12,6 +13,7 @@
 #include "TextObject.h"
 
 using std::vector;
+using std::queue;
 using std::map;
 
 class MVC_Model
@@ -67,22 +69,11 @@ protected:
 	// Config File
 	const string m_configSONFile;
 
-	// Resource SON Files
-	// -- View Must Load
-	string m_meshSONFile;
-	string m_texSONFile;
-	// -- Model Must Load
-	string m_materialSONFile;
-	string m_colorSONFile;
-	string m_goSONFile;
-	string m_voSONFile;
-	string m_lightSONFile;
-	string m_fontName;
-
 	// Graphics
+	// -- Resolution
 	int m_viewWidth;
 	int m_viewHeight;
-
+	// -- Others
 	Color m_bgColor;
 	Camera3* m_camera;
 	vector<Light> m_lights;
@@ -112,11 +103,23 @@ protected:
 	float m_fps;
 	TextObject* m_fpsCount;	// Text object to hold FPS counter
 
-private:
 	// Output to View
-	vector<GameObject2D*> m_renderList3D;
-	vector<GameObject2D*> m_renderList2D;
-	vector<GameObject2D*> m_renderList3DStatic;
+	queue<GameObject2D*> m_renderList3D;
+	queue<GameObject2D*> m_renderList2D;
+	//vector<GameObject2D*> m_renderList3DStatic; TODO: Reimplement when 3D is required
+
+private:
+	// Resource SON Files
+	// -- View Must Load
+	string m_meshSONFile;
+	string m_texSONFile;
+	// -- Model Must Load
+	string m_materialSONFile;
+	string m_colorSONFile;
+	string m_goSONFile;
+	string m_voSONFile;
+	string m_lightSONFile;
+	string m_fontName;
 
 public:
 	MVC_Model(string configSONFile);
@@ -152,8 +155,8 @@ public:
 	Vector3 GetWorldSize(void) const;
 
 	// -- Render Lists
-	const vector<GameObject2D*>& Get3DRenderList(void) const;
-	const vector<GameObject2D*>& Get2DRenderList(void) const;
+	queue<GameObject2D*>* Get3DRenderList(void);
+	queue<GameObject2D*>* Get2DRenderList(void);
 
 	// Input
 	bool IsMouseFree(void);
@@ -172,7 +175,7 @@ protected:
 	void InitColors();
 	void InitMeshes();
 	void InitGameObjects();
-	void InitVisualObjects();
+	//void InitVisualObjects();		 // TODO: Reimplement when 3D is required
 
 	Mesh* GetMeshResource(string name);			// Returns a pointer to a copy of the resource
 	unsigned GetTextureResource(string name) const;
