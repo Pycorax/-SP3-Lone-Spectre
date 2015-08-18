@@ -20,17 +20,23 @@ using irrklang::vec3df;
 
 class SoundPlayer3D : SoundPlayer2D
 {
-	private:
-		Vector3 m_pos;
+	friend class SoundEngine;
 
-		static vec3df ToVec3df(Vector3 vec);
+private:	// Variables
+	Vector3 m_pos;
 
-	public:
-		SoundPlayer3D(void);
-		~SoundPlayer3D(void);
+public:		// Functions
+	void SetPos(Vector3 pos);
 
-		void init(ISoundEngine* engine, ISoundSource* snd, Vector3 pos);
-		void SetPos(Vector3 pos);
+protected:	// Functions
+	SoundPlayer3D(void);
+	~SoundPlayer3D(void);
+
+private:	// Functions
+	void init(ISoundEngine* _engine, ISoundSource* _snd, Vector3 pos);
+
+	// To convert from Vector3 to Irrklang's vec3df
+	static vec3df toVec3df(Vector3 vec);
 };
 
 #endif

@@ -2,7 +2,24 @@
 
 using irrklang::ISoundSource;
 
-SoundPlayer2D::SoundPlayer2D(void) : m_musicController(NULL)
+void SoundPlayer2D::Play(bool loop)
+{
+	m__musicController->setIsLooped(loop);
+	m__musicController->setIsPaused(false);
+}
+
+void SoundPlayer2D::Stop(void)
+{
+	m__musicController->stop();
+	m__musicController = NULL;
+}
+
+void SoundPlayer2D::Pause(void)
+{
+	m__musicController->setIsPaused(true);
+}
+
+SoundPlayer2D::SoundPlayer2D(void) : m__musicController(NULL)
 {
 
 }
@@ -11,24 +28,7 @@ SoundPlayer2D::~SoundPlayer2D(void)
 {
 }
 
-void SoundPlayer2D::init(ISoundEngine* engine, ISoundSource* snd)
+void SoundPlayer2D::init(ISoundEngine* _engine, ISoundSource* _snd)
 {
-	m_musicController = engine->play2D(snd, false, true, true);
-}
-
-void SoundPlayer2D::Play(bool loop)
-{
-	m_musicController->setIsLooped(loop);
-	m_musicController->setIsPaused(false);
-}
-
-void SoundPlayer2D::Stop(void)
-{
-	m_musicController->stop();
-	m_musicController = NULL;
-}
-
-void SoundPlayer2D::Pause(void)
-{
-	m_musicController->setIsPaused(true);
+	m__musicController = _engine->play2D(_snd, false, true, true);
 }

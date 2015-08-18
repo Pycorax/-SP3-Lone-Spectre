@@ -32,19 +32,20 @@ class SoundPlayer2D
 {
 	friend class SoundEngine;
 
-private:
-	void init(ISoundEngine* engine, ISoundSource* snd);
+protected:	// Variables
+	ISound* m__musicController;
 
-protected:
-	ISound* m_musicController;
-
-	SoundPlayer2D(void);
-	virtual ~SoundPlayer2D(void);
-
-public:
+public:		// Functions
 	void Play(bool loop);
 	void Stop(void);
 	void Pause(void);
+
+protected:	// Functions
+	SoundPlayer2D(void);
+	virtual ~SoundPlayer2D(void);
+
+private:	// Functions
+	void init(ISoundEngine* _engine, ISoundSource* _snd);
 };
 
 #endif

@@ -2,9 +2,9 @@
 
 void SoundEngine::StartSoundEngine()
 {
-	engine = createIrrKlangDevice();
+	s__engine = createIrrKlangDevice();
 
-	if (engine == NULL)
+	if (s__engine == NULL)
 	{
 		throw std::runtime_error("Failed to create SoundEngine!");
 	}
@@ -12,56 +12,56 @@ void SoundEngine::StartSoundEngine()
 
 void SoundEngine::StopSoundEngine()
 {
-	if (engine != NULL)
+	if (s__engine != NULL)
 	{
-		engine->drop();
+		s__engine->drop();
 	}
 }
 
 unsigned SoundEngine::AddSoundSource(string filePath)
 {
-	ISoundSource* snd = engine->addSoundSourceFromFile(filePath.c_str());
-	soundLibrary.push_back(snd);
+	ISoundSource* snd = s__engine->addSoundSourceFromFile(filePath.c_str());
+	s_soundLibrary.push_back(snd);
 
-	return soundLibrary.size() - 1;
+	return s_soundLibrary.size() - 1;
 }
 
 void SoundEngine::ClearSoundLibrary(void)
 {
-	while (soundLibrary.size() > 0)
+	while (s_soundLibrary.size() > 0)
 	{
-		soundLibrary.back()->drop();
-		soundLibrary.pop_back();
+		s_soundLibrary.back()->drop();
+		s_soundLibrary.pop_back();
 	}
 }
 
 SoundPlayer2D * SoundEngine::CreateSound2D(unsigned soundID)
 {
-	if (soundID > soundLibrary.size() - 1)
+	if (soundID > s_soundLibrary.size() - 1)
 	{
 		throw std::out_of_range("Sound ID provided is out of range!");
 	}
 
 	SoundPlayer2D* _sndPlayer = new SoundPlayer2D();
-	_sndPlayer->init(engine, soundLibrary.at(soundID));
+	_sndPlayer->init(s__engine, s_soundLibrary.at(soundID));
 
 	return _sndPlayer;
 }
 
 SoundPlayer3D * SoundEngine::CreateSound3D(unsigned soundID, Vector3 pos)
 {
-	if (soundID > soundLibrary.size() - 1)
+	if (soundID > s_soundLibrary.size() - 1)
 	{
 		throw std::out_of_range("Sound ID provided is out of range!");
 	}
 
 	SoundPlayer3D* _sndPlayer = new SoundPlayer3D();
-	_sndPlayer->init(engine, soundLibrary.at(soundID), pos);
+	_sndPlayer->init(s__engine, s_soundLibrary.at(soundID), pos);
 
 	return _sndPlayer;
 }
 
 void SoundEngine::StopAll(void)
 {
-	engine->stopAllSounds();
+	s__engine->stopAllSounds();
 }
