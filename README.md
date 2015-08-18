@@ -43,20 +43,31 @@ Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in
 The order of declarations in a class should be in this order:
 
 ```C++
-    class MyClass
-    {
-    	// Public Enums
-    	// Static Variables
-    	// Public Variables
-    	
-		// Protected Enums
-    	// Protected Variables
-    	
-    	// Private Enums
-    	// Private Variables
-    	
-    	// Public Functions
-    	// Protected Functions
-    	// Private Functions
-    };
+class MyClass
+{
+	// Enums
+public:
+protected:
+private:
+
+	// Static Constant Variables
+public:
+protected:
+private:
+
+	// Variables
+public:
+protected:
+private:
+	
+	// Functions
+public:
+protected:
+private:
+	
+	// Abstract Functions
+public:
+protected:
+private:
+};
 ```
