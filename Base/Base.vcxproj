@@ -17,6 +17,7 @@
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\CharObject.cpp" />
+    <ClCompile Include="Source\Collider2D.cpp" />
     <ClCompile Include="Source\DepthFBO.cpp" />
     <ClCompile Include="Source\Elemental.cpp" />
     <ClCompile Include="Source\ElementalBullet.cpp" />
@@ -25,6 +26,7 @@
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GhostEnemy.cpp" />
     <ClCompile Include="Source\GhostStrategy.cpp" />
+    <ClCompile Include="Source\GObject.cpp" />
     <ClCompile Include="Source\GoodieObject.cpp" />
     <ClCompile Include="Source\GoodieObjectFactory.cpp" />
     <ClCompile Include="Source\HealthGoodie.cpp" />
@@ -37,6 +39,7 @@
     <ClCompile Include="Source\MVC_Model_3D.cpp" />
     <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Physics2D.cpp" />
     <ClCompile Include="Source\PhysicsObject.cpp" />
     <ClCompile Include="Source\PlayerObject.cpp" />
     <ClCompile Include="Source\RangedWeapon.cpp" />
@@ -94,6 +97,7 @@
     <ClInclude Include="Source\MVC_Model_3D.h" />
     <ClInclude Include="Source\MVC_Model_Spectre.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
+    <ClInclude Include="Source\Physics2D.h" />
     <ClInclude Include="Source\PhysicsObject.h" />
     <ClInclude Include="Source\PlayerObject.h" />
     <ClInclude Include="Source\RangedWeapon.h" />
