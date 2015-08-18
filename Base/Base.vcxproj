@@ -14,6 +14,7 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
+    <ClCompile Include="Source\CChar.cpp" />
     <ClCompile Include="Source\CharObject.cpp" />
     <ClCompile Include="Source\Collider2D.cpp" />
     <ClCompile Include="Source\DepthFBO.cpp" />
@@ -31,8 +32,10 @@
     <ClCompile Include="Source\MVC_Controller.cpp" />
     <ClCompile Include="Source\MVC_Model_3D.cpp" />
     <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
+    <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Physics2D.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerObject.cpp" />
     <ClCompile Include="Source\RangedWeapon.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -59,6 +62,7 @@
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
+    <ClInclude Include="Source\CChar.h" />
     <ClInclude Include="Source\CharObject.h" />
     <ClInclude Include="Source\Collider2D.h" />
     <ClInclude Include="Source\DepthFBO.h" />
@@ -78,8 +82,10 @@
     <ClInclude Include="Source\MVC_Controller.h" />
     <ClInclude Include="Source\MVC_Model_3D.h" />
     <ClInclude Include="Source\MVC_Model_Spectre.h" />
+    <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
-    <ClInclude Include="Source\Physics2D.h" />
+    <ClInclude Include="Source\PhysicsObject.h" />
+    <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\PlayerObject.h" />
     <ClInclude Include="Source\RangedWeapon.h" />
     <ClInclude Include="Source\Light.h" />

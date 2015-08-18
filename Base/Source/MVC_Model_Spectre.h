@@ -3,12 +3,13 @@
 
 #include "mvc_model.h"
 #include "TileMap.h"
-#include "GameObject2D.h"
+#include "Player.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
-private:	// Variables
-	TileMap *test;
+	private:
+		TileMap* _test;
+		Player* _player;
 
 public:
 	MVC_Model_Spectre(string configSONFile);
