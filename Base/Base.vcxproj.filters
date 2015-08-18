@@ -225,6 +225,12 @@
     <ClCompile Include="Source\MVC_Model_Spectre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TileMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utility.h">
@@ -386,10 +392,10 @@
     <ClInclude Include="Source\MVC_Model_Spectre.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GObject.h">
+    <ClInclude Include="Source\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Collider2D.h">
+    <ClInclude Include="Source\TileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
