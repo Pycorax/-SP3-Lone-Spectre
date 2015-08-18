@@ -18,13 +18,15 @@ void MVC_Model_3D::Init()
 {
 	MVC_Model::Init();
 
+	// TODO: GameObject3D
+	/* 
 	if (m_terrainMeshName != "")
 	{
 		// Find the terrain mesh
 		Mesh* terrainMesh = GetMeshResource(m_terrainMeshName);
 
 		// Add the terrain mesh as a VisualObject
-		VisualObject* vo = new VisualObject(terrainMesh);
+		GameObject2D* vo = new GameObject2D(terrainMesh);
 		vo->SetScale(m_terrainScale);
 		vo->SetFogged(true);
 		vo->SetLighted(true);
@@ -37,6 +39,7 @@ void MVC_Model_3D::Init()
 			tCam->InitTerrain(m_heightMap, m_terrainScale);
 		}
 	}
+	*/
 }
 
 vector<unsigned char> MVC_Model_3D::GetHeightMap()

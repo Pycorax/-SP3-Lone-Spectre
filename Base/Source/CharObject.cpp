@@ -1,18 +1,8 @@
 #include "CharObject.h"
 
 #include "SpriteAnimation.h"
-#include "ElementalWeapon.h"
 
-CharObject::CharObject() : PhysicsObject()
-	, m_bInMidAir_Down(false)
-	, m_bInMidAir_Up(false)
-	, m_jumpSpeed(0)
-	, m_moveSpeed(0)
-	, m_type(TOP_DOWN_PLAYER)
-	, m_weapon(NULL)
-	, m_health(0)
-	, m_maxHealth(0)
-	, m_animCount(0)
+CharObject::CharObject() : GameObject2D(), Collider2D()
 {
 }
 
@@ -28,7 +18,8 @@ CharObject::~CharObject()
 
 void CharObject::Init(CHAR_TYPE type, Mesh * mesh, Vector3 startPos, Vector3 scale, int moveSpeed, int maxHealth)
 {
-	PhysicsObject::Init(startPos, Vector3::ZERO_VECTOR, scale);
+	m_transforms.Translation = startPos;
+	m_transforms.Scale = scale;
 	SetMesh(mesh);
 	m_type = type;
 	m_moveSpeed = moveSpeed;
@@ -303,7 +294,7 @@ void CharObject::Move(Vector2 dir, double dt, MapLayer* map)
 			}
 
 			// Animation
-			SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>(m_mesh);
+			SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>(m__mesh);
 			
 			if (sa != NULL)
 			{
@@ -337,7 +328,7 @@ void CharObject::Move(Vector2 dir, double dt, MapLayer* map)
 			}
 
 			// Animation
-			SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>(m_mesh);
+			SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>(m__mesh);
 
 			if (sa != NULL)
 			{
@@ -412,16 +403,6 @@ void CharObject::Move(Vector2 dir, double dt, MapLayer* map)
 	else									// If direction was changed, update the old direction and the current direction
 	{
 		m_lookDir = oldLookDir = dir.Normalized();
-
-		Elemental::ELEMENT_TYPE element = Elemental::NORMAL_TYPE;
-		ElementalWeapon* weapon = dynamic_cast<ElementalWeapon*>(m_weapon);
-
-		if (weapon != NULL)
-		{
-			element = weapon->GetElement();
-		}
-
-		m_animCount = Math::Wrap(++m_animCount, 0, static_cast<int>(m_animMeshes[element].size() - 1));
 	}
 }
 
@@ -452,20 +433,21 @@ void CharObject::Reload(void)
 	}
 }
 
-void CharObject::AddAnimMesh(Mesh * mesh, Elemental::ELEMENT_TYPE element)
+// Define function definitions for abstract functions in Collider2D
+Transform CharObject::getTransforms(void) const
 {
-	m_animMeshes[element].push_back(mesh);
+	return m_transforms;
+}
+bool CharObject::isActive(void) const
+{
+	return m_active;
 }
 
-Mesh * CharObject::GetAnimMesh(void)
+Vector3 CharObject::getNormal(void) const
 {
-	Elemental::ELEMENT_TYPE element = Elemental::NORMAL_TYPE;
-	ElementalWeapon* weapon = dynamic_cast<ElementalWeapon*>(m_weapon);
-
-	if (weapon != NULL)
-	{
-		element = weapon->GetElement();
-	}
-
-	return m_animMeshes[element][m_animCount];
+	return Vector3::ZERO_VECTOR;
+}
+Vector3 CharObject::getVelocity(void) const
+{
+	return Vector3::ZERO_VECTOR;
 }

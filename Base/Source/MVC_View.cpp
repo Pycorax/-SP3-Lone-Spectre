@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "GameObject.h"
+#include "GameObject2D.h"
 #include "Utility.h"
 #include "SONIO.h"
 #include "LoadResource.h"
@@ -971,7 +971,7 @@ void MVC_View::renderWorld()
 	renderObjects3D();
 }
 
-void MVC_View::RenderGameObject3D(GameObject* go)
+void MVC_View::RenderGameObject3D(GameObject2D* go)
 {
 	Transform transform = go->GetTransform();
 
@@ -980,6 +980,7 @@ void MVC_View::RenderGameObject3D(GameObject* go)
 	modelStack.PushMatrix();
 	modelStack.Translate(transform.Translation.x, transform.Translation.y, transform.Translation.z);
 
+	/* TODO: GameObject3D
 	if (go->IsBillboard())
 	{
 		Camera3* cam = m_model->GetCamera();
@@ -990,6 +991,7 @@ void MVC_View::RenderGameObject3D(GameObject* go)
 
 		modelStack.Rotate(angle, 0.0f, 1.0f, 0.0f);
 	}
+	*/
 	
 	modelStack.Rotate(transform.Rotation.x, 1.0f, 0.0f, 0.0f);
 	modelStack.Rotate(transform.Rotation.y, 0.0f, 1.0f, 0.0f);
@@ -1000,47 +1002,21 @@ void MVC_View::RenderGameObject3D(GameObject* go)
 	{
 		RenderText(to->GetMesh(), to->GetText(), to->GetColor());
 	}
-	else				// GameObject
+	else				// GameObject2D
+	{
+		RenderMesh(go->GetMesh(), false, false);
+	}
+	/*
+	else				// TODO: GameObject3D
 	{
 		RenderMesh(go->GetMesh(), go->IsLighted(), go->IsFogged() && m_model->GetFog().enabled);
 	}
+	*/
 
 	modelStack.PopMatrix();
 }
 
-void MVC_View::RenderGameObject3D(VisualObject* vo)
-{
-	Transform transform = vo->GetTransform();
-	Transform deltaTransform = vo->GetDeltaTransform();
-
-	for (int i = 0; i <= vo->GetRepeat(); ++i)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(transform.Translation.x + deltaTransform.Translation.x * i, transform.Translation.y + deltaTransform.Translation.y * i, transform.Translation.z + deltaTransform.Translation.z * i);
-
-		if (vo->IsBillboard())
-		{
-			Camera3* cam = m_model->GetCamera();
-			Vector3 deltaPos = cam->GetPosition() - transform.Translation;
-
-			float angle = atan2(deltaPos.x, deltaPos.z);
-			angle = Math::RadianToDegree(angle);
-
-			modelStack.Rotate(angle, 0.0f, 1.0f, 0.0f);
-		}
-
-		modelStack.Rotate(transform.Rotation.x + deltaTransform.Rotation.x * i, 1.0f, 0.0f, 0.0f);
-		modelStack.Rotate(transform.Rotation.y + deltaTransform.Rotation.y * i, 0.0f, 1.0f, 0.0f);
-		modelStack.Rotate(transform.Rotation.z + deltaTransform.Rotation.z * i, 0.0f, 0.0f, 1.0f);
-		modelStack.Scale(transform.Scale.x + deltaTransform.Scale.x * i, transform.Scale.y + deltaTransform.Scale.y * i, transform.Scale.z + deltaTransform.Scale.z * i);
-
-		RenderMesh(vo->GetMesh(), vo->IsLighted(), vo->IsFogged() && m_model->GetFog().enabled);
-
-		modelStack.PopMatrix();
-	}
-}
-
-void MVC_View::RenderGameObject2D(GameObject* go)
+void MVC_View::RenderGameObject2D(GameObject2D* go)
 {
 	Transform transform = go->GetTransform();
 
@@ -1051,7 +1027,7 @@ void MVC_View::RenderGameObject2D(GameObject* go)
 	{
 		RenderTextOnScreen(to->GetMesh(), to->GetText(), to->GetColor(), transform.Scale.x, transform.Translation.x, transform.Translation.y);
 	}
-	else				// GameObject
+	else				// GameObject2D
 	{
 		//RenderMeshIn2D(go->GetMesh(), transform.Scale, transform.Translation.x, transform.Translation.y, transform.Rotation.z);
 		Render2DMesh(go->GetMesh(), false, transform.Scale.x, transform.Scale.y, transform.Translation.x, transform.Translation.y, transform.Rotation.z, transform.Rotation.y);
@@ -1111,18 +1087,10 @@ void MVC_View::renderLights(void)
 void MVC_View::renderObjects3D(void)
 {
 	// Get objects to render from model
-	vector<GameObject*> renderList3D = m_model->Get3DRenderList();
+	vector<GameObject2D*> renderList3D = m_model->Get3DRenderList();
 
 	// Render objects from the model
-	for (vector<GameObject*>::iterator it = renderList3D.begin(); it != renderList3D.end(); ++it)
-	{
-		RenderGameObject3D(*it);
-	}
-
-	// Get VisualObjects to render from model
-	vector<VisualObject*> renderListVisual = m_model->GetStaticRenderList();
-
-	for (vector<VisualObject*>::iterator it = renderListVisual.begin(); it != renderListVisual.end(); ++it)
+	for (vector<GameObject2D*>::iterator it = renderList3D.begin(); it != renderList3D.end(); ++it)
 	{
 		RenderGameObject3D(*it);
 	}
@@ -1133,10 +1101,10 @@ void MVC_View::renderObjects2D(void)
 	SetHUD(true);
 
 	// Get objects to render from model
-	vector<GameObject*> renderList2D = m_model->Get2DRenderList();
+	vector<GameObject2D*> renderList2D = m_model->Get2DRenderList();
 
 	// Render objects from the model
-	for (vector<GameObject*>::iterator it = renderList2D.begin(); it != renderList2D.end(); ++it)
+	for (vector<GameObject2D*>::iterator it = renderList2D.begin(); it != renderList2D.end(); ++it)
 	{
 		RenderGameObject2D(*it);
 	}

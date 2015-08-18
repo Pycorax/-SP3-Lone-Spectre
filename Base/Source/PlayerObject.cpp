@@ -1,7 +1,5 @@
 #include "PlayerObject.h"
 
-#include "ElementalWeapon.h"
-
 PlayerObject* PlayerObject::instances = NULL;
 
 PlayerObject::PlayerObject() : CharObject()
@@ -36,21 +34,6 @@ void PlayerObject::Update(MapLayer * map, double dt)
 	int tileSize = map->map->GetTileSize();
 	constrainHero(map, 1.0f);
 }
-
-Elemental::ELEMENT_TYPE PlayerObject::GetWeaponElement(void)
-{
-	ElementalWeapon* ew = dynamic_cast<ElementalWeapon*>(m_weapon);
-
-	if (ew)
-	{
-		return ew->GetElement();
-	}
-	else
-	{
-		return Elemental::NORMAL_TYPE;
-	}
-}
-
 
 void PlayerObject::constrainHero(MapLayer* map, double dt)
 {

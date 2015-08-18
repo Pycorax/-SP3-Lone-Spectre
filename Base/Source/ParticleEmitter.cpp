@@ -1,3 +1,4 @@
+/*
 #include "ParticleEmitter.h"
 
 ParticleEmitter::ParticleEmitter()
@@ -123,3 +124,5 @@ void ParticleEmitter::initParticle(PhysicsObject * particle)
 	Vector3 vel(Math::RandFloatMinMax(m_minVel.x, m_maxVel.x), Math::RandFloatMinMax(m_minVel.y, m_maxVel.y), Math::RandFloatMinMax(m_minVel.z, m_maxVel.z));
 	particle->SetVelocity(vel);
 }
+
+*/

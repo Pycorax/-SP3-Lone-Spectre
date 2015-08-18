@@ -1,11 +1,12 @@
+// TODO: Particle Class : GameObject3D, Physics2D
+/*
 #ifndef PARTICLE_EMITTER_H
 #define PARTICLE_EMITTER_H
 
 #include <vector>
 
-#include "PhysicsObject.h"
-
 using std::vector;
+
 
 class ParticleEmitter
 {
@@ -42,3 +43,4 @@ class ParticleEmitter
 };
 
 #endif
+*/

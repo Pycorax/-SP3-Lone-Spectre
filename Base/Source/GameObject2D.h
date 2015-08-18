@@ -27,16 +27,16 @@ struct Transform
 	}
 };
 
-class GObject
+class GameObject2D
 {
-private:	// Variables
+protected:	// Variables
 	Transform m_transforms;			// Stores this object's Transforms info
 	Mesh* m__mesh;					// Stores this object's mesh
 	bool m_active;					// Controls if this object can be collided with
 
 public:		// Functions
-	GObject(void);
-	virtual ~GObject(void);
+	GameObject2D(void);
+	virtual ~GameObject2D(void);
 	
 	/*
 	* Setters

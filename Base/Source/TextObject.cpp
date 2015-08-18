@@ -1,7 +1,8 @@
 #include "TextObject.h"
 
-TextObject::TextObject(Mesh * font, string text, Color col/* = Color()*/) : GameObject(font, false)
+TextObject::TextObject(Mesh * font, string text, Color col/* = Color()*/)
 {
+	SetMesh(font);
 	m_text = text;
 	m_col = col;
 }

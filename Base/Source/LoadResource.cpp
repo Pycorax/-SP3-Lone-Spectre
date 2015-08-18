@@ -3,7 +3,6 @@
 #include "LoadTGA.h"
 #include "MeshBuilder.h"
 #include "RangedWeapon.h"
-#include "PhysicsObject.h"
 
 map<string, Material> LoadMaterial(string filename)
 {
@@ -201,9 +200,9 @@ vector<Light> LoadLight(string filename)
 	return lightList;
 }
 
-vector<GameObject*> LoadGameObject(string filename, const vector<Mesh*>& meshList)
+vector<GameObject2D*> LoadGameObject(string filename, const vector<Mesh*>& meshList)
 {
-	vector<GameObject*> goList;
+	vector<GameObject2D*> goList;
 
 	// Retrieve data as a Branch object from the SONFile
 	Branch gObjects = SONIO::LoadSON(filename);
@@ -212,14 +211,14 @@ vector<GameObject*> LoadGameObject(string filename, const vector<Mesh*>& meshLis
 
 	if (gObjects.name == ROOT_NAME)
 	{
-		// For every GameObject
+		// For every GameObject2D
 		for (size_t i = 0; i < gObjects.childBranches.size(); ++i)
 		{
 			#pragma region InitVars
 
 				bool	tmpBool;
 				vector<float> values;
-				GameObject* go = NULL;
+				GameObject2D* go = NULL;
 				Mesh* goMesh = NULL;
 				Vector3 goPos;
 				Vector3 goRot;
@@ -231,16 +230,9 @@ vector<GameObject*> LoadGameObject(string filename, const vector<Mesh*>& meshLis
 				bool goFogged = false;
 				bool goBillboard = false;
 
-				// PhysicsObjects
-				bool isPhysics = false;
-				float poMass = 1.0f;
-				Vector3 poVel;
-				Vector3 poNorm;
-				PhysicsObject::PHYSICS_TYPE poType = PhysicsObject::PHY_BALL;
-
 			#pragma endregion
 
-			// Find the attribute and add it to this GameObject
+			// Find the attribute and add it to this GameObject2D
 			for (size_t j = 0; j < gObjects.childBranches[i].attributes.size(); ++j)
 			{
 				// Extract the values out
@@ -312,66 +304,17 @@ vector<GameObject*> LoadGameObject(string filename, const vector<Mesh*>& meshLis
 
 					goBillboard = tmpBool;
 				}
-				else if (gObjects.childBranches[i].attributes[j].name == "Type")
-				{
-					isPhysics = gObjects.childBranches[i].attributes[j].value == "Physics";
-				}
-				else if (gObjects.childBranches[i].attributes[j].name == "PhysicsType")
-				{
-					if (gObjects.childBranches[i].attributes[j].value == "Ball")
-					{
-						poType = PhysicsObject::PHY_BALL;
-					}
-					else if (gObjects.childBranches[i].attributes[j].value == "Wall")
-					{
-						poType = PhysicsObject::PHY_WALL_2D;
-					}
-					else if (gObjects.childBranches[i].attributes[j].value == "Hole")
-					{
-						poType = PhysicsObject::PHY_HOLE;
-					}
-				}
-				else if (gObjects.childBranches[i].attributes[j].name == "Mass")
-				{
-					poMass = stof(gObjects.childBranches[i].attributes[j].value);
-				}
-				else if (gObjects.childBranches[i].attributes[j].name == "Velocity")
-				{
-					values = StringToFloats(gObjects.childBranches[i].attributes[j].value);
-					poVel.Set(values[0], values[1], values[2]);
-				}
-				else if (gObjects.childBranches[i].attributes[j].name == "Normal")
-				{
-					values = StringToFloats(gObjects.childBranches[i].attributes[j].value);
-					poNorm.Set(values[0], values[1], values[2]);
-				}
 			}
 
-			if (isPhysics)
-			{
-				go = new PhysicsObject();
-				go->SetMesh(goMesh);
-				go->SetCollidable(goCollidable);
-				
-				PhysicsObject* po = dynamic_cast<PhysicsObject*>(go);
-				po->SetMass(poMass);
-				po->SetVelocity(poVel);
-				po->SetNormal(poNorm);
-				po->SetType(poType);
-			}
-			else
-			{
-				go = new GameObject(goMesh, goCollidable);
-				go->SetRot(goRot);
-			}
-			
+			go = new GameObject2D;
+			go->SetMesh(goMesh);
+			go->SetRot(goRot);
 			go->SetPos(goPos);
 			go->SetScale(goScale);
-			go->SetBoundExt(goBoundExt);
-			go->SetBoundOffset(goBoundOffset);
-			go->SetLighted(goLighted);
-			go->SetFogged(goFogged);
-			go->SetBillboard(goBillboard);
+			// TODO: GameObject3D
+			//go->SetLighted(goLighted);
+			//go->SetFogged(goFogged);
+			//go->SetBillboard(goBillboard);
 
 			goList.push_back(go);
 		}
@@ -380,9 +323,9 @@ vector<GameObject*> LoadGameObject(string filename, const vector<Mesh*>& meshLis
 	return goList;
 }
 
-vector<VisualObject*> LoadVisualObject(string filename, const vector<Mesh*>& meshList)
+vector<GameObject2D*>	 LoadVisualObject(string filename, const vector<Mesh*>& meshList)
 {
-	vector<VisualObject*> voList;
+	vector<GameObject2D*> voList;
 
 	// Retrieve data as a Branch object from the SONFile
 	Branch gObjects = SONIO::LoadSON(filename);
@@ -398,7 +341,7 @@ vector<VisualObject*> LoadVisualObject(string filename, const vector<Mesh*>& mes
 
 			bool	tmpBool;
 			vector<float> values;
-			VisualObject* vo = NULL;
+			GameObject2D* vo = NULL;
 			Mesh* goMesh = NULL;
 			Vector3 goPos;
 			Vector3 goRot;
@@ -411,7 +354,7 @@ vector<VisualObject*> LoadVisualObject(string filename, const vector<Mesh*>& mes
 
 			#pragma endregion
 
-			// Find the attribute and add it to this GameObject
+			// Find the attribute and add it to this GameObject2D
 			for (size_t j = 0; j < gObjects.childBranches[i].attributes.size(); ++j)
 			{
 				// Extract the values out
@@ -490,18 +433,19 @@ vector<VisualObject*> LoadVisualObject(string filename, const vector<Mesh*>& mes
 				}
 			}
 
-			vo = new VisualObject(goMesh);
-			vo->SetPos(goPos);
-			vo->SetRot(goRot);
-			vo->SetScale(goScale);
-			vo->SetLighted(goLighted);
-			vo->SetFogged(goFogged);
-			vo->SetBillboard(goBillboard);
-
-			vo->SetDeltaTransform(voDeltaTransform);
-			vo->SetRepeat(voRepeat);
-
-			voList.push_back(vo);
+			for (int obj = 0; obj < voRepeat; ++obj)
+			{
+				vo = new GameObject2D;
+				vo->SetMesh(goMesh);
+				vo->SetPos(goPos + (obj * voDeltaTransform.Translation));
+				vo->SetRot(goRot + (obj * voDeltaTransform.Rotation));
+				vo->SetScale(goScale + (obj * voDeltaTransform.Scale));
+				//vo->SetLighted(goLighted);
+				//vo->SetFogged(goFogged);
+				//vo->SetBillboard(goBillboard);
+				
+				voList.push_back(vo);
+			}
 		}
 	}
 

@@ -1,7 +1,7 @@
 #ifndef COLLIDER_2D_H
 #define COLLIDER_2D_H
 
-#include "GObject.h"
+#include "GameObject2D.h"
 
 class Collider2D
 {

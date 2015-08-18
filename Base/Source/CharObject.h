@@ -2,13 +2,14 @@
 #define CHAR_OBJECT_H
 
 // Inheritance
-#include "PhysicsObject.h"
+#include "GameObject2D.h"
+#include "Collider2D.h"
 
 // Others
 #include "RangedWeapon.h"
 #include "MapLayer.h"
 
-class CharObject : public PhysicsObject
+class CharObject : public GameObject2D, public Collider2D
 {
 	public:
 		enum CHAR_TYPE
@@ -91,14 +92,17 @@ class CharObject : public PhysicsObject
 		virtual bool Attack(void);
 		void Reload(void);
 
-		// Animation
-		void AddAnimMesh(Mesh* mesh, Elemental::ELEMENT_TYPE);
-		Mesh* GetAnimMesh(void);
-
 	protected:
 		// Update Helper Functions
 		void updateJumpUpwards(void);
 		void updateFreefall(void);
+
+	private:
+	// Define function definitions for abstract functions in Collider2D
+	Transform getTransforms(void) const;	
+	bool isActive(void) const;				
+	Vector3 getNormal(void) const;
+	Vector3 getVelocity(void) const;
 };
 
 #endif

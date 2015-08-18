@@ -2,7 +2,7 @@
 #define PHYSICS_2D_H
 
 #include "Vector2.h"
-#include "GObject.h"
+#include "GameObject2D.h"
 
 class Physics2D
 {

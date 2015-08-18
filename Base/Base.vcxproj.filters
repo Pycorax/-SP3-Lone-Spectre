@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="SONs">
-      <UniqueIdentifier>{e8dba1ef-8a94-432c-88e1-51f3f55cf32f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Camera">
       <UniqueIdentifier>{5f41fd64-e36d-42d7-b3b2-7f62b054674a}</UniqueIdentifier>
     </Filter>
@@ -46,12 +43,6 @@
     <Filter Include="Source Files\MVC">
       <UniqueIdentifier>{34a1e86a-40ba-4c46-a6f9-38ed957db99f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SONs\MVC_Model_2D">
-      <UniqueIdentifier>{c34d82a7-d8ad-4547-9740-c52d40de7607}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SONs\Shadow Test">
-      <UniqueIdentifier>{14bd4aa5-b009-4b57-99f9-bd48d0bba379}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\AI">
       <UniqueIdentifier>{0064917b-9056-42a7-b053-6337b5fada4d}</UniqueIdentifier>
     </Filter>
@@ -70,21 +61,12 @@
     <Filter Include="Source Files\GameObjects\Characters">
       <UniqueIdentifier>{0b3a2ab4-9f7f-43d2-b345-f8ae534b8249}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Legacy Stuff">
-      <UniqueIdentifier>{3954fe37-a255-46d3-807e-24b61f6d5c4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Legacy Stuff">
-      <UniqueIdentifier>{5b46b85e-8271-4f3b-95b8-6a79bc5c35f9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RenderTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Minimap.cpp">
@@ -120,12 +102,6 @@
     <ClCompile Include="Source\shader.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameObject.cpp">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PhysicsObject.cpp">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SpriteAnimation.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -141,20 +117,11 @@
     <ClCompile Include="Source\TerrainCamera.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\TextObject.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MVC_Model_3D.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
     <ClCompile Include="Source\Map.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BasicObject.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\BulletObject.cpp">
-      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Source\Strategy.cpp">
       <Filter>Source Files\AI</Filter>
@@ -180,9 +147,6 @@
     <ClCompile Include="Source\GoodieObjectFactory.cpp">
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="Source\VisualObject.cpp">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Weapon.cpp">
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
@@ -207,21 +171,6 @@
     <ClCompile Include="Source\UIButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Elemental.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ElementalBullet.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ElementalWeapon.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\TargetEnemy.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GhostEnemy.cpp">
-      <Filter>Source Files\Legacy Stuff</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MVC_Model_Spectre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -229,23 +178,23 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\TileMap.cpp">
-	 <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collider2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Physics2D.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collider2D.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TextObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObject2D.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RenderTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Minimap.h">
@@ -290,12 +239,6 @@
     <ClInclude Include="Source\Vertex.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameObject.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PhysicsObject.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SpriteAnimation.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -314,20 +257,11 @@
     <ClInclude Include="Source\TerrainCamera.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TextObject.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MVC_Model_3D.h">
       <Filter>Header Files\MVC</Filter>
     </ClInclude>
     <ClInclude Include="Source\Map.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BasicObject.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BulletObject.h">
-      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Source\DepthFBO.h">
       <Filter>Header Files</Filter>
@@ -352,9 +286,6 @@
     </ClInclude>
     <ClInclude Include="Source\CharObject.h">
       <Filter>Header Files\GameObjects\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\VisualObject.h">
-      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Source\Weapon.h">
       <Filter>Header Files\GamePlay</Filter>
@@ -383,21 +314,6 @@
     <ClInclude Include="Source\EnemyObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Elemental.h">
-      <Filter>Header Files\Legacy Stuff</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ElementalWeapon.h">
-      <Filter>Header Files\Legacy Stuff</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ElementalBullet.h">
-      <Filter>Header Files\Legacy Stuff</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GhostEnemy.h">
-      <Filter>Header Files\Legacy Stuff</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\TargetEnemy.h">
-      <Filter>Header Files\Legacy Stuff</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MVC_Model_Spectre.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -407,8 +323,17 @@
     <ClInclude Include="Source\TileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Collider2D.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Physics2D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TextObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameObject2D.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -418,32 +343,11 @@
     <None Include="Shader\Texture.vertexshader">
       <Filter>Shader</Filter>
     </None>
-    <None Include="SONs\Materials.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\Colors.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\Lights.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\Meshes.son">
-      <Filter>SONs</Filter>
-    </None>
     <None Include="Shader\comg.fragmentshader">
       <Filter>Shader</Filter>
     </None>
     <None Include="Shader\comg.vertexshader">
       <Filter>Shader</Filter>
-    </None>
-    <None Include="SONs\Textures.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\GameObjects.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\Weapons.son">
-      <Filter>SONs</Filter>
     </None>
     <None Include="Shader\Fog.vertexshader">
       <Filter>Shader</Filter>
@@ -453,45 +357,6 @@
     </None>
     <None Include="Shader\MultiTexture.fragmentshader">
       <Filter>Shader</Filter>
-    </None>
-    <None Include="SONs\MVC_Model_2D\Meshes.son">
-      <Filter>SONs\MVC_Model_2D</Filter>
-    </None>
-    <None Include="SONs\MVC_Model_2D\Textures.son">
-      <Filter>SONs\MVC_Model_2D</Filter>
-    </None>
-    <None Include="SONs\MVC_Model_2D\GameObjects.son">
-      <Filter>SONs\MVC_Model_2D</Filter>
-    </None>
-    <None Include="SONs\ViewConfig.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\ControllerConfig.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\ModelConfig_Zombie.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\MVC_Model_2D\ModelConfig_2D.son">
-      <Filter>SONs\MVC_Model_2D</Filter>
-    </None>
-    <None Include="SONs\VisualObjects.son">
-      <Filter>SONs</Filter>
-    </None>
-    <None Include="SONs\Shadow_Test\GameObjects.son">
-      <Filter>SONs\Shadow Test</Filter>
-    </None>
-    <None Include="SONs\Shadow_Test\Lights.son">
-      <Filter>SONs\Shadow Test</Filter>
-    </None>
-    <None Include="SONs\Shadow_Test\Meshes.son">
-      <Filter>SONs\Shadow Test</Filter>
-    </None>
-    <None Include="SONs\Shadow_Test\ModelConfig_Shadow.son">
-      <Filter>SONs\Shadow Test</Filter>
-    </None>
-    <None Include="SONs\Shadow_Test\VisualObjects.son">
-      <Filter>SONs\Shadow Test</Filter>
     </None>
     <None Include="Shader\GPass.fragmentshader">
       <Filter>Shader</Filter>

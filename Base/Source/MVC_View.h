@@ -170,9 +170,8 @@ class MVC_View
 		void renderWorld(void);
 
 		// Helper functions fo Render()
-		void RenderGameObject3D(GameObject* go);
-		void RenderGameObject3D(VisualObject* go);
-		void RenderGameObject2D(GameObject* go);
+		void RenderGameObject3D(GameObject2D* go);
+		void RenderGameObject2D(GameObject2D* go);
 
 		void renderLights(void);
 		void renderObjects3D(void);

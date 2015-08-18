@@ -2,7 +2,6 @@
 #define PLAYER_OBJECT_H
 
 #include "CharObject.h"
-#include "Elemental.h"
 
 class PlayerObject : public CharObject
 {
@@ -18,8 +17,6 @@ class PlayerObject : public CharObject
 		virtual ~PlayerObject();
 
 		void Update(MapLayer * map, double dt);
-
-		Elemental::ELEMENT_TYPE GetWeaponElement(void);
 
 	private:
 		// Other

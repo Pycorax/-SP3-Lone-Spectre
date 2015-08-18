@@ -100,15 +100,7 @@ void MVC_Model::Update(double dt)
 	}
 
 	// Update Sprite Animations
-	for (std::vector<GameObject*>::iterator it = goList.begin(); it != goList.end(); ++it)
-	{
-		SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>((*it)->GetMesh());
-		if (sa != NULL)
-		{
-			sa->Update(dt);
-		}
-	}
-	for (std::vector<VisualObject*>::iterator it = m_renderList3DStatic.begin(); it != m_renderList3DStatic.end(); ++it)
+	for (std::vector<GameObject2D*>::iterator it = goList.begin(); it != goList.end(); ++it)
 	{
 		SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>((*it)->GetMesh());
 		if (sa != NULL)
@@ -201,19 +193,14 @@ Vector3 MVC_Model::GetWorldSize() const
 	return m_worldSize;
 }
 
-const vector<GameObject*>& MVC_Model::Get3DRenderList(void) const
+const vector<GameObject2D*>& MVC_Model::Get3DRenderList(void) const
 {
 	return m_renderList3D;
 }
 
-const vector<GameObject*>& MVC_Model::Get2DRenderList(void) const
+const vector<GameObject2D*>& MVC_Model::Get2DRenderList(void) const
 {
 	return m_renderList2D;
-}
-
-const vector<VisualObject*>& MVC_Model::GetStaticRenderList() const
-{
-	return m_renderList3DStatic;
 }
 
 bool MVC_Model::IsMouseFree(void)

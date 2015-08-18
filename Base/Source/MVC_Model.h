@@ -8,9 +8,8 @@
 #include "Camera3.h"
 #include "Light.h"
 #include "Fog.h"
-#include "GameObject.h"
+#include "GameObject2D.h"
 #include "TextObject.h"
-#include "VisualObject.h"
 
 using std::vector;
 using std::map;
@@ -99,7 +98,7 @@ class MVC_Model
 
 		// Overworld
 		// -- GameObjects (The interactive stuff that gets rendered)
-		vector<GameObject*> goList;
+		vector<GameObject2D*> goList;
 		// -- WorldScale
 		Vector3 m_worldSize;
 
@@ -114,9 +113,9 @@ class MVC_Model
 		TextObject* m_fpsCount;	// Text object to hold FPS counter
 
 		// Output to View
-		vector<GameObject*> m_renderList3D;
-		vector<GameObject*> m_renderList2D;
-		vector<VisualObject*> m_renderList3DStatic;
+		vector<GameObject2D*> m_renderList3D;
+		vector<GameObject2D*> m_renderList2D;
+		vector<GameObject2D*> m_renderList3DStatic;
 
 	public:
 		MVC_Model(string configSONFile);
@@ -152,9 +151,8 @@ class MVC_Model
 		Vector3 GetWorldSize(void) const;
 
 		// -- Render Lists
-		const vector<GameObject*>& Get3DRenderList(void) const;
-		const vector<GameObject*>& Get2DRenderList(void) const;
-		const vector<VisualObject*>& GetStaticRenderList(void) const;
+		const vector<GameObject2D*>& Get3DRenderList(void) const;
+		const vector<GameObject2D*>& Get2DRenderList(void) const;
 
 		// Input
 		bool IsMouseFree(void);
