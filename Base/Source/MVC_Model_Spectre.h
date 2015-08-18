@@ -3,21 +3,24 @@
 
 #include "mvc_model.h"
 #include "TileMap.h"
+#include "GameObject2D.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
-	public:
-		MVC_Model_Spectre(string configSONFile);
-		virtual ~MVC_Model_Spectre(void);
+private:	// Variables
+	TileMap *test;
 
-		virtual void Init();
-		virtual void Update(double dt);
-		virtual void Exit();
+public:
+	MVC_Model_Spectre(string configSONFile);
+	virtual ~MVC_Model_Spectre(void);
 
-		void processKeyAction(double dt);
+	virtual void Init();
+	virtual void Update(double dt);
+	virtual void Exit();
 
-	private:
-		TileMap *test;
+	void processKeyAction(double dt);
+
+private:
 };
 
 #endif

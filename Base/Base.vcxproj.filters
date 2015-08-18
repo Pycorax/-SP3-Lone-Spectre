@@ -135,9 +135,6 @@
     <ClCompile Include="Source\DepthFBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ParticleEmitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\HealthGoodie.cpp">
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
@@ -171,9 +168,6 @@
     <ClCompile Include="Source\UIButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MVC_Model_Spectre.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -191,6 +185,12 @@
     </ClCompile>
     <ClCompile Include="Source\GameObject2D.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ParticleEmitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MVC_Model_Spectre.cpp">
+      <Filter>Source Files\MVC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,9 +314,6 @@
     <ClInclude Include="Source\EnemyObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MVC_Model_Spectre.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -334,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="Source\GameObject2D.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MVC_Model_Spectre.h">
+      <Filter>Header Files\MVC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
