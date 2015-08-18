@@ -192,6 +192,9 @@
     <ClCompile Include="Source\MVC_Model_Spectre.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MapEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utility.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="Source\MVC_Model_Spectre.h">
       <Filter>Header Files\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MapEntity.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
