@@ -200,6 +200,8 @@
     </ClCompile>
     <ClCompile Include="Source\Player.cpp">
       <Filter>Source Files\GameObjects\Characters</Filter>
+    <ClCompile Include="Source\MapEntity.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -354,6 +356,7 @@
       <Filter>Header Files\GameObjects\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Source\PhysicsObject.h">
+    <ClInclude Include="Source\MapEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
