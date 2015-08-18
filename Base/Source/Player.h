@@ -36,6 +36,13 @@ class Player : public Character
 		//player currentState
 		E_PLAYER_STATE m_currentState;
 
+		// For reference
+		/*bool m_actions[TOTAL_PLAYER_ACTIONS];
+		void SetActions(E_PLAYER_ACTION type, bool status = true)
+		{
+			m_actions[type] = status;
+		}*/
+
 		TileMap* _map;
 		Transform transform;
 	public:

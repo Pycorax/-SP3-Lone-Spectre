@@ -2,7 +2,7 @@
 #define MVC_MODEL_SPECTRE_H
 
 #include "mvc_model.h"
-#include "TileMap.h"
+#include "Level.h"
 #include "Player.h"
 
 class MVC_Model_Spectre : public MVC_Model
@@ -19,6 +19,7 @@ public:
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Exit();
+	void TileMapToRender();
 
 	void processKeyAction(double dt);
 };

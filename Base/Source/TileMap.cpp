@@ -12,7 +12,7 @@ TileMap::~TileMap(void)
 
 void TileMap::LoadTileMap(const string &filePath, const vector<Mesh*>& meshList)
 {
-	if (LoadFile(filePath, meshList))	// Loaded map
+	if (loadFile(filePath, meshList))	// Loaded map
 	{
 		cout << filePath << " has been loaded successfully!" << endl;
 	}
@@ -22,7 +22,7 @@ void TileMap::LoadTileMap(const string &filePath, const vector<Mesh*>& meshList)
 	}
 }
 
-bool TileMap::LoadFile(const string &filePath, const vector<Mesh*>& meshList)
+bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 {
 	const string tileTypeName[Tile::NUM_TILE] = 
 	{
@@ -37,7 +37,7 @@ bool TileMap::LoadFile(const string &filePath, const vector<Mesh*>& meshList)
 			if (meshList[mesh]->name == tileTypeName[name])
 			{
 				_tileMeshList[Tile::TILE_FLOOR] = meshList[mesh]; // Assign the proper tile mesh to a temp tile mesh list
-				name = Tile::NUM_TILE; // Breaks the inner loop
+				break; // Breaks the inner loop
 			}
 		}
 	}
@@ -71,12 +71,12 @@ bool TileMap::LoadFile(const string &filePath, const vector<Mesh*>& meshList)
 			while (getline(iss, token, ',') && colCounter < m_numMapTile.x) // Load each column in a row
 			{
 				int tile = std::stoi(token.c_str()); // Convert a tile from string to int
-				m_map.front()->push_back(new Tile(static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
+				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
 				++colCounter;
 			}
 			for (; colCounter < m_numMapTile.x; ++colCounter) // Add empty tiles to fill up missing columns in file
 			{
-				m_map.front()->push_back(new Tile());
+				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize)));
 			}
 			++rowCounter;
 		}
@@ -84,7 +84,7 @@ bool TileMap::LoadFile(const string &filePath, const vector<Mesh*>& meshList)
 		{
 			for (int col = 0; col < m_numMapTile.x; ++col) // Loop number of tiles for width
 			{
-				m_map.front()->push_back(new Tile()); // Create empty tiles
+				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize))); // Create empty tiles
 			}
 			++rowCounter;
 		}
@@ -94,7 +94,7 @@ bool TileMap::LoadFile(const string &filePath, const vector<Mesh*>& meshList)
 		m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
 		for (int col = 0; col < m_numMapTile.x; ++col) // Loops number of tiles for width
 		{
-			m_map.front()->push_back(new Tile()); // Create empty tiles
+			m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize))); // Create empty tiles
 		}
 	}
 	file.close(); // Close file
@@ -112,24 +112,40 @@ bool TileMap::CheckCollision(Vector2 pos)
 	return false;
 }
 
-void TileMap::Clear()
+Tile::E_TILE_TYPE TileMap::GetTileType(Vector2 pos)
+{
+	Vector2 tilePos = pos * (1.f / m_tileSize);
+	return (*m_map[tilePos.y])[tilePos.x]->GetType();
+}
+
+void TileMap::Clear(void)
 {
 	while (m_map.size() > 0)
 	{
-		vector<Tile*>* backRow = m_map.back();
-		if (backRow)
+		vector<Tile*>* _backRow = m_map.back();
+		if (_backRow)
 		{
-			while (backRow->size() > 0)
+			while (_backRow->size() > 0)
 			{
-				Tile* backTile = backRow->back();
-				if (backTile)
+				Tile* _backTile = _backRow->back();
+				if (_backTile)
 				{
-					delete backTile;
-					backRow->pop_back();
+					delete _backTile;
+					_backRow->pop_back();
 				}
 			}
-			delete backRow;
+			delete _backRow;
 			m_map.pop_back();
 		}
 	}
+}
+
+void TileMap::SetScrollOffset(Vector2 scrollOffset)
+{
+	this->m_scrollOffset = scrollOffset;
+}
+
+Vector2 TileMap::GetScrollOffset(void)
+{
+	return m_scrollOffset;
 }

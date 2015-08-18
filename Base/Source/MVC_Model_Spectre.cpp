@@ -40,7 +40,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 	}
 }
 
-void MVC_Model_Spectre::Init()
+void MVC_Model_Spectre::Init(void)
 {
 	MVC_Model::Init();
 
@@ -63,7 +63,7 @@ void MVC_Model_Spectre::Update(double dt)
 	m_renderList2D.push(m__testGO);
 }
 
-void MVC_Model_Spectre::Exit()
+void MVC_Model_Spectre::Exit(void)
 {
 	if (m__testGO)
 	{
