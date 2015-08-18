@@ -27,7 +27,6 @@ bool TileMap::LoadFile(const string &filePath, const vector<Mesh*>& meshList)
 	const string tileTypeName[Tile::NUM_TILE] = 
 	{
 		"TILE_FLOOR",
-		"TILE_TEST"
 	};
 	Mesh* _tileMeshList[Tile::NUM_TILE];
 	for (int mesh = 0; mesh < meshList.size(); ++mesh)		// Loop through meshList to find mesh for tile and sort based on E_TILE_TYPE
