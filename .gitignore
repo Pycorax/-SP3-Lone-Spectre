@@ -41,3 +41,4 @@ SONIO/Debug/
 SONIO/Release/
 *.user
 *.suo
+Debug/Common.lib

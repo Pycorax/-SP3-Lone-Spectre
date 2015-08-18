@@ -50,7 +50,7 @@ private:	// Functions
 	 *	Abstract Functions
 	 *	These functions need to be defined in child classes and serves as the interface between child classes and this class.
 	 */
-	// Function to send Collider2D the actual position of the child.
+	// Function to send Collider2D the actual transforms of the child.
 	virtual Transform getTransforms(void) const = 0;	
 	// Function to send Collider2D the state of the child.
 	virtual bool isActive(void) const = 0;				

@@ -39,6 +39,7 @@
     <ClCompile Include="Source\MVC_Model_3D.cpp" />
     <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Physics2D.cpp" />
     <ClCompile Include="Source\PhysicsObject.cpp" />
     <ClCompile Include="Source\PlayerObject.cpp" />
     <ClCompile Include="Source\RangedWeapon.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="Source\MVC_Model_3D.h" />
     <ClInclude Include="Source\MVC_Model_Spectre.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
+    <ClInclude Include="Source\Physics2D.h" />
     <ClInclude Include="Source\PhysicsObject.h" />
     <ClInclude Include="Source\PlayerObject.h" />
     <ClInclude Include="Source\RangedWeapon.h" />
