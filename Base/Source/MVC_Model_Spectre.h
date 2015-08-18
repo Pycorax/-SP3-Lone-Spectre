@@ -8,7 +8,7 @@
 class MVC_Model_Spectre : public MVC_Model
 {
 private:	// Variables
-	TileMap *test;
+	TileMap *_test;
 	Player* _player;
 	GameObject2D* m__testGO;
 

@@ -31,6 +31,13 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 	{
 		_player->Update(dt, _test, _player->PA_MOVE_RIGHT);
 	}
+
+	// Quitting the game
+	if (m_bKeyPressed[GAME_EXIT_KEY])
+	{
+		// TODO: Open a pause menu and then quit by that instead. Do actual pausing or return to menus
+		m_running = false;
+	}
 }
 
 void MVC_Model_Spectre::Init()

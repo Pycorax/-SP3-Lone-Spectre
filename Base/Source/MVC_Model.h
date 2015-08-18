@@ -43,7 +43,7 @@ public:
 		INTERACT_NEXT_KEY,
 		INTERACT_GENERIC_KEY,
 		// Game
-		GAME_PAUSE_KEY,
+		GAME_EXIT_KEY,
 		GAME_ACCEPT_KEY,
 		GAME_CANCEL_KEY,
 		GAME_DEBUG_KEY,
@@ -66,6 +66,9 @@ public:
 	};
 
 protected:
+	// Model Lifetime
+	bool m_running;
+
 	// Config File
 	const string m_configSONFile;
 
@@ -144,6 +147,9 @@ public:
 	virtual void Init(void);
 	virtual void Update(double dt);
 	virtual void Exit(void);
+
+	// Model Lifetime
+	bool IsRunning(void) const;
 
 	// Graphics
 	void InitLights(void);

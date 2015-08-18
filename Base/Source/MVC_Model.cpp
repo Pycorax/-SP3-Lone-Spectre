@@ -14,7 +14,7 @@
 
 using std::ostringstream;
 
-MVC_Model::MVC_Model(string configSONFile) : m_configSONFile(configSONFile)
+MVC_Model::MVC_Model(string configSONFile) : m_configSONFile(configSONFile), m_running(true)
 {
 	loadConfig();
 }
@@ -150,6 +150,11 @@ void MVC_Model::Exit(void)
 
 	// You think m_defaultFont wasn't deleted? It was deleted in the meshList already
 	m_defaultFont = NULL;
+}
+
+bool MVC_Model::IsRunning() const
+{
+	return m_running;
 }
 
 void MVC_Model::InitLights(void)

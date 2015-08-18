@@ -85,7 +85,7 @@ void MVC_Controller::Run(void)
 	StopWatch timer;
 	timer.startTimer();
 
-	while (!glfwWindowShouldClose(m_window))
+	while (!glfwWindowShouldClose(m_window) && m_model->IsRunning())
 	{
 		double dt = timer.getElapsedTime();
 
@@ -242,7 +242,7 @@ void MVC_Controller::initInputKeys(void)
 	inputKey[MVC_Model::INTERACT_GENERIC_KEY] = 'F';
 
 	// Game
-	inputKey[MVC_Model::GAME_PAUSE_KEY] = VK_ESCAPE;
+	inputKey[MVC_Model::GAME_EXIT_KEY] = VK_ESCAPE;
 	inputKey[MVC_Model::GAME_ACCEPT_KEY] = VK_RETURN;
 	inputKey[MVC_Model::GAME_CANCEL_KEY] = VK_BACK;
 	inputKey[MVC_Model::GAME_DEBUG_KEY] = VK_OEM_3; // `~
