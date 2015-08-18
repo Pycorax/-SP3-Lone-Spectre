@@ -18,9 +18,6 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 void MVC_Model_Spectre::Init()
 {
 	MVC_Model::Init();
-
-	test = new TileMap(Vector2(32,25), Vector2(32,25), 32.f);
-	test->LoadTileMap("TileMap//Level1.csv", meshList);
 }
 
 void MVC_Model_Spectre::Update(double dt)
