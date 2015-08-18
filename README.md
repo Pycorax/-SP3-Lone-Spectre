@@ -12,6 +12,7 @@ Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in
 - Always use `static_cast` instead of C-styled casts!
 - Always use `size_t` when iterating through a `array` or a `vector`.
 - Always use pre-increment when iterating in a for loop.
+- Always use `void` when a function accepts no parameters.
 - Describe every member variable if possible.
 - For loop iterator variables should be descriptive. E.g. `row` instead of `i`.
 
