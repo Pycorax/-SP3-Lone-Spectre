@@ -89,8 +89,8 @@ void MVC_Model_Spectre::Init(void)
 
 	m__testLevel = new Level();
 	m__testLevel->InitMap(Vector2(64,50), Vector2(32,25), 32, "TileMap//Level1.csv", meshList);
-	m_viewWidth = m__testLevel->GetTileMap()->GetScreenSize().x;
-	m_viewHeight = m__testLevel->GetTileMap()->GetScreenSize().y;
+	//m_viewWidth = m__testLevel->GetTileMap()->GetScreenSize().x;
+	//m_viewHeight = m__testLevel->GetTileMap()->GetScreenSize().y;
 
 	m__testGO = new GameObject2D;
 	m__testGO->SetMesh(GetMeshResource("Quad"));

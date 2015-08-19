@@ -49,6 +49,12 @@ void MVC_Model::GetViewRes(int& x, int& y)
 	y = m_viewHeight;
 }
 
+void MVC_Model::UpdateViewRes(int width, int height)
+{
+	m_viewWidth = width;
+	m_viewHeight = height;
+}
+
 void MVC_Model::Init(void)
 {
 	// Initialize Light Config from File

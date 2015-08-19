@@ -20,17 +20,40 @@ namespace GLFW
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, GL_TRUE);
 	}
-
-	void resize_callback(GLFWwindow* window, int w, int h)
-	{
-		glViewport(0, 0, w, h);
-	}
 }
 
+void resize_callback(GLFWwindow* window, int w, int h)
+{
+	MVC_Controller* _controller = MVC_Controller::GetInstance();
+	_controller->m_model->UpdateViewRes(w, h);
+	_controller->m_view->SetViewRes();
+}
+
+MVC_Controller* MVC_Controller::s_instance = NULL;
 const double MVC_Controller::INPUT_DELAY = 0.2;
 
-MVC_Controller::MVC_Controller(MVC_Model * model, MVC_View * view, string configSONFile) : m_model(model), m_view(view), m_configSONFile(configSONFile)
+MVC_Controller::MVC_Controller(MVC_Model * model, MVC_View * view, string configSONFile) 
+	: m_model(model)
+	, m_view(view)
+	, m_configSONFile(configSONFile)
+	, m_window_width(1)
+	, m_window_height(1)
 {
+}
+
+MVC_Controller* MVC_Controller::GetInstance(MVC_Model * model, MVC_View * view, string configSONFile)
+{
+	if (s_instance == NULL)
+	{
+		s_instance = new MVC_Controller(model, view, configSONFile);
+	}
+	
+	return s_instance;
+}
+
+MVC_Controller* MVC_Controller::GetInstance(void)
+{
+	return s_instance;
 }
 
 MVC_Controller::~MVC_Controller()
@@ -43,6 +66,8 @@ void MVC_Controller::Init(int fps/* = 60*/)
 
 	// Create a Window for our Application
 	SetupWindow(m_window_title, m_window_width, m_window_height);
+	// Hide this window while loading
+	hideWindow();
 	
 	// Initialize MVC_View
 	m_view->Init();
@@ -75,9 +100,17 @@ void MVC_Controller::Init(int fps/* = 60*/)
 	// Initialize MVC_Model
 	m_model->Init();
 
+	// Get Resolution from MVC_Model
+	int width, height;
+	m_model->GetViewRes(width, height);
+	resizeWindow(width, height);
+
 	SetFrameRate(fps);
 	initInputKeys();
 	initInputMouse();
+
+	// Unhide window now that loading is doen
+	showWindow();
 }
 
 void MVC_Controller::Run(void)
@@ -92,6 +125,8 @@ void MVC_Controller::Run(void)
 		inputUpdate(dt);
 		m_model->Update(dt);
 		m_view->Render();
+
+		checkForResResize();
 
 		//Swap buffers
 		glfwSwapBuffers(m_window);
@@ -131,14 +166,6 @@ void MVC_Controller::loadConfig(void)
 			if (attrib->name == "WindowTitle")
 			{
 				m_window_title = attrib->value;
-			}
-			else if (attrib->name == "WindowWidth")
-			{
-				m_window_width = stoi(attrib->value);
-			}
-			else if (attrib->name == "WindowHeight")
-			{
-				m_window_height = stoi(attrib->value);
 			}
 			else if (attrib->name == "ViewRefreshRate")
 			{
@@ -189,7 +216,7 @@ void MVC_Controller::SetupWindow(string windowTitle, int windowWidth, int window
 	glfwMakeContextCurrent(m_window);
 
 	//Sets the key callback
-	glfwSetWindowSizeCallback(m_window, GLFW::resize_callback);
+	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	glewExperimental = true; // Needed for core profile
 							 //Initialize GLEW
@@ -200,6 +227,44 @@ void MVC_Controller::SetupWindow(string windowTitle, int windowWidth, int window
 	{
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		//return -1;
+	}
+}
+
+void MVC_Controller::resizeWindow(int windowWidth, int windowHeight)
+{
+	m_window_width = windowWidth;
+	m_window_height = windowHeight;
+	glfwSetWindowSize(m_window, m_window_width, m_window_height);
+}
+
+void MVC_Controller::minimizeWindow(void)
+{
+	glfwIconifyWindow(m_window);
+}
+
+void MVC_Controller::restoreWindow(void)
+{
+	glfwRestoreWindow(m_window);
+}
+
+void MVC_Controller::hideWindow(void)
+{
+	glfwHideWindow(m_window);
+}
+
+void MVC_Controller::showWindow(void)
+{
+	glfwShowWindow(m_window);
+}
+
+void MVC_Controller::checkForResResize(void)
+{
+	int width, height;
+	m_model->GetViewRes(width, height);
+
+	if (width != m_window_width || height != m_window_height)
+	{
+		resizeWindow(width, height);
 	}
 }
 

@@ -83,9 +83,6 @@ void MVC_View::Init()
 
 void MVC_View::Render(void)
 {
-	// Update the View Height and View Width every frame in case it changes
-	m_model->GetViewRes(m_viewWidth, m_viewHeight);
-
 	//************************************ PRE-RENDER-PASS ************************************//
 	renderPassGPass();
 	//************************************ MAIN-RENDER-PASS ************************************//
@@ -625,6 +622,15 @@ void MVC_View::InitFog(void)
 	glUniform1f(m_parameters[U_FOG_DENSITY], fog.density);
 	glUniform1i(m_parameters[U_FOG_TYPE], fog.type);
 	glUniform1i(m_parameters[U_FOG_ENABLE], fog.enabled);
+}
+
+void MVC_View::SetViewRes(void)
+{
+	// Update the model with the new resolution
+	m_model->GetViewRes(m_viewWidth, m_viewHeight);
+
+	// Change the resolution
+	glViewport(0, 0, m_viewWidth, m_viewHeight);
 }
 
 void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float sizeX, const float sizeY, const float x, const float y, const float rotateZ, const float rotateY)

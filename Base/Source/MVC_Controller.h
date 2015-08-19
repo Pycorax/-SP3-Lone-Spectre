@@ -10,6 +10,8 @@
 
 class MVC_Controller
 {
+	static MVC_Controller* s_instance;
+
 	// Config File
 	const string m_configSONFile;
 
@@ -47,7 +49,8 @@ class MVC_Controller
 	double camera_yaw, camera_pitch, camera_spin;
 
 	public:
-		MVC_Controller(MVC_Model* model, MVC_View* view, string configSONFile);
+		static MVC_Controller* GetInstance(MVC_Model* model, MVC_View* view, string configSONFile);
+		static MVC_Controller* GetInstance(void);
 		~MVC_Controller();
 
 		void Init(int fps = 60);
@@ -56,12 +59,23 @@ class MVC_Controller
 
 		void SetFrameRate(int fps);
 
+		friend void resize_callback(GLFWwindow* window, int w, int h);
+
 	private:
+		MVC_Controller(MVC_Model* model, MVC_View* view, string configSONFile);
+
 		// Load Config File
 		void loadConfig(void);
 
 		// Window
 		void SetupWindow(string windowTitle, int windowWidth, int windowHeight);
+		void resizeWindow(int windowWidth, int windowHeight);
+		void minimizeWindow(void);
+		void restoreWindow(void);
+		void hideWindow(void);
+		void showWindow(void);
+		// -- Windows Update from Model
+		void checkForResResize(void);
 
 		// Input - Mouse
 		void initInputMouse(void);

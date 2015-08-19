@@ -44,3 +44,6 @@ SONIO/Release/
 Debug/Common.lib
 Debug/SONIO.lib
 Debug/Sound.lib
+Release/Common.lib
+Release/SONIO.lib
+Release/Sound.lib
