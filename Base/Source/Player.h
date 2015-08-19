@@ -42,6 +42,7 @@ class Player : public Character
 		bool m_actions[NUM_PLAYER_ACTIONS];
 
 		TileMap* _map;
+		
 	public:
 		static Player* GetInstance(int instance = 0);
 		virtual ~Player(void);

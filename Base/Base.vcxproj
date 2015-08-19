@@ -15,11 +15,8 @@
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
     <ClCompile Include="Source\CChar.cpp" />
-    <ClCompile Include="Source\CharObject.cpp" />
     <ClCompile Include="Source\Collider2D.cpp" />
     <ClCompile Include="Source\DepthFBO.cpp" />
-    <ClCompile Include="Source\EnemyObject.cpp" />
-    <ClCompile Include="Source\GhostStrategy.cpp" />
     <ClCompile Include="Source\GameObject2D.cpp" />
     <ClCompile Include="Source\GoodieObject.cpp" />
     <ClCompile Include="Source\GoodieObjectFactory.cpp" />
@@ -37,7 +34,6 @@
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Physics2D.cpp" />
     <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Source\PlayerObject.cpp" />
     <ClCompile Include="Source\RangedWeapon.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
@@ -65,12 +61,9 @@
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\CChar.h" />
-    <ClInclude Include="Source\CharObject.h" />
     <ClInclude Include="Source\Collider2D.h" />
     <ClInclude Include="Source\DepthFBO.h" />
-    <ClInclude Include="Source\EnemyObject.h" />
     <ClInclude Include="Source\Fog.h" />
-    <ClInclude Include="Source\GhostStrategy.h" />
     <ClInclude Include="Source\GameObject2D.h" />
     <ClInclude Include="Source\GoodieObject.h" />
     <ClInclude Include="Source\GoodieObjectFactory.h" />
@@ -88,9 +81,7 @@
     <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\Physics2D.h" />
-    <ClInclude Include="Source\PhysicsObject.h" />
     <ClInclude Include="Source\Player.h" />
-    <ClInclude Include="Source\PlayerObject.h" />
     <ClInclude Include="Source\RangedWeapon.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />

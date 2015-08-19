@@ -49,16 +49,16 @@
     <Filter Include="Source Files\AI">
       <UniqueIdentifier>{b844adde-dd63-4d91-baaa-f72cfea2d2e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GameObjects\Characters">
-      <UniqueIdentifier>{26f303dc-68f3-4c57-a76f-0fa7a5cd7027}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GamePlay">
       <UniqueIdentifier>{05754031-cffd-4bbc-9ef8-90889da5d116}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GamePlay">
       <UniqueIdentifier>{aca3c379-d766-418f-b477-cef9ca430dec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GameObjects\Characters">
+    <Filter Include="Header Files\Characters">
+      <UniqueIdentifier>{26f303dc-68f3-4c57-a76f-0fa7a5cd7027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Characters">
       <UniqueIdentifier>{0b3a2ab4-9f7f-43d2-b345-f8ae534b8249}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -150,20 +150,8 @@
     <ClCompile Include="Source\RangedWeapon.cpp">
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CharObject.cpp">
-      <Filter>Source Files\GameObjects\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PlayerObject.cpp">
-      <Filter>Source Files\GameObjects\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="Source\TreasureGoodie.cpp">
       <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\EnemyObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GhostStrategy.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\UIButton.cpp">
       <Filter>Source Files</Filter>
@@ -199,13 +187,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\CChar.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Characters</Filter>
     </ClCompile>
     <ClCompile Include="Source\NPC.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Characters</Filter>
     </ClCompile>
     <ClCompile Include="Source\Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,15 +281,6 @@
     <ClInclude Include="Source\Strategy_Safe.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TreasureGoodie.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PlayerObject.h">
-      <Filter>Header Files\GameObjects\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CharObject.h">
-      <Filter>Header Files\GameObjects\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Weapon.h">
       <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
@@ -320,13 +299,7 @@
     <ClInclude Include="Source\Strategy.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GhostStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\UIButton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\EnemyObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Tile.h">
@@ -356,20 +329,20 @@
     <ClInclude Include="Source\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CChar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\NPC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PhysicsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Physics2D.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CChar.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NPC.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TreasureGoodie.h">
+      <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

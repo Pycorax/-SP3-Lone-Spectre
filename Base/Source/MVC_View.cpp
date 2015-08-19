@@ -217,9 +217,6 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 			int meshWidth = 0;
 			int meshHeight = 0;
 
-			// SpriteAnimation
-			bool saAutoplay = true;
-
 			string meshFilePath = "";
 			string meshType = "";
 
@@ -269,10 +266,6 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 				else if (attribName == "SpriteAnimationRepeat")
 				{
 					meshAnimRepeat = stoi(attribVal);
-				}
-				else if (attribName == "SpriteAnimationAutoPlay")
-				{
-					saAutoplay = ReadTextualBool(attribVal);
 				}
 				else if (attribName == "PosX")
 				{
@@ -342,9 +335,8 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 				SpriteAnimation *sa = dynamic_cast<SpriteAnimation*>(mesh);
 				if (sa)
 				{
-					sa->m_animationList = new Animation();
-					sa->m_animationList->Set(0, meshAnimCol - 1, meshAnimRepeat, meshFloats[F_ANIM_TIME]);
-					sa->m_autoPlay = saAutoplay;
+					sa->m_anim = new Animation();
+					sa->m_anim->Set(0, meshAnimCol - 1, meshAnimRepeat, meshFloats[F_ANIM_TIME]);
 				}
 			}
 			else if (meshType == "SpriteAnimation2D")
@@ -354,9 +346,8 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 				SpriteAnimation *sa = dynamic_cast<SpriteAnimation*>(mesh);
 				if (sa)
 				{
-					sa->m_animationList = new Animation();
-					sa->m_animationList->Set(0, meshAnimCol - 1, meshAnimRepeat, meshFloats[F_ANIM_TIME]);
-					sa->m_autoPlay = saAutoplay;
+					sa->m_anim = new Animation();
+					sa->m_anim->Set(0, meshAnimCol - 1, meshAnimRepeat, meshFloats[F_ANIM_TIME]);
 				}
 			}
 			else if (meshType == "SkyPlane")

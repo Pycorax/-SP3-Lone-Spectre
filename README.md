@@ -1,8 +1,8 @@
-# Lone Spectre
+# Lone Spectre  - Convention Document `Revision 4.0.0`
 
 Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in development to be Team 4's Studio Project 3 game.
 
-## Commit Convention
+## Commit Convention 
 `Title of Commit`</br>
 `-----` (5 Dashes)</br>
 `Commit Message`</br>
@@ -71,3 +71,5 @@ protected:
 private:
 };
 ```
+### Files
+- Use `lowercase_with_underscores` naming convention

@@ -34,24 +34,19 @@ struct Animation
 class SpriteAnimation : public Mesh
 {
 	public:
-		bool m_autoPlay;
 		int m_row;
 		int m_col;
 		float m_currentTime;
 		int m_currentFrame;
 		int m_playCount;
-		int currentIndex;
-		int nextIndex;
-		Animation *m_animationList;
+		Animation *m_anim;
 
-		SpriteAnimation(const string &meshName, int row, int col, bool autoplay = true);
+		SpriteAnimation(const string &meshName, int row, int col);
 		~SpriteAnimation();
 	
 		void Update(double dt);
 		virtual void Render();
-
-		void NextFrame(void);
-		void PrevFrame(void);
+		void Reset();
 };
 
 #endif
