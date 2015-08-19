@@ -4,9 +4,10 @@
 #include "Mesh.h"
 #include "Vector2.h"
 #include "GameObject2D.h"
+#include "MapEntity.h"
 
 //TODO: factor in map for Character, Player, NPC , Enemy - update, pointer, constrains(moving, collision)
-class Character : public GameObject2D
+class Character : public GameObject2D , public MapEntity
 {
 protected:
 	int m_health;

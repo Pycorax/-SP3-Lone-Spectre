@@ -3,8 +3,8 @@
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile), _test(NULL)
 {
-	_player = Player::GetInstance();
-	_player->Init();
+	m_player = Player::GetInstance();
+	m_player->Init();
 }
 
 
@@ -15,22 +15,29 @@ MVC_Model_Spectre::~MVC_Model_Spectre(void)
 static char s_g_actionKey = NULL;
 void MVC_Model_Spectre::processKeyAction(double dt)
 {
-	if(m_bKeyPressed[MOVE_FORWARD_KEY])
+	if(m_bKeyPressed[MOVE_FORWARD_KEY]) //'W'
 	{
-		_player->Update(dt, _test, _player->PA_MOVE_UP);
+		//queues player action 
+		m_player->SetActions(m_player->PA_MOVE_UP, true);
 	}
-	else if(m_bKeyPressed[MOVE_BACKWARD_KEY])
+	 if(m_bKeyPressed[MOVE_BACKWARD_KEY])//'S'
 	{
-		_player->Update(dt, _test, _player->PA_MOVE_DOWN);
+		m_player->SetActions(m_player->PA_MOVE_DOWN, true);
 	}
-	else if(m_bKeyPressed[MOVE_LEFT_KEY] )
+	if(m_bKeyPressed[MOVE_LEFT_KEY] ) //'A'
 	{
-		_player->Update(dt, _test, _player->PA_MOVE_LEFT);
+		m_player->SetActions(m_player->PA_MOVE_LEFT, true);
 	}
-	else if(m_bKeyPressed[MOVE_RIGHT_KEY] )
+	if(m_bKeyPressed[MOVE_RIGHT_KEY] ) //'D'
 	{
-		_player->Update(dt, _test, _player->PA_MOVE_RIGHT);
+		m_player->SetActions(m_player->PA_MOVE_RIGHT, true);
 	}
+	if(m_bKeyPressed[INTERACT_NEXT_KEY]) // 'E'
+	{
+		m_player->SetActions(m_player->PA_INTERACT, true);
+	}
+	//updates player depending on actions queued.
+	m_player->Update(dt, _test,m_viewWidth, m_viewHeight );
 
 	// Quitting the game
 	if (m_bKeyPressed[GAME_EXIT_KEY])
