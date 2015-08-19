@@ -19,7 +19,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		//queues player action 
 		m__player->SetActions(m__player->PA_MOVE_UP, true);
 	}
-	 if(m_bKeyPressed[MOVE_BACKWARD_KEY])//'S'
+	if(m_bKeyPressed[MOVE_BACKWARD_KEY])//'S'
 	{
 		m__player->SetActions(m__player->PA_MOVE_DOWN, true);
 	}
@@ -31,9 +31,46 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 	{
 		m__player->SetActions(m__player->PA_MOVE_RIGHT, true);
 	}
-	if(m_bKeyPressed[INTERACT_NEXT_KEY]) // 'E'
+
+	// Scrolling map
+	static const Vector2 S_MAX_SCROLL_SIZE = m__testLevel->GetTileMap()->GetMapSize() - m__testLevel->GetTileMap()->GetScreenSize();
+	static const float S_OFFSET = 0.01;
+	static const float S_SCROLL_SPEED = 500.f;
+	if (m_bKeyPressed[LOOK_UP_KEY])
 	{
-		m__player->SetActions(m__player->PA_INTERACT, true);
+		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(0, S_SCROLL_SPEED * dt);
+		if (scrollOffset.y > S_MAX_SCROLL_SIZE.y)
+		{
+			//scrollOffset.y = S_MAX_SCROLL_SIZE.y - S_OFFSET;
+		}
+		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
+	}
+	else if (m_bKeyPressed[LOOK_DOWN_KEY])
+	{
+		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(0, -S_SCROLL_SPEED * dt);
+		if (scrollOffset.y < 0)
+		{
+			//scrollOffset.y = 0;
+		}
+		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
+	}
+	if (m_bKeyPressed[LOOK_LEFT_KEY])
+	{
+		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(-S_SCROLL_SPEED * dt, 0);
+		if (scrollOffset.x < 0)
+		{
+			//scrollOffset.x = 0;
+		}
+		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
+	}
+	else if (m_bKeyPressed[LOOK_RIGHT_KEY])
+	{
+		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(S_SCROLL_SPEED * dt, 0);
+		if (scrollOffset.x > S_MAX_SCROLL_SIZE.x)
+		{
+			//scrollOffset.x = S_MAX_SCROLL_SIZE.x - S_OFFSET;
+		}
+		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
 	}
 	//updates player depending on actions queued.
 	m__player->Update(dt,m__testLevel->GetTileMap());
@@ -91,6 +128,7 @@ void MVC_Model_Spectre::Exit(void)
 
 void MVC_Model_Spectre::TileMapToRender(TileMap* _ToRender)
 {
+	static const Vector2 S_MAX_SCROLL_SIZE_TILE = _ToRender->GetNumMapTile(); // Max tile difference between map and screen
 	vector<vector<Tile*>*> _map = _ToRender->GetMap();
 
 	// Calc the starting tile to render and round down any decimal as it is still seen
@@ -107,6 +145,10 @@ void MVC_Model_Spectre::TileMapToRender(TileMap* _ToRender)
 			if (row >= _ToRender->GetNumMapTile().y || col >= _ToRender->GetNumMapTile().x) // Stop the rendering if row and col goes out of map
 			{
 				break;
+			}
+			if (tileStart.y + row < 0 || tileStart.y + row >= S_MAX_SCROLL_SIZE_TILE.y || tileStart.x + col < 0 || tileStart.x + col >= S_MAX_SCROLL_SIZE_TILE.x)
+			{
+				continue;
 			}
 			Tile* _tile = (*_map[tileStart.y + row])[tileStart.x + col]; // Get the tile data based on loop
 			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset()); // Calculate screen position based on map position for rendering

@@ -4,7 +4,6 @@ NPC::NPC(void)
 {
 }
 
-
 NPC::~NPC(void)
 {
 }

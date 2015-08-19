@@ -8,6 +8,7 @@ class NPC : public Character
 private:
 	bool m_aggressive;
 protected:
+	NPC(void);
 	virtual void Update(double dt);
 	virtual ~NPC(void);
 
