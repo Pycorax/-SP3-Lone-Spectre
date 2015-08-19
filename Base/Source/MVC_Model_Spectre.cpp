@@ -88,7 +88,7 @@ void MVC_Model_Spectre::Init(void)
 	MVC_Model::Init();
 
 	m__testLevel = new Level();
-	m__testLevel->InitMap(Vector2(64,50), Vector2(32,25), 32, "TileMap//Level1.csv", meshList);
+	m__testLevel->InitMap(Vector2(64,50), Vector2(40,22.5), 32, "TileMap//Level1.csv", meshList);
 	//m_viewWidth = m__testLevel->GetTileMap()->GetScreenSize().x;
 	//m_viewHeight = m__testLevel->GetTileMap()->GetScreenSize().y;
 
@@ -138,9 +138,9 @@ void MVC_Model_Spectre::TileMapToRender(TileMap* _ToRender)
 			floor(_ToRender->GetScrollOffset().y / _ToRender->GetTileSize()) 
 		); 
 
-	for (int row = 0; row < _ToRender->GetNumScreenTile().y + 1; ++row)			// Loop for rows
+	for (int row = 0; row < ceil(_ToRender->GetNumScreenTile().y) + 1; ++row)			// Loop for rows
 	{
-		for (int col = 0; col < _ToRender->GetNumScreenTile().x + 1; ++col)	// Loop for columns (+1 for the offset)
+		for (int col = 0; col < ceil(_ToRender->GetNumScreenTile().x) + 1; ++col)	// Loop for columns (+1 for the offset)
 		{
 			if (row >= _ToRender->GetNumMapTile().y || col >= _ToRender->GetNumMapTile().x) // Stop the rendering if row and col goes out of map
 			{

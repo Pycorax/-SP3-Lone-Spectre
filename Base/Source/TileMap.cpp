@@ -169,6 +169,11 @@ Vector2 TileMap::GetScrollOffset(void)
 	return m_scrollOffset;
 }
 
+void TileMap::AddToScrollOffset(Vector2 addScrollOffset)
+{
+	m_scrollOffset += addScrollOffset;
+}
+
 vector<vector<Tile*>*>& TileMap::GetMap()
 {
 	return m_map;

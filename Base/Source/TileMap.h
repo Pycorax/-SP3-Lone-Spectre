@@ -41,6 +41,7 @@ public:
 
 	void SetScrollOffset(Vector2 scrollOffset);
 	Vector2 GetScrollOffset(void);
+	void AddToScrollOffset(Vector2 addScrollOffset);
 
 	vector<vector<Tile*>*>& GetMap();
 
