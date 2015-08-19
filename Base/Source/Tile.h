@@ -10,7 +10,7 @@ class Tile : public GameObject2D, public MapEntity
 public:
 	enum E_TILE_TYPE
 	{
-		TILE_FLOOR = 0,	// No tile
+		TILE_FLOOR = 0,	// Floor tile
 		TILE_SHADOW,
 		TILE_WALL,
 		TILE_CAMERA,
@@ -24,13 +24,13 @@ private:
 	// TODO: Add a vector of viewer
 
 public:
-	Tile(Vector2 mapPos = Vector2(0,0), E_TILE_TYPE type = TILE_FLOOR, Mesh* _mesh = NULL);
+	Tile(Vector2 mapPos = Vector2(0,0), Vector3 scale = Vector3(1,1,1), E_TILE_TYPE type = TILE_FLOOR, Mesh* _mesh = NULL);
 	~Tile(void);
 
 	E_TILE_TYPE GetType();
 
 protected:
-	virtual void updateScreenPos(Vector2 pos, Vector2 scrollOffset);
+	virtual void updateScreenPos(Vector2 pos);
 };
 
 #endif

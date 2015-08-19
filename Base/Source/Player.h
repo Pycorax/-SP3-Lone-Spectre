@@ -43,23 +43,21 @@ class Player : public Character
 
 		TileMap* _map;
 		
+		//TODO: consider using a GameObject* to track which shadow is in
 	public:
 		static Player* GetInstance(int instance = 0);
 		virtual ~Player(void);
 
 		void Init(void);
 
-		void Update(double dt, TileMap* _map, int ScreenWidth, int ScreenHeight);
+		void Update(double dt, TileMap* _map);
 
 		void SetState(E_PLAYER_STATE currentState);
 		E_PLAYER_STATE GetState(void)const;
 	
 		void SetActions(E_PLAYER_ACTION type, bool status = true);
 	private:
-		void ConstrainPlayer(TileMap* _map, int ScreenWidth, int ScreenHeight); 
-
-protected:
-	void updateScreenPos(Vector2 pos, Vector2 scrollOffset);
+		void ConstrainPlayer(Vector2 offSet); 
 
 };
 

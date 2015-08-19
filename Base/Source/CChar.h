@@ -60,6 +60,8 @@ public:
 
 	// === Actions functions ===
 	void Movetowards(Vector2 Dir, double dt);
+protected:
+	virtual void updateScreenPos(Vector2 pos);
 };
 
 #endif

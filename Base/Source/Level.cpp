@@ -27,3 +27,8 @@ void Level::Clear(void)
 		m__map = NULL;
 	}
 }
+
+TileMap* Level::GetTileMap()
+{
+	return m__map;
+}

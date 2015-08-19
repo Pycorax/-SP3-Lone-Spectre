@@ -17,6 +17,8 @@ public:
 	void InitMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize, string filePath, vector<Mesh*> &meshList);\
 	void Update(double dt);
 	void Clear(void);
+
+	TileMap* GetTileMap();
 };
 
 #endif

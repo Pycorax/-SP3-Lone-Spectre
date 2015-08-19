@@ -83,6 +83,9 @@ void MVC_View::Init()
 
 void MVC_View::Render(void)
 {
+	// Update the View Height and View Width every frame in case it changes
+	m_model->GetViewRes(m_viewWidth, m_viewHeight);
+
 	//************************************ PRE-RENDER-PASS ************************************//
 	renderPassGPass();
 	//************************************ MAIN-RENDER-PASS ************************************//
@@ -1124,7 +1127,7 @@ void MVC_View::framePrep(void)
 	}
 	else
 	{
-		projection.SetToOrtho(0, worldSize.x, 0, worldSize.x * static_cast<double>(m_viewWidth) / static_cast<double>(m_viewHeight), camera->GetNear(), camera->GetFar());
+		projection.SetToOrtho(0, worldSize.x, 0, worldSize.y * static_cast<double>(m_viewWidth) / static_cast<double>(m_viewHeight), camera->GetNear(), camera->GetFar());
 	}
 
 	projectionStack.LoadMatrix(projection);

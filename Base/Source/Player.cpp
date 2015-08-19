@@ -45,7 +45,7 @@ void Player::SetActions(E_PLAYER_ACTION type,bool status)
 	m_actions[type] = status;
 }
 
-void Player::Update(double dt, TileMap* _map, int ScreenWidth, int ScreenHeight)
+void Player::Update(double dt, TileMap* _map)
 {
 	Character::Update();
 	SetMapPosition(m_transforms.Translation, _map->GetScrollOffset());
@@ -57,6 +57,9 @@ void Player::Update(double dt, TileMap* _map, int ScreenWidth, int ScreenHeight)
 		//update direction looking at
 		SetLookDir(Vector2(0,1) );
 
+		//centralise the player
+		ConstrainPlayer(_map->GetScrollOffset() + Vector2(0,_map->GetTileSize()) * dt);
+
 		// reseting back to false
 		m_actions[PA_MOVE_UP] = false;
 	}
@@ -65,6 +68,9 @@ void Player::Update(double dt, TileMap* _map, int ScreenWidth, int ScreenHeight)
 		//update status
 		m_currentState = PS_WALK;
 		SetLookDir(Vector2(0,-1) );
+
+		//centralise the player
+		ConstrainPlayer(_map->GetScrollOffset() - Vector2(0,_map->GetTileSize())  * dt);
 
 		// reseting back to false
 		m_actions[PA_MOVE_DOWN] = false;
@@ -76,6 +82,9 @@ void Player::Update(double dt, TileMap* _map, int ScreenWidth, int ScreenHeight)
 		m_currentState = PS_WALK;
 		SetLookDir(Vector2(-1,0) );
 
+		//centralise the player
+		ConstrainPlayer(_map->GetScrollOffset() + Vector2(_map->GetTileSize(),0)  * dt);
+
 		// reseting back to false
 		m_actions[PA_MOVE_LEFT] = false;
 	}
@@ -85,12 +94,15 @@ void Player::Update(double dt, TileMap* _map, int ScreenWidth, int ScreenHeight)
 		m_currentState = PS_WALK;
 		SetLookDir(Vector2(1,0) );
 
+		//centralise the player
+		ConstrainPlayer(_map->GetScrollOffset() + Vector2(_map->GetTileSize(),0)  * dt);
+
 		// reseting back to false
 		m_actions[PA_MOVE_RIGHT] = false;
 	}
 	if(m_actions[PA_INTERACT])
 	{
-		Vector2 interactionDistance = m_lookDir + getScreenPos(); 
+		//Vector2 interactionDistance = m_lookDir + getScreenPos(); 
 
 		//TODO : Add in algorithm for determerning the type of action
 		//		Host, Dive , Jump or Hex
@@ -102,8 +114,6 @@ void Player::Update(double dt, TileMap* _map, int ScreenWidth, int ScreenHeight)
 		// reseting back to false
 		m_actions[PA_INTERACT] = false;
 	}
-
-	ConstrainPlayer(_map, ScreenWidth, ScreenHeight);
 }
 
 void Player::SetState(Player::E_PLAYER_STATE currentState)
@@ -116,30 +126,25 @@ Player::E_PLAYER_STATE Player::GetState(void) const
 	return this->m_currentState;
 }
 
-void Player::ConstrainPlayer(TileMap* _map, int ScreenWidth, int ScreenHeight)
+void Player::ConstrainPlayer(Vector2 offSet)
 {
 	//keep player within a small box at centre
 	//constrain X axis
-	if(getScreenPos().x <= ScreenWidth - 5)
+	_map->SetScrollOffset(offSet);
+	/*if(calcScreenPos(_map->GetScrollOffset()).x <= _map->GetScreenSize().x - 5)
 	{
 		_map->SetScrollOffset(_map->GetScrollOffset() - Vector2(0.1,0) );
 	}
-	else if(getScreenPos().x >= ScreenWidth + 5)
+	else if(calcScreenPos(_map->GetScrollOffset()).x >= _map->GetScreenSize().x + 5)
 	{
 		_map->SetScrollOffset(_map->GetScrollOffset() + Vector2(0.1,0) );
 	}
-
-	if(getScreenPos().y <= ScreenHeight - 5)
+	if(calcScreenPos(_map->GetScrollOffset()).y <= _map->GetScreenSize().y - 5)
 	{
 		_map->SetScrollOffset(_map->GetScrollOffset() - Vector2(0,0.1) );
 	}
-	else if(getScreenPos().y >= ScreenHeight + 5)
+	else if(calcScreenPos(_map->GetScrollOffset()).y >= _map->GetScreenSize().y + 5)
 	{
 		_map->SetScrollOffset(_map->GetScrollOffset() + Vector2(0,0.1) );
-	}
-}
-
-void Player::updateScreenPos(Vector2 pos, Vector2 scrollOffset)
-{
-	m_transforms.Translation = pos;
+	}*/
 }

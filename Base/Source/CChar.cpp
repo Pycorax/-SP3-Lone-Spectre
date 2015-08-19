@@ -8,6 +8,7 @@ Character::Character(void)
 	, m_lookDir(Vector2::ZERO_VECTOR)
 	, m_active(false)
 	, m_moveSpeed(0)
+	,MapEntity( Vector2(0,0) )
 {
 }
 
@@ -24,10 +25,8 @@ void Character::Init(bool active, int health, Vector2 dir, Mesh* mesh,int moveSp
 	this->m_moveSpeed						= moveSpeed;
 }
 
-//TODO: update function using map
 void Character::Update(void)
 {
-
 }
 
 void Character::SetHealth(int health)
@@ -94,4 +93,10 @@ bool Character::GetActive(void) const
 void Character::Movetowards(Vector2 Dir, double dt) //TODO: Factor in map
 {
 
+}
+
+
+void  Character::updateScreenPos(Vector2 pos)
+{
+	m_transforms.Translation = pos;
 }

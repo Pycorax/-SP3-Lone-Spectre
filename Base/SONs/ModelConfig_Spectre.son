@@ -18,6 +18,7 @@
 
 	# Camera
 	[CameraType] Camera3
+	[CameraMode] Orthographic
 	[CameraPosition] 0.0f, 0.0f, 0.0f
 	[CameraTarget] 0.0f, 0.0f, -1.0f
 	[CameraUp] 0.0f, 1.0f, 0.0f
@@ -37,6 +38,9 @@
 	# Fonts
 	[DefaultFontMesh] DefaultFont
 
+	# World Size - Defines the camera viewing box/frustrum's left, right, top, bottom
+	[WorldSize] 1280.0f, 720.0f, 0.0f
+	
 	# Resolution
 	#	These should have the same aspect ratio as the Window Width and Window Height in ControllerConfig.son
 	[ViewWidth] 1280

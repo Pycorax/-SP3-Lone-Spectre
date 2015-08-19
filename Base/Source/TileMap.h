@@ -42,6 +42,15 @@ public:
 	void SetScrollOffset(Vector2 scrollOffset);
 	Vector2 GetScrollOffset(void);
 
+	vector<vector<Tile*>*>& GetMap();
+
+	Vector2 GetNumMapTile();
+	Vector2 GetNumScreenTile();
+	Vector2 GetMapSize();
+	Vector2 GetScreenSize();
+
+	float GetTileSize();
+
 private:
 	bool loadFile(const string &filePath, const vector<Mesh*>& meshList);
 };

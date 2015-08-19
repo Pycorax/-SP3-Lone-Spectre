@@ -10,4 +10,10 @@
 		[Name] Calibri
 		[FilePath] Image//calibri.tga
 	}
+	
+	# Tiles
+	{
+		[Name] TILE_FLOOR
+		[FilePath] Image//Lab_Tiles//floor.tga
+	}
 }
