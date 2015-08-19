@@ -12,12 +12,17 @@ public:
 	enum E_ENEMY_STATE
 	{
 		ES_PATROL = 0,
-		ES_KOCKOUT,
+		ES_SCAN,
+		ES_CHASE,
+		ES_ATTACK,
+		ES_REVEAL,
+		ES_KNOCKOUT,
 	};
 
 private:
 	int m_alertLevel;
 	Vector2 oldPos;
+	bool alerted;
 
 public:
 	Enemy(void);

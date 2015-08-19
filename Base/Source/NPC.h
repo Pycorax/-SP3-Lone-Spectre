@@ -7,9 +7,7 @@ class NPC : public Character
 {
 private:
 	bool m_aggressive;
-
-public:
-	NPC(void);
+protected:
 	virtual void Update(double dt);
 	virtual ~NPC(void);
 

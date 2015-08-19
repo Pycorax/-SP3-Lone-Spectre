@@ -48,6 +48,7 @@ void Player::SetActions(E_PLAYER_ACTION type,bool status)
 void Player::Update(double dt, TileMap* _map)
 {
 	Character::Update();
+
 	SetMapPosition(m_transforms.Translation, _map->GetScrollOffset());
 	//TODO: **NOTE: factor in collision**
 	if(m_actions[PA_MOVE_UP])
@@ -114,6 +115,8 @@ void Player::Update(double dt, TileMap* _map)
 		// reseting back to false
 		m_actions[PA_INTERACT] = false;
 	}
+
+
 }
 
 void Player::SetState(Player::E_PLAYER_STATE currentState)
