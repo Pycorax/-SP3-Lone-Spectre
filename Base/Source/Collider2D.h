@@ -51,13 +51,13 @@ private:	// Functions
 	 *	These functions need to be defined in child classes and serves as the interface between child classes and this class.
 	 */
 	// Function to send Collider2D the actual transforms of the child.
-	virtual Transform getTransforms(void) const = 0;	
+	virtual Transform collider2D_getTransforms(void) const = 0;	
 	// Function to send Collider2D the state of the child.
-	virtual bool isActive(void) const = 0;				
+	virtual bool collider2D_isActive(void) const = 0;
 	// Function to send Collider2D the normal of the child. This is for more precise box collisions. Forces CollideWith() to use forward checking collision detection if Vector3::ZERO_VECTOR was not returned by this function and getVelocity() of the other.
-	virtual Vector3 getNormal(void) const = 0;
+	virtual Vector3 collider2D_getNormal(void) const = 0;
 	// Function to send Collider2D the velocity of the child. This is for more precise box collisions. Forces CollideWith() to use forward checking collision detection if Vector3::ZERO_VECTOR was not returned by this function and getNormal() of the other.
-	virtual Vector3 getVelocity(void) const = 0;
+	virtual Vector3 collider2D_getVelocity(void) const = 0;
 };
 
 #endif

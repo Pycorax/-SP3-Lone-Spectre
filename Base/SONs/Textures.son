@@ -11,6 +11,11 @@
 		[FilePath] Image//calibri.tga
 	}
 	
+	{
+		[Name] ShadowBall
+		[FilePath] Image//ShadowBall.tga
+	}
+	
 	# Tiles
 	{
 		[Name] TILE_FLOOR

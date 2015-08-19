@@ -47,3 +47,4 @@ Debug/Sound.lib
 Release/Common.lib
 Release/SONIO.lib
 Release/Sound.lib
+*.orig

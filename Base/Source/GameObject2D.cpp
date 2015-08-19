@@ -30,6 +30,11 @@ void GameObject2D::SetMesh(Mesh * _mesh)
 	m__mesh = _mesh;
 }
 
+void GameObject2D::SetActive(bool active)
+{
+	m_active = active;
+}
+
 Transform GameObject2D::GetTransform(void) const
 {
 	return m_transforms;
@@ -38,4 +43,9 @@ Transform GameObject2D::GetTransform(void) const
 Mesh* GameObject2D::GetMesh(void) const
 {
 	return m__mesh;
+}
+
+bool GameObject2D::GetActive(void) const
+{
+	return m_active;
 }

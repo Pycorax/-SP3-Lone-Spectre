@@ -71,13 +71,13 @@ void Physics2D::AddForce(const Vector2 FORCE, const double DT)
 void Physics2D::UpdatePhysics(const double DT)
 {
 	// Get the transforms
-	Transform t = getTransform();
+	Transform t = physics2D_getTransforms();
 
 	// Update position according to the velocity
 	t.Translation += m_velocity * static_cast<float>(DT);
 
 	// Set the transforms to the new transforms
-	setTransform(t);
+	physics2D_setTransforms(t);
 }
 
 void Physics2D::CollideRespondTo(Physics2D* _other)
@@ -85,8 +85,8 @@ void Physics2D::CollideRespondTo(Physics2D* _other)
 	// Collision: This Ball with Other Wall
 	if (_other->m_normal != Vector2::ZERO_VECTOR)
 	{
-		Transform t = getTransform();
-		Transform ot = _other->getTransform();
+		Transform t = physics2D_getTransforms();
+		Transform ot = _other->physics2D_getTransforms();
 
 		// For Thickness
 		// |(w0 - b1).N| < r + h / 2
@@ -121,7 +121,11 @@ void Physics2D::CollideRespondTo(Physics2D* _other)
 
 	if (_other->m_kinematic)	// Collision: This Ball with Other Pillar
 	{
-		Vector3 tangent = (_other->getTransform().Translation - getTransform().Translation).Normalized();
+		Vector3 tangent = (_other->physics2D_getTransforms().Translation - physics2D_getTransforms().Translation);
+		if (tangent != Vector3::ZERO_VECTOR)
+		{
+			tangent.Normalize();
+		}
 		m_velocity = m_velocity - ((2 * m_velocity).Dot(tangent)) * tangent;
 	}
 	else						// Collision: This Ball with Other Ball
@@ -129,7 +133,7 @@ void Physics2D::CollideRespondTo(Physics2D* _other)
 		Vector2 u1 = m_velocity;
 		Vector2 u2 = _other->m_velocity;
 
-		Vector2 tangent = (getTransform().Translation - _other->getTransform().Translation).Normalized();
+		Vector2 tangent = (physics2D_getTransforms().Translation - _other->physics2D_getTransforms().Translation).Normalized();
 		Vector2 u1N = u1.Dot(tangent) * tangent;
 		Vector2 u2N = u2.Dot(tangent) * tangent;
 

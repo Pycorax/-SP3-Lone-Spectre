@@ -45,9 +45,9 @@ private:	// Functions
 	 *	These functions need to be defined in child classes and serves as the interface between child classes and this class.
 	 */
 	// Function to send Physics2D the actual transforms of the child.
-	virtual Transform getTransform() = 0;
+	virtual Transform physics2D_getTransforms() const = 0;
 	// Function to set the actual transforms of the child from Physics2D.
-	virtual void setTransform(Transform t) = 0;
+	virtual void physics2D_setTransforms(Transform t) = 0;
 };
 
 #endif

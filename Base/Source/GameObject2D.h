@@ -45,12 +45,14 @@ public:		// Functions
 	void SetRot(const Vector3 rot);
 	void SetScale(const Vector3 scale);
 	void SetMesh(Mesh* _mesh);
+	void SetActive(bool active);
 
 	/*
 	* Getters
 	*/
 	Transform GetTransform(void) const;
 	Mesh* GetMesh(void) const;
+	bool GetActive(void) const;
 };
 
 #endif

@@ -17,13 +17,13 @@ void Collider2D::SetColliderType(const E_COLLIDER_TYPE type)
 
 bool Collider2D::CollideWith(Collider2D* _other, const double DT)
 {
-	if (!isActive() || !_other->isActive()) 
+	if (!collider2D_isActive() || !_other->collider2D_isActive())
 	{
 		return false;		// False if either object is inactive
 	}
 
 	// Use more precise but expensive box collision detection algorithms if a normal is provided and a velocity is returned by the other
-	if (getNormal() != Vector3::ZERO_VECTOR && getVelocity() != Vector3::ZERO_VECTOR)
+	if (collider2D_getNormal() != Vector3::ZERO_VECTOR && collider2D_getVelocity() != Vector3::ZERO_VECTOR)
 	{
 		return preciseCollideWith(_other, DT);
 	}
@@ -44,7 +44,7 @@ bool Collider2D::CollideWith(Collider2D* _other, const double DT)
 
 void Collider2D::calcAABBBounds()
 {
-	Transform t = getTransforms();
+	Transform t = collider2D_getTransforms();
 
 	if (m_oldTransform == t)
 	{
@@ -64,8 +64,8 @@ void Collider2D::calcAABBBounds()
 
 bool Collider2D::radiusCollideWith(Collider2D * _other)
 {
-	Transform t = getTransforms();
-	Transform ot = _other->getTransforms();
+	Transform t = collider2D_getTransforms();
+	Transform ot = _other->collider2D_getTransforms();
 
 	// Discard Z
 	t.Translation.z = ot.Translation.z = 0.0f;
@@ -104,21 +104,21 @@ bool Collider2D::aabbCollideWith(Collider2D * _other)
 
 bool Collider2D::preciseCollideWith(Collider2D * _other, const double DT)
 {
-	Transform t = getTransforms();
-	Transform ot = _other->getTransforms();
+	Transform t = collider2D_getTransforms();
+	Transform ot = _other->collider2D_getTransforms();
 
 	// For Thickness
 	// |(w0 - b1).N| < r + h / 2
 	Vector3 w0 = t.Translation;
-	Vector3 b1 = ot.Translation + _other->getVelocity() * static_cast<float>(DT);
-	Vector3 N = getNormal();
-	float r = _other->getTransforms().Scale.x;
-	float h = getTransforms().Scale.x;
+	Vector3 b1 = ot.Translation + _other->collider2D_getVelocity() * static_cast<float>(DT);
+	Vector3 N = collider2D_getNormal();
+	float r = _other->collider2D_getTransforms().Scale.x;
+	float h = collider2D_getTransforms().Scale.x;
 
 	// For Length
 	// |(w0 - b1).NP| < r + l / 2
 	Vector3 NP(-N.y, N.x);
-	float l = getTransforms().Scale.y;
+	float l = collider2D_getTransforms().Scale.y;
 
 	return abs((w0 - b1).Dot(N)) < r + h * 0.5 && abs((w0 - b1).Dot(NP)) < r + l * 0.5;
 }

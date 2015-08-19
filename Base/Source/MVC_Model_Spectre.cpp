@@ -1,7 +1,8 @@
 #include "MVC_Model_Spectre.h"
 
-
-MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile), m__testLevel(NULL)
+MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
+	, m__testLevel(NULL)
+	, m_hackMode(true)
 {
 	m__player = Player::GetInstance();
 	m__player->Init();
@@ -72,14 +73,31 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		}
 		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
 	}
+	
 	//updates player depending on actions queued.
 	m__player->Update(dt,m__testLevel->GetTileMap());
 	
+
+
+	// Controls for Spectre HexTech minigame
+	if (m_hackMode)
+	{
+		m_hackingGame.Move(m_bKeyPressed[MOVE_LEFT_KEY], m_bKeyPressed[MOVE_RIGHT_KEY], m_bKeyPressed[MOVE_FORWARD_KEY], m_bKeyPressed[MOVE_BACKWARD_KEY], dt);
+	}
+
 	// Quitting the game
 	if (m_bKeyPressed[GAME_EXIT_KEY])
 	{
 		// TODO: Open a pause menu and then quit by that instead. Do actual pausing or return to menus
 		m_running = false;
+	}
+}
+
+void MVC_Model_Spectre::updateHackMode(const double DT)
+{
+	if (m_hackMode)
+	{
+		m_hackingGame.Update(DT);
 	}
 }
 
@@ -96,27 +114,42 @@ void MVC_Model_Spectre::Init(void)
 	m__testGO->SetMesh(GetMeshResource("Quad"));
 	m__testGO->SetPos(Vector2(100.0f, m_viewHeight * 0.5));
 	m__testGO->SetScale(Vector2(50.0f, 50.0f));
+
+	// Init the hacking game
+	m_hackingGame.Init(GetMeshResource("ShadowBall"));
 }
 
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
+	if (m_hackMode)
+	{
+		m_hackingGame.Update(dt);
+	}
 
 	Vector3 pos = m__testGO->GetTransform().Translation;
-
 	pos += Vector3(50.0f * dt);
+	m__testGO->SetPos(pos);
 
 	// Rendering
 	TileMapToRender(m__testLevel->GetTileMap());
-
-	m__testGO->SetPos(pos);
-
 	m_renderList2D.push(m__testGO);
 
+	// -- MiniGame
+	if (m_hackMode)
+	{
+		vector<GameObject2D*> minigameObjects = m_hackingGame.GetRenderObjects();
+		for (vector<GameObject2D*>::iterator go = minigameObjects.begin(); go != minigameObjects.end(); ++go)
+		{
+			m_renderList2D.push(*go);
+		}
+	}
 }
 
 void MVC_Model_Spectre::Exit(void)
 {
+	m_hackingGame.Exit();
+
 	if (m__testGO)
 	{
 		delete m__testGO;
