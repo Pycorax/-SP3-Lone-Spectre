@@ -1,4 +1,4 @@
-# Lone Spectre  - Convention Document `Revision 4.0.0`
+# Lone Spectre  - Convention Document `Revision 4.1.0`
 
 Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in development to be Team 4's Studio Project 3 game.
 
@@ -36,6 +36,8 @@ Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in
 | Member Variables | `m_` |
 | Static Variables | `s_` |
 | Static Constants | `S_ALL_CAPS` |
+| Abstract Public Functions | `className_FunctionName` |
+| Abstract Protected/ Private Functions | `className_functionName` |
 
 
 - In class access specifiers should be in line with the class's curly braces.
