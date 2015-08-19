@@ -36,7 +36,7 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 		{
 			if (meshList[mesh]->name == tileTypeName[name])
 			{
-				_tileMeshList[Tile::TILE_FLOOR] = meshList[mesh]; // Assign the proper tile mesh to a temp tile mesh list
+				_tileMeshList[name] = meshList[mesh]; // Assign the proper tile mesh to a temp tile mesh list
 				break; // Breaks the inner loop
 			}
 		}
@@ -45,78 +45,82 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 	string line = "";	// Line of text from file
 	ifstream file(filePath);
 
-	while (!file.eof()) // While file has not ended
+	if (file.is_open())		// Only read if the file was able to be opened
 	{
-		if (rowCounter >= m_numMapTile.y) // File has more rows
+		while (!file.eof()) // While file has not ended
 		{
-			return true; // Ignore the additional rows and return
+			if (rowCounter >= m_numMapTile.y) // File has more rows
+			{
+				return true; // Ignore the additional rows and return
+			}
+
+			getline(file, line); // Fetch a line of text from file
+
+			if (line.find("//") == -1) // Not commented line
+			{
+				colCounter = 0; // Reset column counter for each row
+				string token = "";	// Individual token from line
+				istringstream iss(line);
+
+				// Generate a new row
+				if (rowCounter == 0) // First row
+				{
+					m_map.push_back(new vector<Tile*>);	// New row
+				}
+				else
+				{
+					m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
+				}
+
+				while (getline(iss, token, ',') && colCounter < m_numMapTile.x) // Load each column in a row
+				{
+					int tile = std::stoi(token.c_str()); // Convert a tile from string to int
+					m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
+					++colCounter;
+				}
+				for (; colCounter < m_numMapTile.x; ++colCounter) // Add empty tiles to fill up missing columns in file
+				{
+					int tile = 0;
+					//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
+					m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
+				}
+				++rowCounter;
+			}
+			else if (line == "") // Empty line
+			{
+				// Generate a new row
+				if (rowCounter == 0) // First row
+				{
+					m_map.push_back(new vector<Tile*>);	// New row
+				}
+				else
+				{
+					m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
+				}
+				for (; colCounter < m_numMapTile.x; ++colCounter) // Loop number of tiles for width
+				{
+					int tile = 0;
+					//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
+					m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
+				}
+				++rowCounter;
+			}
 		}
-
-		getline(file, line); // Fetch a line of text from file
-
-		if (line.find("//") == -1) // Not commented line
+		/*while (rowCounter < m_numMapTile.y) // Fill in the remaining empty rows
 		{
-			colCounter = 0; // Reset column counter for each row
-			string token = "";	// Individual token from line
-			istringstream iss(line);
-
-			// Generate a new row
-			if (rowCounter == 0) // First row
-			{
-				m_map.push_back(new vector<Tile*>);	// New row
-			}
-			else
-			{
-				m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
-			}
-
-			while (getline(iss, token, ',') && colCounter < m_numMapTile.x) // Load each column in a row
-			{
-				int tile = std::stoi(token.c_str()); // Convert a tile from string to int
-				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
-				++colCounter;
-			}
-			for (; colCounter < m_numMapTile.x; ++colCounter) // Add empty tiles to fill up missing columns in file
-			{
-				int tile = 0;
-				//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
-				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
-			}
-			++rowCounter;
-		}
-		else if (line == "") // Empty line
-		{
-			// Generate a new row
-			if (rowCounter == 0) // First row
-			{
-				m_map.push_back(new vector<Tile*>);	// New row
-			}
-			else
-			{
-				m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
-			}
-			for (; colCounter < m_numMapTile.x; ++colCounter) // Loop number of tiles for width
-			{
-				int tile = 0;
-				//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
-				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
-			}
-			++rowCounter;
-		}
-	}
-	/*while (rowCounter < m_numMapTile.y) // Fill in the remaining empty rows
-	{
 		m_map.push_back(new vector<Tile*>);	// New row
 		for (int col = 0; col < m_numMapTile.x; ++col) // Loops number of tiles for width
 		{
-			int tile = 0;
-			//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
-			m_map.back()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
-			++colCounter;
+		int tile = 0;
+		//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
+		m_map.back()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
+		++colCounter;
 		}
 		++rowCounter;
-	}*/
-	file.close(); // Close file
+		}*/
+		file.close(); // Close file
+	}
+	
 	return true;
 }
 

@@ -201,7 +201,7 @@
     <ClCompile Include="Source\SpectreHexGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ShadowBall.cpp">
+    <ClCompile Include="Source\PhysicalObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -359,7 +359,7 @@
     <ClInclude Include="Source\SpectreHexGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ShadowBall.h">
+    <ClInclude Include="Source\PhysicalObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

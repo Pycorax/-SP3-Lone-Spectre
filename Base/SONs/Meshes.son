@@ -31,13 +31,21 @@
 	
 	{
 		[Name] ShadowBall
-		[Type] 2D
 		[Type] Quad
 		[Color] 1.0f, 1.0f, 1.0f
 		[Length] 1.0f
 		[Texture] ShadowBall
 	}
 	
+	{
+		[Name] CircuitWall
+		[Type] Quad
+		[Color] 1.0f, 1.0f, 1.0f
+		[Length] 1.0f
+		[Texture] CircuitWall
+	}
+	
+	# Tiles
 	{
 		[Name] TILE_FLOOR
 		[Type] 2D

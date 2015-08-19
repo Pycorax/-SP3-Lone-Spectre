@@ -2,7 +2,7 @@
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m__testLevel(NULL)
-	, m_hackMode(true)
+	, m_hackMode(false)
 {
 	m__player = Player::GetInstance();
 	m__player->Init();
@@ -116,7 +116,7 @@ void MVC_Model_Spectre::Init(void)
 	m__testGO->SetScale(Vector2(50.0f, 50.0f));
 
 	// Init the hacking game
-	m_hackingGame.Init(GetMeshResource("ShadowBall"));
+	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("CircuitWall"), m_viewWidth, m_viewHeight);
 }
 
 void MVC_Model_Spectre::Update(double dt)

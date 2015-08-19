@@ -16,6 +16,16 @@ Physics2D::~Physics2D(void)
 void Physics2D::SetNormal(Vector2 normal)
 {
 	m_normal = normal;
+
+	if (m_normal != Vector3::ZERO_VECTOR)
+	{
+		m_normal.Normalize();
+
+		// Set the rotation according to the normal
+		Transform t = physics2D_getTransforms();
+		t.Rotation.z = Math::RadianToDegree(atan2(m_normal.y, m_normal.x));
+		physics2D_setTransforms(t);
+	}
 }
 
 void Physics2D::SetVelocity(Vector2 velocity)

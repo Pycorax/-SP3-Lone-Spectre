@@ -16,6 +16,11 @@
 		[FilePath] Image//ShadowBall.tga
 	}
 	
+	{
+		[Name] CircuitWall
+		[FilePath] Image//CircuitWall.tga
+	}
+	
 	# Tiles
 	{
 		[Name] TILE_FLOOR

@@ -1,15 +1,15 @@
-#ifndef SHADOW_BALL_H
-#define SHADOW_BALL_H
+#ifndef PHYSICAL_OBJECT_H
+#define PHYSICAL_OBJECT_H
 
 #include "GameObject2D.h"
 #include "Collider2D.h"
 #include "Physics2D.h"
 
-class ShadowBall : public GameObject2D, public Collider2D, public Physics2D 
+class PhysicalObject : public GameObject2D, public Collider2D, public Physics2D 
 {
 public:
-	ShadowBall();
-	~ShadowBall();
+	PhysicalObject();
+	~PhysicalObject();
 
 private:
 	/*
