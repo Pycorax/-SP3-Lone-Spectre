@@ -21,7 +21,7 @@ SpriteAnimation::~SpriteAnimation()
 
 void SpriteAnimation::Update(double dt)
 {
-	if (m_anim && m_autoPlay) // If animation happens
+	if (m_anim) // If animation happens
 	{
 		// Animation current time, m_currentTime increments by delta time, dt
 		m_currentTime += static_cast<float>(dt);
