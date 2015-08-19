@@ -44,7 +44,7 @@ class Player : public Character
 		}*/
 
 		TileMap* _map;
-		Transform transform;
+		
 	public:
 		static Player* GetInstance(int instance = 0);
 		virtual ~Player(void);

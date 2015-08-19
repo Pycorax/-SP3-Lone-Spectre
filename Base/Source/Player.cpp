@@ -105,5 +105,5 @@ Player::E_PLAYER_STATE Player::GetState(void) const
 
 void Player::ConstrainPlayer(TileMap* _map)
 {
-
+	// TODO: Implement constrain player
 }
