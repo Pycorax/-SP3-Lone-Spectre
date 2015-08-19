@@ -17,6 +17,7 @@
     <ClCompile Include="Source\CChar.cpp" />
     <ClCompile Include="Source\Collider2D.cpp" />
     <ClCompile Include="Source\DepthFBO.cpp" />
+    <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\GameObject2D.cpp" />
     <ClCompile Include="Source\GoodieObject.cpp" />
     <ClCompile Include="Source\GoodieObjectFactory.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="Source\CChar.h" />
     <ClInclude Include="Source\Collider2D.h" />
     <ClInclude Include="Source\DepthFBO.h" />
+    <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Fog.h" />
     <ClInclude Include="Source\GameObject2D.h" />
     <ClInclude Include="Source\GoodieObject.h" />

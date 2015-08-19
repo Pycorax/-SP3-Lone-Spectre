@@ -7,8 +7,6 @@
 
 	# Window
 	[WindowTitle] Lone Spectre - PreAlpha
-	[WindowWidth] 1280
-	[WindowHeight] 720
 
 	# Refresh Rates
 	[ViewRefreshRate] 60

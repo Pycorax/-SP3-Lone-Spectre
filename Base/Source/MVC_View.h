@@ -140,6 +140,9 @@ class MVC_View
 		void ToggleLight(void);
 		void ToggleLight(bool light);
 
+		// Set View Port
+		void SetViewRes(void);
+
 		vector<Mesh*> LoadMeshes(string SONFile) const;
 		map<string, unsigned> LoadTextures(string SONFile) const;
 

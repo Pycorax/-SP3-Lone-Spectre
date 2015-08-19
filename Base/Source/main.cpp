@@ -7,7 +7,7 @@ int main( void )
 {
 	MVC_Model* model = new MVC_Model_Spectre("SONs//ModelConfig_Spectre.son");
 	MVC_View* view = new MVC_View(model, "SONs//ViewConfig.son");
-	MVC_Controller* controller = new MVC_Controller(model, view, "SONs//ControllerConfig.son");
+	MVC_Controller* controller = MVC_Controller::GetInstance(model, view, "SONs//ControllerConfig.son");
 
 	controller->Init();
 	controller->Run();

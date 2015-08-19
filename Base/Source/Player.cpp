@@ -1,6 +1,7 @@
 #include "Player.h"
 
 Player* Player::instances = NULL;
+float Player::s_playerMoveSpeed = 5.f;
 
 Player::Player(void)
 {
@@ -15,7 +16,6 @@ void Player::Init(void)
 		E_PLAYER_ACTION s_actionList = static_cast<E_PLAYER_ACTION>(actionList);
 		m_actions[s_actionList] = false;
 	}
-	s_playerMoveSpeed = 200.f;
 }
 
 Player::~Player(void)
@@ -49,6 +49,7 @@ void Player::SetActions(E_PLAYER_ACTION type,bool status)
 void Player::Update(double dt, TileMap* _map)
 {
 	Character::Update();
+
 	SetMapPosition(m_transforms.Translation, _map->GetScrollOffset());
 	//TODO: **NOTE: factor in collision**
 	if(m_actions[PA_MOVE_UP])

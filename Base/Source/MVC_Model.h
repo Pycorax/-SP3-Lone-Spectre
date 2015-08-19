@@ -144,6 +144,13 @@ public:
 		*/
 	void GetViewRes(int& x, int& y);
 
+	// External Update Functions
+	/*
+		* These functions are to be called outside of the model to update the model about the environment
+		*/
+	void UpdateViewRes(int width, int height);
+
+
 	virtual void Init(void);
 	virtual void Update(double dt);
 	virtual void Exit(void);

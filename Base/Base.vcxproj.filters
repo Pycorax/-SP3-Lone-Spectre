@@ -195,6 +195,9 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utility.h">
@@ -343,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="Source\TreasureGoodie.h">
       <Filter>Header Files\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>Header Files\Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
