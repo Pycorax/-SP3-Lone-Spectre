@@ -1,7 +1,7 @@
 #include "MVC_Model_Spectre.h"
 
 
-MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile), _test(NULL)
+MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile), m__testLevel(NULL)
 {
 	_player = Player::GetInstance();
 	_player->Init();
@@ -17,19 +17,60 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 {
 	if(m_bKeyPressed[MOVE_FORWARD_KEY])
 	{
-		_player->Update(dt, _test, _player->PA_MOVE_UP);
+		_player->Update(dt, m__testLevel->GetTileMap(), _player->PA_MOVE_UP);
 	}
 	else if(m_bKeyPressed[MOVE_BACKWARD_KEY])
 	{
-		_player->Update(dt, _test, _player->PA_MOVE_DOWN);
+		_player->Update(dt, m__testLevel->GetTileMap(), _player->PA_MOVE_DOWN);
 	}
 	else if(m_bKeyPressed[MOVE_LEFT_KEY] )
 	{
-		_player->Update(dt, _test, _player->PA_MOVE_LEFT);
+		_player->Update(dt, m__testLevel->GetTileMap(), _player->PA_MOVE_LEFT);
 	}
 	else if(m_bKeyPressed[MOVE_RIGHT_KEY] )
 	{
-		_player->Update(dt, _test, _player->PA_MOVE_RIGHT);
+		_player->Update(dt, m__testLevel->GetTileMap(), _player->PA_MOVE_RIGHT);
+	}
+
+	// Scrolling map
+	static const Vector2 S_MAX_SCROLL_SIZE = m__testLevel->GetTileMap()->GetMapSize() - m__testLevel->GetTileMap()->GetScreenSize();
+	static const float S_OFFSET = 0.01;
+	static const float S_SCROLL_SPEED = 500.f;
+	if (m_bKeyPressed[LOOK_UP_KEY])
+	{
+		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(0, S_SCROLL_SPEED * dt);
+		if (scrollOffset.y > S_MAX_SCROLL_SIZE.y)
+		{
+			scrollOffset.y = S_MAX_SCROLL_SIZE.y - S_OFFSET;
+		}
+		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
+	}
+	else if (m_bKeyPressed[LOOK_DOWN_KEY])
+	{
+		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(0, -S_SCROLL_SPEED * dt);
+		if (scrollOffset.y < 0)
+		{
+			scrollOffset.y = 0;
+		}
+		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
+	}
+	if (m_bKeyPressed[LOOK_LEFT_KEY])
+	{
+		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(-S_SCROLL_SPEED * dt, 0);
+		if (scrollOffset.x < 0)
+		{
+			scrollOffset.x = 0;
+		}
+		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
+	}
+	else if (m_bKeyPressed[LOOK_RIGHT_KEY])
+	{
+		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(S_SCROLL_SPEED * dt, 0);
+		if (scrollOffset.x > S_MAX_SCROLL_SIZE.x)
+		{
+			scrollOffset.x = S_MAX_SCROLL_SIZE.x - S_OFFSET;
+		}
+		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
 	}
 
 	// Quitting the game
@@ -43,6 +84,11 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 void MVC_Model_Spectre::Init(void)
 {
 	MVC_Model::Init();
+
+	m__testLevel = new Level();
+	m__testLevel->InitMap(Vector2(64,50), Vector2(32,25), 32, "TileMap//Level1.csv", meshList);
+	m_viewWidth = m__testLevel->GetTileMap()->GetScreenSize().x;
+	m_viewHeight = m__testLevel->GetTileMap()->GetScreenSize().y;
 
 	m__testGO = new GameObject2D;
 	m__testGO->SetMesh(GetMeshResource("Quad"));
@@ -58,9 +104,13 @@ void MVC_Model_Spectre::Update(double dt)
 
 	pos += Vector3(50.0f * dt);
 
+	// Rendering
+	TileMapToRender(m__testLevel->GetTileMap());
+
 	m__testGO->SetPos(pos);
 
 	m_renderList2D.push(m__testGO);
+
 }
 
 void MVC_Model_Spectre::Exit(void)
@@ -72,4 +122,30 @@ void MVC_Model_Spectre::Exit(void)
 	}
 
 	MVC_Model::Exit();
+}
+
+void MVC_Model_Spectre::TileMapToRender(TileMap* _ToRender)
+{
+	vector<vector<Tile*>*> _map = _ToRender->GetMap();
+
+	// Calc the starting tile to render and round down any decimal as it is still seen
+	Vector2 tileStart
+		( 
+			floor(_ToRender->GetScrollOffset().x / _ToRender->GetTileSize()),
+			floor(_ToRender->GetScrollOffset().y / _ToRender->GetTileSize()) 
+		); 
+
+	for (int row = 0; row < _ToRender->GetNumScreenTile().y + 1; ++row)			// Loop for rows
+	{
+		for (int col = 0; col < _ToRender->GetNumScreenTile().x + 1; ++col)	// Loop for columns (+1 for the offset)
+		{
+			if (row >= _ToRender->GetNumMapTile().y || col >= _ToRender->GetNumMapTile().x) // Stop the rendering if row and col goes out of map
+			{
+				break;
+			}
+			Tile* _tile = (*_map[tileStart.y + row])[tileStart.x + col]; // Get the tile data based on loop
+			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset()); // Calculate screen position based on map position for rendering
+			m_renderList2D.push(_tile); // Add to queue for rendering
+		}
+	}
 }

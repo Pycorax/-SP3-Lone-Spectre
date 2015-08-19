@@ -8,7 +8,8 @@
 class MVC_Model_Spectre : public MVC_Model
 {
 private:	// Variables
-	TileMap *_test;
+	//TileMap *_test;
+	Level* m__testLevel;
 	Player* _player;
 	GameObject2D* m__testGO;
 
@@ -19,7 +20,7 @@ public:
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Exit();
-	void TileMapToRender();
+	void TileMapToRender(TileMap* _ToRender);
 
 	void processKeyAction(double dt);
 };

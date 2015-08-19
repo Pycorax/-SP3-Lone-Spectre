@@ -3,8 +3,11 @@
 
 MapEntity::MapEntity(Vector2 mapPos) : m_mapPos(mapPos)
 {
-}
+	if (true)
+	{
 
+	}
+}
 
 MapEntity::~MapEntity(void)
 {
@@ -17,9 +20,12 @@ void MapEntity::SetMapPosition(Vector2 pos, Vector2 scrollOffset)
 	updateScreenPos(pos, scrollOffset);
 }
 
-Vector2 MapEntity::getScreenPos()
+Vector2 MapEntity::GetMapPos()
 {
-	// TODO: Calculate screen position and return it
+	return m_mapPos;
+}
 
-	return Vector2();
+Vector2 MapEntity::calcScreenPos(Vector2 scrollOffset)
+{
+	return	Vector2(m_mapPos - scrollOffset);
 }

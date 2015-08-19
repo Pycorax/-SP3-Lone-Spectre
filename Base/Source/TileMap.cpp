@@ -53,6 +53,7 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 		}
 
 		getline(file, line); // Fetch a line of text from file
+
 		if (line.find("//") == -1) // Not commented line
 		{
 			colCounter = 0; // Reset column counter for each row
@@ -68,35 +69,53 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 			{
 				m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
 			}
+
 			while (getline(iss, token, ',') && colCounter < m_numMapTile.x) // Load each column in a row
 			{
 				int tile = std::stoi(token.c_str()); // Convert a tile from string to int
-				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
+				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
 				++colCounter;
 			}
 			for (; colCounter < m_numMapTile.x; ++colCounter) // Add empty tiles to fill up missing columns in file
 			{
-				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize)));
+				int tile = 0;
+				//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
+				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
 			}
 			++rowCounter;
 		}
 		else if (line == "") // Empty line
 		{
-			for (int col = 0; col < m_numMapTile.x; ++col) // Loop number of tiles for width
+			// Generate a new row
+			if (rowCounter == 0) // First row
 			{
-				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize))); // Create empty tiles
+				m_map.push_back(new vector<Tile*>);	// New row
+			}
+			else
+			{
+				m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
+			}
+			for (; colCounter < m_numMapTile.x; ++colCounter) // Loop number of tiles for width
+			{
+				int tile = 0;
+				//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
+				m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
 			}
 			++rowCounter;
 		}
 	}
-	while (colCounter < m_numMapTile.x) // Fill in the remaining empty rows
+	/*while (rowCounter < m_numMapTile.y) // Fill in the remaining empty rows
 	{
-		m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
+		m_map.push_back(new vector<Tile*>);	// New row
 		for (int col = 0; col < m_numMapTile.x; ++col) // Loops number of tiles for width
 		{
-			m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize))); // Create empty tiles
+			int tile = 0;
+			//m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize)));
+			m_map.back()->push_back(new Tile(Vector2(colCounter * m_tileSize, rowCounter * m_tileSize), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
+			++colCounter;
 		}
-	}
+		++rowCounter;
+	}*/
 	file.close(); // Close file
 	return true;
 }
@@ -148,4 +167,34 @@ void TileMap::SetScrollOffset(Vector2 scrollOffset)
 Vector2 TileMap::GetScrollOffset(void)
 {
 	return m_scrollOffset;
+}
+
+vector<vector<Tile*>*>& TileMap::GetMap()
+{
+	return m_map;
+}
+
+Vector2 TileMap::GetNumMapTile()
+{
+	return m_numMapTile;
+}
+
+Vector2 TileMap::GetNumScreenTile()
+{
+	return m_numScreenTile;
+}
+
+Vector2 TileMap::GetMapSize()
+{
+	return m_mapSize;
+}
+
+Vector2 TileMap::GetScreenSize()
+{
+	return m_screenSize;
+}
+
+float TileMap::GetTileSize()
+{
+	return m_tileSize;
 }

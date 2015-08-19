@@ -29,6 +29,15 @@
 		[Length] 1.0f
 	}
 	
+	{
+		[Name] TILE_FLOOR
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] TILE_FLOOR
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad

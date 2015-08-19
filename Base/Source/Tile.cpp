@@ -5,9 +5,10 @@ const bool Tile::S_IS_TILE_SOLID[NUM_TILE] =
 	false
 };
 
-Tile::Tile(Vector2 mapPos, E_TILE_TYPE type, Mesh* _mesh) : m_type(type), MapEntity(mapPos)
+Tile::Tile(Vector2 mapPos, Vector3 scale, E_TILE_TYPE type, Mesh* _mesh) : m_type(type), MapEntity(mapPos)
 {
 	m__mesh = _mesh;
+	SetScale(scale);
 }
 
 
@@ -27,6 +28,5 @@ Tile::E_TILE_TYPE Tile::GetType()
 
 void Tile::updateScreenPos(Vector2 pos, Vector2 scrollOffset)
 {
-	Vector2 screenPos = pos - scrollOffset;
-	m_transforms.Translation = screenPos;
+	m_transforms.Translation = calcScreenPos(scrollOffset);
 }
