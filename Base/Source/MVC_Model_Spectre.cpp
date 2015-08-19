@@ -2,10 +2,9 @@
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m__testLevel(NULL)
-	, m_hackMode(false)
+	, m_hackMode(true)
+	, m__player(NULL)
 {
-	m__player = Player::GetInstance();
-	m__player->Init();
 }
 
 
@@ -105,6 +104,9 @@ void MVC_Model_Spectre::Init(void)
 {
 	MVC_Model::Init();
 
+	m__player = Player::GetInstance();
+	m__player->Init(GetMeshResource("ShadowBall"));
+
 	m__testLevel = new Level();
 	m__testLevel->InitMap(Vector2(64,50), Vector2(40,22.5), 32, "TileMap//Level1.csv", meshList);
 	//m_viewWidth = m__testLevel->GetTileMap()->GetScreenSize().x;
@@ -113,7 +115,7 @@ void MVC_Model_Spectre::Init(void)
 	m__testGO = new GameObject2D;
 	m__testGO->SetMesh(GetMeshResource("Quad"));
 	m__testGO->SetPos(Vector2(100.0f, m_viewHeight * 0.5));
-	m__testGO->SetScale(Vector2(50.0f, 50.0f));
+	m__testGO->SetScale(Vector2(32.f, 32.f));
 
 	// Init the hacking game
 	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("CircuitWall"), m_viewWidth, m_viewHeight);
@@ -127,13 +129,15 @@ void MVC_Model_Spectre::Update(double dt)
 		m_hackingGame.Update(dt);
 	}
 
-	Vector3 pos = m__testGO->GetTransform().Translation;
+	/*Vector3 pos = m__testGO->GetTransform().Translation;
 	pos += Vector3(50.0f * dt);
-	m__testGO->SetPos(pos);
+	m__testGO->SetPos(pos);*/
+	m__testGO->SetPos(m__player->GetTransform().Translation);
 
 	// Rendering
 	TileMapToRender(m__testLevel->GetTileMap());
 	m_renderList2D.push(m__testGO);
+	m_renderList2D.push(m__player);
 
 	// -- MiniGame
 	if (m_hackMode)

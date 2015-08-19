@@ -23,5 +23,5 @@ Vector2 MapEntity::GetMapPos()
 
 Vector2 MapEntity::calcScreenPos(Vector2 scrollOffset)
 {
-	return	Vector2(m_mapPos - scrollOffset);
+	return Vector2(m_mapPos - scrollOffset);
 }

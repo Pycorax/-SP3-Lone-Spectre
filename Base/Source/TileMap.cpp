@@ -31,9 +31,9 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 	Mesh* _tileMeshList[Tile::NUM_TILE];
 	for (int mesh = 0; mesh < meshList.size(); ++mesh)		// Loop through meshList to find mesh for tile and sort based on E_TILE_TYPE
 	{
-		_tileMeshList[mesh] = NULL;
 		for (int name = 0; name < Tile::NUM_TILE; ++name)	// Loop through the names of tile type to find the matching name with mesh list
 		{
+			_tileMeshList[name] = NULL;
 			if (meshList[mesh]->name == tileTypeName[name])
 			{
 				_tileMeshList[name] = meshList[mesh]; // Assign the proper tile mesh to a temp tile mesh list
@@ -51,7 +51,7 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 		{
 			if (rowCounter >= m_numMapTile.y) // File has more rows
 			{
-				return true; // Ignore the additional rows and return
+				break; // Ignore the additional rows and return
 			}
 
 			getline(file, line); // Fetch a line of text from file
@@ -126,7 +126,12 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 
 bool TileMap::CheckCollision(Vector2 pos)
 {
-	Vector2 tilePos = pos * (1.f / m_tileSize);
+	//Vector2 tilePos = pos * (1.f / m_tileSize);
+	Vector2 tilePos(floor(pos.x / m_tileSize), floor(pos.y / m_tileSize)); // Round down decimal number to get tile position
+	if (tilePos.x < 0 || tilePos.x >= m_numMapTile.x || tilePos.y < 0 || tilePos.y >= m_numMapTile.y)
+	{
+		return true;
+	}
 	Tile::E_TILE_TYPE tempType = (*m_map[tilePos.y])[tilePos.x]->GetType();
 	if (Tile::S_IS_TILE_SOLID[tempType])
 	{

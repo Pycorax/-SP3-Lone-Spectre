@@ -49,16 +49,17 @@ class Player : public Character
 		static Player* GetInstance(int instance = 0);
 		virtual ~Player(void);
 
-		void Init(void);
-
+		void Init(Mesh* _mesh);
 		void Update(double dt, TileMap* _map);
+		void Clear();
 
 		void SetState(E_PLAYER_STATE currentState);
 		E_PLAYER_STATE GetState(void)const;
 	
 		void SetActions(E_PLAYER_ACTION type, bool status = true);
 	private:
-		void ConstrainPlayer( TileMap* _map); 
+		bool moveLeftRight(double dt, bool mode, TileMap* _map); // Move left if mode is false | Move right if mode is true
+		bool moveUpDown(double dt, bool mode, TileMap* _map); // Move up if mode is false | Move down if mode is true
 
 };
 
