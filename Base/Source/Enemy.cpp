@@ -14,6 +14,7 @@ Enemy::~Enemy(void)
 
 void Enemy::update(double dt)
 {
+	Character::Update();
 	//if ()//If any enemy see Hero, affects other enemies too
 	//{
 	//	m_enemyState = ES_CHASE;
@@ -28,9 +29,9 @@ void Enemy::update(double dt)
 	//{
 	//	m_enemyState = ES_SCAN;
 	//}
-	//else if() //Spectre shadowDive in front of enemy
+	//else if() //Spectre hosts on the enemy
 	//{
-	//  m_enemyState = ES_REVEAL
+	//  m_enemyState = ES_POSSESED
 	//}
 	//else if () //Enemy dies
 	//{
@@ -55,7 +56,7 @@ void Enemy::update(double dt)
 	{
 		//Hit him already
 	}
-	else if (m_enemyState == ES_REVEAL)
+	else if (m_enemyState == ES_POSSESED)
 	{
 		//Reveal him
 	}
