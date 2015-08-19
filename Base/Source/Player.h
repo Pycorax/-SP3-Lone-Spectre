@@ -28,6 +28,9 @@ class Player : public Character
 			PS_CUTSCENE,
 			NUM_PLAYERSTATE,
 		};
+
+		//player move speed
+		static float s_playerMoveSpeed;
 	private:
 		Player(void);
 		
@@ -41,8 +44,6 @@ class Player : public Character
 		// For reference
 		bool m_actions[NUM_PLAYER_ACTIONS];
 
-		TileMap* _map;
-		
 		//TODO: consider using a GameObject* to track which shadow is in
 	public:
 		static Player* GetInstance(int instance = 0);
@@ -57,7 +58,7 @@ class Player : public Character
 	
 		void SetActions(E_PLAYER_ACTION type, bool status = true);
 	private:
-		void ConstrainPlayer(Vector2 offSet); 
+		void ConstrainPlayer( TileMap* _map); 
 
 };
 

@@ -15,6 +15,7 @@ void Player::Init(void)
 		E_PLAYER_ACTION s_actionList = static_cast<E_PLAYER_ACTION>(actionList);
 		m_actions[s_actionList] = false;
 	}
+	s_playerMoveSpeed = 200.f;
 }
 
 Player::~Player(void)
@@ -58,7 +59,12 @@ void Player::Update(double dt, TileMap* _map)
 		SetLookDir(Vector2(0,1) );
 
 		//centralise the player
-		ConstrainPlayer(_map->GetScrollOffset() + Vector2(0,_map->GetTileSize()) * dt);
+		ConstrainPlayer(_map);
+
+		if(!_map->CheckCollision(m_lookDir * s_playerMoveSpeed * dt + m_transforms.Translation + Vector2(0,_map->GetTileSize())) )
+		{
+			m_transforms.Translation += m_lookDir * s_playerMoveSpeed * dt;
+		}
 
 		// reseting back to false
 		m_actions[PA_MOVE_UP] = false;
@@ -70,7 +76,12 @@ void Player::Update(double dt, TileMap* _map)
 		SetLookDir(Vector2(0,-1) );
 
 		//centralise the player
-		ConstrainPlayer(_map->GetScrollOffset() - Vector2(0,_map->GetTileSize())  * dt);
+		ConstrainPlayer(_map);
+
+		if(!_map->CheckCollision(m_lookDir * s_playerMoveSpeed * dt + m_transforms.Translation) )
+		{
+			m_transforms.Translation += m_lookDir * s_playerMoveSpeed * dt;
+		}
 
 		// reseting back to false
 		m_actions[PA_MOVE_DOWN] = false;
@@ -83,7 +94,12 @@ void Player::Update(double dt, TileMap* _map)
 		SetLookDir(Vector2(-1,0) );
 
 		//centralise the player
-		ConstrainPlayer(_map->GetScrollOffset() + Vector2(_map->GetTileSize(),0)  * dt);
+		ConstrainPlayer(_map);
+
+		if(!_map->CheckCollision(m_lookDir * s_playerMoveSpeed * dt + m_transforms.Translation) )
+		{
+			m_transforms.Translation += m_lookDir * s_playerMoveSpeed * dt;
+		}
 
 		// reseting back to false
 		m_actions[PA_MOVE_LEFT] = false;
@@ -95,15 +111,19 @@ void Player::Update(double dt, TileMap* _map)
 		SetLookDir(Vector2(1,0) );
 
 		//centralise the player
-		ConstrainPlayer(_map->GetScrollOffset() + Vector2(_map->GetTileSize(),0)  * dt);
+		ConstrainPlayer(_map);
+
+		if(!_map->CheckCollision(m_lookDir * s_playerMoveSpeed * dt + m_transforms.Translation + Vector2(_map->GetTileSize(), 0)) )
+		{
+			m_transforms.Translation += m_lookDir * s_playerMoveSpeed * dt;
+		}
 
 		// reseting back to false
 		m_actions[PA_MOVE_RIGHT] = false;
 	}
 	if(m_actions[PA_INTERACT])
 	{
-		//Vector2 interactionDistance = m_lookDir + getScreenPos(); 
-
+		Vector2 interactionDistance(m_lookDir * _map->GetTileSize()); 
 		//TODO : Add in algorithm for determerning the type of action
 		//		Host, Dive , Jump or Hex
 		// if( lookDir == enemy back) -> host
@@ -114,6 +134,7 @@ void Player::Update(double dt, TileMap* _map)
 		// reseting back to false
 		m_actions[PA_INTERACT] = false;
 	}
+	
 }
 
 void Player::SetState(Player::E_PLAYER_STATE currentState)
@@ -126,25 +147,25 @@ Player::E_PLAYER_STATE Player::GetState(void) const
 	return this->m_currentState;
 }
 
-void Player::ConstrainPlayer(Vector2 offSet)
+void Player::ConstrainPlayer( TileMap* _map)
 {
 	//keep player within a small box at centre
 	//constrain X axis
-	_map->SetScrollOffset(offSet);
-	/*if(calcScreenPos(_map->GetScrollOffset()).x <= _map->GetScreenSize().x - 5)
+	if(m_transforms.Translation.x < 0)
 	{
-		_map->SetScrollOffset(_map->GetScrollOffset() - Vector2(0.1,0) );
+		m_transforms.Translation.x = 0;
 	}
-	else if(calcScreenPos(_map->GetScrollOffset()).x >= _map->GetScreenSize().x + 5)
+	else if(m_transforms.Translation.x > _map->GetMapSize().x - _map->GetTileSize() )
 	{
-		_map->SetScrollOffset(_map->GetScrollOffset() + Vector2(0.1,0) );
+		m_transforms.Translation = _map->GetMapSize().x - _map->GetTileSize();
 	}
-	if(calcScreenPos(_map->GetScrollOffset()).y <= _map->GetScreenSize().y - 5)
+
+	if(m_transforms.Translation.y < 0)
 	{
-		_map->SetScrollOffset(_map->GetScrollOffset() - Vector2(0,0.1) );
+		m_transforms.Translation.y = 0;
 	}
-	else if(calcScreenPos(_map->GetScrollOffset()).y >= _map->GetScreenSize().y + 5)
+	else if(m_transforms.Translation.y > _map->GetMapSize().y - _map->GetTileSize() )
 	{
-		_map->SetScrollOffset(_map->GetScrollOffset() + Vector2(0,0.1) );
-	}*/
+		m_transforms.Translation =_map->GetMapSize().y - _map->GetTileSize();
+	}
 }
