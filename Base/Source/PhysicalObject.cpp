@@ -1,6 +1,6 @@
 #include "PhysicalObject.h"
 
-PhysicalObject::PhysicalObject()
+PhysicalObject::PhysicalObject() : GameObject2D(), Collider2D(), Physics2D()
 {
 }
 

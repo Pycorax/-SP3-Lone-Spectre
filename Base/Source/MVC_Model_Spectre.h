@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Collider2D.h"
 #include "SpectreHexGame.h"
+#include "PhysicalObject.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -16,6 +17,10 @@ private:	// Variables
 	GameObject2D* m__testGO;
 	vector<Collider2D *> m__collidorList;
 
+	// Physics Test Code
+	PhysicalObject* m__po1;
+	PhysicalObject* m__po2;
+ 
 	// Spectral HexText MiniGame 
 	bool m_hackMode;					// Controls whether hack mode is enabled
 	SpectreHexGame m_hackingGame;		// Controls the hacking minigame for the spectre hextech skill

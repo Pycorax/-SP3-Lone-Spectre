@@ -9,7 +9,7 @@ const float SpectreHexGame::WALL_THICKNESS = 50.0f;
 
 SpectreHexGame::SpectreHexGame()
 	: m__player(NULL)
-	, m_state(GS_START)
+	, m_state(GS_PLAYING)
 {
 }
 
@@ -56,12 +56,13 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, int vie
 	wall->SetMesh(_circuitWallMesh);
 
 	// Generate balls
-	for (int ball = 0; ball < MAX_BALLS; ++ball)
+	for (int ball = 0; ball < 1; ++ball)
 	{
 		PhysicalObject* sBall = fetchObject();
 		sBall->SetPos(Vector3(50.0f, (viewHeight - MIN_BALL_RADIUS) * 0.5));
 		sBall->SetScale(MIN_BALL_SCALE);
 		sBall->SetMass(MIN_BALL_MASS);
+		sBall->SetKinematic(false);
 		sBall->SetMesh(_shadowBallMesh);
 	}
 }
@@ -170,27 +171,39 @@ PhysicalObject* SpectreHexGame::fetchObject(void)
 
 void SpectreHexGame::startUpdate(double dt)
 {
-	static bool s_shot = false;		// Ensures balls are only shot once
-
 	// Forces
-	static const Vector2 INITIAL_PUSH_PLAYER(25.0f);
-	static const float INITIAL_PUSH_X = 1000.0f;
+	static const Vector2 INITIAL_PUSH_PLAYER(2.0f);
+	static const float INITIAL_PUSH_X = 5.0f;
 
 	// Timers
 	static double s_timer = 0.0f;				// Timer for the balls to be introduced with the introduction shot
-	static const double TIME_LIMIT = 2.5;		// The time to wait before players can start playing
+	static const double TIME_LIMIT = 1.0;		// The time to wait before players can start playing
 
-	if (!s_shot)	// Apply the force once only
+	s_timer += dt;
+
+	if (s_timer > TIME_LIMIT)
 	{
-		/* 
-		 * Shoot the shadow balls in (entrance)
-		 */
-		// For producing a spread of balls
-		const float OFFSET_Y_PER_SHOT = INITIAL_PUSH_X / MAX_BALLS;
-		float offsetY = -(OFFSET_Y_PER_SHOT * MAX_BALLS * 0.5);
+		// Stop the shooting
+		m_state = GS_PLAYING;
+	}
 
-		for (vector<PhysicalObject*>::iterator ball = m_ballList.begin(); ball != m_ballList.end(); ++ball)
+	/* 
+		* Shoot the shadow balls in (entrance)
+		*/
+	// For producing a spread of balls
+	const float OFFSET_Y_PER_SHOT = INITIAL_PUSH_X / MAX_BALLS;
+	float offsetY = -(OFFSET_Y_PER_SHOT * MAX_BALLS * 0.5);
+
+	for (vector<PhysicalObject*>::iterator ball = m_ballList.begin(); ball != m_ballList.end(); ++ball)
+	{
+		if (!(*ball)->GetActive())
 		{
+			continue;
+		}
+		else
+		{
+			(*ball)->UpdatePhysics(dt);
+
 			if (*ball == m__player)
 			{
 				// Shoot the player with less force to not push it so far
@@ -203,33 +216,15 @@ void SpectreHexGame::startUpdate(double dt)
 				// Increment the offsetY for a spread effect
 				offsetY += OFFSET_Y_PER_SHOT;
 			}
-		}
 
-		// Stop the shooting
-		s_shot = true;
-	}
-	else
-	{
-		s_timer += dt;
-
-		if (s_timer > TIME_LIMIT)
-		{
-			m_state = GS_PLAYING;
-		}
-
-		for (vector<PhysicalObject*>::iterator ball = m_ballList.begin(); ball != m_ballList.end(); ++ball)
-		{
-			PhysicalObject* sBall = *ball;
-
-			if (!sBall->GetActive())
+			for (vector<PhysicalObject*>::iterator ball2 = m_ballList.begin(); ball2 != m_ballList.end(); ++ball2)
 			{
-				continue;
+				if ((*ball)->CollideWith(*ball2, dt))
+				{
+					(*ball)->CollideRespondTo(*ball2);
+				}
 			}
-			else
-			{
-				sBall->UpdatePhysics(dt);
-			}
-		}
+		}		
 	}
 }
 
@@ -239,7 +234,7 @@ void SpectreHexGame::ballsUpdate(double dt)
 	{
 		PhysicalObject* sBall = *ball;
 
-		if (!sBall->GetActive())
+		if (!sBall->GetActive() || sBall->GetNormal() != Vector2::ZERO_VECTOR)
 		{
 			continue;
 		}
@@ -258,7 +253,7 @@ void SpectreHexGame::ballsUpdate(double dt)
 			}
 
 			// Collision Response
-			if (sBall == m__player)
+			/*if (sBall == m__player)
 			{
 				// Calculate Merged Size
 				Vector3 playerScale = m__player->GetTransform().Scale + sBall2->GetTransform().Scale;
@@ -271,7 +266,7 @@ void SpectreHexGame::ballsUpdate(double dt)
 				// Deactivate the other ball
 				sBall2->SetActive(false);
 			}
-			else if (sBall->CollideWith(sBall2, dt))
+			else*/ if (sBall->CollideWith(sBall2, dt))
 			{
 				sBall->CollideRespondTo(sBall2);
 			}
