@@ -71,11 +71,21 @@
 	}
 	
 	{
+		[Name] LoseScreen
+		[Type] 2D
+		[Color] 1.0f, 0.0f, 0.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] LoseScreen
+	}
+	
+	{
 		[Name] MinigameBG
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f
 		[Width] 1.0f
 		[Height] 1.0f
+		[Texture] CircuitBG
 	}
 	
 	# Tiles

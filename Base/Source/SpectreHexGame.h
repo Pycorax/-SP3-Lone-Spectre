@@ -41,13 +41,15 @@ private:	// Variables
 	PhysicalObject* m__player;						// The player PhysicalObject object
 	PhysicalObject* m__exitWall;					// The wall that can be passed through when the player has enough 
 	GameObject2D* m__background;					// The background image of this hacking game
+	Mesh* m__restrictedWallMesh;
 	Mesh* m__destroyedWallMesh;						// Stores the mesh for a destroyed wall to be used on winning
+	GameObject2D* m__loseScreen;					// Stores the mesh for the screen that will be displayed on losing
 
 public:
 	SpectreHexGame(void);
 	virtual ~SpectreHexGame(void);
 
-	void Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* restrictedCircuitMesh, Mesh* _bgMesh, int viewWidth, int viewHeight);
+	void Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _loseScreen, Mesh* _bgMesh, int viewWidth, int viewHeight);
 	void Update(double dt);
 	void Exit(void);
 
@@ -68,6 +70,7 @@ private:
 	void startUpdate(double dt);
 	void playingUpdate(double dt);
 	void winCeremonyUpdate(double dt);
+	void loseCeremonyUpdate(double dt); 
 };
 
 #endif

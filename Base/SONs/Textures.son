@@ -31,6 +31,16 @@
 		[FilePath] Image//DestroyedCircuit.tga
 	}
 	
+	{
+		[Name] CircuitBG
+		[FilePath] Image//CircuitBG.tga
+	}
+	
+	{
+		[Name] LoseScreen
+		[FilePath] Image//LoseScreen.tga
+	}
+	
 	# Tiles
 	{
 		[Name] TILE_FLOOR

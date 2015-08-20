@@ -20,7 +20,7 @@ SpectreHexGame::~SpectreHexGame()
 {
 }
 
-void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _bgMesh, int viewWidth, int viewHeight)
+void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _loseScreen, Mesh* _bgMesh, int viewWidth, int viewHeight)
 {
 	// Init Player
 	if (m__player == NULL)
@@ -62,6 +62,7 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	m__exitWall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(1.0f, 0.0f));
 	m__exitWall->SetMesh(_restrictedCircuitMesh);
 
+	m__restrictedWallMesh = _restrictedCircuitMesh;
 	m__destroyedWallMesh = _destroyedCircuitMesh;
 
 	// Generate balls
@@ -79,6 +80,12 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	m__background->SetMesh(_bgMesh);
 	m__background->SetPos(Vector2::ZERO_VECTOR);
 	m__background->SetScale(Vector2(viewWidth, viewHeight));
+
+	// Generate Lose Screen
+	m__loseScreen = new GameObject2D;
+	m__loseScreen->SetMesh(_loseScreen);
+	m__loseScreen->SetPos(Vector2(0.0f, viewHeight));
+	m__loseScreen->SetScale(Vector2(viewWidth, viewHeight));
 }
 
 void SpectreHexGame::Update(double dt)
@@ -93,6 +100,9 @@ void SpectreHexGame::Update(double dt)
 			break;
 		case GS_WIN_CEREMONY:
 			winCeremonyUpdate(dt);
+			break;
+		case GS_LOSE_CEREMONY:
+			loseCeremonyUpdate(dt);
 			break;
 	}
 }
@@ -159,14 +169,22 @@ vector<GameObject2D*> SpectreHexGame::GetRenderObjects(void) const
 {
 	vector<GameObject2D*> renderList;
 
+	// Display the background at the back
 	renderList.push_back(m__background);
 
+	// Display all the objects
 	for (vector<PhysicalObject*>::const_iterator ball = m_ballList.begin(); ball != m_ballList.end(); ++ball)
 	{
 		if ((*ball)->GetActive())
 		{
 			renderList.push_back(*ball);
 		}
+	}
+
+	// Display lose screen during losing ceremony
+	if (m_state == GS_LOSE_CEREMONY || m_state == GS_END_IN_LOSS)
+	{
+		renderList.push_back(m__loseScreen);
 	}
 
 	return renderList;
@@ -341,7 +359,7 @@ void SpectreHexGame::playingUpdate(double dt)
 
 void SpectreHexGame::winCeremonyUpdate(double dt)
 {
-	static bool firstFrame = true;						// Ensure 
+	static bool firstFrame = true;						// Ensure only initialization portion is run once
 	static const Vector2 LEAVE_FORCE(10.0f, 0.0f);
 	static const Vector2 PLAYER_LEAVE_FORCE(1000.0f, 0.0f);
 	
@@ -383,5 +401,49 @@ void SpectreHexGame::winCeremonyUpdate(double dt)
 	if (timer > WAIT_TIME)
 	{
 		m_state = GS_END_IN_WIN;
+	}
+}
+
+void SpectreHexGame::loseCeremonyUpdate(double dt)
+{
+	static bool firstFrame = true;
+	static const float SCREEN_FALL_SPEED = 100.0f;
+
+	// Timer for whole ceremony
+	static double timer = 0.0;
+	static const double WAIT_TIME = 4.0;
+
+	if (firstFrame)
+	{
+		firstFrame = false;
+		
+		// Set all the walls to restricted mode
+		for (vector<PhysicalObject*>::iterator phyObj = m_ballList.begin(); phyObj != m_ballList.end(); ++phyObj)
+		{
+			PhysicalObject* po = static_cast<PhysicalObject*>(*phyObj);
+
+			if (po->GetActive() && po->GetNormal() != Vector2::ZERO_VECTOR)
+			{
+				po->SetMesh(m__restrictedWallMesh);
+			}
+		}
+	}
+
+	Transform loseScreenT = m__loseScreen->GetTransform();
+	if (loseScreenT.Translation.y > -Math::EPSILON)
+	{
+		loseScreenT.Translation.y -= SCREEN_FALL_SPEED * dt;
+		m__loseScreen->SetPos(loseScreenT.Translation);
+	}
+	else
+	{
+		m__loseScreen->SetPos(Vector2::ZERO_VECTOR);
+
+		// End the ceremony when it's done
+		timer += dt;
+		if (timer > WAIT_TIME)
+		{
+			m_state = GS_END_IN_LOSS;
+		}
 	}
 }
