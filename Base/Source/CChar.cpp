@@ -89,14 +89,12 @@ bool Character::GetActive(void) const
 	return this->m_active;
 }
 
-// === action functions ===
-void Character::Movetowards(Vector2 Dir, double dt) //TODO: Factor in map
-{
-
-}
-
-
-void  Character::updateScreenPos(Vector2 pos)
+void Character::updateScreenPos(Vector2 pos)
 {
 	m_transforms.Translation = pos;
+}
+
+void Character::SpottedTarget(Vector2 pos)
+{
+	
 }

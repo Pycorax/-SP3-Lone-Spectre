@@ -4,7 +4,6 @@
 Enemy::Enemy(void)
 	:m_alertLevel(0)
 	, m_enemyState(ES_PATROL)
-	, m_bPatrolling(false)
 	, m_bReachPos(false)
 {
 
@@ -12,6 +11,12 @@ Enemy::Enemy(void)
 
 Enemy::~Enemy(void)
 {
+}
+
+void Enemy::Init(Vector2 pos, E_ENEMY_STATE enemyState)
+{
+	this->m_transforms.Translation = m_oldPos = pos;
+	m_enemyState = enemyState;
 }
 
 void Enemy::update(double dt, TileMap* _map)
@@ -48,16 +53,13 @@ void Enemy::update(double dt, TileMap* _map)
 
 	if (m_enemyState == ES_PATROL)
 	{
-		//Make the enemy walk from a place to another place
-		m_bPatrolling = true;
-		if(m_bPatrolling)
-		{
-			MoveTo(m_oldPos + 100, _map);
-		}
+		m_patrolPointA = m_oldPos;
+		MoveTo(m_patrolPointA, m_patrolPointB, _map); // remember to set
 	}
 	else if (m_enemyState == ES_CHASE)
 	{
 		//Make enemy chase after the hero's current position with path-finding
+		m_bAlerted = true;
 	}
 	else if (m_enemyState == ES_ATTACK)
 	{
@@ -73,26 +75,28 @@ void Enemy::update(double dt, TileMap* _map)
 		m_alertLevel -= 1;
 	}
 
-
-	if(!m_bPatrolling)//updates oldpos , can be used for other - when not patrolling
+	if(m_bAlerted)
 	{
-		m_oldPos = m_patrolPointA = m_transforms.Translation;//set start patrol position using initial enemy pos
+		m_alertLevel += 1;
 	}
 }
 
-bool Enemy::MoveTo(Vector2 pos, TileMap* _map) //TODO: passed in map - used for collision when doing PathFinding
+void Enemy::SetEndPatrolPoint(Vector2 pos)
 {
-	m_patrolPointB = pos; //set the end patrol position
+	m_patrolPointB = pos;
+}
 
-	Vector2 moveDirection = (m_patrolPointB - m_patrolPointA).Normalized();//**note patrol point a is start pos and enemy initial pos
+bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map) //TODO: passed in map - used for collision when doing PathFinding
+{
+	Vector2 moveDirection = (EndPos - StartPos).Normalized();//**note patrol point a is start pos and enemy initial pos
 	
 	m_transforms.Translation += moveDirection * 10.f; // moving to the patrol point 
 
-	if(m_transforms.Translation == m_patrolPointB && !m_bReachPos) // swap position
+	if(m_transforms.Translation == EndPos && !m_bReachPos) // swap position
 	{
-		m_patrolPointA = m_patrolPointA + m_patrolPointB;//add tgt (ab)
-		m_patrolPointB = m_patrolPointA - m_patrolPointB;//set b = a(ab) - b :: get a
-		m_patrolPointA = m_patrolPointA - m_patrolPointB;//set a = a(ab) - b(a) :: get b
+		StartPos = StartPos + EndPos;//add tgt (ab)
+		EndPos/* start pos*/ = StartPos - EndPos;//set b = a(ab) - b :: get a
+		StartPos/* end pos*/ = StartPos - EndPos;//set a = a(ab) - b(a) :: get b
 	}
 	return false;
 }

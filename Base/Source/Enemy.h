@@ -4,8 +4,9 @@
 #include "NPC.h"
 #include <vector>
 #include "TileMap.h"
+#include "Viewer.h"
 
-class Enemy : public Character
+class Enemy : public Character, public Viewer
 {
 public:
 	enum E_ENEMY_STATE
@@ -26,17 +27,17 @@ private:
 	//Sets the patrol position for the guard to stay in when in patrol state
 	Vector2 m_patrolPointA, m_patrolPointB; 
 	//use to check if mode start patrolling
-	bool m_bPatrolling;
 	bool m_bReachPos;
 
 public:
 	Enemy(void);
 	virtual ~Enemy(void);
-	
+	void Init(Vector2 pos, E_ENEMY_STATE enemyState);
 	void update(double dt, TileMap* _map);
 
+	void SetEndPatrolPoint(Vector2 pos);
 	//moving to selected location
-	bool MoveTo(Vector2 pos, TileMap* _map);
+	bool MoveTo(Vector2 Startpos, Vector2 Endpos, TileMap* _map);
 	
 	void SetAlertLevel(int alertlevel);
 	int GetAlertLevel(void);

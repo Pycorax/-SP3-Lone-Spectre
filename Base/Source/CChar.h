@@ -5,9 +5,9 @@
 #include "Vector2.h"
 #include "GameObject2D.h"
 #include "MapEntity.h"
+#include "Viewer.h"
 
-//TODO: factor in map for Character, Player, NPC , Enemy - update, pointer, constrains(moving, collision)
-class Character : public GameObject2D , public MapEntity
+class Character : public GameObject2D , public MapEntity , public Viewer
 {
 protected:
 	int m_health;
@@ -58,10 +58,10 @@ public:
 	Mesh* GetAnimMesh(void) const;
 	bool GetActive(void) const;
 
-	// === Actions functions ===
-	void Movetowards(Vector2 Dir, double dt);
 protected:
 	virtual void updateScreenPos(Vector2 pos);
+	void SpottedTarget(Vector2 pos);
+
 };
 
 #endif

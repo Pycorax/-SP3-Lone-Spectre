@@ -4,6 +4,11 @@
 #include "Mesh.h"
 #include "GameObject2D.h"
 #include "MapEntity.h"
+#include "Viewer.h"
+
+//STL
+#include <vector>
+using std::vector;
 
 class Tile : public GameObject2D, public MapEntity
 {
@@ -21,14 +26,15 @@ public:
 
 private:
 	E_TILE_TYPE m_type;
-	// TODO: Add a vector of viewer
+	vector<Viewer *> m__ViewerList;
 
 public:
 	Tile(Vector2 mapPos = Vector2(0,0), Vector3 scale = Vector3(1,1,1), E_TILE_TYPE type = TILE_FLOOR, Mesh* _mesh = NULL);
 	~Tile(void);
 
-	E_TILE_TYPE GetType();
+	void AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles);
 
+	E_TILE_TYPE GetType();
 protected:
 	virtual void updateScreenPos(Vector2 pos);
 };

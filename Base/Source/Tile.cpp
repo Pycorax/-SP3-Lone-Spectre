@@ -31,3 +31,33 @@ void Tile::updateScreenPos(Vector2 pos)
 {
 	m_transforms.Translation = pos;
 }
+
+void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
+{
+	Viewer* _view;
+	float distViewY = 1;
+	float distViewX = 1;
+	// set the maximum of the horizontal view
+	if(LookDir.x != 0)
+	{
+		distViewY += (ViewDist_NumOfTiles * 2); 
+		distViewX = ViewDist_NumOfTiles;
+	}
+	else if(LookDir.y != 0)
+	{
+		distViewX += (ViewDist_NumOfTiles * 2);
+		distViewY = ViewDist_NumOfTiles;
+		/*		**NOTE: if facing up [m_lookDir == (0,1) ]**
+		*
+		*		| | | | |  < distViewX
+		*		  | | |
+		*			|
+		*			^
+		*		distViewY
+		*/
+	}
+	//set the direction and view distance of viewer's View
+	_view->Init(distViewX ,distViewY);
+	//add into list
+	m__ViewerList.push_back(_view);
+}
