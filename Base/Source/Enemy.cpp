@@ -3,7 +3,9 @@
 
 Enemy::Enemy(void)
 	:m_alertLevel(0)
-	,m_enemyState(ES_PATROL)
+	, m_enemyState(ES_PATROL)
+	, m_bPatrolling(false)
+	, m_bReachPos(false)
 {
 
 }
@@ -12,7 +14,7 @@ Enemy::~Enemy(void)
 {
 }
 
-void Enemy::update(double dt)
+void Enemy::update(double dt, TileMap* _map)
 {
 	Character::Update();
 	//if ()//If any enemy see Hero, affects other enemies too
@@ -47,6 +49,11 @@ void Enemy::update(double dt)
 	if (m_enemyState == ES_PATROL)
 	{
 		//Make the enemy walk from a place to another place
+		m_bPatrolling = true;
+		if(m_bPatrolling)
+		{
+			MoveTo(m_oldPos + 100, _map);
+		}
 	}
 	else if (m_enemyState == ES_CHASE)
 	{
@@ -65,10 +72,28 @@ void Enemy::update(double dt)
 		//Check the area for 2 rotation
 		m_alertLevel -= 1;
 	}
+
+
+	if(!m_bPatrolling)//updates oldpos , can be used for other - when not patrolling
+	{
+		m_oldPos = m_patrolPointA = m_transforms.Translation;//set start patrol position using initial enemy pos
+	}
 }
 
-bool Enemy::MoveTo(Vector2 pos)
+bool Enemy::MoveTo(Vector2 pos, TileMap* _map) //TODO: passed in map - used for collision when doing PathFinding
 {
+	m_patrolPointB = pos; //set the end patrol position
+
+	Vector2 moveDirection = (m_patrolPointB - m_patrolPointA).Normalized();//**note patrol point a is start pos and enemy initial pos
+	
+	m_transforms.Translation += moveDirection * 10.f; // moving to the patrol point 
+
+	if(m_transforms.Translation == m_patrolPointB && !m_bReachPos) // swap position
+	{
+		m_patrolPointA = m_patrolPointA + m_patrolPointB;//add tgt (ab)
+		m_patrolPointB = m_patrolPointA - m_patrolPointB;//set b = a(ab) - b :: get a
+		m_patrolPointA = m_patrolPointA - m_patrolPointB;//set a = a(ab) - b(a) :: get b
+	}
 	return false;
 }
 

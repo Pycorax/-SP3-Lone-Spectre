@@ -16,7 +16,6 @@ private:	// Variables
 	GameObject2D* m__testGO;
 	vector<Collider2D *> m__collidorList;
 
-
 	// Spectral HexText MiniGame 
 	bool m_hackMode;					// Controls whether hack mode is enabled
 	SpectreHexGame m_hackingGame;		// Controls the hacking minigame for the spectre hextech skill
