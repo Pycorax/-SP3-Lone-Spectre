@@ -2,7 +2,7 @@
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m__testLevel(NULL)
-	, m_hackMode(false)
+	, m_hackMode(true)
 	, m__player(NULL)
 {
 }

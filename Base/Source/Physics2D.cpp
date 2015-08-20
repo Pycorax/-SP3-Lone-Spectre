@@ -155,6 +155,18 @@ void Physics2D::CollideRespondTo(Physics2D* _other)
 	{
 		Vector2 u1 = m_velocity;
 		Vector2 u2 = _other->m_velocity;
+		Vector2 deltaVel = u2 - u1;
+
+		if (deltaVel != Vector2::ZERO_VECTOR)
+		{
+			deltaVel.Normalize();
+		}
+
+		// Prevent internal collision
+		if (deltaVel.LengthSquared() <= -Math::EPSILON)
+		{
+			return;
+		}
 
 		Vector2 tangent = (physics2D_getTransforms().Translation - _other->physics2D_getTransforms().Translation);
 
