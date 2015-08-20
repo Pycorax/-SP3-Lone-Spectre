@@ -103,7 +103,7 @@ void MVC_Model_Spectre::Init(void)
 	m__collidorList.push_back(dynamic_cast<Collider2D *>(m__testGO) );
 
 	// Init the hacking game
-	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("CircuitWall"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
+	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
 
 	// Physics Testing
 	m__po1 = new PhysicalObject;
@@ -165,6 +165,17 @@ void MVC_Model_Spectre::Update(double dt)
 	// -- MiniGame
 	if (m_hackMode)
 	{
+		if (m_hackingGame.IsVictory())
+		{
+			m_hackMode = false;
+			// TODO: Do an action for when the mini game ends in a win
+		}
+		else if (m_hackingGame.IsLoss())
+		{
+			m_hackMode = false;
+			// TODO: Do an action for when the mini game ends in a loss
+		}
+
 		vector<GameObject2D*> minigameObjects = m_hackingGame.GetRenderObjects();
 		for (vector<GameObject2D*>::iterator go = minigameObjects.begin(); go != minigameObjects.end(); ++go)
 		{

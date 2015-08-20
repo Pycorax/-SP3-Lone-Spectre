@@ -6,7 +6,8 @@ const float SpectreHexGame::MIN_BALL_MASS = 0.02f;
 const float SpectreHexGame::PLAYER_BALL_MULTIPLIER = 1.5f;
 const float SpectreHexGame::PLAYER_MOVE_FORCE = 300.0f;
 const float SpectreHexGame::WALL_THICKNESS = 50.0f;
-const float SpectreHexGame::MIN_PLAYER_EXIT_RADIUS = 200.0f;
+const float SpectreHexGame::EXIT_WALL_THICKNESS = 400.0f;
+const float SpectreHexGame::MIN_PLAYER_EXIT_RADIUS = 300.0f;
 
 SpectreHexGame::SpectreHexGame()
 	: m__player(NULL)
@@ -19,7 +20,7 @@ SpectreHexGame::~SpectreHexGame()
 {
 }
 
-void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _bgMesh, int viewWidth, int viewHeight)
+void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _bgMesh, int viewWidth, int viewHeight)
 {
 	// Init Player
 	if (m__player == NULL)
@@ -56,10 +57,12 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 
 	// Right Exit Wall
 	m__exitWall = fetchObject();
-	m__exitWall->SetPos(Vector3(viewWidth - WALL_THICKNESS * 0.5, viewHeight * 0.5f));
-	m__exitWall->SetScale(Vector2(WALL_THICKNESS, viewHeight));
+	m__exitWall->SetPos(Vector3(viewWidth - EXIT_WALL_THICKNESS * 0.5, viewHeight * 0.5f));
+	m__exitWall->SetScale(Vector2(EXIT_WALL_THICKNESS, viewHeight));
 	m__exitWall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(1.0f, 0.0f));
-	m__exitWall->SetMesh(_circuitWallMesh);
+	m__exitWall->SetMesh(_restrictedCircuitMesh);
+
+	m__destroyedWallMesh = _destroyedCircuitMesh;
 
 	// Generate balls
 	for (int ball = 0; ball < MAX_BALLS; ++ball)
@@ -86,7 +89,10 @@ void SpectreHexGame::Update(double dt)
 			startUpdate(dt);
 			break;
 		case GS_PLAYING:
-			ballsUpdate(dt);
+			playingUpdate(dt);
+			break;
+		case GS_WIN_CEREMONY:
+			winCeremonyUpdate(dt);
 			break;
 	}
 }
@@ -102,6 +108,16 @@ void SpectreHexGame::Exit(void)
 			m_ballList.pop_back();
 		}
 	}
+}
+
+bool SpectreHexGame::IsLoss() const
+{
+	return m_state == GS_END_IN_LOSS;
+}
+
+bool SpectreHexGame::IsVictory() const
+{
+	return m_state == GS_END_IN_WIN;
 }
 
 void SpectreHexGame::Move(bool left, bool right, bool up, bool down, double dt)
@@ -139,13 +155,13 @@ void SpectreHexGame::Move(bool left, bool right, bool up, bool down, double dt)
 	m__player->AddForce(resultantForce, dt);
 }
 
-vector<GameObject2D*> SpectreHexGame::GetRenderObjects(void)
+vector<GameObject2D*> SpectreHexGame::GetRenderObjects(void) const
 {
 	vector<GameObject2D*> renderList;
 
 	renderList.push_back(m__background);
 
-	for (vector<PhysicalObject*>::iterator ball = m_ballList.begin(); ball != m_ballList.end(); ++ball)
+	for (vector<PhysicalObject*>::const_iterator ball = m_ballList.begin(); ball != m_ballList.end(); ++ball)
 	{
 		if ((*ball)->GetActive())
 		{
@@ -232,8 +248,15 @@ void SpectreHexGame::startUpdate(double dt)
 	}
 }
 
-void SpectreHexGame::ballsUpdate(double dt)
+void SpectreHexGame::playingUpdate(double dt)
 {
+	// Switch the right wall's mesh if player is big enough
+	if (m__exitWall->GetMesh() != m__destroyedWallMesh && m__player->GetTransform().Scale.x >= MIN_PLAYER_EXIT_RADIUS)
+	{
+		m__exitWall->SetMesh(m__destroyedWallMesh);
+	}
+
+	// Simulate all the walls and balls in the world
 	for (vector<PhysicalObject*>::iterator phyObj = m_ballList.begin(); phyObj != m_ballList.end(); ++phyObj)
 	{
 		PhysicalObject* po = static_cast<PhysicalObject *>(*phyObj);
@@ -295,7 +318,8 @@ void SpectreHexGame::ballsUpdate(double dt)
 						}
 						else
 						{
-							m_state = GS_WIN;
+							// Go to the win state
+							m_state = GS_WIN_CEREMONY;
 						}
 					}
 					else if (otherObj->GetKinematic() == false)
@@ -313,49 +337,51 @@ void SpectreHexGame::ballsUpdate(double dt)
 			}
 		}
 	}
+}
 
-	/*
-	for (vector<PhysicalObject*>::iterator ball = m_ballList.begin(); ball != m_ballList.end(); ++ball)
+void SpectreHexGame::winCeremonyUpdate(double dt)
+{
+	static bool firstFrame = true;						// Ensure 
+	static const Vector2 LEAVE_FORCE(10.0f, 0.0f);
+	static const Vector2 PLAYER_LEAVE_FORCE(1000.0f, 0.0f);
+	
+	// Timer for whole ceremony
+	static double timer = 0.0;
+	static const double WAIT_TIME = 4.0;
+
+	// Initialization for this portion
+	if (firstFrame)
 	{
-		PhysicalObject* sBall = *ball;
+		firstFrame = false;
 
-		if (!sBall->GetActive() || sBall->GetNormal() != Vector2::ZERO_VECTOR)
+		// Force the player to fly to the right instantly when a force is applied next
+		m__player->SetVelocity(Vector2::ZERO_VECTOR);
+	}
+
+	// Update all the particles
+	for (vector<PhysicalObject*>::iterator phyObj = m_ballList.begin(); phyObj != m_ballList.end(); ++phyObj)
+	{
+		PhysicalObject* po = static_cast<PhysicalObject*>(*phyObj);
+
+		if (po == m__player)
 		{
+			po->AddForce(PLAYER_LEAVE_FORCE, dt);
+			po->UpdatePhysics(dt);
+
 			continue;
 		}
-		else
+
+		if (po->GetActive() && po->GetNormal() == Vector2::ZERO_VECTOR)
 		{
-			sBall->UpdatePhysics(dt);
-		}
-
-		for (vector<PhysicalObject*>::iterator ball2 = ball + 1; ball2 != m_ballList.end(); ++ball2)
-		{
-			PhysicalObject* sBall2 = *ball2;
-
-			if (!sBall2->GetActive())
-			{
-				continue;
-			}
-
-			// Collision Response
-			if (sBall == m__player)
-			{
-				// Calculate Merged Size
-				Vector3 playerScale = m__player->GetTransform().Scale + sBall2->GetTransform().Scale;
-
-				// Set Merged Mass
-				m__player->SetMass(m__player->GetMass() + sBall2->GetMass());
-				// Set Merged Size
-				//m__player->SetScale(playerScale);
-
-				// Deactivate the other ball
-				sBall2->SetActive(false);
-			}
-			else if (sBall->CollideWith(sBall2, dt))
-			{
-				sBall->CollideRespondTo(sBall2);
-			}
+			po->AddForce(LEAVE_FORCE, dt);
+			po->UpdatePhysics(dt);
 		}
 	}
-	*/
+
+	// End the ceremony when it's done
+	timer += dt;
+	if (timer > WAIT_TIME)
+	{
+		m_state = GS_END_IN_WIN;
+	}
 }

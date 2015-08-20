@@ -21,6 +21,16 @@
 		[FilePath] Image//CircuitWall.tga
 	}
 	
+	{
+		[Name] RestrictedWall
+		[FilePath] Image//RestrictedCircuit.tga
+	}
+	
+	{
+		[Name] DestroyedWall
+		[FilePath] Image//DestroyedCircuit.tga
+	}
+	
 	# Tiles
 	{
 		[Name] TILE_FLOOR

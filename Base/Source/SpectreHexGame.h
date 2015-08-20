@@ -17,8 +17,10 @@ private:
 	{
 		GS_START,
 		GS_PLAYING,
-		GS_WIN,
-		GS_LOSE,
+		GS_WIN_CEREMONY,
+		GS_LOSE_CEREMONY,
+		GS_END_IN_WIN,
+		GS_END_IN_LOSS,
 		NUM_STATES
 	};
 
@@ -30,6 +32,7 @@ private:
 	static const float PLAYER_BALL_MULTIPLIER;		// Determines the stats of the player PhysicalObject by multiplying this with the minimum stats of other balls above
 	static const float PLAYER_MOVE_FORCE;			// The force of to effect on the player
 	static const float WALL_THICKNESS;				// The thickness of the walls in this minigame
+	static const float EXIT_WALL_THICKNESS;			// The thickness of the exit wall to the right in this minigame
 	static const float MIN_PLAYER_EXIT_RADIUS;		// The minimum radius of the player before he can exit the level and win
 
 private:	// Variables
@@ -38,27 +41,33 @@ private:	// Variables
 	PhysicalObject* m__player;						// The player PhysicalObject object
 	PhysicalObject* m__exitWall;					// The wall that can be passed through when the player has enough 
 	GameObject2D* m__background;					// The background image of this hacking game
+	Mesh* m__destroyedWallMesh;						// Stores the mesh for a destroyed wall to be used on winning
 
 public:
 	SpectreHexGame(void);
 	virtual ~SpectreHexGame(void);
 
-	void Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _bgMesh, int viewWidth, int viewHeight);
+	void Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* restrictedCircuitMesh, Mesh* _bgMesh, int viewWidth, int viewHeight);
 	void Update(double dt);
 	void Exit(void);
+
+	// Game Status: Use this to get the state of this minigame. If either is true, it means the game has ended.
+	bool IsLoss() const;		// Check if is a loss yet
+	bool IsVictory() const;		// Check if is victory yet
 
 	// Game Controls
 	void Move(bool left, bool right, bool up, bool down, double dt);
 
 	// Returns the objects to be rendered
-	vector<GameObject2D*> GetRenderObjects(void);
+	vector<GameObject2D*> GetRenderObjects(void) const;
 
 private:
 	PhysicalObject* fetchObject(void);
 
 	// Update Functions
 	void startUpdate(double dt);
-	void ballsUpdate(double dt);
+	void playingUpdate(double dt);
+	void winCeremonyUpdate(double dt);
 };
 
 #endif

@@ -55,6 +55,22 @@
 	}
 	
 	{
+		[Name] RestrictedWall
+		[Type] Quad
+		[Color] 1.0f, 1.0f, 1.0f
+		[Length] 1.0f
+		[Texture] RestrictedWall
+	}
+	
+	{
+		[Name] DestroyedWall
+		[Type] Quad
+		[Color] 1.0f, 1.0f, 1.0f
+		[Length] 1.0f
+		[Texture] DestroyedWall
+	}
+	
+	{
 		[Name] MinigameBG
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f
