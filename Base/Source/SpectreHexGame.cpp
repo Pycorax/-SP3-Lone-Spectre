@@ -258,7 +258,24 @@ void SpectreHexGame::ballsUpdate(double dt)
 
 			if (poA->CollideWith(poB, dt))
 			{
-				poA->CollideRespondTo(poB);
+				if (poA == m__player && poB->GetNormal() == Vector2::ZERO_VECTOR)
+				{
+					// Absorb the enemies
+					m__player->SetMass(m__player->GetMass() + poB->GetMass());
+					m__player->SetScale(m__player->GetTransform().Scale + poB->GetTransform().Scale);
+					poB->SetActive(false);
+				}
+				else if (poB == m__player && poA->GetNormal() == Vector2::ZERO_VECTOR)
+				{
+					// Absorb the enemies
+					m__player->SetMass(m__player->GetMass() + poA->GetMass());
+					m__player->SetScale(m__player->GetTransform().Scale + poA->GetTransform().Scale);
+					poA->SetActive(false);
+				}
+				else
+				{
+					poA->CollideRespondTo(poB);
+				}
 			}
 		}
 	}
