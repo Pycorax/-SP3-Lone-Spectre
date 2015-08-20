@@ -25,7 +25,7 @@ void Character::Init(bool active, int health, Vector2 dir, Mesh* mesh,int moveSp
 	this->m_moveSpeed						= moveSpeed;
 }
 
-void Character::Update(void)
+void Character::Update()
 {
 }
 

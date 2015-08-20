@@ -41,7 +41,6 @@ Player* Player::GetInstance(int instance)
 		return NULL;
 	}
 }
-
 //set Player action to desired state
 void Player::SetActions(E_PLAYER_ACTION type,bool status)
 {
@@ -159,6 +158,12 @@ void Player::Update(double dt, TileMap* _map)
 	{
 		move(dt, _map);
 	}
+}
+
+void Player::UpdateHost(double dt)
+{
+	static_cast <Enemy* >(m__host);
+	//update host here
 }
 
 void Player::Clear()

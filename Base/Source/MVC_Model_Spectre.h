@@ -7,6 +7,7 @@
 #include "Collider2D.h"
 #include "SpectreHexGame.h"
 #include "PhysicalObject.h"
+#include "Enemy.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -16,6 +17,7 @@ private:	// Variables
 	Player* m__player;
 	GameObject2D* m__testGO;
 	vector<Collider2D *> m__collidorList;
+	Enemy* m__testEnemy;
 
 	// Physics Test Code
 	PhysicalObject* m__po1;

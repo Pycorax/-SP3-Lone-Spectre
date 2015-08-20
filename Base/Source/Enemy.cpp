@@ -15,7 +15,8 @@ Enemy::~Enemy(void)
 
 void Enemy::Init(Vector2 pos, E_ENEMY_STATE enemyState)
 {
-	this->m_transforms.Translation = m_oldPos = pos;
+	this->SetPos(pos);
+	m_oldPos = pos;
 	m_enemyState = enemyState;
 }
 
@@ -53,8 +54,27 @@ void Enemy::update(double dt, TileMap* _map)
 
 	if (m_enemyState == ES_PATROL)
 	{
-		m_patrolPointA = m_oldPos;
-		MoveTo(m_patrolPointA, m_patrolPointB, _map); // remember to set
+		Vector2 moveDirection = (m_patrolPointB - m_patrolPointA).Normalized();//**note patrol point a is start pos and enemy initial pos
+
+		m_transforms.Translation += moveDirection; // moving to the patrol point 
+
+		if(m_transforms.Translation == m_patrolPointB && !m_bReachPos)// swap position
+		{
+			Vector2 tempStore;
+			tempStore = m_patrolPointB;
+			m_patrolPointB = m_patrolPointA;
+			m_patrolPointA = tempStore;
+			m_bReachPos = true;
+
+		}	
+		else if(m_transforms.Translation == m_oldPos && m_bReachPos)
+		{
+			Vector2 tempStore;
+			tempStore = m_patrolPointB;
+			m_patrolPointB = m_patrolPointA;
+			m_patrolPointA = tempStore;
+			m_bReachPos = false;
+		}
 	}
 	else if (m_enemyState == ES_CHASE)
 	{
@@ -81,22 +101,38 @@ void Enemy::update(double dt, TileMap* _map)
 	}
 }
 
+void Enemy::SetStartPatrolPoint(Vector2 pos)
+{
+	m_patrolPointA = pos;
+}
+
 void Enemy::SetEndPatrolPoint(Vector2 pos)
 {
 	m_patrolPointB = pos;
 }
 
-bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map) //TODO: passed in map - used for collision when doing PathFinding
+bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map) //TODO: PathFinding
 {
 	Vector2 moveDirection = (EndPos - StartPos).Normalized();//**note patrol point a is start pos and enemy initial pos
 	
-	m_transforms.Translation += moveDirection * 10.f; // moving to the patrol point 
+	m_transforms.Translation += moveDirection; // moving to the patrol point 
 
-	if(m_transforms.Translation == EndPos && !m_bReachPos) // swap position
+	if(m_transforms.Translation == EndPos && !m_bReachPos)// swap position
 	{
-		StartPos = StartPos + EndPos;//add tgt (ab)
-		EndPos/* start pos*/ = StartPos - EndPos;//set b = a(ab) - b :: get a
-		StartPos/* end pos*/ = StartPos - EndPos;//set a = a(ab) - b(a) :: get b
+		Vector2 tempStore;
+		tempStore = EndPos;
+		EndPos = StartPos;
+		StartPos = tempStore;
+		m_bReachPos = true;
+			
+	}	
+	else if(m_transforms.Translation == m_oldPos && m_bReachPos)
+	{
+		Vector2 tempStore;
+		tempStore = EndPos;
+		EndPos = StartPos;
+		StartPos = tempStore;
+		m_bReachPos = false;
 	}
 	return false;
 }
@@ -109,4 +145,8 @@ void Enemy::SetAlertLevel(int alertlevel)
 int Enemy::GetAlertLevel(void)
 {
 	return this->m_alertLevel;
+}
+
+void Enemy::SpottedTarget(Vector2 pos)
+{
 }

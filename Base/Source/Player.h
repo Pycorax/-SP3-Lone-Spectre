@@ -3,6 +3,8 @@
 
 #include "CChar.h"
 #include "TileMap.h"
+#include "GameObject2D.h"
+#include "Enemy.h"
 
 class Player : public Character
 {
@@ -46,7 +48,7 @@ class Player : public Character
 		bool m_moving;
 		float m_moveDist;
 
-		//TODO: consider using a GameObject* to track which shadow is in
+		GameObject2D* m__host;
 	public:
 		static Player* GetInstance(int instance = 0);
 		static void Clear();
@@ -55,6 +57,7 @@ class Player : public Character
 
 		void Init(Mesh* _mesh);
 		void Update(double dt, TileMap* _map);
+		void UpdateHost(double dt);
 
 		void SetState(E_PLAYER_STATE currentState);
 		E_PLAYER_STATE GetState(void)const;

@@ -117,6 +117,16 @@ void MVC_Model_Spectre::Init(void)
 	m__po2->SetScale(Vector2(150.0f, 50.0f));
 	m__po2->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
 	m__po2->SetMesh(GetMeshResource("Quad"));
+
+
+	//Enemy
+	m__testEnemy = new Enemy;
+//	m__testEnemy->Init(Vector2(m__testLevel->GetTileMap()->GetScreenSize().x * 0.5f,60.f),m__testEnemy->ES_PATROL);
+	m__testEnemy->SetMesh(GetMeshResource("ShadowBall"));
+	m__testEnemy->SetMapPosition(Vector2(m__testLevel->GetTileMap()->GetScreenSize().x * 0.5f,60.f), Vector2(0,0));
+	m__testEnemy->SetScale(Vector2(32.f, 32.f));
+	m__testEnemy->SetStartPatrolPoint(m__testEnemy->GetTransform().Translation);
+	m__testEnemy->SetEndPatrolPoint(Vector2(m__testLevel->GetTileMap()->GetScreenSize().x * 0.5f + 20,60));
 }
 
 void MVC_Model_Spectre::Update(double dt)
@@ -125,7 +135,7 @@ void MVC_Model_Spectre::Update(double dt)
 	
 	//Updates player depending on actions queued.
 	m__player->Update(dt,m__testLevel->GetTileMap());
-
+	m__testEnemy->update(dt, m__testLevel->GetTileMap() );
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);
@@ -150,6 +160,7 @@ void MVC_Model_Spectre::Update(double dt)
 	m_renderList2D.push(m__player);
 	m_renderList2D.push(m__po1);
 	m_renderList2D.push(m__po2);
+	m_renderList2D.push(m__testEnemy);
 
 	// -- MiniGame
 	if (m_hackMode)
@@ -181,6 +192,8 @@ void MVC_Model_Spectre::Exit(void)
 		delete go;
 		m__collidorList.pop_back();
 	}
+	delete m__testEnemy;
+	m__testEnemy = NULL;
 	MVC_Model::Exit();
 }
 

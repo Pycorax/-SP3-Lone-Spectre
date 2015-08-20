@@ -35,6 +35,7 @@ public:
 	void Init(Vector2 pos, E_ENEMY_STATE enemyState);
 	void update(double dt, TileMap* _map);
 
+	void SetStartPatrolPoint(Vector2 pos);
 	void SetEndPatrolPoint(Vector2 pos);
 	//moving to selected location
 	bool MoveTo(Vector2 Startpos, Vector2 Endpos, TileMap* _map);
@@ -44,6 +45,8 @@ public:
 
 	
 	E_ENEMY_STATE m_enemyState;
+
+	void SpottedTarget(Vector2 pos);
 
 };
 
