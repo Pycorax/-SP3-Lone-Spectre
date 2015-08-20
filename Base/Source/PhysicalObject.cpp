@@ -21,7 +21,7 @@ bool PhysicalObject::collider2D_isActive(void) const
 
 Vector3 PhysicalObject::collider2D_getNormal(void) const
 {
-	return Vector3::ZERO_VECTOR;
+	return m_normal;
 }
 
 Vector3 PhysicalObject::collider2D_getVelocity(void) const

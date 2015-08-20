@@ -35,12 +35,13 @@ private:	// Variables
 	GAME_STATE m_state;								// Controls the state of the minigame
 	vector<PhysicalObject*> m_ballList;					// Stores all the ShadowBalls to be used
 	PhysicalObject* m__player;							// The player PhysicalObject object
+	GameObject2D* m__background;
 
 public:
 	SpectreHexGame(void);
 	virtual ~SpectreHexGame(void);
 
-	void Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, int viewWidth, int viewHeight);
+	void Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _bgMesh, int viewWidth, int viewHeight);
 	void Update(double dt);
 	void Exit(void);
 

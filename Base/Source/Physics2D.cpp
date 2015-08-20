@@ -20,7 +20,7 @@ void Physics2D::InitPhysics2D(float mass, bool kinematic, Vector2 vel, Vector2 n
 	m_mass = mass;
 	m_kinematic = kinematic;
 	m_velocity = vel;
-	m_normal = normal;
+	SetNormal(normal);
 }
 
 /*
@@ -106,7 +106,7 @@ void Physics2D::UpdatePhysics(const double DT)
 void Physics2D::CollideRespondTo(Physics2D* _other)
 {	
 	// Collision: This Ball with Other Wall
-	if (_other->m_normal != Vector2::ZERO_VECTOR)
+	if (_other->m_normal != Vector2::ZERO_VECTOR && _other->m_kinematic)
 	{
 		Transform t = physics2D_getTransforms();
 		Transform ot = _other->physics2D_getTransforms();
