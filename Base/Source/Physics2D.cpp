@@ -10,6 +10,19 @@ Physics2D::~Physics2D(void)
 {
 }
 
+void Physics2D::InitPhysics2D(float mass, bool kinematic, Vector2 vel, Vector2 normal)
+{
+	if (mass < Math::EPSILON)
+	{
+		throw std::invalid_argument("Mass cannot be negative or zero!");
+	}
+
+	m_mass = mass;
+	m_kinematic = kinematic;
+	m_velocity = vel;
+	m_normal = normal;
+}
+
 /*
  * Setter Functions
  */
@@ -143,7 +156,13 @@ void Physics2D::CollideRespondTo(Physics2D* _other)
 		Vector2 u1 = m_velocity;
 		Vector2 u2 = _other->m_velocity;
 
-		Vector2 tangent = (physics2D_getTransforms().Translation - _other->physics2D_getTransforms().Translation).Normalized();
+		Vector2 tangent = (physics2D_getTransforms().Translation - _other->physics2D_getTransforms().Translation);
+
+		if (tangent != Vector2::ZERO_VECTOR)
+		{
+			tangent.Normalize();
+		}
+
 		Vector2 u1N = u1.Dot(tangent) * tangent;
 		Vector2 u2N = u2.Dot(tangent) * tangent;
 

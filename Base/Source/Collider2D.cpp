@@ -54,8 +54,8 @@ void Collider2D::calcAABBBounds()
 	else
 	{
 		// Set the min and max bound
-		m_minBound = t.Translation - t.Scale;
-		m_maxBound = t.Translation + t.Scale;
+		m_minBound = t.Translation - t.Scale * 0.5;
+		m_maxBound = t.Translation + t.Scale * 0.5;
 
 		// Update the old transforms
 		m_oldTransform = t;
@@ -71,7 +71,7 @@ bool Collider2D::radiusCollideWith(Collider2D * _other)
 	t.Translation.z = ot.Translation.z = 0.0f;
 
 	float distSquared = (t.Translation - ot.Translation).LengthSquared();
-	float combinedRadius = t.Scale.x + ot.Scale.x;
+	float combinedRadius = t.Scale.x * 0.5 + ot.Scale.x * 0.5;
 
 	if (distSquared <= combinedRadius * combinedRadius)
 	{

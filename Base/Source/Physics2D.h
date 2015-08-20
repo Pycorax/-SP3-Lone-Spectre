@@ -16,6 +16,8 @@ public:		// Functions
 	Physics2D(void);
 	virtual ~Physics2D(void);
 
+	void InitPhysics2D(float mass, bool kinematic, Vector2 vel = Vector2::ZERO_VECTOR, Vector2 normal = Vector2::ZERO_VECTOR);
+
 	/*
 	 * Setter Functions
 	 */
