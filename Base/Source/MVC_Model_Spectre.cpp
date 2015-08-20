@@ -14,23 +14,10 @@ MVC_Model_Spectre::~MVC_Model_Spectre(void)
 
 void MVC_Model_Spectre::processKeyAction(double dt)
 {
-	if(m_bKeyPressed[MOVE_FORWARD_KEY]) //'W'
-	{
-		//queues player action 
-		m__player->SetActions(m__player->PA_MOVE_UP, true);
-	}
-	if(m_bKeyPressed[MOVE_BACKWARD_KEY])//'S'
-	{
-		m__player->SetActions(m__player->PA_MOVE_DOWN, true);
-	}
-	if(m_bKeyPressed[MOVE_LEFT_KEY] ) //'A'
-	{
-		m__player->SetActions(m__player->PA_MOVE_LEFT, true);
-	}
-	if(m_bKeyPressed[MOVE_RIGHT_KEY] ) //'D'
-	{
-		m__player->SetActions(m__player->PA_MOVE_RIGHT, true);
-	}
+	m__player->SetActions(m__player->PA_MOVE_UP, m_bKeyPressed[MOVE_FORWARD_KEY]);
+	m__player->SetActions(m__player->PA_MOVE_DOWN, m_bKeyPressed[MOVE_BACKWARD_KEY]);
+	m__player->SetActions(m__player->PA_MOVE_LEFT, m_bKeyPressed[MOVE_LEFT_KEY]);
+	m__player->SetActions(m__player->PA_MOVE_RIGHT, m_bKeyPressed[MOVE_RIGHT_KEY]);
 
 	// Scrolling map
 	static const Vector2 S_MAX_SCROLL_SIZE = m__testLevel->GetTileMap()->GetMapSize() - m__testLevel->GetTileMap()->GetScreenSize();
@@ -72,11 +59,6 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		}
 		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
 	}
-	
-	//updates player depending on actions queued.
-	m__player->Update(dt,m__testLevel->GetTileMap());
-	
-
 
 	// Controls for Spectre HexTech minigame
 	if (m_hackMode)
@@ -111,6 +93,7 @@ void MVC_Model_Spectre::Init(void)
 
 	m__player = Player::GetInstance();
 	m__player->Init(GetMeshResource("Player"));
+	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0)); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
 	m__testGO = new GameObject2D;
@@ -139,6 +122,10 @@ void MVC_Model_Spectre::Init(void)
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
+	
+	//Updates player depending on actions queued.
+	m__player->Update(dt,m__testLevel->GetTileMap());
+
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);

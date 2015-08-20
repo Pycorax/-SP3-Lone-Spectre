@@ -43,6 +43,8 @@ class Player : public Character
 
 		// For reference
 		bool m_actions[NUM_PLAYER_ACTIONS];
+		bool m_moving;
+		float m_moveDist;
 
 		//TODO: consider using a GameObject* to track which shadow is in
 	public:
@@ -61,6 +63,8 @@ class Player : public Character
 	private:
 		bool moveLeftRight(double dt, bool mode, TileMap* _map); // Move left if mode is false | Move right if mode is true
 		bool moveUpDown(double dt, bool mode, TileMap* _map); // Move up if mode is false | Move down if mode is true
+		void move(double dt, TileMap* _map);
+		void resetMove();
 
 };
 
