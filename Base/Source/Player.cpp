@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player* Player::instances = NULL;
+Player* Player::s_instances = NULL;
 float Player::s_playerMoveSpeed = 300.f;
 
 Player::Player(void)
@@ -31,14 +31,14 @@ Player::~Player(void)
 
 Player* Player::GetInstance(int instance)
 {
-	if (instances == NULL)
+	if (s_instances == NULL)
 	{
-		instances = new Player[S_MAX_INSTANCES];
+		s_instances = new Player[S_MAX_INSTANCES];
 	}
 
 	if (instance >= 0 && instance < S_MAX_INSTANCES)
 	{
-		return instances + instance;
+		return s_instances + instance;
 	}
 	else
 	{
@@ -152,12 +152,11 @@ void Player::Update(double dt, TileMap* _map)
 
 void Player::Clear()
 {
-	// Not working
-	/*for (int player = 0; player < S_MAX_INSTANCES; ++player)
+	if (s_instances)
 	{
-		delete instances + player;
-		instances + player = NULL;
-	}*/
+		delete[] s_instances;
+		s_instances = NULL;
+	}
 }
 
 void Player::SetState(Player::E_PLAYER_STATE currentState)

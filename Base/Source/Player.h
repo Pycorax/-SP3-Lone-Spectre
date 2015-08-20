@@ -36,7 +36,7 @@ class Player : public Character
 		
 		// Singleton
 		static const int S_MAX_INSTANCES = 1;
-		static Player* instances;
+		static Player* s_instances;
 		
 		//player currentState
 		E_PLAYER_STATE m_currentState;
@@ -47,11 +47,12 @@ class Player : public Character
 		//TODO: consider using a GameObject* to track which shadow is in
 	public:
 		static Player* GetInstance(int instance = 0);
+		static void Clear();
+
 		virtual ~Player(void);
 
 		void Init(Mesh* _mesh);
 		void Update(double dt, TileMap* _map);
-		void Clear();
 
 		void SetState(E_PLAYER_STATE currentState);
 		E_PLAYER_STATE GetState(void)const;
