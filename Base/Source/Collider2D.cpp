@@ -23,9 +23,10 @@ bool Collider2D::CollideWith(Collider2D* _other, const double DT)
 	}
 
 	// Use more precise but expensive box collision detection algorithms if a normal is provided and a velocity is returned by the other
-	if (collider2D_getNormal() != Vector3::ZERO_VECTOR && collider2D_getVelocity() != Vector3::ZERO_VECTOR)
+	if (collider2D_getNormal() != Vector3::ZERO_VECTOR && _other->collider2D_getVelocity() != Vector3::ZERO_VECTOR)
 	{
-		return preciseCollideWith(_other, DT);
+		//return preciseCollideWith(_other, DT);
+		return aabbCollideWith(_other);
 	}
 
 	// Delegate the correct collider function
@@ -109,16 +110,16 @@ bool Collider2D::preciseCollideWith(Collider2D * _other, const double DT)
 
 	// For Thickness
 	// |(w0 - b1).N| < r + h / 2
-	Vector3 w0 = t.Translation;
-	Vector3 b1 = ot.Translation + _other->collider2D_getVelocity() * static_cast<float>(DT);
-	Vector3 N = collider2D_getNormal();
-	float r = _other->collider2D_getTransforms().Scale.x;
-	float h = collider2D_getTransforms().Scale.x;
+	Vector3 w0 = ot.Translation;
+	Vector3 b1 = t.Translation + t.Translation * DT;
+	Vector3 N = _other->collider2D_getNormal();
+	float r = t.Scale.x;
+	float h = ot.Scale.x;
 
 	// For Length
 	// |(w0 - b1).NP| < r + l / 2
 	Vector3 NP(-N.y, N.x);
-	float l = collider2D_getTransforms().Scale.y;
+	float l = ot.Scale.y;
 
 	return abs((w0 - b1).Dot(N)) < r + h * 0.5 && abs((w0 - b1).Dot(NP)) < r + l * 0.5;
 }
