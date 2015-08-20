@@ -2,10 +2,11 @@
 
 const float SpectreHexGame::MIN_BALL_RADIUS = 20.0f;
 const Vector2 SpectreHexGame::MIN_BALL_SCALE(MIN_BALL_RADIUS, MIN_BALL_RADIUS);
-const float SpectreHexGame::MIN_BALL_MASS = 0.05f;
-const float SpectreHexGame::PLAYER_BALL_MULTIPLIER = 1.2f;
+const float SpectreHexGame::MIN_BALL_MASS = 0.02f;
+const float SpectreHexGame::PLAYER_BALL_MULTIPLIER = 1.5f;
 const float SpectreHexGame::PLAYER_MOVE_FORCE = 300.0f;
 const float SpectreHexGame::WALL_THICKNESS = 50.0f;
+const float SpectreHexGame::MIN_PLAYER_EXIT_RADIUS = 200.0f;
 
 SpectreHexGame::SpectreHexGame()
 	: m__player(NULL)
@@ -52,6 +53,13 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	wall->SetScale(Vector2(viewWidth, WALL_THICKNESS));
 	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
 	wall->SetMesh(_circuitWallMesh);
+
+	// Right Exit Wall
+	m__exitWall = fetchObject();
+	m__exitWall->SetPos(Vector3(viewWidth - WALL_THICKNESS * 0.5, viewHeight * 0.5f));
+	m__exitWall->SetScale(Vector2(WALL_THICKNESS, viewHeight));
+	m__exitWall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(1.0f, 0.0f));
+	m__exitWall->SetMesh(_circuitWallMesh);
 
 	// Generate balls
 	for (int ball = 0; ball < MAX_BALLS; ++ball)
@@ -177,8 +185,8 @@ PhysicalObject* SpectreHexGame::fetchObject(void)
 void SpectreHexGame::startUpdate(double dt)
 {
 	// Forces
-	static const Vector2 INITIAL_PUSH_PLAYER(2.0f);
-	static const float INITIAL_PUSH_X = 5.0f;
+	static const Vector2 INITIAL_PUSH_PLAYER(1.0f);
+	static const float INITIAL_PUSH_X = 3.0f;
 
 	// Timers
 	static double s_timer = 0.0f;				// Timer for the balls to be introduced with the introduction shot
@@ -258,23 +266,49 @@ void SpectreHexGame::ballsUpdate(double dt)
 
 			if (poA->CollideWith(poB, dt))
 			{
-				if (poA == m__player && poB->GetNormal() == Vector2::ZERO_VECTOR)
+				// Check if player is involved in this collision
+				PhysicalObject* otherObj = NULL;
+
+				if (poA == m__player)
 				{
-					// Absorb the enemies
-					m__player->SetMass(m__player->GetMass() + poB->GetMass());
-					m__player->SetScale(m__player->GetTransform().Scale + poB->GetTransform().Scale);
-					poB->SetActive(false);
+					otherObj = poB;
 				}
-				else if (poB == m__player && poA->GetNormal() == Vector2::ZERO_VECTOR)
+				else if (poB == m__player)
 				{
-					// Absorb the enemies
-					m__player->SetMass(m__player->GetMass() + poA->GetMass());
-					m__player->SetScale(m__player->GetTransform().Scale + poA->GetTransform().Scale);
-					poA->SetActive(false);
+					otherObj = poA;
 				}
-				else
+				else	// Player is not involved in this collision
 				{
 					poA->CollideRespondTo(poB);
+				}
+
+				// Player is involved!
+				if (otherObj != NULL)
+				{
+					if (otherObj == m__exitWall)
+					{
+						// Check if player can exit
+						if (m__player->GetTransform().Scale.x < MIN_PLAYER_EXIT_RADIUS)
+						{
+							// If cannot, do normal collision
+							poA->CollideRespondTo(poB);
+						}
+						else
+						{
+							m_state = GS_WIN;
+						}
+					}
+					else if (otherObj->GetKinematic() == false)
+					{
+						// Absorb the enemies
+						m__player->SetMass(m__player->GetMass() + otherObj->GetMass());
+						m__player->SetScale(m__player->GetTransform().Scale + otherObj->GetTransform().Scale);
+						otherObj->SetActive(false);
+					}
+					else
+					{
+						poA->CollideRespondTo(poB);
+					}
 				}
 			}
 		}

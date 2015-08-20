@@ -30,12 +30,14 @@ private:
 	static const float PLAYER_BALL_MULTIPLIER;		// Determines the stats of the player PhysicalObject by multiplying this with the minimum stats of other balls above
 	static const float PLAYER_MOVE_FORCE;			// The force of to effect on the player
 	static const float WALL_THICKNESS;				// The thickness of the walls in this minigame
+	static const float MIN_PLAYER_EXIT_RADIUS;		// The minimum radius of the player before he can exit the level and win
 
 private:	// Variables
 	GAME_STATE m_state;								// Controls the state of the minigame
-	vector<PhysicalObject*> m_ballList;					// Stores all the ShadowBalls to be used
-	PhysicalObject* m__player;							// The player PhysicalObject object
-	GameObject2D* m__background;
+	vector<PhysicalObject*> m_ballList;				// Stores all the ShadowBalls to be used
+	PhysicalObject* m__player;						// The player PhysicalObject object
+	PhysicalObject* m__exitWall;					// The wall that can be passed through when the player has enough 
+	GameObject2D* m__background;					// The background image of this hacking game
 
 public:
 	SpectreHexGame(void);
