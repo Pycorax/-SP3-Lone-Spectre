@@ -23,7 +23,7 @@ private:
 	};
 
 	// Static Constants
-	static const unsigned MAX_BALLS = 30;			// Max balls to spawn at the start
+	static const unsigned MAX_BALLS = 20;			// Max balls to spawn at the start
 	static const float MIN_BALL_RADIUS;				// The minimum radius of the ShadowBalls
 	static const Vector2 MIN_BALL_SCALE;			// The minimum scale of the ShadowBalls, determined by MIN_BALL_RADIUS
 	static const float MIN_BALL_MASS;				// The minimum mass of the ShadowBalls

@@ -107,16 +107,14 @@ void MVC_Model_Spectre::Init(void)
 
 	// Physics Testing
 	m__po1 = new PhysicalObject;
-	m__po1->SetPos(Vector2(300.0f, 500.0f));
+	m__po1->SetPos(Vector2(300.0f, 100.0f));
 	m__po1->SetScale(Vector2(50.f, 50.0f));
-	m__po1->SetColliderType(Collider2D::CT_AABB);
-	m__po1->InitPhysics2D(1.0f, false, Vector2(0.0f, -50.0f));
+	m__po1->InitPhysics2D(1.0f, false, Vector2(0.0f, 50.0f));
 	m__po1->SetMesh(GetMeshResource("Quad"));
 
 	m__po2 = new PhysicalObject;
 	m__po2->SetPos(Vector2(300.0f, 300.0f));
-	m__po2->SetScale(Vector2(150.0f, 32.0f));
-	m__po2->SetColliderType(Collider2D::CT_AABB);
+	m__po2->SetScale(Vector2(150.0f, 50.0f));
 	m__po2->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
 	m__po2->SetMesh(GetMeshResource("Quad"));
 }
@@ -141,23 +139,9 @@ void MVC_Model_Spectre::Update(double dt)
 	m__po1->UpdatePhysics(dt);
 	m__po2->UpdatePhysics(dt);
 
-	PhysicalObject* poA = m__po1;
-	PhysicalObject* poB = m__po2;
-
-	if (m__po1->GetNormal() != Vector2::ZERO_VECTOR)
+	if (m__po1->CollideWith(m__po2, dt))
 	{
-		if (m__po2->GetNormal() != Vector2::ZERO_VECTOR)
-		{
-			
-		}
-
-		poA = m__po2;
-		poB = m__po1;
-	}
-
-	if (poA->CollideWith(poB, dt))
-	{
-		poA->CollideRespondTo(poB);
+		m__po1->CollideRespondTo(m__po2);
 	}
 
 	// Rendering

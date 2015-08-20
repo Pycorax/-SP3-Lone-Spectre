@@ -2,14 +2,14 @@
 
 const float SpectreHexGame::MIN_BALL_RADIUS = 20.0f;
 const Vector2 SpectreHexGame::MIN_BALL_SCALE(MIN_BALL_RADIUS, MIN_BALL_RADIUS);
-const float SpectreHexGame::MIN_BALL_MASS = 1.0f;
-const float SpectreHexGame::PLAYER_BALL_MULTIPLIER = 1.0f;
+const float SpectreHexGame::MIN_BALL_MASS = 0.05f;
+const float SpectreHexGame::PLAYER_BALL_MULTIPLIER = 1.2f;
 const float SpectreHexGame::PLAYER_MOVE_FORCE = 300.0f;
 const float SpectreHexGame::WALL_THICKNESS = 50.0f;
 
 SpectreHexGame::SpectreHexGame()
 	: m__player(NULL)
-	, m_state(GS_PLAYING)
+	, m_state(GS_START)
 {
 }
 
@@ -39,22 +39,22 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(1.0f, 0.0f));
 	wall->SetMesh(_circuitWallMesh);
 
-	//// Top
-	//wall = fetchObject();
-	//wall->SetPos(Vector3(viewWidth * 0.5f, viewHeight - WALL_THICKNESS * 0.5));
-	//wall->SetScale(Vector2(WALL_THICKNESS, viewWidth));
-	//wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
-	//wall->SetMesh(_circuitWallMesh);
+	// Top
+	wall = fetchObject();
+	wall->SetPos(Vector3(viewWidth * 0.5f, viewHeight - WALL_THICKNESS * 0.5));
+	wall->SetScale(Vector2(viewWidth, WALL_THICKNESS));
+	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
+	wall->SetMesh(_circuitWallMesh);
 
-	//// Bottom
-	//wall = fetchObject();
-	//wall->SetPos(Vector3(viewWidth * 0.5f, WALL_THICKNESS * 0.5));
-	//wall->SetScale(Vector2(WALL_THICKNESS, viewWidth));
-	//wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
-	//wall->SetMesh(_circuitWallMesh);
+	// Bottom
+	wall = fetchObject();
+	wall->SetPos(Vector3(viewWidth * 0.5f, WALL_THICKNESS * 0.5));
+	wall->SetScale(Vector2(viewWidth, WALL_THICKNESS));
+	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
+	wall->SetMesh(_circuitWallMesh);
 
 	// Generate balls
-	for (int ball = 0; ball < 1; ++ball)
+	for (int ball = 0; ball < MAX_BALLS; ++ball)
 	{
 		PhysicalObject* sBall = fetchObject();
 		sBall->SetPos(Vector3(200.0f, (viewHeight - MIN_BALL_RADIUS) * 0.5));
@@ -196,8 +196,8 @@ void SpectreHexGame::startUpdate(double dt)
 	 * Shoot the shadow balls in (entrance)
 	 */
 	// For producing a spread of balls
-	const float OFFSET_Y_PER_SHOT = INITIAL_PUSH_X / MAX_BALLS;
-	float offsetY = -(OFFSET_Y_PER_SHOT * MAX_BALLS * 0.5);
+	const float OFFSET_Y_PER_SHOT = (INITIAL_PUSH_X * 2) / MAX_BALLS * 2;
+	float offsetY = -INITIAL_PUSH_X + OFFSET_Y_PER_SHOT;
 
 	for (vector<PhysicalObject*>::iterator phyObj = m_ballList.begin(); phyObj != m_ballList.end(); ++phyObj)
 	{
@@ -208,32 +208,19 @@ void SpectreHexGame::startUpdate(double dt)
 			continue;
 		}
 		
+		if (po == m__player)
+		{
+			po->AddForce(INITIAL_PUSH_PLAYER, dt);
+		}
+
+		if (po->GetNormal() == Vector2::ZERO_VECTOR)
+		{
+			po->AddForce(Vector2(INITIAL_PUSH_X, offsetY), dt);
+			offsetY += OFFSET_Y_PER_SHOT;
+		}
+
 		// Update this Physical
 		po->UpdatePhysics(dt);
-
-		for (std::vector<PhysicalObject *>::iterator phyObj2 = phyObj + 1; phyObj2 != m_ballList.end(); ++phyObj2)
-		{
-			PhysicalObject *po2 = static_cast<PhysicalObject *>(*phyObj2);
-
-			PhysicalObject* poA = po;
-			PhysicalObject* poB = po2;
-
-			if (po->GetNormal() != Vector2::ZERO_VECTOR)
-			{
-				if (po2->GetNormal() != Vector2::ZERO_VECTOR)
-				{
-					continue;
-				}
-
-				poA = po2;
-				poB = po;
-			}
-
-			if (poA->CollideWith(poB, dt))
-			{
-				poA->CollideRespondTo(poB);
-			}
-		}
 	}
 }
 

@@ -124,14 +124,14 @@ void Physics2D::CollideRespondTo(Physics2D* _other)
 		Vector3 NP(-N.y, N.x);
 		float l = ot.Scale.y;
 
-		if (abs((w0 - b1).Dot(N)) > r + h * 0.5)
+		if (abs((w0 - b1).Dot(N)) < r + h * 0.5)
 		{
 			// v = u - (2u.N)N
 			Vector3 u = m_velocity;
 			Vector3 v = u - 2 * u.Dot(N) * N;
 			m_velocity = v;
 		}
-		else if (abs((w0 - b1).Dot(NP)) > r + l * 0.5)
+		else if (abs((w0 - b1).Dot(NP)) < r + l * 0.5)
 		{
 			// v = u - (2u.NP)NP
 			Vector3 u = m_velocity;
