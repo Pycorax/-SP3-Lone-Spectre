@@ -33,6 +33,7 @@ private:
 	static const float MIN_BALL_MASS;				// The minimum mass of the ShadowBalls
 	static const float PLAYER_BALL_MULTIPLIER;		// Determines the stats of the player PhysicalObject by multiplying this with the minimum stats of other balls above
 	static const float PLAYER_MOVE_FORCE;			// The force of to effect on the player
+	static const float MAX_PLAYER_VEL;				// Limits the maximum velocity of the player
 	// -- Walls
 	static const float WALL_THICKNESS;				// The thickness of the walls in this minigame
 	static const float EXIT_WALL_THICKNESS;			// The thickness of the exit wall to the right in this minigame

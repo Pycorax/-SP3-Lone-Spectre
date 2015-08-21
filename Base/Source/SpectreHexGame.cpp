@@ -2,9 +2,14 @@
 
 const float SpectreHexGame::MIN_BALL_RADIUS = 20.0f;
 const Vector2 SpectreHexGame::MIN_BALL_SCALE(MIN_BALL_RADIUS, MIN_BALL_RADIUS);
-const float SpectreHexGame::MIN_BALL_MASS = 0.02f;
+
+// -- Ball Physics
+const float SpectreHexGame::MIN_BALL_MASS = 0.001f;
 const float SpectreHexGame::PLAYER_BALL_MULTIPLIER = 1.5f;
-const float SpectreHexGame::PLAYER_MOVE_FORCE = 300.0f;
+const float SpectreHexGame::PLAYER_MOVE_FORCE = 30.0f;
+const float SpectreHexGame::MAX_PLAYER_VEL = 250.0f;
+
+// -- Walls
 const float SpectreHexGame::WALL_THICKNESS = 50.0f;
 const float SpectreHexGame::EXIT_WALL_THICKNESS = 400.0f;
 const float SpectreHexGame::MIN_PLAYER_EXIT_RADIUS = 300.0f;
@@ -281,6 +286,12 @@ void SpectreHexGame::playingUpdate(double dt)
 		m__exitWall->SetMesh(m__destroyedWallMesh);
 	}
 
+	// Limit the player's velocity
+	if (m__player->GetVelocity().LengthSquared() > MAX_PLAYER_VEL * MAX_PLAYER_VEL)
+	{
+		m__player->SetVelocity(m__player->GetVelocity().Normalized() * MAX_PLAYER_VEL);
+	}
+
 	// Simulate all the walls and balls in the world
 	for (vector<PhysicalObject*>::iterator phyObj = m_ballList.begin(); phyObj != m_ballList.end(); ++phyObj)
 	{
@@ -367,12 +378,12 @@ void SpectreHexGame::playingUpdate(double dt)
 void SpectreHexGame::winCeremonyUpdate(double dt)
 {
 	static bool firstFrame = true;						// Ensure only initialization portion is run once
-	static const Vector2 LEAVE_FORCE(10.0f, 0.0f);
-	static const Vector2 PLAYER_LEAVE_FORCE(1000.0f, 0.0f);
+	static const Vector2 LEAVE_FORCE(5.0f, 0.0f);
+	static const Vector2 PLAYER_LEAVE_FORCE(100.0f, 0.0f);
 	
 	// Timer for whole ceremony
 	static double timer = 0.0;
-	static const double WAIT_TIME = 4.0;
+	static const double WAIT_TIME = 2.0;
 
 	// Initialization for this portion
 	if (firstFrame)
