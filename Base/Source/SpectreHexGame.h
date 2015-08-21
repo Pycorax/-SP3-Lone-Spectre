@@ -28,7 +28,8 @@ private:
 	// -- Balls
 	static const unsigned MAX_BALLS = 20;			// Max balls to spawn at the start
 	static const float MIN_BALL_RADIUS;				// The minimum radius of the ShadowBalls
-	static const Vector2 MIN_BALL_SCALE;			// The minimum scale of the ShadowBalls, determined by MIN_BALL_RADIUS
+	static const float MAX_BALL_RADIUS;				// The maximum radius of the ShadowBalls
+	static const float PLAYER_BALL_SPAWN_RADIUS;	// The radius of the player upon spawn
 	// -- Ball Physics
 	static const float MIN_BALL_MASS;				// The minimum mass of the ShadowBalls
 	static const float PLAYER_BALL_MULTIPLIER;		// Determines the stats of the player PhysicalObject by multiplying this with the minimum stats of other balls above
@@ -43,6 +44,8 @@ private:
 	static const Vector2 BALL_SPAWN_MAX_VEL;		// The maximum velocity of normal shadow balls at spawn
 	static const Vector2 BALL_SPAWN_MIN_POS;		// The minimum position of normal shadow balls at spawn
 	static const Vector2 BALL_SPAWN_MAX_POS_OFFSET;	// The offset to add to the screen resolution to get the maximum position of normal shadow balls at spawn
+	static const int MAX_LARGE_BALLS = 4;				// The number of maximum large sized (defined by MIN_LARGE_BALL_RADIUS) balls that can exist
+	static const float MIN_LARGE_BALL_RADIUS;		// The minimum radius of a "large sized" ball
 
 private:	// Variables
 	GAME_STATE m_state;								// Controls the state of the minigame

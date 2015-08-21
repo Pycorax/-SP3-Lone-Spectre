@@ -1,13 +1,15 @@
 #include "SpectreHexGame.h"
 
-const float SpectreHexGame::MIN_BALL_RADIUS = 20.0f;
-const Vector2 SpectreHexGame::MIN_BALL_SCALE(MIN_BALL_RADIUS, MIN_BALL_RADIUS);
+// -- Balls
+const float SpectreHexGame::MIN_BALL_RADIUS = 10.0f;
+const float SpectreHexGame::MAX_BALL_RADIUS = 100.0f;
+const float SpectreHexGame::PLAYER_BALL_SPAWN_RADIUS = 30.0f;
 
 // -- Ball Physics
 const float SpectreHexGame::MIN_BALL_MASS = 0.001f;
 const float SpectreHexGame::PLAYER_BALL_MULTIPLIER = 1.5f;
 const float SpectreHexGame::PLAYER_MOVE_FORCE = 30.0f;
-const float SpectreHexGame::MAX_PLAYER_VEL = 250.0f;
+const float SpectreHexGame::MAX_PLAYER_VEL = 150.0f;
 
 // -- Walls
 const float SpectreHexGame::WALL_THICKNESS = 50.0f;
@@ -15,10 +17,11 @@ const float SpectreHexGame::EXIT_WALL_THICKNESS = 400.0f;
 const float SpectreHexGame::MIN_PLAYER_EXIT_RADIUS = 300.0f;
 
 // -- Ball Spawning
-const Vector2 SpectreHexGame::BALL_SPAWN_MIN_VEL(-200.0f, -200.0f);
-const Vector2 SpectreHexGame::BALL_SPAWN_MAX_VEL(200.0f, 200.0f);
-const Vector2 SpectreHexGame::BALL_SPAWN_MIN_POS(0.0f + WALL_THICKNESS + MIN_BALL_RADIUS, 0.0f + WALL_THICKNESS + MIN_BALL_RADIUS);
-const Vector2 SpectreHexGame::BALL_SPAWN_MAX_POS_OFFSET(-EXIT_WALL_THICKNESS - MIN_BALL_RADIUS, -WALL_THICKNESS - MIN_BALL_RADIUS);
+const Vector2 SpectreHexGame::BALL_SPAWN_MIN_VEL(-120.0f, -120.0f);
+const Vector2 SpectreHexGame::BALL_SPAWN_MAX_VEL(120.0f, 120.0f);
+const Vector2 SpectreHexGame::BALL_SPAWN_MIN_POS(0.0f + WALL_THICKNESS + MAX_BALL_RADIUS, 0.0f + WALL_THICKNESS + MAX_BALL_RADIUS);
+const Vector2 SpectreHexGame::BALL_SPAWN_MAX_POS_OFFSET(-EXIT_WALL_THICKNESS - MAX_BALL_RADIUS, -WALL_THICKNESS - MAX_BALL_RADIUS);
+const float SpectreHexGame::MIN_LARGE_BALL_RADIUS = 60.0f;
 
 SpectreHexGame::SpectreHexGame()
 	: m__player(NULL)
@@ -38,7 +41,7 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	{
 		m__player = fetchObject();
 		m__player->SetPos(Vector3(100.0f, (viewHeight - MIN_BALL_RADIUS * PLAYER_BALL_MULTIPLIER) * 0.5));
-		m__player->SetScale(MIN_BALL_SCALE);
+		m__player->SetScale(Vector2(PLAYER_BALL_SPAWN_RADIUS, PLAYER_BALL_SPAWN_RADIUS));
 		m__player->InitPhysics2D(MIN_BALL_MASS* PLAYER_BALL_MULTIPLIER, false);
 		m__player->SetMass(MIN_BALL_MASS * PLAYER_BALL_MULTIPLIER);
 		m__player->SetMesh(_shadowBallMesh);
@@ -77,6 +80,7 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	m__destroyedWallMesh = _destroyedCircuitMesh;
 
 	// Generate balls
+	int numLargeBalls = 0;
 	for (int ball = 0; ball < MAX_BALLS; ++ball)
 	{
 		PhysicalObject* sBall = fetchObject();
@@ -91,8 +95,25 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 						Math::RandFloatMinMax(BALL_SPAWN_MIN_VEL.y, BALL_SPAWN_MAX_VEL.y)
 					);
 
+		float radius;
+
+		if (numLargeBalls < MAX_LARGE_BALLS)
+		{
+			radius = Math::RandFloatMinMax(MIN_LARGE_BALL_RADIUS, MAX_BALL_RADIUS);
+			++numLargeBalls;
+		}
+		else
+		{
+			radius = Math::RandFloatMinMax(MIN_BALL_RADIUS, MIN_LARGE_BALL_RADIUS);
+		}
+
+		Vector2 scale(
+						radius,
+						radius
+					 );
+
 		sBall->SetPos(pos);
-		sBall->SetScale(MIN_BALL_SCALE);
+		sBall->SetScale(scale);
 		sBall->InitPhysics2D(MIN_BALL_MASS, false, vel);
 		sBall->SetMesh(_shadowBallMesh);
 	}
@@ -240,6 +261,9 @@ PhysicalObject* SpectreHexGame::fetchObject(void)
 
 void SpectreHexGame::startUpdate(double dt)
 {
+	// First Run
+	static bool firstRun = true;
+
 	// Forces
 	static const Vector2 INITIAL_PUSH_PLAYER(1.0f);
 	static const float INITIAL_PUSH_X = 3.0f;
@@ -248,12 +272,27 @@ void SpectreHexGame::startUpdate(double dt)
 	static double s_timer = 0.0f;				// Timer for the balls to be introduced with the introduction shot
 	static const double TIME_LIMIT = 1.0;		// The time to wait before players can start playing
 
+	// Air Bubble
+	static const float AIR_BUBBLE_RADIUS = 400.0f;
+	static PhysicalObject* _airBubble = fetchObject();
+
+	// Initialize the air bubble at first run
+	if (firstRun)
+	{
+		_airBubble->InitPhysics2D(0.00001f, true);
+		_airBubble->SetScale(Vector2(AIR_BUBBLE_RADIUS, AIR_BUBBLE_RADIUS));
+		//_airBubble->SetMesh(m__restrictedWallMesh);
+
+		firstRun = false;
+	}
+
 	s_timer += dt;
 
 	if (s_timer > TIME_LIMIT)
 	{
 		// Stop the shooting
 		m_state = GS_PLAYING;
+		_airBubble->SetActive(false);
 	}
 
 	/* 
@@ -275,6 +314,42 @@ void SpectreHexGame::startUpdate(double dt)
 
 		// Update this Physical Object
 		po->UpdatePhysics(dt);
+
+		if (po == m__player)
+		{
+			continue;
+		}
+
+		for (std::vector<PhysicalObject *>::iterator phyObj2 = phyObj + 1; phyObj2 != m_ballList.end(); ++phyObj2)
+		{
+			PhysicalObject *po2 = static_cast<PhysicalObject *>(*phyObj2);
+
+			PhysicalObject* poA = po;
+			PhysicalObject* poB = po2;
+
+			if (po->GetNormal() != Vector2::ZERO_VECTOR)
+			{
+				if (po2->GetNormal() != Vector2::ZERO_VECTOR)
+				{
+					continue;
+				}
+
+				poA = po2;
+				poB = po;
+			}
+
+			if (poA->CollideWith(poB, dt))
+			{
+				poA->CollideRespondTo(poB);
+			}
+
+			// If it is a collision with the air bubble revert the impact
+			if (poA == _airBubble || poB == _airBubble)
+			{
+				// Shift the air bubble back to the player's position
+				_airBubble->SetPos(m__player->GetTransform().Translation);
+			}
+		}
 	}
 }
 
@@ -360,10 +435,23 @@ void SpectreHexGame::playingUpdate(double dt)
 					}
 					else if (otherObj->GetKinematic() == false)
 					{
-						// Absorb the enemies
-						m__player->SetMass(m__player->GetMass() + otherObj->GetMass());
-						m__player->SetScale(m__player->GetTransform().Scale + otherObj->GetTransform().Scale);
-						otherObj->SetActive(false);
+						if (m__player->GetTransform().Scale.x > otherObj->GetTransform().Scale.x)
+						{
+							// Absorb the enemies
+							m__player->SetMass(m__player->GetMass() + otherObj->GetMass() * 0.5);
+							m__player->SetScale(m__player->GetTransform().Scale + otherObj->GetTransform().Scale * 0.5);
+							otherObj->SetActive(false);
+						}
+						else if (m__player->GetTransform().Scale.x < otherObj->GetTransform().Scale.x)
+						{
+							// Absorb the enemies
+							otherObj->SetMass(otherObj->GetMass() + m__player->GetMass() * 0.5);
+							otherObj->SetScale(otherObj->GetTransform().Scale + m__player->GetTransform().Scale * 0.5);
+							m__player->SetActive(false);
+
+							// Player Loses
+							m_state = GS_LOSE_CEREMONY;
+						}
 					}
 					else
 					{
