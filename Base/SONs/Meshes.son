@@ -47,6 +47,14 @@
 	}
 	
 	{
+		[Name] PlayerBall
+		[Type] Quad
+		[Color] 1.0f, 1.0f, 1.0f
+		[Length] 1.0f
+		[Texture] PlayerBall
+	}
+	
+	{
 		[Name] CircuitWall
 		[Type] Quad
 		[Color] 1.0f, 1.0f, 1.0f

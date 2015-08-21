@@ -17,6 +17,11 @@
 	}
 	
 	{
+		[Name] PlayerBall
+		[FilePath] Image//player_ball.tga
+	}
+	
+	{
 		[Name] CircuitWall
 		[FilePath] Image//CircuitWall.tga
 	}

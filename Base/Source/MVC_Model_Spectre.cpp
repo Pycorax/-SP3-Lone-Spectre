@@ -128,7 +128,7 @@ void MVC_Model_Spectre::Init(void)
 	m__colliderList.push_back(dynamic_cast<Collider2D *>(m__testGO) );
 
 	// Init the hacking game
-	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
+	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("PlayerBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
 
 	// Physics Testing
 	m__po1 = new PhysicalObject;

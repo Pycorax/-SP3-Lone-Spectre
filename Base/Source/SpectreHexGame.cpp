@@ -26,6 +26,13 @@ const float SpectreHexGame::MIN_LARGE_BALL_RADIUS = 60.0f;
 SpectreHexGame::SpectreHexGame()
 	: m__player(NULL)
 	, m_state(GS_START)
+	, m__background(NULL)
+	, m__circuitWallMesh(NULL)
+	, m__destroyedWallMesh(NULL)
+	, m__restrictedWallMesh(NULL)
+	, m__shadowBallMesh(NULL)
+	, m__exitWall(NULL)
+	, m__loseScreen(NULL)
 {
 }
 
@@ -34,10 +41,11 @@ SpectreHexGame::~SpectreHexGame()
 {
 }
 
-void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _loseScreen, Mesh* _bgMesh, int viewWidth, int viewHeight)
+void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _playerBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _loseScreen, Mesh* _bgMesh, int viewWidth, int viewHeight)
 {
 	// Init all the meshes
 	m__shadowBallMesh = _shadowBallMesh;
+	m__playerBallMesh = _playerBallMesh;
 	m__circuitWallMesh = _circuitWallMesh;
 	m__destroyedWallMesh = _destroyedCircuitMesh;
 	m__restrictedWallMesh = _restrictedCircuitMesh;
@@ -99,6 +107,12 @@ void SpectreHexGame::Reset(int viewWidth, int viewHeight)
 		(*po)->SetActive(false);
 	}
 
+	// Reset the loseScreen
+	if (m__loseScreen != NULL)
+	{
+		m__loseScreen->SetPos(Vector2(0.0f, viewHeight));
+	}
+
 	// Init Player
 	if (m__player == NULL)
 	{
@@ -111,7 +125,7 @@ void SpectreHexGame::Reset(int viewWidth, int viewHeight)
 		m__player->SetScale(Vector2(PLAYER_BALL_SPAWN_RADIUS, PLAYER_BALL_SPAWN_RADIUS));
 		m__player->InitPhysics2D(MIN_BALL_MASS* PLAYER_BALL_MULTIPLIER, false);
 		m__player->SetMass(MIN_BALL_MASS * PLAYER_BALL_MULTIPLIER);
-		m__player->SetMesh(m__shadowBallMesh);
+		m__player->SetMesh(m__playerBallMesh);
 	}
 
 	// Generate the Walls
@@ -311,6 +325,11 @@ void SpectreHexGame::startUpdate(double dt)
 	{
 		// Stop the shooting
 		m_state = GS_PLAYING;
+
+		// Reset static variables for next run
+		firstRun = true;
+
+		// Disable the air bubble
 		_airBubble->SetActive(false);
 	}
 
@@ -525,6 +544,10 @@ void SpectreHexGame::winCeremonyUpdate(double dt)
 	timer += dt;
 	if (timer > WAIT_TIME)
 	{
+		// Reset Static Vars
+		firstFrame = true;
+		timer = 0.0;
+
 		m_state = GS_END_IN_WIN;
 	}
 }
@@ -532,7 +555,7 @@ void SpectreHexGame::winCeremonyUpdate(double dt)
 void SpectreHexGame::loseCeremonyUpdate(double dt)
 {
 	static bool firstFrame = true;
-	static const float SCREEN_FALL_SPEED = 100.0f;
+	static const float SCREEN_FALL_SPEED = 150.0f;
 
 	// Timer for whole ceremony
 	static double timer = 0.0;
@@ -568,6 +591,10 @@ void SpectreHexGame::loseCeremonyUpdate(double dt)
 		timer += dt;
 		if (timer > WAIT_TIME)
 		{
+			// Reset Static Vars
+			firstFrame = true;
+			timer = 0.0;
+
 			m_state = GS_END_IN_LOSS;
 		}
 	}

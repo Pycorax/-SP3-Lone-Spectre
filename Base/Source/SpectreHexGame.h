@@ -57,6 +57,7 @@ private:	// Variables
 
 	// Meshes
 	Mesh* m__shadowBallMesh;						// Stores the mesh for shadowBalls
+	Mesh* m__playerBallMesh;						// Stores the mesh for the player's shadowBall
 	Mesh* m__circuitWallMesh;						// Stores the mesh for a normal circuit wall
 	Mesh* m__restrictedWallMesh;					// Stores the mesh for a restricted wall to be used on losing and as the exit wall
 	Mesh* m__destroyedWallMesh;						// Stores the mesh for a destroyed wall to be used on winning
@@ -65,7 +66,7 @@ public:
 	SpectreHexGame(void);
 	virtual ~SpectreHexGame(void);
 
-	void Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _loseScreen, Mesh* _bgMesh, int viewWidth, int viewHeight);
+	void Init(Mesh* _shadowBallMesh, Mesh* _playerBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _loseScreen, Mesh* _bgMesh, int viewWidth, int viewHeight);
 	void Update(double dt);
 	void Exit(void);
 
