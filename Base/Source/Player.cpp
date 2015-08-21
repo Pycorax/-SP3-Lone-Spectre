@@ -149,9 +149,36 @@ void Player::Update(double dt, TileMap* _map)
 		// if( lookDir == Item on map) ->dive
 		// if( m_currentState == Dive || host && lookDir == enemyBack || item on map) -> jump then become dive ||host
 		// if (lookDir == Camera ) -> Hex goto minigame
-	
+		bool shiftOrigin = false;
+		static Vector2 s_newOrigin;
+		if (GetLookDir().x < 0 || GetLookDir().y < 0) // Moving left or down
+		{
+			s_newOrigin = GetMapPos(); // No change in origin (Bottom or Left)
+		}
+		else // Moving right or up
+		{
+			s_newOrigin = GetMapPos() + (GetLookDir() * _map->GetTileSize()); // Change in origin (Top or Right)
+			shiftOrigin = true;
+		}	
+		Vector2 tilePos = Vector2(floor(s_newOrigin.x / _map->GetTileSize()) * _map->GetTileSize(), s_newOrigin.y) + m_lookDir;
+		//If next to an object's shadow to hide
+		if (_map->GetTileType(tilePos) == m__tile->TILE_INVISIBLE_WALL)
+		{
+			//Hide in Object Shadow
+		}
+		//If next to an Enemy's shadow to hide
+		if (_map->GetTileType(tilePos) == m__tile->TILE_INVISIBLE_WALL) 
+		{
+			//Hide in Enemy Shadow
+		}
+		//If next to a camera to hack
+		if (_map->GetTileType(tilePos) == m__tile->TILE_CAMERA_BOTTOM || _map->GetTileType(tilePos) == m__tile->TILE_CAMERA_TOP || _map->GetTileType(tilePos) == m__tile->TILE_CAMERA_RIGHT || _map->GetTileType(tilePos) == m__tile->TILE_CAMERA_LEFT) 
+		{
+			//Play Hacking Minigame
+		}
 		// reseting back to false
 		m_actions[PA_INTERACT] = false;
+		
 	}
 
 	if (m_moving)

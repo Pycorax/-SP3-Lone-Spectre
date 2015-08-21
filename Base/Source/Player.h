@@ -5,6 +5,7 @@
 #include "TileMap.h"
 #include "GameObject2D.h"
 #include "Enemy.h"
+#include "Tile.h"
 
 class Player : public Character
 {
@@ -49,6 +50,7 @@ class Player : public Character
 		float m_moveDist;
 
 		GameObject2D* m__host;
+		Tile* m__tile;
 	public:
 		static Player* GetInstance(int instance = 0);
 		static void Clear();

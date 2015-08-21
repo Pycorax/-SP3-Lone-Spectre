@@ -15,6 +15,10 @@ const bool Tile::S_IS_TILE_SOLID[NUM_TILE] =
 	true,
 	true,
 	true,
+	true,
+	true,
+	true,
+	true,
 	true
 };
 
