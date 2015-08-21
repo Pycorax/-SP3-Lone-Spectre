@@ -172,7 +172,7 @@ void Player::Update(double dt, TileMap* _map)
 			//Hide in Enemy Shadow
 		}
 		//If next to a camera to hack
-		if (_map->GetTileType(tilePos) == m__tile->TILE_CAMERA_BOTTOM || _map->GetTileType(tilePos) == m__tile->TILE_CAMERA_TOP || _map->GetTileType(tilePos) == m__tile->TILE_CAMERA_RIGHT || _map->GetTileType(tilePos) == m__tile->TILE_CAMERA_LEFT) 
+		if (_map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_1 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_2 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_3 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_4)
 		{
 			//Play Hacking Minigame
 		}

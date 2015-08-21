@@ -29,10 +29,6 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 		"TILE_FLOOR",
 		"TILE_INVISIBLE_WALL",
 		"TILE_WALL",
-		"TILE_CAMERA_RIGHT",
-		"TILE_CAMERA_LEFT",
-		"TILE_CAMERA_TOP",
-		"TILE_CAMERA_BOTTOM",
 		"TILE_OBJ_CABINET",
 		"TILE_OBJ_CHAIR_LEFT",
 		"TILE_OBJ_CHAIR_RIGHT",
@@ -44,6 +40,14 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 		"TILE_OBJ_TABLE_1_2", // Row 1 col 2
 		"TILE_OBJ_TABLE_2_1", // Row 2 col 1
 		"TILE_OBJ_TABLE_2_2", // Row 2 col 2
+		"TILE_OBJ_CAMERA_ON_1_1", // Row 1 col 1
+		"TILE_OBJ_CAMERA_ON_1_2", // Row 1 col 2
+		"TILE_OBJ_CAMERA_ON_1_3", // Row 1 col 3
+		"TILE_OBJ_CAMERA_ON_1_4", // Row 1 col 4
+		"TILE_OBJ_CAMERA_OFF_1_1", // Row 1 col 1
+		"TILE_OBJ_CAMERA_OFF_1_2", // Row 1 col 2
+		"TILE_OBJ_CAMERA_OFF_1_3", // Row 1 col 3
+		"TILE_OBJ_CAMERA_OFF_1_4", // Row 1 col 4
 	};
 	Mesh* _tileMeshList[Tile::NUM_TILE];
 	for (int name = 0; name < Tile::NUM_TILE; ++name)

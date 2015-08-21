@@ -46,6 +46,11 @@
 		[Name] TILE_FLOOR
 		[FilePath] Image//Lab_Tiles//floor.tga
 	}
+
+	{
+		[Name] TILE_OBJ_CAMERA
+		[FilePath] Image//Enemy//Camera_2x4.tga
+	}
 	
 	{
 		[Name] TILE_OBJ_CABINET
