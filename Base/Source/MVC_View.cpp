@@ -662,8 +662,7 @@ void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float siz
 			viewStack.LoadIdentity();  
 			modelStack.PushMatrix();   
 				modelStack.LoadIdentity();  
-				modelStack.Translate(x, y, 0);  
-				modelStack.Scale(sizeX, sizeY, 1.0f);  
+				modelStack.Translate(x, y, 0); 
 
 				if (rotateY)
 				{
@@ -675,6 +674,10 @@ void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float siz
 				{
 					modelStack.Rotate(rotateZ, 0, 0, 1);
 				}
+
+				modelStack.Scale(sizeX, sizeY, 1.0f);  
+
+				
 					    
 				Mtx44 MVP, modelView, modelView_inverse_transpose;  
 				MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();   
