@@ -17,6 +17,8 @@ using std::ostringstream;
 MVC_Model::MVC_Model(string configSONFile) : m_configSONFile(configSONFile), m_running(true)
 {
 	loadConfig();
+
+	Math::InitRNG();
 }
 
 MVC_Model::~MVC_Model()

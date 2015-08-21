@@ -9,6 +9,12 @@ const float SpectreHexGame::WALL_THICKNESS = 50.0f;
 const float SpectreHexGame::EXIT_WALL_THICKNESS = 400.0f;
 const float SpectreHexGame::MIN_PLAYER_EXIT_RADIUS = 300.0f;
 
+// -- Ball Spawning
+const Vector2 SpectreHexGame::BALL_SPAWN_MIN_VEL(-200.0f, -200.0f);
+const Vector2 SpectreHexGame::BALL_SPAWN_MAX_VEL(200.0f, 200.0f);
+const Vector2 SpectreHexGame::BALL_SPAWN_MIN_POS(0.0f + WALL_THICKNESS + MIN_BALL_RADIUS, 0.0f + WALL_THICKNESS + MIN_BALL_RADIUS);
+const Vector2 SpectreHexGame::BALL_SPAWN_MAX_POS_OFFSET(-EXIT_WALL_THICKNESS - MIN_BALL_RADIUS, -WALL_THICKNESS - MIN_BALL_RADIUS);
+
 SpectreHexGame::SpectreHexGame()
 	: m__player(NULL)
 	, m_state(GS_START)
@@ -70,8 +76,19 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	{
 		PhysicalObject* sBall = fetchObject();
 		sBall->SetPos(Vector3(200.0f, (viewHeight - MIN_BALL_RADIUS) * 0.5));
+
+		Vector2 pos(
+						Math::RandFloatMinMax(BALL_SPAWN_MIN_POS.x, viewWidth + BALL_SPAWN_MAX_POS_OFFSET.x),
+						Math::RandFloatMinMax(BALL_SPAWN_MIN_POS.y, viewHeight + BALL_SPAWN_MAX_POS_OFFSET.y)
+					);
+		Vector2 vel(
+						Math::RandFloatMinMax(BALL_SPAWN_MIN_VEL.x, BALL_SPAWN_MAX_VEL.x),
+						Math::RandFloatMinMax(BALL_SPAWN_MIN_VEL.y, BALL_SPAWN_MAX_VEL.y)
+					);
+
+		sBall->SetPos(pos);
 		sBall->SetScale(MIN_BALL_SCALE);
-		sBall->InitPhysics2D(MIN_BALL_MASS, false);
+		sBall->InitPhysics2D(MIN_BALL_MASS, false, vel);
 		sBall->SetMesh(_shadowBallMesh);
 	}
 
@@ -237,10 +254,6 @@ void SpectreHexGame::startUpdate(double dt)
 	/* 
 	 * Shoot the shadow balls in (entrance)
 	 */
-	// For producing a spread of balls
-	const float OFFSET_Y_PER_SHOT = (INITIAL_PUSH_X * 2) / MAX_BALLS * 2;
-	float offsetY = -INITIAL_PUSH_X + OFFSET_Y_PER_SHOT;
-
 	for (vector<PhysicalObject*>::iterator phyObj = m_ballList.begin(); phyObj != m_ballList.end(); ++phyObj)
 	{
 		PhysicalObject* po = static_cast<PhysicalObject *>(*phyObj);
@@ -255,13 +268,7 @@ void SpectreHexGame::startUpdate(double dt)
 			po->AddForce(INITIAL_PUSH_PLAYER, dt);
 		}
 
-		if (po->GetNormal() == Vector2::ZERO_VECTOR)
-		{
-			po->AddForce(Vector2(INITIAL_PUSH_X, offsetY), dt);
-			offsetY += OFFSET_Y_PER_SHOT;
-		}
-
-		// Update this Physical
+		// Update this Physical Object
 		po->UpdatePhysics(dt);
 	}
 }
