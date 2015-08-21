@@ -55,14 +55,14 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	// Top
 	wall = fetchObject();
 	wall->SetPos(Vector3(viewWidth * 0.5f, viewHeight - WALL_THICKNESS * 0.5));
-	wall->SetScale(Vector2(viewWidth, WALL_THICKNESS));
-	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
+	wall->SetScale(Vector2(WALL_THICKNESS, viewWidth));
+	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, -1.0f));
 	wall->SetMesh(_circuitWallMesh);
 
 	// Bottom
 	wall = fetchObject();
 	wall->SetPos(Vector3(viewWidth * 0.5f, WALL_THICKNESS * 0.5));
-	wall->SetScale(Vector2(viewWidth, WALL_THICKNESS));
+	wall->SetScale(Vector2(WALL_THICKNESS, viewWidth));
 	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
 	wall->SetMesh(_circuitWallMesh);
 
@@ -70,7 +70,7 @@ void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _
 	m__exitWall = fetchObject();
 	m__exitWall->SetPos(Vector3(viewWidth - EXIT_WALL_THICKNESS * 0.5, viewHeight * 0.5f));
 	m__exitWall->SetScale(Vector2(EXIT_WALL_THICKNESS, viewHeight));
-	m__exitWall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(1.0f, 0.0f));
+	m__exitWall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(-1.0f, 0.0f));
 	m__exitWall->SetMesh(_restrictedCircuitMesh);
 
 	m__restrictedWallMesh = _restrictedCircuitMesh;

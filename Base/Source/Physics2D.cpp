@@ -108,6 +108,7 @@ void Physics2D::CollideRespondTo(Physics2D* _other)
 	// Collision: This Ball with Other Wall
 	if (_other->m_normal != Vector2::ZERO_VECTOR && _other->m_kinematic)
 	{
+		/*
 		Transform t = physics2D_getTransforms();
 		Transform ot = _other->physics2D_getTransforms();
 
@@ -137,6 +138,49 @@ void Physics2D::CollideRespondTo(Physics2D* _other)
 			Vector3 u = m_velocity;
 			Vector3 v = u - 2 * u.Dot(NP) * NP;
 			m_velocity = v;
+		}
+		*/
+
+		Physics2D* ball = NULL;
+		Physics2D* wall = NULL;
+
+		// Assign the ball and wall correctly
+		if (m_normal != Vector2::ZERO_VECTOR && _other->m_normal == Vector2::ZERO_VECTOR)
+		{
+			ball = _other;
+			wall = this;
+		}
+		else if (m_normal == Vector2::ZERO_VECTOR && _other->m_normal != Vector2::ZERO_VECTOR)
+		{
+			ball = this;
+			wall = _other;
+		}
+
+		Transform wallT = wall->physics2D_getTransforms();
+		Transform ballT = ball->physics2D_getTransforms();
+
+		Vector3 w0 = wallT.Translation;
+		Vector3 b1 = ballT.Translation;
+		Vector3 N = wall->m_normal;
+		float r = ballT.Scale.x * 0.5f; // Half of ball diameter (Radius)
+		float h = wallT.Scale.x; // Depth of wall
+		float l = wallT.Scale.y; // Length of wall
+		Vector3 NP(-N.y, N.x, 0);
+		if (abs((w0 - b1).Dot(N)) < r + (h * 0.5f))
+		{
+			// v = u - (2u.N)N
+			Vector3 u = ball->m_velocity;
+			Vector3 N = wall->m_normal;
+			Vector3 v = u - 2 * u.Dot(N) * N;
+			ball->m_velocity = v;
+		}
+		if (abs((w0 - b1).Dot(NP)) < r + (l * 0.5f))
+		{
+			// v = u - (2u.N)N
+			Vector3 u = ball->m_velocity;
+			Vector3 N = wall->m_normal;
+			Vector3 v = u - 2 * u.Dot(NP) * NP;
+			ball->m_velocity = v;
 		}
 
 		return;
