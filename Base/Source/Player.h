@@ -64,8 +64,6 @@ class Player : public Character
 	
 		void SetActions(E_PLAYER_ACTION type, bool status = true);
 	private:
-		bool moveLeftRight(double dt, bool mode, TileMap* _map); // Move left if mode is false | Move right if mode is true
-		bool moveUpDown(double dt, bool mode, TileMap* _map); // Move up if mode is false | Move down if mode is true
 		void move(double dt, TileMap* _map);
 		void resetMove();
 

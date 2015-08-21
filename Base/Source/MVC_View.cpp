@@ -216,6 +216,8 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 			int meshPosY = 0;
 			int meshWidth = 0;
 			int meshHeight = 0;
+			int meshFrameRow = 0;
+			int meshFrameCol = 0;
 
 			string meshFilePath = "";
 			string meshType = "";
@@ -274,6 +276,14 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 				else if (attribName == "PosY")
 				{
 					meshPosY = stoi(attribVal);
+				}
+				else if (attribName == "FrameRow")
+				{
+					meshFrameRow = stoi(attribVal);
+				}
+				else if (attribName == "FrameCol")
+				{
+					meshFrameCol = stoi(attribVal);
 				}
 				else // Floats
 				{
@@ -368,6 +378,10 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 					mesh = MeshBuilder::GenerateTerrain("Terrain", model3d->GetHeightMap());
 					terrainGenerated = true;
 				}
+			}
+			else if (meshType == "MeshSheet")
+			{
+				mesh = MeshBuilder::GenerateMeshFromSheet(meshName, meshAnimRow, meshAnimCol, meshFrameRow, meshFrameCol, meshPosX, meshPosY);
 			}
 
 			if (mesh != NULL)

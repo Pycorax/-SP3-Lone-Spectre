@@ -27,13 +27,29 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 	const string tileTypeName[Tile::NUM_TILE] = 
 	{
 		"TILE_FLOOR",
+		"TILE_INVISIBLE_WALL",
+		"TILE_WALL",
+		"TILE_OBJ_CABINET",
+		"TILE_OBJ_CHAIR_LEFT",
+		"TILE_OBJ_CHAIR_RIGHT",
+		"TILE_OBJ_COMPUTER_1_1", // Row 1 col 1
+		"TILE_OBJ_COMPUTER_2_1", // Row 2 col 1
+		"TILE_OBJ_CUPBOARD",
+		"TILE_OBJ_SINK",
+		"TILE_OBJ_TABLE_1_1", // Row 1 col 1
+		"TILE_OBJ_TABLE_1_2", // Row 1 col 2
+		"TILE_OBJ_TABLE_2_1", // Row 2 col 1
+		"TILE_OBJ_TABLE_2_2", // Row 2 col 2
 	};
 	Mesh* _tileMeshList[Tile::NUM_TILE];
+	for (int name = 0; name < Tile::NUM_TILE; ++name)
+	{
+		_tileMeshList[name] = NULL;
+	}
 	for (int mesh = 0; mesh < meshList.size(); ++mesh)		// Loop through meshList to find mesh for tile and sort based on E_TILE_TYPE
 	{
 		for (int name = 0; name < Tile::NUM_TILE; ++name)	// Loop through the names of tile type to find the matching name with mesh list
 		{
-			_tileMeshList[name] = NULL;
 			if (meshList[mesh]->name == tileTypeName[name])
 			{
 				_tileMeshList[name] = meshList[mesh]; // Assign the proper tile mesh to a temp tile mesh list

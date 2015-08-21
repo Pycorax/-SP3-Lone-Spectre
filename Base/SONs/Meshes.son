@@ -98,6 +98,140 @@
 		[Texture] TILE_FLOOR
 	}
 	
+	{
+		[Name] TILE_OBJ_CABINET
+		[Type] MeshSheet
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 1
+		[FrameRow] 0
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CABINET
+	}
+	
+	{
+		[Name] TILE_OBJ_CHAIR_LEFT
+		[Type] MeshSheet
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 1
+		[FrameRow] 0
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CHAIR_LEFT
+	}
+	
+	{
+		[Name] TILE_OBJ_CHAIR_RIGHT
+		[Type] MeshSheet
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 1
+		[FrameRow] 0
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CHAIR_RIGHT
+	}
+	
+	{
+		[Name] TILE_OBJ_COMPUTER_1_1
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 1
+		[FrameRow] 0
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_COMPUTER
+	}
+	
+	{
+		[Name] TILE_OBJ_COMPUTER_2_1
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 1
+		[FrameRow] 1
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_COMPUTER
+	}
+	
+	{
+		[Name] TILE_OBJ_CUPBOARD
+		[Type] MeshSheet
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 1
+		[FrameRow] 0
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CUPBOARD
+	}
+	
+	{
+		[Name] TILE_OBJ_SINK
+		[Type] MeshSheet
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 1
+		[FrameRow] 0
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_SINK
+	}
+	
+	{
+		[Name] TILE_OBJ_TABLE_1_1
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 2
+		[FrameRow] 0
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_TABLE
+	}
+	
+	{
+		[Name] TILE_OBJ_TABLE_1_2
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 2
+		[FrameRow] 0
+		[FrameCol] 1
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_TABLE
+	}
+	
+	{
+		[Name] TILE_OBJ_TABLE_2_1
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 2
+		[FrameRow] 1
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_TABLE
+	}
+	
+	{
+		[Name] TILE_OBJ_TABLE_2_2
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 2
+		[FrameRow] 1
+		[FrameCol] 1
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_TABLE
+	}
+	
+	
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad

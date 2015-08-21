@@ -2,7 +2,7 @@
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m__testLevel(NULL)
-	, m_hackMode(true)
+	, m_hackMode(false)
 	, m__player(NULL)
 {
 }
@@ -88,7 +88,7 @@ void MVC_Model_Spectre::Init(void)
 
 	// Load the map
 	m__testLevel = new Level();
-	m__testLevel->InitMap(Vector2(64, 50), Vector2(40, 22.5), 32, "TileMap//Level1.csv", meshList);
+	m__testLevel->InitMap(Vector2(64, 50), Vector2(20, 12), 64, "TileMap//Level1.csv", meshList);
 	int tileSize = m__testLevel->GetTileMap()->GetTileSize();
 
 	m__player = Player::GetInstance();

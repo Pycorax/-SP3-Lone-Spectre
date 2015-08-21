@@ -24,6 +24,7 @@ public:
 	static Mesh* GenerateEllipse(const std::string &meshName, Color color, float heightRadius, float widthRadius, unsigned int numSlice = 36);
 	static Mesh* GenerateCircle(const std::string &meshName, Color color, float radius = 1.0f, unsigned int numSlice = 36);
 	static Mesh* GenerateRing(const std::string &meshName, Color color, unsigned numSlice, float outerR = 1.f, float innerR = 0.f);
+	static Mesh* GenerateMeshFromSheet(const std::string &meshName, unsigned numRow = 1, unsigned numCol = 1, unsigned frameRow = 0, unsigned frameCol = 0, float posX = 0.f, float posY = 0.f);
 
 	static Mesh* Generate2DMesh(const std::string &meshName, Color color, int pos_x, int pos_y, int width, int height);
 

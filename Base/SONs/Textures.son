@@ -46,4 +46,39 @@
 		[Name] TILE_FLOOR
 		[FilePath] Image//Lab_Tiles//floor.tga
 	}
+	
+	{
+		[Name] TILE_OBJ_CABINET
+		[FilePath] Image//Lab_Tiles//Object//Cabinets.tga
+	}
+	
+	{
+		[Name] TILE_OBJ_CHAIR_LEFT
+		[FilePath] Image//Lab_Tiles//Object//Chair_Left.tga
+	}
+	
+	{
+		[Name] TILE_OBJ_CHAIR_RIGHT
+		[FilePath] Image//Lab_Tiles//Object//Chair_Right.tga
+	}
+	
+	{
+		[Name] TILE_OBJ_COMPUTER
+		[FilePath] Image//Lab_Tiles//Object//Computer_1x2.tga
+	}
+	
+	{
+		[Name] TILE_OBJ_CUPBOARD
+		[FilePath] Image//Lab_Tiles//Object//Cupboard.tga
+	}
+	
+	{
+		[Name] TILE_OBJ_SINK
+		[FilePath] Image//Lab_Tiles//Object//Sink.tga
+	}
+	
+	{
+		[Name] TILE_OBJ_TABLE
+		[FilePath] Image//Lab_Tiles//Object//Table_2x2.tga
+	}
 }
