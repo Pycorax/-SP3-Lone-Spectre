@@ -97,7 +97,103 @@
 		[Height] 1.0f
 		[Texture] TILE_FLOOR
 	}
+
+	{
+		[Name] TILE_OBJ_CAMERA_ON_1_1
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 4
+		[FrameRow] 0
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CAMERA
+	}
+
+	{
+		[Name] TILE_OBJ_CAMERA_ON_1_2
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 4
+		[FrameRow] 0
+		[FrameCol] 1
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CAMERA
+	}
+
+	{
+		[Name] TILE_OBJ_CAMERA_ON_1_3
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 4
+		[FrameRow] 0
+		[FrameCol] 2
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CAMERA
+	}
+
+	{
+		[Name] TILE_OBJ_CAMERA_ON_1_4
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 4
+		[FrameRow] 0
+		[FrameCol] 3
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CAMERA
+	}
 	
+	{
+		[Name] TILE_OBJ_CAMERA_OFF_1_1
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 4
+		[FrameRow] 1
+		[FrameCol] 0
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CAMERA
+	}
+
+	{
+		[Name] TILE_OBJ_CAMERA_OFF_1_2
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 4
+		[FrameRow] 1
+		[FrameCol] 1
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CAMERA
+	}
+
+	{
+		[Name] TILE_OBJ_CAMERA_OFF_1_3
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 4
+		[FrameRow] 1
+		[FrameCol] 2
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CAMERA
+	}
+
+	{
+		[Name] TILE_OBJ_CAMERA_OFF_1_4
+		[Type] MeshSheet
+		[SpriteAnimationRow] 2
+		[SpriteAnimationColumn] 4
+		[FrameRow] 1
+		[FrameCol] 3
+		[PosX] 0
+		[PosY] 0
+		[Texture] TILE_OBJ_CAMERA
+	}
+
 	{
 		[Name] TILE_OBJ_CABINET
 		[Type] MeshSheet
