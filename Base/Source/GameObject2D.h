@@ -32,6 +32,7 @@ class GameObject2D
 protected:	// Variables
 	Transform m_transforms;			// Stores this object's Transforms info
 	Mesh* m__mesh;					// Stores this object's mesh
+	int m_meshSpriteID;				// Stores the position of the sprite on a spritesheet. If -1, this is ignored.
 	bool m_active;					// Controls if this object can be collided with
 
 public:		// Functions
@@ -46,6 +47,7 @@ public:		// Functions
 	void SetScale(const Vector3 scale);
 	void SetMesh(Mesh* _mesh);
 	void SetActive(bool active);
+	void SetMeshSpriteID(int id);
 
 	/*
 	* Getters
@@ -53,6 +55,7 @@ public:		// Functions
 	Transform GetTransform(void) const;
 	Mesh* GetMesh(void) const;
 	bool GetActive(void) const;
+	int GetMeshSpriteID(void) const;
 };
 
 #endif

@@ -1,7 +1,9 @@
 #include "GameObject2D.h"
 
 
-GameObject2D::GameObject2D(void)
+GameObject2D::GameObject2D(void) 
+	: m__mesh(NULL)
+	, m_meshSpriteID(-1)
 {
 
 }
@@ -35,6 +37,11 @@ void GameObject2D::SetActive(bool active)
 	m_active = active;
 }
 
+void GameObject2D::SetMeshSpriteID(int id)
+{
+	m_meshSpriteID = id;
+}
+
 Transform GameObject2D::GetTransform(void) const
 {
 	return m_transforms;
@@ -48,4 +55,9 @@ Mesh* GameObject2D::GetMesh(void) const
 bool GameObject2D::GetActive(void) const
 {
 	return m_active;
+}
+
+int GameObject2D::GetMeshSpriteID(void) const
+{
+	return m_meshSpriteID;
 }

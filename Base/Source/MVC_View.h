@@ -156,7 +156,7 @@ class MVC_View
 		 * Rendering - General
 		 */ 
 		// Meshes
-		void Render2DMesh(Mesh * mesh, const bool enableLight, const float sizeX, const float sizeY, const float x = 0.0f, const float y = 0.0f, const float rotateZ = 0.0f, const float rotateY = 0.0f);
+		void Render2DMesh(Mesh * mesh, const bool enableLight, const float sizeX, const float sizeY, const float x = 0.0f, const float y = 0.0f, const float rotateZ = 0.0f, const float rotateY = 0.0f, const int spriteID = -1);
 		void RenderMeshIn2D(Mesh *mesh, Vector3 size = Vector3(1.0f, 1.0f, 1.0f), float x = 0.0f, float y = 0.0f, float rot = 0.0f);
 		void RenderMesh(Mesh *mesh, bool enableLight, bool enableFog = true);
 		

@@ -647,7 +647,7 @@ void MVC_View::SetViewRes(void)
 	glViewport(0, 0, m_viewWidth, m_viewHeight);
 }
 
-void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float sizeX, const float sizeY, const float x, const float y, const float rotateZ, const float rotateY)
+void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float sizeX, const float sizeY, const float x, const float y, const float rotateZ, const float rotateY, const int spriteID)
 {
 	if (mesh == NULL)
 	{
@@ -696,7 +696,14 @@ void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float siz
 					}
 				}
 
-				mesh->Render(); 
+				if (spriteID >= 0)
+				{
+					mesh->Render(static_cast<unsigned>(spriteID) * 6, 6);
+				}
+				else
+				{
+					mesh->Render();
+				}
 
 				if (rotateY && m_bCull)
 				{
