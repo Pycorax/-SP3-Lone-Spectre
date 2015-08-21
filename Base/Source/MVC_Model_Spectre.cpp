@@ -123,10 +123,10 @@ void MVC_Model_Spectre::Init(void)
 	m__testEnemy = new Enemy;
 //	m__testEnemy->Init(Vector2(m__testLevel->GetTileMap()->GetScreenSize().x * 0.5f,60.f),m__testEnemy->ES_PATROL);
 	m__testEnemy->SetMesh(GetMeshResource("ShadowBall"));
-	m__testEnemy->SetMapPosition(Vector2 (300 , 200 ) ,m__testLevel->GetTileMap()->GetScrollOffset());
+	m__testEnemy->SetMapPosition(Vector2 (500 , 200 ) ,m__testLevel->GetTileMap()->GetScrollOffset());
 	m__testEnemy->SetScale(Vector2(32.f, 32.f));
 	m__testEnemy->SetStartPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
-	m__testEnemy->SetEndPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,20) );
+	m__testEnemy->SetEndPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
 }
 
 void MVC_Model_Spectre::Update(double dt)

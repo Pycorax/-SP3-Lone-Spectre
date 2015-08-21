@@ -113,7 +113,7 @@ void Player::Update(double dt, TileMap* _map)
 
 			// reseting back to false
 			m_actions[PA_MOVE_LEFT] = false;*/
-			SetLookDir(Vector2(-1));
+			SetLookDir(Vector2(-1,0));
 			m_moving = true;
 			//moveLeftRight(dt, false, _map);
 			m_actions[PA_MOVE_LEFT] = false;
@@ -134,7 +134,7 @@ void Player::Update(double dt, TileMap* _map)
 
 			// reseting back to false
 			m_actions[PA_MOVE_RIGHT] = false;*/
-			SetLookDir(Vector2(1));
+			SetLookDir(Vector2(1,0));
 			m_moving = true;
 			//moveLeftRight(dt, true, _map);
 			m_actions[PA_MOVE_RIGHT] = false;
