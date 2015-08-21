@@ -16,7 +16,7 @@ private:	// Variables
 	Level* m__testLevel;
 	Player* m__player;
 	GameObject2D* m__testGO;
-	vector<Collider2D *> m__collidorList;
+	vector<Collider2D *> m__colliderList;
 	Enemy* m__testEnemy;
 
 	// Physics Test Code

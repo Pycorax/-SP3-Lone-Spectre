@@ -2,7 +2,7 @@
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m__testLevel(NULL)
-	, m_hackMode(false)
+	, m_hackMode(true)
 	, m__player(NULL)
 {
 }
@@ -100,7 +100,7 @@ void MVC_Model_Spectre::Init(void)
 	m__testGO->SetMesh(GetMeshResource("Quad"));
 	m__testGO->SetPos(Vector2(100.0f, m_viewHeight * 0.5));
 	m__testGO->SetScale(Vector2(32.f, 32.f));
-	m__collidorList.push_back(dynamic_cast<Collider2D *>(m__testGO) );
+	m__colliderList.push_back(dynamic_cast<Collider2D *>(m__testGO) );
 
 	// Init the hacking game
 	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
@@ -197,11 +197,11 @@ void MVC_Model_Spectre::Exit(void)
 	Player::Clear();
 
 	//clearing list
-	while(m__collidorList.size() > 0)
+	while(m__colliderList.size() > 0)
 	{
-		Collider2D *go = m__collidorList.back();
+		Collider2D *go = m__colliderList.back();
 		delete go;
-		m__collidorList.pop_back();
+		m__colliderList.pop_back();
 	}
 	delete m__testEnemy;
 	m__testEnemy = NULL;
