@@ -193,31 +193,20 @@ bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map) //TODO: Path
 	{
 		// swap pos - patrolPointB -> target location
 		Vector2 tempStore;
-<<<<<<< Updated upstream
+
 		tempStore = m_patrolPointB;
 		m_patrolPointB = m_patrolPointA;
 		m_patrolPointA = tempStore;
 	}
 	else if(m_lookDir.x == -1 && newMapPos.x <= m_patrolPointB.x) // -> moving left
-=======
+	{
+		// swap pos - patrolPointB -> target location
+		Vector2 tempStore;
 		tempStore = EndPos;
 		EndPos = StartPos;
 		StartPos = tempStore;
 		m_bReachPos = true;
 			
-	}	
-	else if(m_transforms.Translation == m_oldPos && m_bReachPos)
-
-	m_transforms.Translation += moveDirection * 10.f; // moving to the patrol point 
-
-	if (m_transforms.Translation == EndPos && !m_bReachPos) // swap position
->>>>>>> Stashed changes
-	{
-		// swap pos - patrolPointB -> target location
-		Vector2 tempStore;
-		tempStore = m_patrolPointB;
-		m_patrolPointB = m_patrolPointA;
-		m_patrolPointA = tempStore;
 	}
 	if(m_lookDir.y == 1 && newMapPos.y >= m_patrolPointB.y) //traveling along y axis -> moving up
 	{
@@ -234,10 +223,6 @@ bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map) //TODO: Path
 		tempStore = m_patrolPointB;
 		m_patrolPointB = m_patrolPointA;
 		m_patrolPointA = tempStore;
-	}
-	if(m_bReachPos) // reset to not reached target after bouncing
-	{
-		m_bReachPos = false;
 	}
 	SetMapPosition(newMapPos, _map->GetScrollOffset() );
 	return false;

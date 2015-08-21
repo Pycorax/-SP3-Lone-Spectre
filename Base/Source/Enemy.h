@@ -23,10 +23,6 @@ private:
 	int m_alertLevel;
 	Vector2 m_oldPos;
 	bool m_bAlerted;
-
-<<<<<<< Updated upstream
-	//m_patrolPointA -> the old target location, m_patrolPointB -> the target location
-=======
 	bool m_bSearching;
 	bool m_bChasing;
 	bool m_bAttacking;
@@ -36,8 +32,7 @@ private:
 	//Scan the area around the enemy, to see if the Spectre is still there
 	float m_checkAround; 
 
-	//Sets the patrol position for the guard to stay in when in patrol state
->>>>>>> Stashed changes
+	//m_patrolPointA -> the old target location, m_patrolPointB -> the target location
 	Vector2 m_patrolPointA, m_patrolPointB; 
 	//use to check if mode start patrolling
 	bool m_bReachPos;
