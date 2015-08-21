@@ -174,11 +174,15 @@ void Player::Update(double dt, TileMap* _map)
 		//If next to a camera to hack
 		if (_map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_1 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_2 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_3 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_4)
 		{
-			//Play Hacking Minigame
+			m_currentState = PS_SPECTRAL_HAX;
 		}
 		// reseting back to false
 		m_actions[PA_INTERACT] = false;
-		
+	}
+
+	if (m_currentState == PS_SPECTRAL_HAX)
+	{
+		//Play minigame
 	}
 
 	if (m_moving)
