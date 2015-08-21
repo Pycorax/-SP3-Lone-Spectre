@@ -187,22 +187,28 @@ Player::E_PLAYER_STATE Player::GetState(void) const
 
 void Player::move(double dt, TileMap* _map)
 {
-	Vector2 newOrigin;
+	static Vector2 s_newOrigin;
+	bool shiftOrigin = false;
 	if (GetLookDir().x < 0 || GetLookDir().y < 0) // Moving left or down
 	{
-		newOrigin = GetMapPos(); // No change in origin (Bottom or Left)
+		s_newOrigin = GetMapPos(); // No change in origin (Bottom or Left)
 	}
 	else // Moving right or up
 	{
-		newOrigin = GetMapPos() + (GetLookDir() * _map->GetTileSize()); // Change in origin (Top or Right)
+		s_newOrigin = GetMapPos() + (GetLookDir() * _map->GetTileSize()); // Change in origin (Top or Right)
+		shiftOrigin = true;
 	}
-	Vector2 newPos = newOrigin + (GetLookDir() * s_playerMoveSpeed * dt); // New position if move
+	Vector2 newPos = s_newOrigin + (GetLookDir() * s_playerMoveSpeed * dt); // New position if move
 	if (_map->CheckCollision(newPos) || (m_moveDist + (s_playerMoveSpeed * dt)) >= _map->GetTileSize()) // Collided or moving more than 1 tile
 	{
 		Vector2 tilePos;
+		if (shiftOrigin)
+		{
+			s_newOrigin -= GetLookDir() * 0.5; // Shift origin to the original origin
+		}
 		if (GetLookDir().x == 0) // Moving along y axis, snap y axis and ignore x axis
 		{
-			tilePos = Vector2(newOrigin.x, floor(newOrigin.y / _map->GetTileSize()) * _map->GetTileSize()); // Position to snap to by axis
+			tilePos = Vector2(s_newOrigin.x, floor(s_newOrigin.y / _map->GetTileSize()) * _map->GetTileSize()); // Position to snap to by axis
 			if (tilePos.y >= _map->GetMapSize().y)
 			{
 				tilePos.y -= _map->GetTileSize();
@@ -212,9 +218,9 @@ void Player::move(double dt, TileMap* _map)
 				tilePos.y = 0;
 			}
 		}
-		else // Moving along x axis, snap x axis and ignore y axis
+		else if (GetLookDir().y == 0) // Moving along x axis, snap x axis and ignore y axis
 		{
-			tilePos = Vector2(floor(newOrigin.x / _map->GetTileSize()) * _map->GetTileSize(), newOrigin.y); // Position to snap to by axis
+			tilePos = Vector2(floor(s_newOrigin.x / _map->GetTileSize()) * _map->GetTileSize(), s_newOrigin.y); // Position to snap to by axis
 			if (tilePos.x >= _map->GetMapSize().x)
 			{
 				tilePos.x -= _map->GetTileSize();
@@ -230,7 +236,7 @@ void Player::move(double dt, TileMap* _map)
 	}
 	else
 	{
-		if (GetLookDir().x >= 1 || GetLookDir().y >= 1) // Moving right or up
+		if (shiftOrigin) // Moving right or up
 		{
 			newPos -= GetLookDir() * _map->GetTileSize();
 		}
