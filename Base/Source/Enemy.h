@@ -24,7 +24,7 @@ private:
 	Vector2 m_oldPos;
 	bool m_bAlerted;
 
-	//Sets the patrol position for the guard to stay in when in patrol state
+	//m_patrolPointA -> the old target location, m_patrolPointB -> the target location
 	Vector2 m_patrolPointA, m_patrolPointB; 
 	//use to check if mode start patrolling
 	bool m_bReachPos;
