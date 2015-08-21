@@ -2,9 +2,9 @@
 
 
 Enemy::Enemy(void)
-	:m_alertLevel(0)
-	, m_enemyState(ES_PATROL)
-	, m_bReachPos(false)
+:m_alertLevel(0)
+, m_enemyState(ES_PATROL)
+, m_bReachPos(false)
 {
 
 }
@@ -26,7 +26,6 @@ void Enemy::update(double dt, TileMap* _map)
 	//if ()//If any enemy see Hero, affects other enemies too
 	//{
 	//	m_enemyState = ES_CHASE;
-	//	alerted = true;
 	//  m_alertLevel = 2;
 	//}
 	//else if() //Enemy can hit Hero
@@ -47,7 +46,7 @@ void Enemy::update(double dt, TileMap* _map)
 	//  alerted = false;
 	//}
 	//else if (m_alertLevel == 0) //Enemy becomes less suspicious after checking
-	//{
+	//{y
 	//	m_enemyState = ES_PATROL;
 	//  alerted = false;
 	//}
@@ -101,25 +100,65 @@ void Enemy::update(double dt, TileMap* _map)
 	{
 		//Make enemy chase after the hero's current position with path-finding
 		m_bAlerted = true;
+
+		if (m_bAlerted)
+		{
+			if (m_alertLevel < 3)
+			{
+				m_alertLevel += dt;
+			}
+		}
 	}
 	else if (m_enemyState == ES_ATTACK)
 	{
 		//Hit him already
+		
 	}
 	else if (m_enemyState == ES_POSSESED)
 	{
-		//Reveal him
+		if (m_oldPos.x != m_spectralPositon.x)
+		{
+			m_oldPos.x = m_spectralPositon.x;
+		}
+		if (m_oldPos.y != m_spectralPositon.y)
+		{
+			m_oldPos.y = m_spectralPositon.y;
+		}
 	}
 	else if (m_enemyState == ES_SCAN)
 	{
+		m_bScanning = true;
+		if (m_bScanning == true)
+		{
+			if (m_alertLevel > 0)
+			{
+				m_checkAround = 0;
+				if (m_checkAround >= 2)
+				{
+					m_lookDir = Vector2(1, 0);
+				}
+				else if (m_checkAround >= 2 && m_checkAround < 4)
+				{
+					m_lookDir = Vector2(0, 1);
+				}
+				else if (m_checkAround >= 4 && m_checkAround < 6)
+				{
+					m_lookDir = Vector2(-1, 0);
+				}
+				else if (m_checkAround >= 6 && m_checkAround < 8)
+				{
+					m_lookDir = Vector2(0, -1);
+				}
+				m_alertLevel -= 1;
+			}
+			else
+			{
+				m_bScanning = false;
+			}
+		}
 		//Check the area for 2 rotation
-		m_alertLevel -= 1;
 	}
-
-	if(m_bAlerted)
-	{
-		m_alertLevel += 1;
-	}
+	m_checkAround += dt;
 }
 
 void Enemy::SetStartPatrolPoint(Vector2 pos)
@@ -154,11 +193,25 @@ bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map) //TODO: Path
 	{
 		// swap pos - patrolPointB -> target location
 		Vector2 tempStore;
+<<<<<<< Updated upstream
 		tempStore = m_patrolPointB;
 		m_patrolPointB = m_patrolPointA;
 		m_patrolPointA = tempStore;
 	}
 	else if(m_lookDir.x == -1 && newMapPos.x <= m_patrolPointB.x) // -> moving left
+=======
+		tempStore = EndPos;
+		EndPos = StartPos;
+		StartPos = tempStore;
+		m_bReachPos = true;
+			
+	}	
+	else if(m_transforms.Translation == m_oldPos && m_bReachPos)
+
+	m_transforms.Translation += moveDirection * 10.f; // moving to the patrol point 
+
+	if (m_transforms.Translation == EndPos && !m_bReachPos) // swap position
+>>>>>>> Stashed changes
 	{
 		// swap pos - patrolPointB -> target location
 		Vector2 tempStore;
@@ -192,7 +245,7 @@ bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map) //TODO: Path
 
 void Enemy::SetAlertLevel(int alertlevel)
 {
-	this->m_alertLevel += alertlevel;
+	this->m_alertLevel = alertlevel;
 }
 
 int Enemy::GetAlertLevel(void)
@@ -202,4 +255,9 @@ int Enemy::GetAlertLevel(void)
 
 void Enemy::SpottedTarget(Vector2 pos)
 {
+}
+
+void Enemy::SetSpectrePosition(Vector2 spectralPosition)
+{
+	this->m_spectralPositon = spectralPosition;
 }
