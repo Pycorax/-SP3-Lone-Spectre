@@ -40,8 +40,9 @@ protected:
 	// Process Key Action Abstract Function
 	void processKeyAction(double dt);
 
-	// Update Functions
+	// Hack Mode (Spectre HexTech MiniGame)
 	void updateHackMode(const double DT);
+	void startHackMode(void);
 };
 
 #endif

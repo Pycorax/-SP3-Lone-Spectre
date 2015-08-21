@@ -14,12 +14,29 @@ MVC_Model_Spectre::~MVC_Model_Spectre(void)
 
 void MVC_Model_Spectre::processKeyAction(double dt)
 {
-	m__player->SetActions(m__player->PA_MOVE_UP, m_bKeyPressed[MOVE_FORWARD_KEY]);
-	m__player->SetActions(m__player->PA_MOVE_DOWN, m_bKeyPressed[MOVE_BACKWARD_KEY]);
-	m__player->SetActions(m__player->PA_MOVE_LEFT, m_bKeyPressed[MOVE_LEFT_KEY]);
-	m__player->SetActions(m__player->PA_MOVE_RIGHT, m_bKeyPressed[MOVE_RIGHT_KEY]);
+	#pragma region Player Controls
 
-	// Scrolling map
+		m__player->SetActions(m__player->PA_MOVE_UP, m_bKeyPressed[MOVE_FORWARD_KEY]);
+		m__player->SetActions(m__player->PA_MOVE_DOWN, m_bKeyPressed[MOVE_BACKWARD_KEY]);
+		m__player->SetActions(m__player->PA_MOVE_LEFT, m_bKeyPressed[MOVE_LEFT_KEY]);
+		m__player->SetActions(m__player->PA_MOVE_RIGHT, m_bKeyPressed[MOVE_RIGHT_KEY]);
+		m__player->SetActions(m__player->PA_INTERACT, m_bKeyPressed[INTERACT_GENERIC_KEY]);
+
+		if (m_bKeyPressed[INTERACT_GENERIC_KEY])
+		{
+			switch (m__player->Interact(m__testLevel->GetTileMap()))
+			{
+				case Player::PS_SPECTRAL_HAX:
+					// TODO: Get a pointer to the camera so as to change it
+					startHackMode();
+					break;
+			}
+		}
+
+	#pragma endregion
+
+	#pragma region Scrolling Map Controls
+
 	static const Vector2 S_MAX_SCROLL_SIZE = m__testLevel->GetTileMap()->GetMapSize() - m__testLevel->GetTileMap()->GetScreenSize();
 	static const float S_OFFSET = 0.01;
 	static const float S_SCROLL_SPEED = 500.f;
@@ -60,6 +77,8 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
 	}
 
+	#pragma endregion
+
 	// Controls for Spectre HexTech minigame
 	if (m_hackMode)
 	{
@@ -80,6 +99,12 @@ void MVC_Model_Spectre::updateHackMode(const double DT)
 	{
 		m_hackingGame.Update(DT);
 	}
+}
+
+void MVC_Model_Spectre::startHackMode(void)
+{
+	m_hackMode = true;
+	m_hackingGame.Reset(m_viewWidth, m_viewHeight);
 }
 
 void MVC_Model_Spectre::Init(void)

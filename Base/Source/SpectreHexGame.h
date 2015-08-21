@@ -44,7 +44,7 @@ private:
 	static const Vector2 BALL_SPAWN_MAX_VEL;		// The maximum velocity of normal shadow balls at spawn
 	static const Vector2 BALL_SPAWN_MIN_POS;		// The minimum position of normal shadow balls at spawn
 	static const Vector2 BALL_SPAWN_MAX_POS_OFFSET;	// The offset to add to the screen resolution to get the maximum position of normal shadow balls at spawn
-	static const int MAX_LARGE_BALLS = 4;				// The number of maximum large sized (defined by MIN_LARGE_BALL_RADIUS) balls that can exist
+	static const int MAX_LARGE_BALLS = 4;			// The number of maximum large sized (defined by MIN_LARGE_BALL_RADIUS) balls that can exist
 	static const float MIN_LARGE_BALL_RADIUS;		// The minimum radius of a "large sized" ball
 
 private:	// Variables
@@ -53,9 +53,13 @@ private:	// Variables
 	PhysicalObject* m__player;						// The player PhysicalObject object
 	PhysicalObject* m__exitWall;					// The wall that can be passed through when the player has enough 
 	GameObject2D* m__background;					// The background image of this hacking game
-	Mesh* m__restrictedWallMesh;
-	Mesh* m__destroyedWallMesh;						// Stores the mesh for a destroyed wall to be used on winning
 	GameObject2D* m__loseScreen;					// Stores the mesh for the screen that will be displayed on losing
+
+	// Meshes
+	Mesh* m__shadowBallMesh;						// Stores the mesh for shadowBalls
+	Mesh* m__circuitWallMesh;						// Stores the mesh for a normal circuit wall
+	Mesh* m__restrictedWallMesh;					// Stores the mesh for a restricted wall to be used on losing and as the exit wall
+	Mesh* m__destroyedWallMesh;						// Stores the mesh for a destroyed wall to be used on winning
 
 public:
 	SpectreHexGame(void);
@@ -64,6 +68,8 @@ public:
 	void Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _loseScreen, Mesh* _bgMesh, int viewWidth, int viewHeight);
 	void Update(double dt);
 	void Exit(void);
+
+	void Reset(int viewWidth, int viewHeight);
 
 	// Game Status: Use this to get the state of this minigame. If either is true, it means the game has ended.
 	bool IsLoss() const;		// Check if is a loss yet

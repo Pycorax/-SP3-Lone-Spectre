@@ -36,87 +36,13 @@ SpectreHexGame::~SpectreHexGame()
 
 void SpectreHexGame::Init(Mesh* _shadowBallMesh, Mesh* _circuitWallMesh, Mesh* _destroyedCircuitMesh, Mesh* _restrictedCircuitMesh, Mesh* _loseScreen, Mesh* _bgMesh, int viewWidth, int viewHeight)
 {
-	// Init Player
-	if (m__player == NULL)
-	{
-		m__player = fetchObject();
-		m__player->SetPos(Vector3(100.0f, (viewHeight - MIN_BALL_RADIUS * PLAYER_BALL_MULTIPLIER) * 0.5));
-		m__player->SetScale(Vector2(PLAYER_BALL_SPAWN_RADIUS, PLAYER_BALL_SPAWN_RADIUS));
-		m__player->InitPhysics2D(MIN_BALL_MASS* PLAYER_BALL_MULTIPLIER, false);
-		m__player->SetMass(MIN_BALL_MASS * PLAYER_BALL_MULTIPLIER);
-		m__player->SetMesh(_shadowBallMesh);
-	}
-
-	// Generate the Walls
-	// -- Left
-	PhysicalObject* wall = fetchObject();
-	wall->SetPos(Vector3(WALL_THICKNESS * 0.5, viewHeight * 0.5f));
-	wall->SetScale(Vector2(WALL_THICKNESS, viewHeight));
-	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(1.0f, 0.0f));
-	wall->SetMesh(_circuitWallMesh);
-
-	// Top
-	wall = fetchObject();
-	wall->SetPos(Vector3(viewWidth * 0.5f, viewHeight - WALL_THICKNESS * 0.5));
-	wall->SetScale(Vector2(WALL_THICKNESS, viewWidth));
-	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, -1.0f));
-	wall->SetMesh(_circuitWallMesh);
-
-	// Bottom
-	wall = fetchObject();
-	wall->SetPos(Vector3(viewWidth * 0.5f, WALL_THICKNESS * 0.5));
-	wall->SetScale(Vector2(WALL_THICKNESS, viewWidth));
-	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
-	wall->SetMesh(_circuitWallMesh);
-
-	// Right Exit Wall
-	m__exitWall = fetchObject();
-	m__exitWall->SetPos(Vector3(viewWidth - EXIT_WALL_THICKNESS * 0.5, viewHeight * 0.5f));
-	m__exitWall->SetScale(Vector2(EXIT_WALL_THICKNESS, viewHeight));
-	m__exitWall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(-1.0f, 0.0f));
-	m__exitWall->SetMesh(_restrictedCircuitMesh);
-
-	m__restrictedWallMesh = _restrictedCircuitMesh;
+	// Init all the meshes
+	m__shadowBallMesh = _shadowBallMesh;
+	m__circuitWallMesh = _circuitWallMesh;
 	m__destroyedWallMesh = _destroyedCircuitMesh;
+	m__restrictedWallMesh = _restrictedCircuitMesh;
 
-	// Generate balls
-	int numLargeBalls = 0;
-	for (int ball = 0; ball < MAX_BALLS; ++ball)
-	{
-		PhysicalObject* sBall = fetchObject();
-		sBall->SetPos(Vector3(200.0f, (viewHeight - MIN_BALL_RADIUS) * 0.5));
-
-		Vector2 pos(
-						Math::RandFloatMinMax(BALL_SPAWN_MIN_POS.x, viewWidth + BALL_SPAWN_MAX_POS_OFFSET.x),
-						Math::RandFloatMinMax(BALL_SPAWN_MIN_POS.y, viewHeight + BALL_SPAWN_MAX_POS_OFFSET.y)
-					);
-		Vector2 vel(
-						Math::RandFloatMinMax(BALL_SPAWN_MIN_VEL.x, BALL_SPAWN_MAX_VEL.x),
-						Math::RandFloatMinMax(BALL_SPAWN_MIN_VEL.y, BALL_SPAWN_MAX_VEL.y)
-					);
-
-		float radius;
-
-		if (numLargeBalls < MAX_LARGE_BALLS)
-		{
-			radius = Math::RandFloatMinMax(MIN_LARGE_BALL_RADIUS, MAX_BALL_RADIUS);
-			++numLargeBalls;
-		}
-		else
-		{
-			radius = Math::RandFloatMinMax(MIN_BALL_RADIUS, MIN_LARGE_BALL_RADIUS);
-		}
-
-		Vector2 scale(
-						radius,
-						radius
-					 );
-
-		sBall->SetPos(pos);
-		sBall->SetScale(scale);
-		sBall->InitPhysics2D(MIN_BALL_MASS, false, vel);
-		sBall->SetMesh(_shadowBallMesh);
-	}
+	Reset(viewWidth, viewHeight);
 
 	// Generate BG
 	m__background = new GameObject2D;
@@ -160,6 +86,100 @@ void SpectreHexGame::Exit(void)
 			delete m_ballList.back();
 			m_ballList.pop_back();
 		}
+	}
+}
+
+void SpectreHexGame::Reset(int viewWidth, int viewHeight)
+{
+	m_state = GS_START;
+
+	// Clear the list
+	for (vector<PhysicalObject*>::iterator po = m_ballList.begin(); po != m_ballList.end(); ++po)
+	{
+		(*po)->SetActive(false);
+	}
+
+	// Init Player
+	if (m__player == NULL)
+	{
+		m__player = fetchObject();
+	}
+
+	if (m__player != NULL)
+	{
+		m__player->SetPos(Vector3(100.0f, (viewHeight - MIN_BALL_RADIUS * PLAYER_BALL_MULTIPLIER) * 0.5));
+		m__player->SetScale(Vector2(PLAYER_BALL_SPAWN_RADIUS, PLAYER_BALL_SPAWN_RADIUS));
+		m__player->InitPhysics2D(MIN_BALL_MASS* PLAYER_BALL_MULTIPLIER, false);
+		m__player->SetMass(MIN_BALL_MASS * PLAYER_BALL_MULTIPLIER);
+		m__player->SetMesh(m__shadowBallMesh);
+	}
+
+	// Generate the Walls
+	// -- Left
+	PhysicalObject* wall = fetchObject();
+	wall->SetPos(Vector3(WALL_THICKNESS * 0.5, viewHeight * 0.5f));
+	wall->SetScale(Vector2(WALL_THICKNESS, viewHeight));
+	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(1.0f, 0.0f));
+	wall->SetMesh(m__circuitWallMesh);
+
+	// Top
+	wall = fetchObject();
+	wall->SetPos(Vector3(viewWidth * 0.5f, viewHeight - WALL_THICKNESS * 0.5));
+	wall->SetScale(Vector2(WALL_THICKNESS, viewWidth));
+	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, -1.0f));
+	wall->SetMesh(m__circuitWallMesh);
+
+	// Bottom
+	wall = fetchObject();
+	wall->SetPos(Vector3(viewWidth * 0.5f, WALL_THICKNESS * 0.5));
+	wall->SetScale(Vector2(WALL_THICKNESS, viewWidth));
+	wall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
+	wall->SetMesh(m__circuitWallMesh);
+
+	// Right Exit Wall
+	m__exitWall = fetchObject();
+	m__exitWall->SetPos(Vector3(viewWidth - EXIT_WALL_THICKNESS * 0.5, viewHeight * 0.5f));
+	m__exitWall->SetScale(Vector2(EXIT_WALL_THICKNESS, viewHeight));
+	m__exitWall->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(-1.0f, 0.0f));
+	m__exitWall->SetMesh(m__restrictedWallMesh);
+
+	// Generate balls
+	int numLargeBalls = 0;
+	for (int ball = 0; ball < MAX_BALLS; ++ball)
+	{
+		PhysicalObject* sBall = fetchObject();
+		sBall->SetPos(Vector3(200.0f, (viewHeight - MIN_BALL_RADIUS) * 0.5));
+
+		Vector2 pos(
+			Math::RandFloatMinMax(BALL_SPAWN_MIN_POS.x, viewWidth + BALL_SPAWN_MAX_POS_OFFSET.x),
+			Math::RandFloatMinMax(BALL_SPAWN_MIN_POS.y, viewHeight + BALL_SPAWN_MAX_POS_OFFSET.y)
+			);
+		Vector2 vel(
+			Math::RandFloatMinMax(BALL_SPAWN_MIN_VEL.x, BALL_SPAWN_MAX_VEL.x),
+			Math::RandFloatMinMax(BALL_SPAWN_MIN_VEL.y, BALL_SPAWN_MAX_VEL.y)
+			);
+
+		float radius;
+
+		if (numLargeBalls < MAX_LARGE_BALLS)
+		{
+			radius = Math::RandFloatMinMax(MIN_LARGE_BALL_RADIUS, MAX_BALL_RADIUS);
+			++numLargeBalls;
+		}
+		else
+		{
+			radius = Math::RandFloatMinMax(MIN_BALL_RADIUS, MIN_LARGE_BALL_RADIUS);
+		}
+
+		Vector2 scale(
+			radius,
+			radius
+			);
+
+		sBall->SetPos(pos);
+		sBall->SetScale(scale);
+		sBall->InitPhysics2D(MIN_BALL_MASS, false, vel);
+		sBall->SetMesh(m__shadowBallMesh);
 	}
 }
 
@@ -281,7 +301,6 @@ void SpectreHexGame::startUpdate(double dt)
 	{
 		_airBubble->InitPhysics2D(0.00001f, true);
 		_airBubble->SetScale(Vector2(AIR_BUBBLE_RADIUS, AIR_BUBBLE_RADIUS));
-		//_airBubble->SetMesh(m__restrictedWallMesh);
 
 		firstRun = false;
 	}
@@ -517,7 +536,7 @@ void SpectreHexGame::loseCeremonyUpdate(double dt)
 
 	// Timer for whole ceremony
 	static double timer = 0.0;
-	static const double WAIT_TIME = 4.0;
+	static const double WAIT_TIME = 1.0;
 
 	if (firstFrame)
 	{

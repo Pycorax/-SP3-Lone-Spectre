@@ -65,6 +65,10 @@ class Player : public Character
 		E_PLAYER_STATE GetState(void)const;
 	
 		void SetActions(E_PLAYER_ACTION type, bool status = true);
+
+		// Actions
+		E_PLAYER_STATE Interact(TileMap* _map);
+
 	private:
 		void move(double dt, TileMap* _map);
 		void resetMove();

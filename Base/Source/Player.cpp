@@ -47,6 +47,54 @@ void Player::SetActions(E_PLAYER_ACTION type,bool status)
 	m_actions[type] = status;
 }
 
+Player::E_PLAYER_STATE Player::Interact(TileMap* _map)
+{
+	Vector2 interactionDistance(m_lookDir * _map->GetTileSize());
+	//TODO : Add in algorithm for determerning the type of action
+	//		Host, Dive , Jump or Hex
+	// if( lookDir == enemy back) -> host
+	// if( lookDir == Item on map) ->dive
+	// if( m_currentState == Dive || host && lookDir == enemyBack || item on map) -> jump then become dive ||host
+	// if (lookDir == Camera ) -> Hex goto minigame
+	bool shiftOrigin = false;
+	static Vector2 s_newOrigin;
+	if (GetLookDir().x < 0 || GetLookDir().y < 0) // Moving left or down
+	{
+		s_newOrigin = GetMapPos(); // No change in origin (Bottom or Left)
+	}
+	else // Moving right or up
+	{
+		s_newOrigin = GetMapPos() + (GetLookDir() * _map->GetTileSize()); // Change in origin (Top or Right)
+		shiftOrigin = true;
+	}
+	Vector2 tilePos = Vector2(floor(s_newOrigin.x / _map->GetTileSize()) * _map->GetTileSize(), s_newOrigin.y) + m_lookDir;
+	Tile::E_TILE_TYPE tileInFrontOfPlayer = _map->GetTileType(tilePos);
+
+	//If next to an object's shadow to hide
+	if (tileInFrontOfPlayer == m__tile->TILE_INVISIBLE_WALL)
+	{
+		return PS_SPECTRAL_DIVE;
+	}
+
+	//If next to an Enemy's shadow to hide
+	if (tileInFrontOfPlayer == m__tile->TILE_INVISIBLE_WALL)
+	{
+		return PS_SPECTRAL_HOST;
+	}
+
+	//If next to a camera to hack
+	if (tileInFrontOfPlayer == m__tile->TILE_OBJ_CAMERA_ON_1_1 
+		||
+		tileInFrontOfPlayer == m__tile->TILE_OBJ_CAMERA_ON_1_2
+		||
+		tileInFrontOfPlayer == m__tile->TILE_OBJ_CAMERA_ON_1_3
+		||
+		tileInFrontOfPlayer == m__tile->TILE_OBJ_CAMERA_ON_1_4)
+	{
+		return PS_SPECTRAL_HAX;
+	}
+}
+
 void Player::Update(double dt, TileMap* _map)
 {
 	Character::Update();
@@ -174,15 +222,11 @@ void Player::Update(double dt, TileMap* _map)
 		//If next to a camera to hack
 		if (_map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_1 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_2 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_3 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_4)
 		{
-			m_currentState = PS_SPECTRAL_HAX;
+			//Play Hacking Minigame
 		}
 		// reseting back to false
 		m_actions[PA_INTERACT] = false;
-	}
-
-	if (m_currentState == PS_SPECTRAL_HAX)
-	{
-		//Play minigame
+		
 	}
 
 	if (m_moving)
