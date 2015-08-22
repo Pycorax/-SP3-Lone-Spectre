@@ -34,7 +34,9 @@ public:
 	~TileMap(void);
 
 	void LoadTileMap(const string &filePath, const vector<Mesh*>& meshList);
+	void UpdateLighting(void);
 
+	Tile* GetTileAt(int xPos, int yPos);
 	bool CheckCollision(Vector2 pos);			// Check position with tile map for collision
 	Tile::E_TILE_TYPE GetTileType(Vector2 pos);	// Get the tile type for a position
 	void Clear(void);
@@ -54,6 +56,7 @@ public:
 
 private:
 	bool loadFile(const string &filePath, const vector<Mesh*>& meshList);
+	void calcLighting(int x, int y);
 };
 
 #endif

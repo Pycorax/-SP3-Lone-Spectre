@@ -37,20 +37,26 @@ public:
 		TILE_OBJ_CAMERA_OFF_1_2, // Row 1 col 2
 		TILE_OBJ_CAMERA_OFF_1_3, // Row 1 col 3
 		TILE_OBJ_CAMERA_OFF_1_4, // Row 1 col 4
+		TILE_LIGHT,
 		NUM_TILE,
 	};
 
 	static const bool S_IS_TILE_SOLID[NUM_TILE];
+	static const int MAX_LIGHT_LEVEL = 10;
 
 private:
 	E_TILE_TYPE m_type;
 	vector<Viewer *> m__viewerList;
+	int m_lightLevel;					// Spans from 0 to MAX_LIGHT_LEVEL. Only a light tile can have MAX_LIGHT_LEVEL levels by default.
 
 public:
 	Tile(Vector2 mapPos = Vector2(0,0), Vector3 scale = Vector3(1,1,1), E_TILE_TYPE type = TILE_FLOOR, Mesh* _mesh = NULL);
 	~Tile(void);
 
 	void AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles);
+
+	void AddLight(int lightValue);
+	void ResetLighting(void);
 
 	E_TILE_TYPE GetType();
 protected:

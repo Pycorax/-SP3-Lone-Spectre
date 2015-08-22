@@ -26,7 +26,10 @@ const bool Tile::S_IS_TILE_SOLID[NUM_TILE] =
 	false
 };
 
-Tile::Tile(Vector2 mapPos, Vector3 scale, E_TILE_TYPE type, Mesh* _mesh) : m_type(type), MapEntity(mapPos)
+Tile::Tile(Vector2 mapPos, Vector3 scale, E_TILE_TYPE type, Mesh* _mesh)
+	: MapEntity(mapPos)
+	, m_type(type)
+	, m_lightLevel(0)
 {
 	m__mesh = _mesh;
 	SetScale(scale);
@@ -80,4 +83,14 @@ void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
 	_view->Init(distViewX ,distViewY);
 	//add into list
 	m__viewerList.push_back(_view);
+}
+
+void Tile::AddLight(int lightValue)
+{
+	m_lightLevel += lightValue;
+}
+
+void Tile::ResetLighting(void)
+{
+	m_lightLevel = 0;
 }

@@ -22,6 +22,26 @@ void TileMap::LoadTileMap(const string &filePath, const vector<Mesh*>& meshList)
 	}
 }
 
+void TileMap::UpdateLighting(void)
+{
+	int countX = 0;
+	int countY = 0;
+	for (vector<vector<Tile*>*>::iterator row = m_map.begin(); row != m_map.end(); ++row, ++countY)
+	{
+		for (vector<Tile*>::iterator col = (*row)->begin(); col != (*row)->end(); ++col, ++countX)
+		{
+			// If this is a light...
+			if ((*col)->GetType() == Tile::TILE_LIGHT)
+			{
+				calcLighting(countX, countY);
+			}
+		}
+
+		// Reset the counter to the start as it is the end of this row
+		countX = 0;
+	}
+}
+
 bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 {
 	const string tileTypeName[Tile::NUM_TILE] = 
@@ -146,6 +166,61 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 	}
 	
 	return true;
+}
+
+void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
+{
+	static const int LIGHT_RANGE = 3;
+	static const int ATTENUATION = 2;
+
+	/*
+	 * Calculating the brightness of each tile
+	 */
+	// Origin is at top left
+	for (size_t xTile = LIGHT_POS_X - LIGHT_RANGE; xTile < LIGHT_POS_X + LIGHT_RANGE; ++xTile)
+	{
+		for (size_t yTile = LIGHT_POS_Y - LIGHT_RANGE; yTile < LIGHT_POS_Y + LIGHT_RANGE; ++yTile)
+		{
+			// If this is outside the range of the map
+			if (xTile < 0 || yTile < 0 || yTile >= m_map.size() || xTile >= m_map.at(yTile)->size())
+			{
+				// Don't read or write to prevent out of range errors
+				continue;
+			}
+
+			// If this is the light source we are calculating for
+			if (xTile == LIGHT_POS_X && yTile == LIGHT_POS_Y)
+			{
+				// Make it bright
+				Tile* tile = GetTileAt(xTile, yTile);
+				tile->ResetLighting();
+				tile->AddLight(Tile::MAX_LIGHT_LEVEL);
+			}
+			else
+			{
+				// Calculate Distance Away
+
+				// Check if it is blocked
+
+				// Calculate the light level
+
+				// Assign the light level
+			}
+		}
+	}
+}
+
+Tile * TileMap::GetTileAt(int xPos, int yPos)
+{
+	if (xPos < 0 || yPos < 0 || yPos >= m_map.size() || xPos >= m_map.at(yPos)->size())
+	{
+		// Don't read or write to prevent out of range errors
+		return NULL;
+	}
+	else
+	{
+		return (*m_map[yPos])[xPos];
+	}
 }
 
 bool TileMap::CheckCollision(Vector2 pos)
