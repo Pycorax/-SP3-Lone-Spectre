@@ -44,7 +44,7 @@ public:
 
 private:
 	E_TILE_TYPE m_type;
-	vector<Viewer *> m__ViewerList;
+	vector<Viewer *> m__viewerList;
 
 public:
 	Tile(Vector2 mapPos = Vector2(0,0), Vector3 scale = Vector3(1,1,1), E_TILE_TYPE type = TILE_FLOOR, Mesh* _mesh = NULL);
