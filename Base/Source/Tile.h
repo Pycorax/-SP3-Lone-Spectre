@@ -58,7 +58,9 @@ public:
 	void AddLight(int lightValue);
 	void ResetLighting(void);
 
-	E_TILE_TYPE GetType();
+	E_TILE_TYPE GetType(void);
+	int GetLightLevel(void);
+
 protected:
 	virtual void updateScreenPos(Vector2 pos);
 };

@@ -12,12 +12,17 @@
 class MVC_Model_Spectre : public MVC_Model
 {
 private:	// Variables
-	//TileMap *_test;
+	//TileMap/Overworld
 	Level* m__testLevel;
+	vector<GameObject2D*> m__lightResource;				// A vector of lights that can be used to render a "lighted" effect
+	Mesh* m__lightMesh;									// The mesh used for m__lightResource
+
+	// Characters
 	Player* m__player;
-	GameObject2D* m__testGO;
-	vector<Collider2D *> m__colliderList;
 	Enemy* m__testEnemy;
+
+	// Collision
+	vector<Collider2D *> m__colliderList;
 
 	// Physics Test Code
 	PhysicalObject* m__po1;
@@ -26,6 +31,9 @@ private:	// Variables
 	// Spectral HexText MiniGame 
 	bool m_hackMode;					// Controls whether hack mode is enabled
 	SpectreHexGame m_hackingGame;		// Controls the hacking minigame for the spectre hextech skill
+
+	// Other/Debug
+	GameObject2D* m__testGO;
 
 public:
 	MVC_Model_Spectre(string configSONFile);
@@ -39,6 +47,10 @@ public:
 protected:
 	// Process Key Action Abstract Function
 	void processKeyAction(double dt);
+
+	// Light Resource
+	void resetLightResources(void);
+	GameObject2D* fetchLight(void);
 
 	// Hack Mode (Spectre HexTech MiniGame)
 	void updateHackMode(const double DT);

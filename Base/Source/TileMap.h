@@ -57,6 +57,7 @@ public:
 private:
 	bool loadFile(const string &filePath, const vector<Mesh*>& meshList);
 	void calcLighting(int x, int y);
+	Vector2 posRoundingForLight(Vector2 pos, Vector2 dir);				// Adds the dir to the pos and rounds up/down to the int based on positive or negative dir
 };
 
 #endif

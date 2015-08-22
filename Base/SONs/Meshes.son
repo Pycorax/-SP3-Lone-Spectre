@@ -334,7 +334,23 @@
 		[Texture] TILE_OBJ_TABLE
 	}
 	
+	{
+		[Name] TILE_LIGHT
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] TILE_LIGHT
+	}
 	
+	{
+		[Name] LightOverlay
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] LightOverlay
+	}
 	
 #	{
 #		[Name] Quad

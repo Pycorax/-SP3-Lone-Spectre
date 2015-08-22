@@ -91,4 +91,14 @@
 		[Name] TILE_OBJ_TABLE
 		[FilePath] Image//Lab_Tiles//Object//Table_2x2.tga
 	}
+	
+	{
+		[Name] TILE_LIGHT
+		[FilePath] Image//Lab_Tiles//light.tga
+	}
+	
+	{
+		[Name] LightOverlay
+		[FilePath] Image//Lab_Tiles//light_overlay.tga
+	}
 }

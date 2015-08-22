@@ -93,6 +93,41 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 	}
 }
 
+void MVC_Model_Spectre::resetLightResources(void)
+{
+	for (vector<GameObject2D*>::iterator light = m__lightResource.begin(); light != m__lightResource.end(); ++light)
+	{
+		(*light)->SetActive(false);
+	}
+}
+
+GameObject2D * MVC_Model_Spectre::fetchLight(void)
+{
+	// Retrieve a light
+	for (vector<GameObject2D*>::iterator light = m__lightResource.begin(); light != m__lightResource.end(); ++light)
+	{
+		if (!(*light)->GetActive())
+		{
+			(*light)->SetActive(true);
+			return *light;
+		}
+	}
+
+	// Generate some if unavailable
+	const int BATCH_MAKE = 10;
+	for (size_t light = 0; light < BATCH_MAKE; ++light)
+	{
+		PhysicalObject* _light = new PhysicalObject();
+		_light->SetActive(false);
+		_light->SetMesh(m__lightMesh);
+		m__lightResource.push_back(_light);
+	}
+
+	m__lightResource.back()->SetActive(true);
+
+	return m__lightResource.back();
+}
+
 void MVC_Model_Spectre::updateHackMode(const double DT)
 {
 	if (m_hackMode)
@@ -115,17 +150,21 @@ void MVC_Model_Spectre::Init(void)
 	m__testLevel = new Level();
 	m__testLevel->InitMap(Vector2(64, 50), Vector2(20, 12), 64, "TileMap//Level1.csv", meshList);
 	int tileSize = m__testLevel->GetTileMap()->GetTileSize();
+	// -- Load Lighting GameObject
+	m__lightMesh = GetMeshResource("LightOverlay");
 
+	// Load the player
 	m__player = Player::GetInstance();
 	m__player->Init(GetMeshResource("Player"));
 	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0)); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
+	// Load debugging test object
 	m__testGO = new GameObject2D;
 	m__testGO->SetMesh(GetMeshResource("Quad"));
 	m__testGO->SetPos(Vector2(100.0f, m_viewHeight * 0.5));
 	m__testGO->SetScale(Vector2(32.f, 32.f));
-	m__colliderList.push_back(dynamic_cast<Collider2D *>(m__testGO) );
+	m__colliderList.push_back(dynamic_cast<Collider2D *>(m__testGO));
 
 	// Init the hacking game
 	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("PlayerBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
@@ -142,7 +181,6 @@ void MVC_Model_Spectre::Init(void)
 	m__po2->SetScale(Vector2(150.0f, 50.0f));
 	m__po2->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
 	m__po2->SetMesh(GetMeshResource("Quad"));
-
 
 	//Enemy
 	m__testEnemy = new Enemy;
@@ -180,6 +218,7 @@ void MVC_Model_Spectre::Update(double dt)
 	}
 
 	// Rendering
+	m__testLevel->GetTileMap()->UpdateLighting();
 	TileMapToRender(m__testLevel->GetTileMap());
 	m_renderList2D.push(m__testGO);
 	m_renderList2D.push(m__player);
@@ -238,6 +277,9 @@ void MVC_Model_Spectre::TileMapToRender(TileMap* _ToRender)
 	static const Vector2 S_MAX_SCROLL_SIZE_TILE = _ToRender->GetNumMapTile(); // Max tile difference between map and screen
 	vector<vector<Tile*>*> _map = _ToRender->GetMap();
 
+	// Reset the lights from the previous frame rendered
+	resetLightResources();
+
 	// Calc the starting tile to render and round down any decimal as it is still seen
 	Vector2 tileStart
 		( 
@@ -260,6 +302,16 @@ void MVC_Model_Spectre::TileMapToRender(TileMap* _ToRender)
 			Tile* _tile = (*_map[tileStart.y + row])[tileStart.x + col]; // Get the tile data based on loop
 			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset()); // Calculate screen position based on map position for rendering
 			m_renderList2D.push(_tile); // Add to queue for rendering
+
+			// Lighting Portion
+			for (size_t lightLevel = 0; lightLevel < _tile->GetLightLevel(); lightLevel += 2)
+			{
+				Transform tileT = _tile->GetTransform();
+				GameObject2D* light = fetchLight();
+				light->SetPos(tileT.Translation);
+				light->SetScale(tileT.Scale);
+				m_renderList2D.push(light);
+			}
 		}
 	}
 }

@@ -23,7 +23,8 @@ const bool Tile::S_IS_TILE_SOLID[NUM_TILE] =
 	false,
 	false,
 	false,
-	false
+	false,
+	true
 };
 
 Tile::Tile(Vector2 mapPos, Vector3 scale, E_TILE_TYPE type, Mesh* _mesh)
@@ -48,6 +49,11 @@ Tile::~Tile(void)
 Tile::E_TILE_TYPE Tile::GetType()
 {
 	return m_type;
+}
+
+int Tile::GetLightLevel(void)
+{
+	return m_lightLevel;
 }
 
 void Tile::updateScreenPos(Vector2 pos)
@@ -87,7 +93,7 @@ void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
 
 void Tile::AddLight(int lightValue)
 {
-	m_lightLevel += lightValue;
+	m_lightLevel = Math::Clamp(m_lightLevel + lightValue, 0, MAX_LIGHT_LEVEL);
 }
 
 void Tile::ResetLighting(void)
