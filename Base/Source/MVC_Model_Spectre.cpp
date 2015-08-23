@@ -303,7 +303,7 @@ void MVC_Model_Spectre::TileMapToRender(TileMap* _ToRender)
 			m_renderList2D.push(_tile); // Add to queue for rendering
 
 			// Lighting Portion
-			for (size_t lightLevel = 0; lightLevel < _tile->GetLightLevel(); lightLevel += 2)
+			for (size_t lightLevel = 0; lightLevel < _tile->GetLightLevel(); lightLevel += 3/*TODO: Remove hardcode. Should be attenuation value.*/)
 			{
 				Transform tileT = _tile->GetTransform();
 				GameObject2D* light = fetchLight();

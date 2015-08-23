@@ -172,7 +172,7 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 {
 	static const int LIGHT_RANGE = 3;
-	static const int ATTENUATION = 3;
+	static const int ATTENUATION = 4;
 	static const float ACCURACY = 0.5;
 
 	/*
@@ -208,13 +208,16 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 
 				// Check if it is blocked
 				bool blocked = false;
-				Vector2 searchStartPos = TILE_POS + Vector2(0.5, 0.5);
+				Vector2 searchStartPos = TILE_POS + Vector2(0.5, 0.5) /* To move into the center if the tile (need not be tied to tile size as all the calculations are done to relative sizing */;
 				Vector2 midTilePos = searchStartPos;
 
 				// Check through all the tiles on the way to our tile
 				//for (vector<Vector2>::iterator tilePos = tilePositions.begin(); tilePos != tilePositions.end(); ++tilePos)
 				while(true)
 				{
+					// For optimization: Prevent rechecks
+					static Vector2 prevMidTilePosInt;
+
 					// Move to the next block, towards our tile
 					midTilePos += ACCURACY * dir;
 
@@ -223,23 +226,27 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 					midTilePosInt.x = static_cast<int>(midTilePos.x);
 					midTilePosInt.y = static_cast<int>(midTilePos.y);
 
-					// If we reached the source, staph it
-					if (midTilePosInt == LIGHT_POS)
+					// Prevent rechecking the same spot over and over again due to the high accuracy
+					if (midTilePosInt != prevMidTilePosInt)
 					{
-						break;
-					}
+						// If we reached the source, staph it
+						if (midTilePosInt == LIGHT_POS)
+						{
+							break;
+						}
 
-					// Get a pointer to the tile to check
-					Tile* midTile = GetTileAt(midTilePosInt.x, midTilePosInt.y);
+						// Get a pointer to the tile to check
+						Tile* midTile = GetTileAt(midTilePosInt.x, midTilePosInt.y);
 
-					//std::cout << midTilePosInt << std::endl;
+						// Check if the mid tile is out of the map or is solid
+						if (midTile == NULL || Tile::S_IS_TILE_SOLID[midTile->GetType()])
+						{
+							// No Lighting. Don't add anything. Just break.
+							blocked = true;
+							break;
+						}
 
-					// Check if the mid tile is out of the map or is solid
-					if (midTile == NULL || Tile::S_IS_TILE_SOLID[midTile->GetType()])
-					{
-						// No Lighting. Don't add anything. Just break.
-						blocked = true;
-						break;
+						prevMidTilePosInt = midTilePosInt;
 					}
 				}
 
@@ -262,6 +269,7 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 					// Assign the light level
 					Tile* tile = GetTileAt(xTile, yTile);
 					tile->AddLight(lightLevel);
+					
 				}
 				// else		// Don't add any light at all
 			}
