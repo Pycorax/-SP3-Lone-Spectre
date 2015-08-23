@@ -33,6 +33,7 @@
     <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
     <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\Pathway.cpp" />
     <ClCompile Include="Source\Physics2D.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\RangedWeapon.cpp" />
@@ -85,6 +86,8 @@
     <ClInclude Include="Source\MVC_Model_Spectre.h" />
     <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
+    <ClInclude Include="Source\PathPoint.h" />
+    <ClInclude Include="Source\Pathway.h" />
     <ClInclude Include="Source\Physics2D.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\RangedWeapon.h" />
