@@ -34,6 +34,8 @@ private:
 
 	//m_patrolPointA -> the old target location, m_patrolPointB -> the target location
 	Vector2 m_patrolPointA, m_patrolPointB; 
+	//stores target location;
+	vector<Vector2> m_patrolPointList;
 	//use to check if mode start patrolling
 	bool m_bReachPos;
 
@@ -50,7 +52,7 @@ public:
 	void SetStartPatrolPoint(Vector2 pos);
 	void SetEndPatrolPoint(Vector2 pos);
 	//moving to selected location
-	bool MoveTo(Vector2 Startpos, Vector2 Endpos, TileMap* _map);
+	bool MoveTo(Vector2 Startpos, Vector2 Endpos, TileMap* _map, double dt);
 	
 	void SetAlertLevel(int alertlevel);
 	int GetAlertLevel(void);
@@ -61,7 +63,8 @@ public:
 	E_ENEMY_STATE m_enemyState;
 
 	void SpottedTarget(Vector2 pos);
-
+private:
+	bool checkTileMapCollision(TileMap* _map);
 };
 
 #endif
