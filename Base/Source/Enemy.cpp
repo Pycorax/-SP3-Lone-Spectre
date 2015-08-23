@@ -2,9 +2,9 @@
 
 
 Enemy::Enemy(void)
-:m_alertLevel(0)
-, m_enemyState(ES_PATROL)
-, m_bReachPos(false)
+	:m_alertLevel(0)
+	, m_enemyState(ES_PATROL)
+	, m_bReachPos(false)
 {
 
 }
@@ -53,7 +53,7 @@ void Enemy::update(double dt, TileMap* _map)
 
 	if (m_enemyState == ES_PATROL)
 	{
-		MoveTo(m_patrolPointA , m_patrolPointB, _map);
+		MoveTo(m_patrolPointA , m_patrolPointB, _map, dt);
 	}
 	else if (m_enemyState == ES_CHASE)
 	{
@@ -71,7 +71,7 @@ void Enemy::update(double dt, TileMap* _map)
 	else if (m_enemyState == ES_ATTACK)
 	{
 		//Hit him already
-		
+
 	}
 	else if (m_enemyState == ES_POSSESED)
 	{
@@ -130,45 +130,55 @@ void Enemy::SetEndPatrolPoint(Vector2 pos)
 	m_patrolPointB = pos;
 }
 
-bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map) //TODO: PathFinding
+bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
 {
 	m_lookDir = (EndPos - StartPos).Normalized();//**note patrol point a is start pos and enemy initial pos
-	Vector2 newMapPos;
+	Vector2 newMapPos =  GetMapPos() + GetLookDir();
 
-	newMapPos =  GetMapPos() + GetLookDir();
-	if(m_lookDir.x == 1 && newMapPos.x >= m_patrolPointB.x) //traveling along x axis -> moving right
+	if(_map->CheckCollision(newMapPos) )
 	{
+		// swap pos - patrolPointB - target location
+		Vector2 tempStore;
+		tempStore = m_patrolPointB;
+		m_patrolPointB = m_patrolPointA;
+		m_patrolPointA = tempStore;
+	}
+	else
+	{
+		if(m_lookDir.x == 1 && newMapPos.x >= m_patrolPointB.x) //traveling along x axis -> moving right
+		{
 			// swap pos - patrolPointB - target location
-		Vector2 tempStore;
-		tempStore = m_patrolPointB;
-		m_patrolPointB = m_patrolPointA;
-		m_patrolPointA = tempStore;
+			Vector2 tempStore;
+			tempStore = m_patrolPointB;
+			m_patrolPointB = m_patrolPointA;
+			m_patrolPointA = tempStore;
+		}
+		else if(m_lookDir.x == -1 && newMapPos.x <= m_patrolPointB.x) // -> moving left
+		{
+			// swap pos - patrolPointB - target location
+			Vector2 tempStore;
+			tempStore = m_patrolPointB;
+			m_patrolPointB = m_patrolPointA;
+			m_patrolPointA = tempStore;
+		}
+		if(m_lookDir.y == 1 && newMapPos.y >= m_patrolPointB.y) //traveling along y axis -> moving up
+		{
+			// swap pos - patrolPointB - target location
+			Vector2 tempStore;
+			tempStore = m_patrolPointB;
+			m_patrolPointB = m_patrolPointA;
+			m_patrolPointA = tempStore;
+		}
+		else if(m_lookDir.y == -1 && newMapPos.y <= m_patrolPointB.y ) // -> moving down
+		{
+			// swap pos - patrolPointB - target location
+			Vector2 tempStore;
+			tempStore = m_patrolPointB;
+			m_patrolPointB = m_patrolPointA;
+			m_patrolPointA = tempStore;
+		}
+		SetMapPosition(newMapPos, _map->GetScrollOffset() );
 	}
-	else if(m_lookDir.x == -1 && newMapPos.x <= m_patrolPointB.x) // -> moving left
-	{
-		// swap pos - patrolPointB - target location
-		Vector2 tempStore;
-		tempStore = m_patrolPointB;
-		m_patrolPointB = m_patrolPointA;
-		m_patrolPointA = tempStore;
-	}
-	if(m_lookDir.y == 1 && newMapPos.y >= m_patrolPointB.y) //traveling along y axis -> moving up
-	{
-		// swap pos - patrolPointB - target location
-		Vector2 tempStore;
-		tempStore = m_patrolPointB;
-		m_patrolPointB = m_patrolPointA;
-		m_patrolPointA = tempStore;
-	}
-	else if(m_lookDir.y == -1 && newMapPos.y <= m_patrolPointB.y ) // -> moving down
-	{
-		// swap pos - patrolPointB - target location
-		Vector2 tempStore;
-		tempStore = m_patrolPointB;
-		m_patrolPointB = m_patrolPointA;
-		m_patrolPointA = tempStore;
-	}
-	SetMapPosition(newMapPos, _map->GetScrollOffset() );
 	return true;
 }
 
