@@ -1,8 +1,6 @@
 #ifndef MATH_UTILITY_H
 #define MATH_UTILITY_H
 
-#include <string>
-
 int factorial(int n);
 int nCr(int n, int r);
 int nPr(int n, int r);
