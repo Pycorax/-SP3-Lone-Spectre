@@ -173,15 +173,17 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 {
 	static const int LIGHT_RANGE = 3;
 	static const int ATTENUATION = 3;
+	static const float ACCURACY = 0.5;
 
 	/*
 	 * Calculating the brightness of each tile
 	 */
 	// Origin is at top left
-	for (size_t xTile = LIGHT_POS_X; xTile <= LIGHT_POS_X + LIGHT_RANGE; ++xTile)
+	for (size_t yTile = LIGHT_POS_Y - LIGHT_RANGE; yTile <= LIGHT_POS_Y + LIGHT_RANGE; ++yTile)
 	{
-		for (size_t yTile = LIGHT_POS_Y - LIGHT_RANGE; yTile <= LIGHT_POS_Y + LIGHT_RANGE; ++yTile)
+		for (size_t xTile = LIGHT_POS_X - LIGHT_RANGE; xTile <= LIGHT_POS_X + LIGHT_RANGE; ++xTile)
 		{
+		
 			// If this is outside the range of the map
 			if (xTile < 0 || yTile < 0 || yTile >= m_map.size() || xTile >= m_map.at(yTile)->size())
 			{
@@ -193,8 +195,8 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 			if (xTile == LIGHT_POS_X && yTile == LIGHT_POS_Y)
 			{
 				// Make it bright
-				Tile* tile = GetTileAt(xTile, yTile);
-				tile->AddLight(Tile::MAX_LIGHT_LEVEL);
+				//Tile* tile = GetTileAt(xTile, yTile);
+				//tile->AddLight(Tile::MAX_LIGHT_LEVEL);
 			}
 			else
 			{
@@ -206,16 +208,20 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 
 				// Check if it is blocked
 				bool blocked = false;
-				Vector2 midTilePos = TILE_POS;
-				
+				Vector2 searchStartPos = TILE_POS + Vector2(0.5, 0.5);
+				Vector2 midTilePos = searchStartPos;
+
 				// Check through all the tiles on the way to our tile
-				while (true)
+				//for (vector<Vector2>::iterator tilePos = tilePositions.begin(); tilePos != tilePositions.end(); ++tilePos)
+				while(true)
 				{
 					// Move to the next block, towards our tile
-					midTilePos += dir;
+					midTilePos += ACCURACY * dir;
 
 					// For decimal round up or down according to the dir being positive or negative
-					Vector2 midTilePosInt = posRoundingForLight(midTilePos, dir);
+					Vector2 midTilePosInt;
+					midTilePosInt.x = static_cast<int>(midTilePos.x);
+					midTilePosInt.y = static_cast<int>(midTilePos.y);
 
 					// If we reached the source, staph it
 					if (midTilePosInt == LIGHT_POS)
@@ -229,7 +235,7 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 					//std::cout << midTilePosInt << std::endl;
 
 					// Check if the mid tile is out of the map or is solid
-					if (midTile == NULL ||Tile::S_IS_TILE_SOLID[midTile->GetType()])
+					if (midTile == NULL || Tile::S_IS_TILE_SOLID[midTile->GetType()])
 					{
 						// No Lighting. Don't add anything. Just break.
 						blocked = true;
@@ -257,7 +263,7 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 					Tile* tile = GetTileAt(xTile, yTile);
 					tile->AddLight(lightLevel);
 				}
-				//else		// Don't add any light at all				
+				// else		// Don't add any light at all
 			}
 		}
 	}
@@ -292,7 +298,6 @@ Vector2 TileMap::posRoundingForLight(Vector2 pos, Vector2 dir)
 	}
 
 	return pos;
-	
 }
 
 Tile * TileMap::GetTileAt(int xPos, int yPos)
