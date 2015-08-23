@@ -189,6 +189,7 @@ void MVC_Model_Spectre::Init(void)
 	m__testEnemy->SetScale(Vector2(32.f, 32.f));
 	m__testEnemy->SetStartPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
 	m__testEnemy->SetEndPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
+	m__testEnemy->SetTarget(m__player->GetTransform().Translation);
 }
 
 void MVC_Model_Spectre::Update(double dt)

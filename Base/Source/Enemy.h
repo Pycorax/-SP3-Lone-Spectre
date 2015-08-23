@@ -5,8 +5,9 @@
 #include <vector>
 #include "TileMap.h"
 #include "Viewer.h"
+#include "PathFinder.h"
 
-class Enemy : public Character, public Viewer
+class Enemy : public Character, public Viewer, public PathFinder
 {
 public:
 	enum E_ENEMY_STATE
@@ -41,13 +42,11 @@ private:
 
 	Vector2 m_spectralPositon;
 
-	
-
 public:
 	Enemy(void);
 	virtual ~Enemy(void);
 	void Init(Vector2 pos, E_ENEMY_STATE enemyState);
-	void update(double dt, TileMap* _map);
+	void Update(double dt, TileMap* _map);
 
 	void SetStartPatrolPoint(Vector2 pos);
 	void SetEndPatrolPoint(Vector2 pos);
@@ -65,6 +64,10 @@ public:
 	void SpottedTarget(Vector2 pos);
 private:
 	bool checkTileMapCollision(TileMap* _map);
+
+protected:
+	// Function to get the player's current position
+	virtual Vector2 pathFinder_getTilePosition(void);
 };
 
 #endif

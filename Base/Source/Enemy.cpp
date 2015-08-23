@@ -20,7 +20,7 @@ void Enemy::Init(Vector2 pos, E_ENEMY_STATE enemyState)
 	m_enemyState = enemyState;
 }
 
-void Enemy::update(double dt, TileMap* _map)
+void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();
 	//if ()//If any enemy see Hero, affects other enemies too
@@ -194,6 +194,11 @@ int Enemy::GetAlertLevel(void)
 
 void Enemy::SpottedTarget(Vector2 pos)
 {
+}
+
+Vector2 Enemy::pathFinder_getTilePosition(void)
+{
+	return GetMapPos();
 }
 
 void Enemy::SetSpectrePosition(Vector2 spectralPosition)

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AINodeGrid.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
     <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\PathFinder.cpp" />
     <ClCompile Include="Source\Pathway.cpp" />
     <ClCompile Include="Source\Physics2D.cpp" />
     <ClCompile Include="Source\Player.cpp" />
@@ -62,6 +64,7 @@
     <ClCompile Include="Source\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AINodeGrid.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
@@ -86,6 +89,7 @@
     <ClInclude Include="Source\MVC_Model_Spectre.h" />
     <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
+    <ClInclude Include="Source\PathFinder.h" />
     <ClInclude Include="Source\PathPoint.h" />
     <ClInclude Include="Source\Pathway.h" />
     <ClInclude Include="Source\Physics2D.h" />
