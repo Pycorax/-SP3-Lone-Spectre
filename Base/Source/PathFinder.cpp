@@ -18,9 +18,11 @@ void PathFinder::initPathFinder(TileMap * _tileMap)
 	m_nodeGrid.Init(_tileMap);
 }
 
-void PathFinder::UpdatePath(void)
+void PathFinder::UpdatePath(int tileSize)
 {
 	Vector2 startPos = pathFinder_getTilePosition();
+	startPos.x = startPos.x / tileSize;
+	startPos.y = startPos.y / tileSize;
 	AINode* startNode = m_nodeGrid.GetNodeAt(startPos.x, startPos.y);
 
 	vector<AINode*> openSet;
@@ -32,23 +34,23 @@ void PathFinder::UpdatePath(void)
 		AINode* currentNode = openSet.front();
 
 		// Set current node to the node with the lowest FCost in openSet
-		for (vector<AINode*>::iterator i = openSet.begin(); i != openSet.end(); ++i) 
+		for (vector<AINode*>::iterator node = openSet.begin(); node != openSet.end(); ++node) 
 		{
-			int thisFCost = (*i)->GetFCost();
+			int thisFCost = (*node)->GetFCost();
 			int currentFCost = currentNode->GetFCost();
 
-			if (thisFCost < currentFCost || thisFCost == currentFCost && (*i)->m_HCost < currentNode->m_HCost)
+			if (thisFCost < currentFCost || thisFCost == currentFCost && (*node)->m_HCost < currentNode->m_HCost)
 			{
-				currentNode = (*i);
+				currentNode = (*node);
 			}
 		}
 
 		// Move current from open to closed
-		for (vector<AINode*>::iterator i = openSet.begin(); i != openSet.end(); ++i)
+		for (vector<AINode*>::iterator openNode = openSet.begin(); openNode != openSet.end(); ++openNode)
 		{
-			if ((*i) == currentNode)
+			if ((*openNode) == currentNode)
 			{
-				openSet.erase(i);
+				openSet.erase(openNode);
 				closedSet.insert(currentNode);
 
 				break;
@@ -81,9 +83,9 @@ void PathFinder::UpdatePath(void)
 
 			// Check if neighbour is not in open
 			bool neighbourInOpen = false;
-			for (vector<AINode*>::iterator i = openSet.begin(); i != openSet.end(); ++i)
+			for (vector<AINode*>::iterator openNode = openSet.begin(); openNode != openSet.end(); ++openNode)
 			{
-				if (neighbour == *i)
+				if (neighbour == *openNode)
 				{
 					neighbourInOpen = true;
 					break;
@@ -102,13 +104,14 @@ void PathFinder::UpdatePath(void)
 					openSet.push_back(neighbour);
 				}
 			}
-
 		}
 	}
 }
 
-void PathFinder::SetTarget(Vector2 pos)
+void PathFinder::SetTarget(Vector2 pos, int tileSize)
 {
+	pos.x = pos.x / tileSize;
+	pos.y = pos.y / tileSize;
 	m__target = m_nodeGrid.GetNodeAt(pos.x, pos.y);
 }
 

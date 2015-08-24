@@ -23,7 +23,7 @@ void AINodeGrid::Init(TileMap * _tileMap)
 
 		for (size_t col = 0; col < mapSize.x; ++col)
 		{
-			AINode* newNode = new AINode;
+			AINode* newNode = new AINode(0, 0, false, col, row);
 
 			// Mark this node as a wall if it is a wall in the tile map
 			Tile* tile = _tileMap->GetTileAt(col, row);
@@ -94,16 +94,21 @@ vector<AINode*> AINodeGrid::GetNeighboursOf(AINode * node)
 			if (y == 0)		// Add the left and right
 			{
 				neighbour = GetNodeAt(node->m_gridPosX + x, node->m_gridPosY);
-			}
+ 			}
 			else if (x == 0)		// Add the up and down
 			{
 				neighbour = GetNodeAt(node->m_gridPosX, node->m_gridPosY + 1);
 			}
+			else
+			{
+				neighbour = NULL;
+			}
 
-			if (neighbour != NULL)
+			if (neighbour != NULL && neighbour != node)
 			{
 				// Add the neighbour into the vector of neighbours
 				neighbours.push_back(neighbour);
+				std::cout << node->m_gridPosX + x << ", " << node->m_gridPosY + y << std::endl;
 			}
 		}
 	}

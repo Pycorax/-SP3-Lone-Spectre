@@ -27,10 +27,10 @@ public:
 
 	// Function to build the node grid
 	void initPathFinder(TileMap* _tileMap);	
-	void UpdatePath(void);
+	void UpdatePath(int tileSize);
 
 	// Setters
-	void SetTarget(Vector2 pos);
+	void SetTarget(Vector2 pos, int tileSize);
 
 	// Getters
 	vector<AINode*> GetPath(void);

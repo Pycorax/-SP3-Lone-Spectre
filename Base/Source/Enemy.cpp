@@ -25,7 +25,7 @@ void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();
 	
-	//PathFinder::UpdatePath();
+	PathFinder::UpdatePath(_map->GetTileSize());
 	//if ()//If any enemy see Hero, affects other enemies too
 	//{
 	//	m_enemyState = ES_CHASE;
@@ -74,20 +74,25 @@ void Enemy::Update(double dt, TileMap* _map)
 	{
 		//Make enemy chase after the hero's current position with path-finding
 		m_bAlerted = true;
-		//Vector2 nextTarget;
-		//nextTarget.x = GetPath()[m_pathPointCounter]->m_gridPosX;
-		//nextTarget.y = GetPath()[m_pathPointCounter]->m_gridPosY;
-		//if(MoveTo(nextTarget, _map, dt) );
-		//{
-		//	if(GetPath().size() == m_pathPointCounter) // if patrol counter reached the last one
-		//	{
-		//		m_pathPointCounter = 0; // reset back to 0
-		//	}
-		//	else
-		//	{
-		//		m_pathPointCounter += 1; // move on to next point
-		//	}
-		//}
+		Vector2 nextTarget;
+		vector<AINode*> path = GetPath();
+		if (path.size() > 0)
+		{
+			nextTarget.x = path[m_pathPointCounter]->m_gridPosX;
+			nextTarget.y = path[m_pathPointCounter]->m_gridPosY;
+		}
+		
+		if(MoveTo(nextTarget, _map, dt) );
+		{
+			if(path.size() == m_pathPointCounter) // if patrol counter reached the last one
+			{
+				m_pathPointCounter = 0; // reset back to 0
+			}
+			else
+			{
+				m_pathPointCounter += 1; // move on to next point
+			}
+		}
 		if (m_bAlerted)
 		{
 			if (m_alertLevel < 3)
