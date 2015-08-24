@@ -17,7 +17,7 @@ void Menu::Init()
 
 void Menu::Update()
 {
-	if ()
+	if (true)
 	{
 
 	}
