@@ -4,7 +4,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__testLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
-	, m_enableShadow(true)
+	, m_enableShadow(false)
 {
 }
 
@@ -13,7 +13,7 @@ MVC_Model_Spectre::~MVC_Model_Spectre(void)
 {
 }
 
-void MVC_Model_Spectre::processKeyAction(double dt)
+void MVC_Model_Spectre::processKeyAction(double dt) 
 {
 	#pragma region Player Controls
 
@@ -193,18 +193,16 @@ void MVC_Model_Spectre::Init(void)
 	m__testEnemy->SetMapPosition(Vector2 (500 , 200 ) ,m__testLevel->GetTileMap()->GetScrollOffset());
 	m__testEnemy->SetScale(Vector2(32.f, 32.f));
 	m__testEnemy->initPathFinder(m__testLevel->GetTileMap());
-	m__testEnemy->SetTarget(m__player->GetMapPos(), m__testLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
+	m__testEnemy->SetTarget(m__player->GetMapPos() );//m__player->GetTransform().Translation);
 	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
 	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
-	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(40,20) );
 
 }
 
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
-	//update enemy;
-	m__testEnemy->Update(dt, m__testLevel->GetTileMap() );
+
 	// Update tile size to fit screen resolution
 	if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
 	{
@@ -241,7 +239,7 @@ void MVC_Model_Spectre::Update(double dt)
 	
 	//Updates player depending on actions queued.
 	m__player->Update(dt,m__testLevel->GetTileMap());
-	m__testEnemy->Update(dt, m__testLevel->GetTileMap());
+	//m__testEnemy->Update(dt, m__testLevel->GetTileMap());
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);
