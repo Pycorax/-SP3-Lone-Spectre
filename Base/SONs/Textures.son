@@ -101,4 +101,9 @@
 		[Name] LightOverlay
 		[FilePath] Image//Lab_Tiles//light_overlay.tga
 	}
+	
+	{
+		[Name] ShadowOverlay
+		[FilePath] Image//Lab_Tiles//shadow.tga
+	}
 }

@@ -4,6 +4,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__testLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
+	, m_enableShadow(false)
 {
 }
 
@@ -97,37 +98,37 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 void MVC_Model_Spectre::resetLightResources(void)
 {
-	for (vector<GameObject2D*>::iterator light = m__lightResource.begin(); light != m__lightResource.end(); ++light)
+	for (vector<GameObject2D*>::iterator light = m__shadowResource.begin(); light != m__shadowResource.end(); ++light)
 	{
 		(*light)->SetActive(false);
 	}
 }
 
-GameObject2D * MVC_Model_Spectre::fetchLight(void)
+GameObject2D * MVC_Model_Spectre::fetchShadow(void)
 {
 	// Retrieve a light
-	for (vector<GameObject2D*>::iterator light = m__lightResource.begin(); light != m__lightResource.end(); ++light)
+	for (vector<GameObject2D*>::iterator shadow = m__shadowResource.begin(); shadow != m__shadowResource.end(); ++shadow)
 	{
-		if (!(*light)->GetActive())
+		if (!(*shadow)->GetActive())
 		{
-			(*light)->SetActive(true);
-			return *light;
+			(*shadow)->SetActive(true);
+			return *shadow;
 		}
 	}
 
 	// Generate some if unavailable
 	const int BATCH_MAKE = 10;
-	for (size_t light = 0; light < BATCH_MAKE; ++light)
+	for (size_t shadow = 0; shadow < BATCH_MAKE; ++shadow)
 	{
-		PhysicalObject* _light = new PhysicalObject();
-		_light->SetActive(false);
-		_light->SetMesh(m__lightMesh);
-		m__lightResource.push_back(_light);
+		PhysicalObject* _shadow = new PhysicalObject();
+		_shadow->SetActive(false);
+		_shadow->SetMesh(m__shadowMesh);
+		m__shadowResource.push_back(_shadow);
 	}
 
-	m__lightResource.back()->SetActive(true);
+	m__shadowResource.back()->SetActive(true);
 
-	return m__lightResource.back();
+	return m__shadowResource.back();
 }
 
 void MVC_Model_Spectre::updateHackMode(const double DT)
@@ -154,8 +155,8 @@ void MVC_Model_Spectre::Init(void)
 	m__testLevel = new Level();
 	m__testLevel->InitMap(Vector2(64, 50), Vector2(ceil(m_viewWidth / 64.f), ceil(m_viewHeight / 64.f)), 64, "TileMap//Level1.csv", meshList);
 	int tileSize = m__testLevel->GetTileMap()->GetTileSize();
-	// -- Load Lighting GameObject
-	m__lightMesh = GetMeshResource("LightOverlay");
+	// -- Load Shadow GameObject
+	m__shadowMesh = GetMeshResource("ShadowOverlay");
 
 	// Load the player
 	m__player = Player::GetInstance();
@@ -343,15 +344,19 @@ void MVC_Model_Spectre::TileMapToRender(TileMap* _ToRender)
 			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset()); // Calculate screen position based on map position for rendering
 			m_renderList2D.push(_tile); // Add to queue for rendering
 
-			// Lighting Portion
-			for (size_t lightLevel = 0; lightLevel < _tile->GetLightLevel(); lightLevel += 3/*TODO: Remove hardcode. Should be attenuation value.*/)
+			if (m_enableShadow)
 			{
-				Transform tileT = _tile->GetTransform();
-				GameObject2D* light = fetchLight();
-				light->SetPos(tileT.Translation);
-				light->SetScale(tileT.Scale);
-				m_renderList2D.push(light);
+				// Shadowing Portion
+				int numShadows = Tile::MAX_LIGHT_LEVEL - _tile->GetLightLevel();
+				for (size_t lightLevel = 0; lightLevel < numShadows; lightLevel += 3/*TODO: Remove hardcode. Should be attenuation value.*/)
+				{
+					Transform tileT = _tile->GetTransform();
+					GameObject2D* light = fetchShadow();
+					light->SetPos(tileT.Translation);
+					light->SetScale(tileT.Scale);
+					m_renderList2D.push(light);
+				}
 			}
-		}
+		}	
 	}
 }

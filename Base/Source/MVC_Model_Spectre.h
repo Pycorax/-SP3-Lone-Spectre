@@ -22,8 +22,8 @@ public:
 private:	// Variables
 	//TileMap/Overworld
 	Level* m__testLevel;
-	vector<GameObject2D*> m__lightResource;				// A vector of lights that can be used to render a "lighted" effect
-	Mesh* m__lightMesh;									// The mesh used for m__lightResource
+	vector<GameObject2D*> m__shadowResource;				// A vector of lights that can be used to render a "lighted" effect
+	Mesh* m__shadowMesh;									// The mesh used for m__shadowResource
 
 	// Characters
 	Player* m__player;
@@ -42,6 +42,7 @@ private:	// Variables
 
 	// Other/Debug
 	GameObject2D* m__testGO;
+	bool m_enableShadow;				// Controls if shadows will be rendered
 	// Keep track of resolution change
 	Vector2 resolution;
 
@@ -60,7 +61,7 @@ protected:
 
 	// Light Resource
 	void resetLightResources(void);
-	GameObject2D* fetchLight(void);
+	GameObject2D* fetchShadow(void);
 
 	// Hack Mode (Spectre HexTech MiniGame)
 	void updateHackMode(const double DT);

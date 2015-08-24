@@ -352,6 +352,15 @@
 		[Texture] LightOverlay
 	}
 	
+	{
+		[Name] ShadowOverlay
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] ShadowOverlay
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad
