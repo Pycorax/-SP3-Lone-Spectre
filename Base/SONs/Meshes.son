@@ -28,7 +28,90 @@
 		[Color] 1.0f, 1.0f, 1.0f
 		[Length] 1.0f
 	}
-	
+
+	#   PLAYER MESHES START 
+	{
+		[Name] Player_WALK_UP
+		[Type] SpriteAnimation2D
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 3
+		[SpriteAnimationTime] 0.5f
+		[ScaleX] 1
+		[ScaleY] 1
+		[SpriteAnimationRepeat] 0
+		[Texture] Player_WALK_UP
+	}
+
+	{
+		[Name] Player_WALK_LEFT
+		[Type] SpriteAnimation2D
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 3
+		[SpriteAnimationTime] 0.5f
+		[ScaleX] 1
+		[ScaleY] 1
+		[SpriteAnimationRepeat] 0
+		[Texture] Player_WALK_LEFT
+	}
+
+	{
+		[Name] Player_WALK_RIGHT
+		[Type] SpriteAnimation2D
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 3
+		[SpriteAnimationTime] 0.5f
+		[ScaleX] 1
+		[ScaleY] 1
+		[SpriteAnimationRepeat] 0
+		[Texture] Player_WALK_RIGHT
+	}
+
+	{
+		[Name] Player_WALK_DOWN
+		[Type] SpriteAnimation2D
+		[SpriteAnimationRow] 1
+		[SpriteAnimationColumn] 3
+		[SpriteAnimationTime] 0.5f
+		[ScaleX] 1
+		[ScaleY] 1
+		[SpriteAnimationRepeat] 0
+		[Texture] Player_WALK_DOWN
+	}
+
+	{
+		[Name] Player_IDLE_UP
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] Player_IDLE_UP
+	}
+	{
+		[Name] Player_IDLE_DOWN
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] Player_IDLE_DOWN
+	}
+	{
+		[Name] Player_IDLE_LEFT
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] Player_IDLE_LEFT
+	}
+	{
+		[Name] Player_IDLE_RIGHT
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] Player_IDLE_RIGHT
+	}
+	#    PLAYER MESHES END  
+
 	{
 		[Name] Player
 		[Type] 2D

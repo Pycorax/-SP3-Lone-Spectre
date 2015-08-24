@@ -12,11 +12,17 @@ void Player::Init(Mesh* _mesh)
 	SetMesh(_mesh);
 	m_moving = false;
 	m_moveDist = 0.f;
-	m_currentState = E_PLAYER_STATE::PS_IDLE;
+	m_currentState = E_PLAYER_STATE::PS_IDLE_DOWN;
+	m_saStateCounter = 0;
 	//Init the action queue to be all false
 	for (int i = 0; i < NUM_PLAYER_ACTIONS; ++i)
 	{
 		m_actions[i] = false;
+	}
+	//init the sa list to be empty
+	for(int i = 0 ; i < NUM_PLAYERSTATE; i++)
+	{
+		m__saList[i] = NULL;
 	}
 }
 
@@ -41,6 +47,13 @@ Player* Player::GetInstance(int instance)
 		return NULL;
 	}
 }
+
+//adds sprite animation depending on the state specified
+void Player::AddMesh(Mesh* _mesh, E_PLAYER_STATE playerState)
+{
+	m__saList[playerState] = _mesh;
+}
+
 //set Player action to desired state
 void Player::SetActions(E_PLAYER_ACTION type,bool status)
 {
@@ -98,26 +111,13 @@ Player::E_PLAYER_STATE Player::Interact(TileMap* _map)
 void Player::Update(double dt, TileMap* _map)
 {
 	Character::Update();
-	//TODO: **NOTE: factor in collision**
-	if (!m_moving)
+	if (!m_moving) // queues up movement
 	{
 		if(m_actions[PA_MOVE_UP])
 		{
-			/*//update status
-			m_currentState = PS_WALK;
-			//update direction looking at
-			SetLookDir(Vector2(0,1) );
-
-			//centralise the player
-			constrainPlayer(_map);
-
-			if(!_map->CheckCollision(m_lookDir * s_playerMoveSpeed * dt + m_transforms.Translation + Vector2(0,_map->GetTileSize())) )
-			{
-			m_transforms.Translation += m_lookDir * s_playerMoveSpeed * dt;
-			}
-
-			// reseting back to false
-			m_actions[PA_MOVE_UP] = false;*/
+			//update status
+			m_currentState = PS_WALK_UP;
+			//set look dir
 			SetLookDir(Vector2(0, 1));
 			m_moving = true;
 			//moveUpDown(dt, false, _map);
@@ -125,20 +125,9 @@ void Player::Update(double dt, TileMap* _map)
 		}
 		else if(m_actions[PA_MOVE_DOWN])
 		{
-			/*//update status
-			m_currentState = PS_WALK;
-			SetLookDir(Vector2(0,-1) );
-
-			//centralise the player
-			constrainPlayer(_map);
-
-			if(!_map->CheckCollision(m_lookDir * s_playerMoveSpeed * dt + m_transforms.Translation) )
-			{
-			m_transforms.Translation += m_lookDir * s_playerMoveSpeed * dt;
-			}
-
-			// reseting back to false
-			m_actions[PA_MOVE_DOWN] = false;*/
+			//update status
+			m_currentState = PS_WALK_DOWN;
+			//set look dir
 			SetLookDir(Vector2(0, -1));
 			m_moving = true;
 			//moveUpDown(dt, true, _map);
@@ -147,20 +136,9 @@ void Player::Update(double dt, TileMap* _map)
 
 		if(m_actions[PA_MOVE_LEFT])
 		{
-			/*//update status
-			m_currentState = PS_WALK;
-			SetLookDir(Vector2(-1,0) );
-
-			//centralise the player
-			constrainPlayer(_map);
-
-			if(!_map->CheckCollision(m_lookDir * s_playerMoveSpeed * dt + m_transforms.Translation) )
-			{
-			m_transforms.Translation += m_lookDir * s_playerMoveSpeed * dt;
-			}
-
-			// reseting back to false
-			m_actions[PA_MOVE_LEFT] = false;*/
+			//update status
+			m_currentState = PS_WALK_LEFT;
+			//set look dir
 			SetLookDir(Vector2(-1,0));
 			m_moving = true;
 			//moveLeftRight(dt, false, _map);
@@ -168,20 +146,9 @@ void Player::Update(double dt, TileMap* _map)
 		}
 		else if(m_actions[PA_MOVE_RIGHT])
 		{
-			/*//update status
-			m_currentState = PS_WALK;
-			SetLookDir(Vector2(1,0) );
-
-			//centralise the player
-			constrainPlayer(_map);
-
-			if(!_map->CheckCollision(m_lookDir * s_playerMoveSpeed * dt + m_transforms.Translation + Vector2(_map->GetTileSize(), 0)) )
-			{
-			m_transforms.Translation += m_lookDir * s_playerMoveSpeed * dt;
-			}
-
-			// reseting back to false
-			m_actions[PA_MOVE_RIGHT] = false;*/
+			//update status
+			m_currentState = PS_WALK_RIGHT;
+			//set direction
 			SetLookDir(Vector2(1,0));
 			m_moving = true;
 			//moveLeftRight(dt, true, _map);
@@ -190,49 +157,36 @@ void Player::Update(double dt, TileMap* _map)
 	}
 	if(m_actions[PA_INTERACT])
 	{
-		Vector2 interactionDistance(m_lookDir * _map->GetTileSize()); 
-		//TODO : Add in algorithm for determerning the type of action
-		//		Host, Dive , Jump or Hex
-		// if( lookDir == enemy back) -> host
-		// if( lookDir == Item on map) ->dive
-		// if( m_currentState == Dive || host && lookDir == enemyBack || item on map) -> jump then become dive ||host
-		// if (lookDir == Camera ) -> Hex goto minigame
-		bool shiftOrigin = false;
-		static Vector2 s_newOrigin;
-		if (GetLookDir().x < 0 || GetLookDir().y < 0) // Moving left or down
-		{
-			s_newOrigin = GetMapPos(); // No change in origin (Bottom or Left)
-		}
-		else // Moving right or up
-		{
-			s_newOrigin = GetMapPos() + (GetLookDir() * _map->GetTileSize()); // Change in origin (Top or Right)
-			shiftOrigin = true;
-		}	
-		Vector2 tilePos = Vector2(floor(s_newOrigin.x / _map->GetTileSize()) * _map->GetTileSize(), s_newOrigin.y) + m_lookDir;
-		//If next to an object's shadow to hide
-		if (_map->GetTileType(tilePos) == m__tile->TILE_INVISIBLE_WALL)
-		{
-			//Hide in Object Shadow
-		}
-		//If next to an Enemy's shadow to hide
-		if (_map->GetTileType(tilePos) == m__tile->TILE_INVISIBLE_WALL) 
-		{
-			//Hide in Enemy Shadow
-		}
-		//If next to a camera to hack
-		if (_map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_1 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_2 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_3 || _map->GetTileType(tilePos) == m__tile->TILE_OBJ_CAMERA_ON_1_4)
-		{
-			//Play Hacking Minigame
-		}
 		// reseting back to false
 		m_actions[PA_INTERACT] = false;
-		
 	}
 
 	if (m_moving)
 	{
 		move(dt, _map);
 	}
+	else
+	{
+		//updates idle side - changes side according to last position
+		if(m_lookDir == Vector3(0,1) ) // if facing up
+		{
+			m_currentState = PS_IDLE_UP;
+		}
+		else if(m_lookDir == Vector3(-1,0)  )//if facing left
+		{
+			m_currentState = PS_IDLE_LEFT;
+		}
+		else if(m_lookDir == Vector3(1,0) ) // if facing right
+		{
+			m_currentState = PS_IDLE_RIGHT;
+		}
+		else if(m_lookDir == Vector3(0,-1) ) //if facing down
+		{
+			m_currentState = PS_IDLE_DOWN;
+		}
+	}
+	//updates the mesh based on state
+	m__mesh = m__saList[m_currentState];
 }
 
 void Player::UpdateHost(double dt)

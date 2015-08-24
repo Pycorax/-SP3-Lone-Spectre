@@ -1026,7 +1026,8 @@ SpriteAnimation* MeshBuilder::GenerateSpriteAnimation(const std::string &meshNam
 	return anim;
 }
 
-SpriteAnimation* MeshBuilder::GenerateSpriteAnimation2D(const std::string &meshName, unsigned numRow, unsigned numCol, int posX/* = 0*/, int posY/* = 0*/)
+//The last 2 variables change the size rendered
+SpriteAnimation* MeshBuilder::GenerateSpriteAnimation2D(const std::string &meshName, unsigned numRow, unsigned numCol, int posX/* = 0*/, int posY/* = 0*/, int ScaleX, int ScaleY)
 {
 	Vertex v;
 	vector<Vertex> vertex_buffer_data;
@@ -1047,15 +1048,15 @@ SpriteAnimation* MeshBuilder::GenerateSpriteAnimation2D(const std::string &meshN
 			v.texCoord.Set(u1, v1);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(static_cast<float>(posX + width), static_cast<float>(posY), 0.f);
+			v.pos.Set(static_cast<float>(posX + ScaleX) , static_cast<float>(posY), 0.f);
 			v.texCoord.Set(u1 + width, v1);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(static_cast<float>(posX + width), static_cast<float>(posY + height), 0.f);
+			v.pos.Set(static_cast<float>(posX  + ScaleX), static_cast<float>(posY + ScaleY), 0.f);
 			v.texCoord.Set(u1 + width, v1 + height);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(static_cast<float>(posX), static_cast<float>(posY + height), 0.f);
+			v.pos.Set(static_cast<float>(posX), static_cast<float>(posY + ScaleY), 0.f);
 			v.texCoord.Set(u1, v1 + height);
 			vertex_buffer_data.push_back(v);
 

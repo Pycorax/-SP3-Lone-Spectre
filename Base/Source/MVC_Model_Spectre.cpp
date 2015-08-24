@@ -115,6 +115,15 @@ void MVC_Model_Spectre::Init(void)
 	// Load the player
 	m__player = Player::GetInstance();
 	m__player->Init(GetMeshResource("Player"));
+	//player mesh and states
+	m__player->AddMesh(GetMeshResource("Player_WALK_UP") , Player::PS_WALK_UP);
+	m__player->AddMesh(GetMeshResource("Player_WALK_LEFT") , Player::PS_WALK_LEFT);
+	m__player->AddMesh(GetMeshResource("Player_WALK_DOWN"), Player::PS_WALK_DOWN);
+	m__player->AddMesh(GetMeshResource("Player_WALK_RIGHT"), Player::PS_WALK_RIGHT);
+	m__player->AddMesh(GetMeshResource("Player_IDLE_UP"), Player::PS_IDLE_UP);
+	m__player->AddMesh(GetMeshResource("Player_IDLE_DOWN"), Player::PS_IDLE_DOWN);
+	m__player->AddMesh(GetMeshResource("Player_IDLE_LEFT"), Player::PS_IDLE_LEFT);
+	m__player->AddMesh(GetMeshResource("Player_IDLE_RIGHT"), Player::PS_IDLE_RIGHT);
 	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0)); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
@@ -150,14 +159,61 @@ void MVC_Model_Spectre::Init(void)
 	m__testEnemy->SetTarget(m__player->GetMapPos(), m__testLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
 	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
 	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
-
+	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(40,20) );
 }
 
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
 
-	//m__testEnemy->Update(dt, m__testLevel->GetTileMap());
+	// Update tile size to fit screen resolution
+	if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
+	{
+		TileMap* _tilemap = m__testLevel->GetTileMap();
+		vector<vector<Tile*>*> _map = _tilemap->GetMap();
+		float tileSize = _tilemap->GetTileSize();
+		Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
+		Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / tileSize), ceil(_tilemap->GetScrollOffset().y / tileSize));
+		if (resolution.x < m_viewWidth) // Scale up screen
+		{
+			++mapScrollOffset.y;
+			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+		}
+		else if (resolution.x > m_viewWidth) // Scale down screen
+		{
+			--mapScrollOffset.y;
+			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+		}
+		tileSize = _tilemap->GetTileSize();
+		for (int row = 0; row < _tilemap->GetNumMapTile().y; ++row)
+		{
+			for (int col = 0; col < _tilemap->GetNumMapTile().x; ++col)
+			{
+				_tilemap->SetScrollOffset(mapScrollOffset * tileSize);
+				_tilemap->SetMapSize(_tilemap->GetNumMapTile() * tileSize);
+				(*_map[row])[col]->SetMapPosition(Vector2(col * tileSize, row * tileSize), _tilemap->GetScrollOffset());
+				(*_map[row])[col]->SetScale(Vector2(tileSize, tileSize));
+				m__player->SetMapPosition(playerTilePos * tileSize, _tilemap->GetScrollOffset());
+				m__player->SetScale(Vector2(tileSize, tileSize));
+			}
+		}
+		resolution.Set(m_viewWidth, m_viewHeight);
+	}
+	
+	//updates sprite animation
+	SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(m__player->GetMesh());
+	{
+		if(_sa)
+		{
+			_sa->Update(dt);
+		}
+	}
+	//Updates player depending on actions queued.
+	m__player->Update(dt,m__testLevel->GetTileMap());
+
+	//update enemy;
+	m__testEnemy->Update(dt, m__testLevel->GetTileMap() );
+
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);
@@ -166,7 +222,7 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			m_hackMode = false;
 			// TODO: Do an action for when the mini game ends in a win
-		}
+	}
 		else if (m_hackingGame.IsLoss())
 		{
 			m_hackMode = false;
@@ -218,27 +274,47 @@ void MVC_Model_Spectre::Update(double dt)
 		//Updates player depending on actions queued.
 		m__player->Update(dt, m__testLevel->GetTileMap());
 
-		Vector3 pos = m__testGO->GetTransform().Translation;
-		pos += Vector3(50.0f * dt);
-		m__testGO->SetPos(pos);
+	Vector3 pos = m__testGO->GetTransform().Translation;
+	pos += Vector3(50.0f * dt);
+	m__testGO->SetPos(pos);
 
-		//po1->SetColliderType(Collider2D::CT_AABB);
-		m__po1->UpdatePhysics(dt);
-		m__po2->UpdatePhysics(dt);
+	//po1->SetColliderType(Collider2D::CT_AABB);
+	m__po1->UpdatePhysics(dt);
+	m__po2->UpdatePhysics(dt);
 
-		if (m__po1->CollideWith(m__po2, dt))
+	if (m__po1->CollideWith(m__po2, dt))
+	{
+		m__po1->CollideRespondTo(m__po2);
+	}
+
+	// Rendering
+	m__testLevel->GetTileMap()->UpdateLighting();
+	TileMapToRender(m__testLevel->GetTileMap());
+	m_renderList2D.push(m__testGO);
+	m_renderList2D.push(m__player);
+	m_renderList2D.push(m__po1);
+	m_renderList2D.push(m__po2);
+	m_renderList2D.push(m__testEnemy);
+
+	// -- MiniGame
+	if (m_hackMode)
+	{
+		if (m_hackingGame.IsVictory())
 		{
-			m__po1->CollideRespondTo(m__po2);
+			m_hackMode = false;
+			// TODO: Do an action for when the mini game ends in a win
+		}
+		else if (m_hackingGame.IsLoss())
+		{
+			m_hackMode = false;
+			// TODO: Do an action for when the mini game ends in a loss
 		}
 
-		// Rendering
-		m__testLevel->GetTileMap()->UpdateLighting();
-		TileMapToRender(m__testLevel->GetTileMap());
-		m_renderList2D.push(m__testGO);
-		m_renderList2D.push(m__player);
-		m_renderList2D.push(m__po1);
-		m_renderList2D.push(m__po2);
-		m_renderList2D.push(m__testEnemy);
+		vector<GameObject2D*> minigameObjects = m_hackingGame.GetRenderObjects();
+		for (vector<GameObject2D*>::iterator go = minigameObjects.begin(); go != minigameObjects.end(); ++go)
+		{
+			m_renderList2D.push(*go);
+		}
 	}
 }
 

@@ -218,6 +218,8 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 			int meshHeight = 0;
 			int meshFrameRow = 0;
 			int meshFrameCol = 0;
+			int meshScaleX = 1;
+			int meshScaleY = 1;
 
 			string meshFilePath = "";
 			string meshType = "";
@@ -285,6 +287,14 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 				{
 					meshFrameCol = stoi(attribVal);
 				}
+				else if(attribName == "ScaleX")
+				{
+					meshScaleX = stoi(attribVal);
+				}
+				else if(attribName == "ScaleY")
+				{
+					meshScaleY = stoi(attribVal);
+				}
 				else // Floats
 				{
 					for (size_t k = 0; k < NUM_FLOAT_VARS; ++k)
@@ -351,7 +361,7 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 			}
 			else if (meshType == "SpriteAnimation2D")
 			{
-				mesh = MeshBuilder::GenerateSpriteAnimation2D(meshName, meshAnimRow, meshAnimCol, meshPosX, meshPosY);
+				mesh = MeshBuilder::GenerateSpriteAnimation2D(meshName, meshAnimRow, meshAnimCol, meshPosX, meshPosY, meshScaleX, meshScaleY);
 
 				SpriteAnimation *sa = dynamic_cast<SpriteAnimation*>(mesh);
 				if (sa)
@@ -647,7 +657,7 @@ void MVC_View::SetViewRes(void)
 	glViewport(0, 0, m_viewWidth, m_viewHeight);
 }
 
-void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float sizeX, const float sizeY, const float x, const float y, const float rotateZ, const float rotateY, const int spriteID)
+void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float sizeX, const float sizeY, const float x, const float y, const float rotateZ, const float rotateY, const float rotateX ,  const int spriteID)
 {
 	if (mesh == NULL)
 	{
@@ -668,6 +678,12 @@ void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float siz
 				{
 					glDisable(GL_CULL_FACE);
 					modelStack.Rotate(rotateY, 0, 1, 0);
+				}
+
+				if (rotateX)
+				{
+					glDisable(GL_CULL_FACE);
+					modelStack.Rotate(rotateX, 1, 0, 0);
 				}
 
 				if (rotateZ)
@@ -708,7 +724,7 @@ void MVC_View::Render2DMesh(Mesh * mesh, const bool enableLight, const float siz
 					mesh->Render();
 				}
 
-				if (rotateY && m_bCull)
+				if ((rotateY || rotateX)&& m_bCull)
 				{
 					glEnable(GL_CULL_FACE);
 				}
@@ -1054,7 +1070,7 @@ void MVC_View::RenderGameObject2D(GameObject2D* go)
 	else				// GameObject2D
 	{
 		//RenderMeshIn2D(go->GetMesh(), transform.Scale, transform.Translation.x, transform.Translation.y, transform.Rotation.z);
-		Render2DMesh(go->GetMesh(), false, transform.Scale.x, transform.Scale.y, transform.Translation.x, transform.Translation.y, transform.Rotation.z, transform.Rotation.y);
+		Render2DMesh(go->GetMesh(), false, transform.Scale.x, transform.Scale.y, transform.Translation.x, transform.Translation.y, transform.Rotation.z, transform.Rotation.y, transform.Rotation.x);
 	}
 }
 

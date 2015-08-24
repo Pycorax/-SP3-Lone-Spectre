@@ -20,7 +20,45 @@
 		[Name] PlayerBall
 		[FilePath] Image//player_ball.tga
 	}
+	#   PLAYER TEXTURE START 
+	{
+		[Name] Player_WALK_UP
+		[FilePath] Image//Spectre//Spectre_walk_up.tga
+	}
 	
+	{
+		[Name] Player_WALK_LEFT
+		[FilePath] Image//Spectre//Spectre_walk_left.tga
+	}
+
+	{
+		[Name] Player_WALK_RIGHT
+		[FilePath] Image//Spectre//Spectre_walk_right.tga
+	}
+
+	{
+		[Name] Player_WALK_DOWN
+		[FilePath] Image//Spectre//Spectre_walk_down.tga
+	}
+
+	{
+		[Name] Player_IDLE_UP
+		[FilePath] Image//Spectre//Spectre_idle_up.tga
+	}
+	{
+		[Name] Player_IDLE_DOWN
+		[FilePath] Image//Spectre//Spectre_idle_down.tga
+	}
+	{
+		[Name] Player_IDLE_LEFT
+		[FilePath] Image//Spectre//Spectre_idle_left.tga
+	}
+	{
+		[Name] Player_IDLE_RIGHT
+		[FilePath] Image//Spectre//Spectre_idle_right.tga
+	}
+
+	#    PLAYER TEXTURES END  
 	{
 		[Name] CircuitWall
 		[FilePath] Image//CircuitWall.tga

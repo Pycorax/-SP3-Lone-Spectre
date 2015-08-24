@@ -6,6 +6,7 @@
 #include "GameObject2D.h"
 #include "Enemy.h"
 #include "Tile.h"
+#include "SpriteAnimation.h"
 
 class Player : public Character
 {
@@ -20,15 +21,22 @@ class Player : public Character
 			PA_INTERACT,
 			NUM_PLAYER_ACTIONS,
 		};
+		// used to tell which state player is in and change the rendering of mesh
 		enum E_PLAYER_STATE
 		{
-			PS_IDLE = 0,
-			PS_WALK,
+			PS_IDLE_UP = 0,
+			PS_IDLE_LEFT,
+			PS_IDLE_RIGHT,
+			PS_IDLE_DOWN,
+			PS_WALK_UP,
+			PS_WALK_DOWN,
+			PS_WALK_LEFT,
+			PS_WALK_RIGHT,
 			PS_SPECTRAL_DIVE,
 			PS_SPECTRAL_JUMP,
 			PS_SPECTRAL_HOST,
 			PS_SPECTRAL_HAX,
-			PS_CUTSCENE,
+			PS_INACTIVE,
 			NUM_PLAYERSTATE,
 		};
 
@@ -51,6 +59,10 @@ class Player : public Character
 
 		GameObject2D* m__host;
 		Tile* m__tile;
+		
+		//sprite animation vector
+		Mesh* m__saList[NUM_PLAYERSTATE];
+		int m_saStateCounter;
 	public:
 		static Player* GetInstance(int instance = 0);
 		static void Clear();
@@ -58,6 +70,7 @@ class Player : public Character
 		virtual ~Player(void);
 
 		void Init(Mesh* _mesh);
+		void AddMesh(Mesh* _mesh, E_PLAYER_STATE playerState);
 		void Update(double dt, TileMap* _map);
 		void UpdateHost(double dt);
 
@@ -69,6 +82,9 @@ class Player : public Character
 		// Actions
 		E_PLAYER_STATE Interact(TileMap* _map);
 
+
+		//getters
+		Mesh* GetSA(void) const;
 	private:
 		void move(double dt, TileMap* _map);
 		void resetMove();

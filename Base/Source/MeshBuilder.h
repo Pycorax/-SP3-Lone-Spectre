@@ -38,7 +38,7 @@ public:
 	static Mesh* GenerateTerrainLegacy(const std::string &meshName, const std::string &file_path, std::vector<unsigned char> &heightMap);
 	static Mesh * GenerateTerrain(const std::string & meshName, std::vector<unsigned char>& heightMap);
 	static SpriteAnimation* GenerateSpriteAnimation(const std::string &meshName, unsigned numRow, unsigned numCol);
-	static SpriteAnimation* GenerateSpriteAnimation2D(const std::string &meshName, unsigned numRow, unsigned numCol, int posX = 0, int posY = 0);
+	static SpriteAnimation* GenerateSpriteAnimation2D(const std::string &meshName, unsigned numRow, unsigned numCol, int posX = 0, int posY = 0 , int ScaleX = 0, int ScaleY = 0);
 	
 	// Minimap
 	static Mesh* GenerateMinimap(const std::string &meshName, Color color, float length = 1.f);
