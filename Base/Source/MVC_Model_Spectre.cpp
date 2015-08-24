@@ -4,7 +4,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__testLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
-	, m_enableShadow(false)
+	, m_enableShadow(true)
 {
 }
 
@@ -33,52 +33,6 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					break;
 			}
 		}
-
-	#pragma endregion
-
-	#pragma region Scrolling Map Controls
-
-
-	// Scrolling map
-	/*static const Vector2 S_MAX_SCROLL_SIZE = m__testLevel->GetTileMap()->GetMapSize() - m__testLevel->GetTileMap()->GetScreenSize();
-	static const float S_OFFSET = 0.01;
-	static const float S_SCROLL_SPEED = 500.f;
-	if (m_bKeyPressed[LOOK_UP_KEY])
-	{
-		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(0, S_SCROLL_SPEED * dt);
-		if (scrollOffset.y > S_MAX_SCROLL_SIZE.y)
-		{
-			//scrollOffset.y = S_MAX_SCROLL_SIZE.y - S_OFFSET;
-		}
-		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
-	}
-	else if (m_bKeyPressed[LOOK_DOWN_KEY])
-	{
-		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(0, -S_SCROLL_SPEED * dt);
-		if (scrollOffset.y < 0)
-		{
-			//scrollOffset.y = 0;
-		}
-		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
-	}
-	if (m_bKeyPressed[LOOK_LEFT_KEY])
-	{
-		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(-S_SCROLL_SPEED * dt, 0);
-		if (scrollOffset.x < 0)
-		{
-			//scrollOffset.x = 0;
-		}
-		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
-	}
-	else if (m_bKeyPressed[LOOK_RIGHT_KEY])
-	{
-		Vector2 scrollOffset = m__testLevel->GetTileMap()->GetScrollOffset() + Vector2(S_SCROLL_SPEED * dt, 0);
-		if (scrollOffset.x > S_MAX_SCROLL_SIZE.x)
-		{
-			//scrollOffset.x = S_MAX_SCROLL_SIZE.x - S_OFFSET;
-		}
-		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
-	}*/
 
 	#pragma endregion
 
@@ -203,73 +157,11 @@ void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
 
-	// Update tile size to fit screen resolution
-	if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
-	{
-		TileMap* _tilemap = m__testLevel->GetTileMap();
-		vector<vector<Tile*>*> _map = _tilemap->GetMap();
-		float tileSize = _tilemap->GetTileSize();
-		Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
-		Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / tileSize), ceil(_tilemap->GetScrollOffset().y / tileSize));
-		if (resolution.x < m_viewWidth) // Scale up screen
-		{
-			++mapScrollOffset.y;
-			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
-		}
-		else if (resolution.x > m_viewWidth) // Scale down screen
-		{
-			--mapScrollOffset.y;
-			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
-		}
-		tileSize = _tilemap->GetTileSize();
-		for (int row = 0; row < _tilemap->GetNumMapTile().y; ++row)
-		{
-			for (int col = 0; col < _tilemap->GetNumMapTile().x; ++col)
-			{
-				_tilemap->SetScrollOffset(mapScrollOffset * tileSize);
-				_tilemap->SetMapSize(_tilemap->GetNumMapTile() * tileSize);
-				(*_map[row])[col]->SetMapPosition(Vector2(col * tileSize, row * tileSize), _tilemap->GetScrollOffset());
-				(*_map[row])[col]->SetScale(Vector2(tileSize, tileSize));
-				m__player->SetMapPosition(playerTilePos * tileSize, _tilemap->GetScrollOffset());
-				m__player->SetScale(Vector2(tileSize, tileSize));
-			}
-		}
-		resolution.Set(m_viewWidth, m_viewHeight);
-	}
-	
-	//Updates player depending on actions queued.
-	m__player->Update(dt,m__testLevel->GetTileMap());
 	//m__testEnemy->Update(dt, m__testLevel->GetTileMap());
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);
-	}
 
-	Vector3 pos = m__testGO->GetTransform().Translation;
-	pos += Vector3(50.0f * dt);
-	m__testGO->SetPos(pos);
-
-	//po1->SetColliderType(Collider2D::CT_AABB);
-	m__po1->UpdatePhysics(dt);
-	m__po2->UpdatePhysics(dt);
-
-	if (m__po1->CollideWith(m__po2, dt))
-	{
-		m__po1->CollideRespondTo(m__po2);
-	}
-
-	// Rendering
-	m__testLevel->GetTileMap()->UpdateLighting();
-	TileMapToRender(m__testLevel->GetTileMap());
-	m_renderList2D.push(m__testGO);
-	m_renderList2D.push(m__player);
-	m_renderList2D.push(m__po1);
-	m_renderList2D.push(m__po2);
-	m_renderList2D.push(m__testEnemy);
-
-	// -- MiniGame
-	if (m_hackMode)
-	{
 		if (m_hackingGame.IsVictory())
 		{
 			m_hackMode = false;
@@ -286,6 +178,67 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			m_renderList2D.push(*go);
 		}
+	}
+	else
+	{
+		// Update tile size to fit screen resolution
+		if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
+		{
+			TileMap* _tilemap = m__testLevel->GetTileMap();
+			vector<vector<Tile*>*> _map = _tilemap->GetMap();
+			float tileSize = _tilemap->GetTileSize();
+			Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
+			Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / tileSize), ceil(_tilemap->GetScrollOffset().y / tileSize));
+			if (resolution.x < m_viewWidth) // Scale up screen
+			{
+				++mapScrollOffset.y;
+				_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+			}
+			else if (resolution.x > m_viewWidth) // Scale down screen
+			{
+				--mapScrollOffset.y;
+				_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+			}
+			tileSize = _tilemap->GetTileSize();
+			for (int row = 0; row < _tilemap->GetNumMapTile().y; ++row)
+			{
+				for (int col = 0; col < _tilemap->GetNumMapTile().x; ++col)
+				{
+					_tilemap->SetScrollOffset(mapScrollOffset * tileSize);
+					_tilemap->SetMapSize(_tilemap->GetNumMapTile() * tileSize);
+					(*_map[row])[col]->SetMapPosition(Vector2(col * tileSize, row * tileSize), _tilemap->GetScrollOffset());
+					(*_map[row])[col]->SetScale(Vector2(tileSize, tileSize));
+					m__player->SetMapPosition(playerTilePos * tileSize, _tilemap->GetScrollOffset());
+					m__player->SetScale(Vector2(tileSize, tileSize));
+				}
+			}
+			resolution.Set(m_viewWidth, m_viewHeight);
+		}
+
+		//Updates player depending on actions queued.
+		m__player->Update(dt, m__testLevel->GetTileMap());
+
+		Vector3 pos = m__testGO->GetTransform().Translation;
+		pos += Vector3(50.0f * dt);
+		m__testGO->SetPos(pos);
+
+		//po1->SetColliderType(Collider2D::CT_AABB);
+		m__po1->UpdatePhysics(dt);
+		m__po2->UpdatePhysics(dt);
+
+		if (m__po1->CollideWith(m__po2, dt))
+		{
+			m__po1->CollideRespondTo(m__po2);
+		}
+
+		// Rendering
+		m__testLevel->GetTileMap()->UpdateLighting();
+		TileMapToRender(m__testLevel->GetTileMap());
+		m_renderList2D.push(m__testGO);
+		m_renderList2D.push(m__player);
+		m_renderList2D.push(m__po1);
+		m_renderList2D.push(m__po2);
+		m_renderList2D.push(m__testEnemy);
 	}
 }
 

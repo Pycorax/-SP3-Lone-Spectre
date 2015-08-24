@@ -21,7 +21,7 @@ const Vector2 SpectreHexGame::BALL_SPAWN_MIN_VEL(-120.0f, -120.0f);
 const Vector2 SpectreHexGame::BALL_SPAWN_MAX_VEL(120.0f, 120.0f);
 const Vector2 SpectreHexGame::BALL_SPAWN_MIN_POS(0.0f + WALL_THICKNESS + MAX_BALL_RADIUS, 0.0f + WALL_THICKNESS + MAX_BALL_RADIUS);
 const Vector2 SpectreHexGame::BALL_SPAWN_MAX_POS_OFFSET(-EXIT_WALL_THICKNESS - MAX_BALL_RADIUS, -WALL_THICKNESS - MAX_BALL_RADIUS);
-const float SpectreHexGame::MIN_LARGE_BALL_RADIUS = 60.0f;
+const float SpectreHexGame::MIN_LARGE_BALL_RADIUS = 30.0f;
 
 SpectreHexGame::SpectreHexGame()
 	: m__player(NULL)
@@ -212,7 +212,7 @@ bool SpectreHexGame::IsVictory() const
 void SpectreHexGame::Move(bool left, bool right, bool up, bool down, double dt)
 {
 	// Don't attempt to move 
-	if (m__player == NULL || m_state != GS_PLAYING)
+	if (m__player == NULL || (m_state != GS_PLAYING && m_state != GS_START))
 	{
 		return;
 	}
@@ -303,12 +303,17 @@ void SpectreHexGame::startUpdate(double dt)
 	static bool firstRun = true;
 
 	// Forces
-	static const Vector2 INITIAL_PUSH_PLAYER(1.0f);
-	static const float INITIAL_PUSH_X = 3.0f;
+	static const Vector2 INITIAL_PUSH_PLAYER(0.5f);
+	static const float INITIAL_PUSH_X = 2.0f;
 
 	// Timers
-	static double s_timer = 0.0f;				// Timer for the balls to be introduced with the introduction shot
-	static const double TIME_LIMIT = 1.0;		// The time to wait before players can start playing
+	static double timer = 0.0;				// Timer for the balls to be introduced with the introduction shot
+	static const double TIME_LIMIT = 3.0;		// The time to wait before players can start playing
+
+	// Invuln Indicator
+	static const double BLINK_TIME = 0.25;
+	static double blinkTimer = 0.0;
+	static bool blink = false;
 
 	// Air Bubble
 	static const float AIR_BUBBLE_RADIUS = 400.0f;
@@ -323,15 +328,33 @@ void SpectreHexGame::startUpdate(double dt)
 		firstRun = false;
 	}
 
-	s_timer += dt;
+	// Blink the player
+	blinkTimer += dt;
+	if (blinkTimer > BLINK_TIME)
+	{
+		if (blink)
+		{
+			m__player->SetMesh(NULL);
+		}
+		else
+		{
+			m__player->SetMesh(m__playerBallMesh);
+		}
 
-	if (s_timer > TIME_LIMIT)
+		blinkTimer = 0.0;
+		blink = !blink;
+	}
+
+	timer += dt;
+
+	if (timer > TIME_LIMIT)
 	{
 		// Stop the shooting
 		m_state = GS_PLAYING;
 
 		// Reset static variables for next run
 		firstRun = true;
+		timer = 0.0f;
 
 		// Disable the air bubble
 		_airBubble->SetActive(false);
@@ -513,7 +536,7 @@ void SpectreHexGame::winCeremonyUpdate(double dt)
 	
 	// Timer for whole ceremony
 	static double timer = 0.0;
-	static const double WAIT_TIME = 2.0;
+	static const double WAIT_TIME = 1.0;
 
 	// Initialization for this portion
 	if (firstFrame)
@@ -559,11 +582,11 @@ void SpectreHexGame::winCeremonyUpdate(double dt)
 void SpectreHexGame::loseCeremonyUpdate(double dt)
 {
 	static bool firstFrame = true;
-	static const float SCREEN_FALL_SPEED = 150.0f;
+	static const float SCREEN_FALL_SPEED = 400.0f;
 
 	// Timer for whole ceremony
 	static double timer = 0.0;
-	static const double WAIT_TIME = 1.0;
+	static const double WAIT_TIME = 0.5;
 
 	if (firstFrame)
 	{

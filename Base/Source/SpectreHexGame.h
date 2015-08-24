@@ -44,7 +44,7 @@ private:
 	static const Vector2 BALL_SPAWN_MAX_VEL;		// The maximum velocity of normal shadow balls at spawn
 	static const Vector2 BALL_SPAWN_MIN_POS;		// The minimum position of normal shadow balls at spawn
 	static const Vector2 BALL_SPAWN_MAX_POS_OFFSET;	// The offset to add to the screen resolution to get the maximum position of normal shadow balls at spawn
-	static const int MAX_LARGE_BALLS = 4;			// The number of maximum large sized (defined by MIN_LARGE_BALL_RADIUS) balls that can exist
+	static const int MAX_LARGE_BALLS = 7;			// The number of maximum large sized (defined by MIN_LARGE_BALL_RADIUS) balls that can exist
 	static const float MIN_LARGE_BALL_RADIUS;		// The minimum radius of a "large sized" ball
 
 private:	// Variables
