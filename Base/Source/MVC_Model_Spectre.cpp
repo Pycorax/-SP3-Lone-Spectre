@@ -196,13 +196,15 @@ void MVC_Model_Spectre::Init(void)
 	m__testEnemy->SetTarget(m__player->GetMapPos() );//m__player->GetTransform().Translation);
 	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
 	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
+	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(40,20) );
 
 }
 
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
-
+	//update enemy;
+	m__testEnemy->Update(dt, m__testLevel->GetTileMap() );
 	// Update tile size to fit screen resolution
 	if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
 	{

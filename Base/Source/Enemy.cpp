@@ -3,7 +3,7 @@
 
 Enemy::Enemy(void)
 	:m_alertLevel(0)
-	, m_enemyState(ES_CHASE)
+	, m_enemyState(ES_PATROL)
 	, m_bReachPos(false)
 	, m_pathPointCounter(0)
 {
@@ -25,7 +25,7 @@ void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();
 	
-	PathFinder::UpdatePath();
+	//PathFinder::UpdatePath();
 	//if ()//If any enemy see Hero, affects other enemies too
 	//{
 	//	m_enemyState = ES_CHASE;
@@ -56,15 +56,17 @@ void Enemy::Update(double dt, TileMap* _map)
 
 	if (m_enemyState == ES_PATROL)
 	{
-		if(MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt)) // get the coord of the next point
+		//MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt) ;// updates to next postition
+	
+		if( MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt))
 		{
-			if(m_pathWay.GetSize() == m_pathPointCounter) // if patrol counter reached the last one
+			if(m_pathPointCounter >= m_pathWay.GetSize() - 1)
 			{
-				m_pathPointCounter = 0; // reset back to 0
+				m_pathPointCounter = 0;
 			}
 			else
 			{
-				m_pathPointCounter += 1; // move on to next point
+				m_pathPointCounter++;
 			}
 		}
 	}
@@ -72,20 +74,20 @@ void Enemy::Update(double dt, TileMap* _map)
 	{
 		//Make enemy chase after the hero's current position with path-finding
 		m_bAlerted = true;
-		Vector2 nextTarget;
-		nextTarget.x = GetPath()[m_pathPointCounter]->m_gridPosX;
-		nextTarget.y = GetPath()[m_pathPointCounter]->m_gridPosY;
-		if(MoveTo(nextTarget, _map, dt) );
-		{
-			if(GetPath().size() == m_pathPointCounter) // if patrol counter reached the last one
-			{
-				m_pathPointCounter = 0; // reset back to 0
-			}
-			else
-			{
-				m_pathPointCounter += 1; // move on to next point
-			}
-		}
+		//Vector2 nextTarget;
+		//nextTarget.x = GetPath()[m_pathPointCounter]->m_gridPosX;
+		//nextTarget.y = GetPath()[m_pathPointCounter]->m_gridPosY;
+		//if(MoveTo(nextTarget, _map, dt) );
+		//{
+		//	if(GetPath().size() == m_pathPointCounter) // if patrol counter reached the last one
+		//	{
+		//		m_pathPointCounter = 0; // reset back to 0
+		//	}
+		//	else
+		//	{
+		//		m_pathPointCounter += 1; // move on to next point
+		//	}
+		//}
 		if (m_bAlerted)
 		{
 			if (m_alertLevel < 3)
@@ -175,12 +177,13 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
 		/*Vector2 tempStore;
 		tempStore = m_patrolPointB;
 		m_patrolPointB = m_patrolPointA;
-		m_patrolPointA = tempStore;*/
+		m_patrolPointA = tempStore;
+		*/
 		return true; // reached a dead end
 	}
 	else
 	{
-		if(m_lookDir.x == 1 && newMapPos.x >= m_patrolPointB.x) //traveling along x axis -> moving right
+		if(m_lookDir.x > 0 && newMapPos.x >= EndPos.x) //traveling along x axis -> moving right
 		{
 			// swap pos - patrolPointB - target location
 			/*Vector2 tempStore;
@@ -189,7 +192,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
 			m_patrolPointA = tempStore;*/
 			return true; // reached target
 		}
-		else if(m_lookDir.x == -1 && newMapPos.x <= m_patrolPointB.x) // -> moving left
+		else if(m_lookDir.x < 0 && newMapPos.x <= EndPos.x) // -> moving left
 		{
 			// swap pos - patrolPointB - target location
 			/*Vector2 tempStore;
@@ -198,7 +201,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
 			m_patrolPointA = tempStore;*/
 			return true; // reached target
 		}
-		if(m_lookDir.y == 1 && newMapPos.y >= m_patrolPointB.y) //traveling along y axis -> moving up
+		if(m_lookDir.y > 0 && newMapPos.y >= EndPos.y) //traveling along y axis -> moving up
 		{
 			// swap pos - patrolPointB - target location
 			/*Vector2 tempStore;
@@ -207,7 +210,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
 			m_patrolPointA = tempStore;*/
 			return true; // reached target
 		}
-		else if(m_lookDir.y == -1 && newMapPos.y <= m_patrolPointB.y ) // -> moving down
+		else if(m_lookDir.y < 0 && newMapPos.y <= EndPos.y ) // -> moving down
 		{
 			// swap pos - patrolPointB - target location
 			/*Vector2 tempStore;
@@ -218,6 +221,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
 		}
 		SetMapPosition(newMapPos, _map->GetScrollOffset() );
 	}
+	return false;
 }
 
 void Enemy::SetAlertLevel(int alertlevel)
