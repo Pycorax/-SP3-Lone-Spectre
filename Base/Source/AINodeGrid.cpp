@@ -108,7 +108,6 @@ vector<AINode*> AINodeGrid::GetNeighboursOf(AINode * node)
 			{
 				// Add the neighbour into the vector of neighbours
 				neighbours.push_back(neighbour);
-				std::cout << node->m_gridPosX + x << ", " << node->m_gridPosY + y << std::endl;
 			}
 		}
 	}

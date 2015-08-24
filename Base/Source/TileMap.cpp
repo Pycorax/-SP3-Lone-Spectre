@@ -195,8 +195,8 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 			if (xTile == LIGHT_POS_X && yTile == LIGHT_POS_Y)
 			{
 				// Make it bright
-				//Tile* tile = GetTileAt(xTile, yTile);
-				//tile->AddLight(Tile::MAX_LIGHT_LEVEL);
+				Tile* tile = GetTileAt(xTile, yTile);
+				tile->AddLight(Tile::MAX_LIGHT_LEVEL);
 			}
 			else
 			{
