@@ -5,6 +5,8 @@
 #include <vector>
 #include "TileMap.h"
 #include "Viewer.h"
+#include "Pathway.h"
+#include "PathPoint.h"
 #include "PathFinder.h"
 
 class Enemy : public Character, public Viewer, public PathFinder
@@ -36,7 +38,9 @@ private:
 	//m_patrolPointA -> the old target location, m_patrolPointB -> the target location
 	Vector2 m_patrolPointA, m_patrolPointB; 
 	//stores target location;
-	vector<Vector2> m_patrolPointList;
+	Pathway m_pathWay;
+	//keep track 
+	int m_pathPointCounter;
 	//use to check if mode start patrolling
 	bool m_bReachPos;
 
@@ -48,10 +52,11 @@ public:
 	void Init(Vector2 pos, E_ENEMY_STATE enemyState);
 	void Update(double dt, TileMap* _map);
 
-	void SetStartPatrolPoint(Vector2 pos);
-	void SetEndPatrolPoint(Vector2 pos);
+	//void SetStartPatrolPoint(Vector2 pos);
+	//void SetEndPatrolPoint(Vector2 pos);
+	void AddPatrolPoint(Vector2 pos);
 	//moving to selected location
-	bool MoveTo(Vector2 Startpos, Vector2 Endpos, TileMap* _map, double dt);
+	bool MoveTo(Vector2 Endpos, TileMap* _map, double dt);
 	
 	void SetAlertLevel(int alertlevel);
 	int GetAlertLevel(void);

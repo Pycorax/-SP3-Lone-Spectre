@@ -14,7 +14,7 @@ AINodeGrid::~AINodeGrid()
 
 void AINodeGrid::Init(TileMap * _tileMap)
 {
-	Vector2 mapSize = _tileMap->GetMapSize();
+	Vector2 mapSize = _tileMap->GetNumMapTile();
 
 	// Build the Node Grid
 	for (size_t row = 0; row < mapSize.y; ++row)

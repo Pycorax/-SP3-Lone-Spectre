@@ -187,9 +187,11 @@ void MVC_Model_Spectre::Init(void)
 	m__testEnemy->SetMesh(GetMeshResource("ShadowBall"));
 	m__testEnemy->SetMapPosition(Vector2 (500 , 200 ) ,m__testLevel->GetTileMap()->GetScrollOffset());
 	m__testEnemy->SetScale(Vector2(32.f, 32.f));
-	m__testEnemy->SetStartPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
-	m__testEnemy->SetEndPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
-	m__testEnemy->SetTarget(m__player->GetTransform().Translation);
+	m__testEnemy->initPathFinder(m__testLevel->GetTileMap());
+	m__testEnemy->SetTarget(m__player->GetMapPos() );//m__player->GetTransform().Translation);
+	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
+	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
+
 }
 
 void MVC_Model_Spectre::Update(double dt)
@@ -198,7 +200,7 @@ void MVC_Model_Spectre::Update(double dt)
 	
 	//Updates player depending on actions queued.
 	m__player->Update(dt,m__testLevel->GetTileMap());
-	m__testEnemy->update(dt, m__testLevel->GetTileMap() );
+	m__testEnemy->Update(dt, m__testLevel->GetTileMap());
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);

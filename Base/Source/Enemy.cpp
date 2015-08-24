@@ -3,8 +3,9 @@
 
 Enemy::Enemy(void)
 	:m_alertLevel(0)
-	, m_enemyState(ES_PATROL)
+	, m_enemyState(ES_CHASE)
 	, m_bReachPos(false)
+	, m_pathPointCounter(0)
 {
 
 }
@@ -23,6 +24,8 @@ void Enemy::Init(Vector2 pos, E_ENEMY_STATE enemyState)
 void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();
+	
+	PathFinder::UpdatePath();
 	//if ()//If any enemy see Hero, affects other enemies too
 	//{
 	//	m_enemyState = ES_CHASE;
@@ -53,13 +56,36 @@ void Enemy::Update(double dt, TileMap* _map)
 
 	if (m_enemyState == ES_PATROL)
 	{
-		MoveTo(m_patrolPointA , m_patrolPointB, _map, dt);
+		if(MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt)) // get the coord of the next point
+		{
+			if(m_pathWay.GetSize() == m_pathPointCounter) // if patrol counter reached the last one
+			{
+				m_pathPointCounter = 0; // reset back to 0
+			}
+			else
+			{
+				m_pathPointCounter += 1; // move on to next point
+			}
+		}
 	}
 	else if (m_enemyState == ES_CHASE)
 	{
 		//Make enemy chase after the hero's current position with path-finding
 		m_bAlerted = true;
-
+		Vector2 nextTarget;
+		nextTarget.x = GetPath()[m_pathPointCounter]->m_gridPosX;
+		nextTarget.y = GetPath()[m_pathPointCounter]->m_gridPosY;
+		if(MoveTo(nextTarget, _map, dt) );
+		{
+			if(GetPath().size() == m_pathPointCounter) // if patrol counter reached the last one
+			{
+				m_pathPointCounter = 0; // reset back to 0
+			}
+			else
+			{
+				m_pathPointCounter += 1; // move on to next point
+			}
+		}
 		if (m_bAlerted)
 		{
 			if (m_alertLevel < 3)
@@ -119,67 +145,79 @@ void Enemy::Update(double dt, TileMap* _map)
 	}
 	m_checkAround += dt;
 }
+//
+//void Enemy::SetStartPatrolPoint(Vector2 pos)
+//{
+//	m_patrolPointA = pos;
+//}
+//
+//void Enemy::SetEndPatrolPoint(Vector2 pos)
+//{
+//	m_patrolPointB = pos;
+//}
 
-void Enemy::SetStartPatrolPoint(Vector2 pos)
+void Enemy::AddPatrolPoint(Vector2 Pos)
 {
-	m_patrolPointA = pos;
+	m_pathWay.AddPoint(PathPoint(Pos));
 }
 
-void Enemy::SetEndPatrolPoint(Vector2 pos)
+//return true if reached 
+bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
 {
-	m_patrolPointB = pos;
-}
-
-bool Enemy::MoveTo(Vector2 StartPos, Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
-{
-	m_lookDir = (EndPos - StartPos).Normalized();//**note patrol point a is start pos and enemy initial pos
+	//set look direction towards next target location base off current location on map
+	m_lookDir = (EndPos - GetMapPos() ).Normalized();
+	//next location
 	Vector2 newMapPos =  GetMapPos() + GetLookDir();
 
-	if(_map->CheckCollision(newMapPos) )
+	if(_map->CheckCollision(newMapPos) ) // check collision at next pos
 	{
 		// swap pos - patrolPointB - target location
-		Vector2 tempStore;
+		/*Vector2 tempStore;
 		tempStore = m_patrolPointB;
 		m_patrolPointB = m_patrolPointA;
-		m_patrolPointA = tempStore;
+		m_patrolPointA = tempStore;*/
+		return true; // reached a dead end
 	}
 	else
 	{
 		if(m_lookDir.x == 1 && newMapPos.x >= m_patrolPointB.x) //traveling along x axis -> moving right
 		{
 			// swap pos - patrolPointB - target location
-			Vector2 tempStore;
+			/*Vector2 tempStore;
 			tempStore = m_patrolPointB;
 			m_patrolPointB = m_patrolPointA;
-			m_patrolPointA = tempStore;
+			m_patrolPointA = tempStore;*/
+			return true; // reached target
 		}
 		else if(m_lookDir.x == -1 && newMapPos.x <= m_patrolPointB.x) // -> moving left
 		{
 			// swap pos - patrolPointB - target location
-			Vector2 tempStore;
+			/*Vector2 tempStore;
 			tempStore = m_patrolPointB;
 			m_patrolPointB = m_patrolPointA;
-			m_patrolPointA = tempStore;
+			m_patrolPointA = tempStore;*/
+			return true; // reached target
 		}
 		if(m_lookDir.y == 1 && newMapPos.y >= m_patrolPointB.y) //traveling along y axis -> moving up
 		{
 			// swap pos - patrolPointB - target location
-			Vector2 tempStore;
+			/*Vector2 tempStore;
 			tempStore = m_patrolPointB;
 			m_patrolPointB = m_patrolPointA;
-			m_patrolPointA = tempStore;
+			m_patrolPointA = tempStore;*/
+			return true; // reached target
 		}
 		else if(m_lookDir.y == -1 && newMapPos.y <= m_patrolPointB.y ) // -> moving down
 		{
 			// swap pos - patrolPointB - target location
-			Vector2 tempStore;
+			/*Vector2 tempStore;
 			tempStore = m_patrolPointB;
 			m_patrolPointB = m_patrolPointA;
-			m_patrolPointA = tempStore;
+			m_patrolPointA = tempStore;*/
+			return true; // reached target
 		}
 		SetMapPosition(newMapPos, _map->GetScrollOffset() );
 	}
-	return true;
 }
 
 void Enemy::SetAlertLevel(int alertlevel)
