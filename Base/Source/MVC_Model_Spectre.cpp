@@ -37,7 +37,9 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 	#pragma region Scrolling Map Controls
 
-	static const Vector2 S_MAX_SCROLL_SIZE = m__testLevel->GetTileMap()->GetMapSize() - m__testLevel->GetTileMap()->GetScreenSize();
+
+	// Scrolling map
+	/*static const Vector2 S_MAX_SCROLL_SIZE = m__testLevel->GetTileMap()->GetMapSize() - m__testLevel->GetTileMap()->GetScreenSize();
 	static const float S_OFFSET = 0.01;
 	static const float S_SCROLL_SPEED = 500.f;
 	if (m_bKeyPressed[LOOK_UP_KEY])
@@ -75,7 +77,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			//scrollOffset.x = S_MAX_SCROLL_SIZE.x - S_OFFSET;
 		}
 		m__testLevel->GetTileMap()->SetScrollOffset(scrollOffset);
-	}
+	}*/
 
 	#pragma endregion
 
@@ -146,9 +148,11 @@ void MVC_Model_Spectre::Init(void)
 {
 	MVC_Model::Init();
 
+	resolution.Set(m_viewWidth, m_viewHeight);
+
 	// Load the map
 	m__testLevel = new Level();
-	m__testLevel->InitMap(Vector2(64, 50), Vector2(20, 12), 64, "TileMap//Level1.csv", meshList);
+	m__testLevel->InitMap(Vector2(64, 50), Vector2(ceil(m_viewWidth / 64.f), ceil(m_viewHeight / 64.f)), 64, "TileMap//Level1.csv", meshList);
 	int tileSize = m__testLevel->GetTileMap()->GetTileSize();
 	// -- Load Lighting GameObject
 	m__lightMesh = GetMeshResource("LightOverlay");
@@ -197,10 +201,44 @@ void MVC_Model_Spectre::Init(void)
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
+
+	// Update tile size to fit screen resolution
+	if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
+	{
+		TileMap* _tilemap = m__testLevel->GetTileMap();
+		vector<vector<Tile*>*> _map = _tilemap->GetMap();
+		float tileSize = _tilemap->GetTileSize();
+		Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
+		Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / tileSize), ceil(_tilemap->GetScrollOffset().y / tileSize));
+		if (resolution.x < m_viewWidth) // Scale up screen
+		{
+			++mapScrollOffset.y;
+			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+		}
+		else if (resolution.x > m_viewWidth) // Scale down screen
+		{
+			--mapScrollOffset.y;
+			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+		}
+		tileSize = _tilemap->GetTileSize();
+		for (int row = 0; row < _tilemap->GetNumMapTile().y; ++row)
+		{
+			for (int col = 0; col < _tilemap->GetNumMapTile().x; ++col)
+			{
+				_tilemap->SetScrollOffset(mapScrollOffset * tileSize);
+				_tilemap->SetMapSize(_tilemap->GetNumMapTile() * tileSize);
+				(*_map[row])[col]->SetMapPosition(Vector2(col * tileSize, row * tileSize), _tilemap->GetScrollOffset());
+				(*_map[row])[col]->SetScale(Vector2(tileSize, tileSize));
+				m__player->SetMapPosition(playerTilePos * tileSize, _tilemap->GetScrollOffset());
+				m__player->SetScale(Vector2(tileSize, tileSize));
+			}
+		}
+		resolution.Set(m_viewWidth, m_viewHeight);
+	}
 	
 	//Updates player depending on actions queued.
 	m__player->Update(dt,m__testLevel->GetTileMap());
-	m__testEnemy->Update(dt, m__testLevel->GetTileMap());
+	//m__testEnemy->Update(dt, m__testLevel->GetTileMap());
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);

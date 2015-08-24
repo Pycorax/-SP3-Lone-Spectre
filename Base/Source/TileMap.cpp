@@ -395,6 +395,11 @@ Vector2 TileMap::GetNumScreenTile()
 	return m_numScreenTile;
 }
 
+void TileMap::SetMapSize(Vector2 mapSize)
+{
+	this->m_mapSize = mapSize;
+}
+
 Vector2 TileMap::GetMapSize()
 {
 	return m_mapSize;
@@ -403,6 +408,11 @@ Vector2 TileMap::GetMapSize()
 Vector2 TileMap::GetScreenSize()
 {
 	return m_screenSize;
+}
+
+void TileMap::SetTileSize(float tileSize)
+{
+	this->m_tileSize = tileSize;
 }
 
 float TileMap::GetTileSize()

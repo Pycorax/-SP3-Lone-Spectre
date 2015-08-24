@@ -11,6 +11,14 @@
 
 class MVC_Model_Spectre : public MVC_Model
 {
+public:
+	enum E_APP_STATE
+	{
+		APP_MENU_MAIN,
+		APP_MENU_LEVEL_SELECT,
+		APP_GAME_MAIN,
+		APP_GAME_HACK,
+	};
 private:	// Variables
 	//TileMap/Overworld
 	Level* m__testLevel;
@@ -34,6 +42,8 @@ private:	// Variables
 
 	// Other/Debug
 	GameObject2D* m__testGO;
+	// Keep track of resolution change
+	Vector2 resolution;
 
 public:
 	MVC_Model_Spectre(string configSONFile);

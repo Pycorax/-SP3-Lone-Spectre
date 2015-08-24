@@ -49,9 +49,11 @@ public:
 
 	Vector2 GetNumMapTile();
 	Vector2 GetNumScreenTile();
+	void SetMapSize(Vector2 mapSize);
 	Vector2 GetMapSize();
 	Vector2 GetScreenSize();
 
+	void SetTileSize(float tileSize);
 	float GetTileSize();
 
 private:
