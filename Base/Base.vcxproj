@@ -27,6 +27,7 @@
     <ClCompile Include="Source\LoadHmap.cpp" />
     <ClCompile Include="Source\LoadResource.cpp" />
     <ClCompile Include="Source\Map.cpp" />
+    <ClCompile Include="Source\Menu.cpp" />
     <ClCompile Include="Source\Minimap.cpp" />
     <ClCompile Include="Source\MVC_Model.cpp" />
     <ClCompile Include="Source\MVC_Controller.cpp" />
@@ -45,6 +46,7 @@
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\PhysicalObject.cpp" />
+    <ClCompile Include="Source\Screen.cpp" />
     <ClCompile Include="Source\SpectreHexGame.cpp" />
     <ClCompile Include="Source\Strategy.cpp" />
     <ClCompile Include="Source\Strategy_Kill.cpp" />
@@ -82,6 +84,7 @@
     <ClInclude Include="Source\LoadResource.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\MapLayer.h" />
+    <ClInclude Include="Source\Menu.h" />
     <ClInclude Include="Source\Minimap.h" />
     <ClInclude Include="Source\MVC_Model.h" />
     <ClInclude Include="Source\MVC_Controller.h" />
@@ -102,6 +105,7 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\PhysicalObject.h" />
+    <ClInclude Include="Source\Screen.h" />
     <ClInclude Include="Source\SpectreHexGame.h" />
     <ClInclude Include="Source\Strategy.h" />
     <ClInclude Include="Source\Strategy_Kill.h" />
