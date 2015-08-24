@@ -1,7 +1,6 @@
 #ifndef MENU_H
 #define MENU_H
 
-<<<<<<< Updated upstream
 #include "UIButton.h"
 #include "MVC_Model.h"
 
@@ -50,14 +49,9 @@ private:	//Game States
 
 		NUM_MENU,
 	};
-=======
-#include "MVC_Model_Spectre.h"
 
-class Menu 
-{
 private:	// Variables
 
->>>>>>> Stashed changes
 public:		// Functions
 	Menu();
 	~Menu();
@@ -65,12 +59,9 @@ public:		// Functions
 	void Init();
 	void Update();
 
-<<<<<<< Updated upstream
 
 protected:
 	E_MENU_STATE m_menuState;
-=======
->>>>>>> Stashed changes
 };
 
 #endif
