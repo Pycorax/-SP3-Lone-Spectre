@@ -24,14 +24,16 @@ class Player : public Character
 		// used to tell which state player is in and change the rendering of mesh
 		enum E_PLAYER_STATE
 		{
-			PS_IDLE_UP = 0,
+			PS_IDLE = 0,
+			PS_WALK,
+			/*PS_IDLE_UP = 0,
 			PS_IDLE_LEFT,
 			PS_IDLE_RIGHT,
 			PS_IDLE_DOWN,
 			PS_WALK_UP,
 			PS_WALK_DOWN,
 			PS_WALK_LEFT,
-			PS_WALK_RIGHT,
+			PS_WALK_RIGHT,*/
 			PS_SPECTRAL_DIVE,
 			PS_SPECTRAL_JUMP,
 			PS_SPECTRAL_HOST,
@@ -39,9 +41,21 @@ class Player : public Character
 			PS_INACTIVE,
 			NUM_PLAYERSTATE,
 		};
+		enum E_INTERACTION
+		{
+			INTERACT_DIVE,
+			INTERACT_HOST,
+			INTERACT_JUMP,
+			INTERACT_HAX,
+			NUM_INTERACT,
+		};
 
 		//player move speed
-		static float s_playerMoveSpeed;
+		static const float S_PLAYER_MOVE_SPEED;
+		static const float S_SPECTRE_DIVE_LIGHT_LIMIT;
+		static const float S_SPECTRE_DIVE_COOLDOWN;
+		static const float S_SPECTRE_JUMP_COOLDOWN;
+		static const int S_MAX_JUMP_RANGE;
 	private:
 		Player(void);
 		
@@ -51,11 +65,20 @@ class Player : public Character
 		
 		//player currentState
 		E_PLAYER_STATE m_currentState;
+		bool m_inShadow; // Player in shadow
 
-		// For reference
-		bool m_actions[NUM_PLAYER_ACTIONS];
+		// Moving
 		bool m_moving;
 		float m_moveDist;
+
+		// Spectral dive
+		bool m_diving;
+		float m_diveTimer;
+
+		// Spectral jump
+		bool m_jumping;
+		float m_jumpTimer;
+		int m_tileMoved;
 
 		GameObject2D* m__host;
 		Tile* m__tile;
@@ -74,20 +97,29 @@ class Player : public Character
 		void Update(double dt, TileMap* _map);
 		void UpdateHost(double dt);
 
+		void SetMove(Vector2 dir);
+		void SetDive();
+		void SetJump();
+
 		void SetState(E_PLAYER_STATE currentState);
 		E_PLAYER_STATE GetState(void)const;
-	
-		void SetActions(E_PLAYER_ACTION type, bool status = true);
 
 		// Actions
-		E_PLAYER_STATE Interact(TileMap* _map);
+		E_PLAYER_STATE Interact(E_INTERACTION interact, TileMap* _map);
+
+		void SetInShadow(bool inShadow);
+		bool GetInShadow();
 
 
 		//getters
 		Mesh* GetSA(void) const;
 	private:
 		void move(double dt, TileMap* _map);
+		void dive(double dt, TileMap* _map);
+		void jump(double dt, TileMap* _map);
 		void resetMove();
+		void resetDive();
+		void resetJump();
 
 };
 

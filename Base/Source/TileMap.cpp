@@ -308,7 +308,7 @@ Vector2 TileMap::posRoundingForLight(Vector2 pos, Vector2 dir)
 	return pos;
 }
 
-Tile * TileMap::GetTileAt(int xPos, int yPos)
+Tile* TileMap::GetTileAt(int xPos, int yPos)
 {
 	if (xPos < 0 || yPos < 0 || yPos >= m_map.size() || xPos >= m_map.at(yPos)->size())
 	{
@@ -319,6 +319,16 @@ Tile * TileMap::GetTileAt(int xPos, int yPos)
 	{
 		return (*m_map[yPos])[xPos];
 	}
+}
+
+Tile* TileMap::GetTileAt(Vector2 pos)
+{
+	Vector2 tilePos(floor(pos.x / m_tileSize), floor(pos.y / m_tileSize)); // Round down decimal number to get tile position
+	if (tilePos.x < 0 || tilePos.x >= m_numMapTile.x || tilePos.y < 0 || tilePos.y >= m_numMapTile.y)
+	{
+		return NULL;
+	}
+	return (*m_map[tilePos.y])[tilePos.x];
 }
 
 bool TileMap::CheckCollision(Vector2 pos)
@@ -385,9 +395,19 @@ vector<vector<Tile*>*>& TileMap::GetMap()
 	return m_map;
 }
 
+void TileMap::SetNumMapTile(Vector2 numMapTile)
+{
+	this->m_numMapTile = numMapTile;
+}
+
 Vector2 TileMap::GetNumMapTile()
 {
 	return m_numMapTile;
+}
+
+void TileMap::SetNumScreenTile(Vector2 numScreenTile)
+{
+	this->m_numScreenTile = numScreenTile;
 }
 
 Vector2 TileMap::GetNumScreenTile()
@@ -403,6 +423,11 @@ void TileMap::SetMapSize(Vector2 mapSize)
 Vector2 TileMap::GetMapSize()
 {
 	return m_mapSize;
+}
+
+void TileMap::SetScreenSize(Vector2 screenSize)
+{
+	this->m_screenSize = screenSize;
 }
 
 Vector2 TileMap::GetScreenSize()

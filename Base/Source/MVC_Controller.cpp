@@ -305,6 +305,8 @@ void MVC_Controller::initInputKeys(void)
 	inputKey[MVC_Model::INTERACT_PREV_KEY] = 'Q';
 	inputKey[MVC_Model::INTERACT_NEXT_KEY] = 'E';
 	inputKey[MVC_Model::INTERACT_GENERIC_KEY] = 'F';
+	inputKey[MVC_Model::INTERACT_SKILL_1_KEY] = 'J';
+	inputKey[MVC_Model::INTERACT_SKILL_2_KEY] = 'K';
 
 	// Game
 	inputKey[MVC_Model::GAME_EXIT_KEY] = VK_ESCAPE;

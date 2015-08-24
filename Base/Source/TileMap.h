@@ -36,7 +36,8 @@ public:
 	void LoadTileMap(const string &filePath, const vector<Mesh*>& meshList);
 	void UpdateLighting(void);
 
-	Tile* GetTileAt(int xPos, int yPos);
+	Tile* GetTileAt(int xPos, int yPos);		// Get tile info based on index location
+	Tile* GetTileAt(Vector2 pos);				// Get tile info based on actual map pos
 	bool CheckCollision(Vector2 pos);			// Check position with tile map for collision
 	Tile::E_TILE_TYPE GetTileType(Vector2 pos);	// Get the tile type for a position
 	void Clear(void);
@@ -47,10 +48,16 @@ public:
 
 	vector<vector<Tile*>*>& GetMap();
 
+	void SetNumMapTile(Vector2 numMapTile);
 	Vector2 GetNumMapTile();
+
+	void SetNumScreenTile(Vector2 numScreenTile);
 	Vector2 GetNumScreenTile();
+
 	void SetMapSize(Vector2 mapSize);
 	Vector2 GetMapSize();
+
+	void SetScreenSize(Vector2 screenSize);
 	Vector2 GetScreenSize();
 
 	void SetTileSize(float tileSize);

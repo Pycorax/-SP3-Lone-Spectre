@@ -53,7 +53,6 @@ public:
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Exit();
-	void TileMapToRender(TileMap* _ToRender);
 
 protected:
 	// Process Key Action Abstract Function
@@ -66,6 +65,12 @@ protected:
 	// Hack Mode (Spectre HexTech MiniGame)
 	void updateHackMode(const double DT);
 	void startHackMode(void);
+	
+	// Tilemap rendering
+	void tileMapToRender(TileMap* _ToRender);
+
+	// Screen resizing
+	void resizeScreen();
 };
 
 #endif

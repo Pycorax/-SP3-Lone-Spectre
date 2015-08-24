@@ -1,5 +1,12 @@
 #include "CChar.h"
 
+const Vector2 Character::directions[NUM_DIR] = 
+{
+	Vector2(0.f, 1.f),
+	Vector2(0.f, -1.f),
+	Vector2(-1.f, 0.f),
+	Vector2(1.f, 0.f)
+};
 
 Character::Character(void)
 	:m_health(0)
