@@ -126,6 +126,7 @@ void SpectreHexGame::Reset(int viewWidth, int viewHeight)
 		m__player->InitPhysics2D(MIN_BALL_MASS* PLAYER_BALL_MULTIPLIER, false);
 		m__player->SetMass(MIN_BALL_MASS * PLAYER_BALL_MULTIPLIER);
 		m__player->SetMesh(m__playerBallMesh);
+		m__player->SetActive(true);
 	}
 
 	// Generate the Walls
@@ -162,6 +163,7 @@ void SpectreHexGame::Reset(int viewWidth, int viewHeight)
 	for (int ball = 0; ball < MAX_BALLS; ++ball)
 	{
 		PhysicalObject* sBall = fetchObject();
+
 		sBall->SetPos(Vector3(200.0f, (viewHeight - MIN_BALL_RADIUS) * 0.5));
 
 		Vector2 pos(
@@ -272,9 +274,10 @@ PhysicalObject* SpectreHexGame::fetchObject(void)
 	// Retrieve a ball
 	for (vector<PhysicalObject*>::iterator ball = m_ballList.begin(); ball != m_ballList.end(); ++ball)
 	{
-		if (!(*ball)->GetActive())
+		if (!((*ball)->GetActive()))
 		{
 			(*ball)->SetActive(true);
+
 			return *ball;
 		}
 	}
@@ -288,9 +291,10 @@ PhysicalObject* SpectreHexGame::fetchObject(void)
 		m_ballList.push_back(sBall);
 	}
 
-	m_ballList.back()->SetActive(true);
+	PhysicalObject* ball = m_ballList.back();
+	ball->SetActive(true);
 
-	return m_ballList.back();
+	return ball;
 }
 
 void SpectreHexGame::startUpdate(double dt)
