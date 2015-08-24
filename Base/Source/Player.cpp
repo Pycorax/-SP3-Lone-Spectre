@@ -270,7 +270,7 @@ void Player::move(double dt, TileMap* _map)
 			}
 		}
 		_map->AddToScrollOffset(tilePos - GetMapPos()); // Change scroll offset
-		SetMapPosition(tilePos, _map->GetScrollOffset()); // Snap player to wall
+		SetMapPosition(tilePos, _map->GetScrollOffset(), _map->GetTileSize()); // Snap player to wall
 		resetMove();
 	}
 	else
@@ -280,7 +280,7 @@ void Player::move(double dt, TileMap* _map)
 			newPos -= GetLookDir() * _map->GetTileSize();
 		}
 		_map->AddToScrollOffset(GetLookDir() * S_PLAYER_MOVE_SPEED * dt);
-		SetMapPosition(newPos, _map->GetScrollOffset()); // Remove tile size that was added previously
+		SetMapPosition(newPos, _map->GetScrollOffset(), _map->GetTileSize()); // Remove tile size that was added previously
 		m_moveDist += S_PLAYER_MOVE_SPEED * dt;
 	}
 }

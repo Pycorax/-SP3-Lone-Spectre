@@ -101,6 +101,11 @@ void Tile::ResetViewers(void)
 	m__viewerList.clear();
 }
 
+bool Tile::IsViewed(void)
+{
+	return m__viewerList.size() > 0;
+}
+
 void Tile::AddLight(int lightValue)
 {
 	m_lightLevel = Math::Clamp(m_lightLevel + lightValue, 0, MAX_LIGHT_LEVEL);

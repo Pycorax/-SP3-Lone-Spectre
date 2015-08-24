@@ -1,5 +1,6 @@
 #include "Enemy.h"
 
+#include "ViewerUpdater.h"
 
 Enemy::Enemy(void)
 	:m_alertLevel(0)
@@ -26,6 +27,10 @@ void Enemy::Update(double dt, TileMap* _map)
 	Character::Update();
 	
 	PathFinder::UpdatePath(_map->GetTileSize());
+	
+	// Update FOV
+	UpdateViewBox(this, _map);
+
 	//if ()//If any enemy see Hero, affects other enemies too
 	//{
 	//	m_enemyState = ES_CHASE;
@@ -224,7 +229,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
 			m_patrolPointA = tempStore;*/
 			return true; // reached target
 		}
-		SetMapPosition(newMapPos, _map->GetScrollOffset() );
+		SetMapPosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
 	}
 	return false;
 }

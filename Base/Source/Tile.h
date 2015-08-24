@@ -56,6 +56,7 @@ public:
 	void AddViewer(Viewer* _viewer);
 	void AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles);
 	void ResetViewers(void);
+	bool IsViewed(void);
 
 	void AddLight(int lightValue);
 	void ResetLighting(void);

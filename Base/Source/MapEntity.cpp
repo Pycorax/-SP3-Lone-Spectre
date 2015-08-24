@@ -9,9 +9,10 @@ MapEntity::~MapEntity(void)
 {
 }
 
-void MapEntity::SetMapPosition(Vector2 tilePos, Vector2 scrollOffset)
+void MapEntity::SetMapPosition(Vector2 pos, Vector2 scrollOffset, int tileSize)
 {
-	m_mapPos = tilePos;
+	m_mapPos = pos;
+	m_mapTilePos = pos * (1 / tileSize);
 
 	updateScreenPos(calcScreenPos(scrollOffset));
 }
@@ -19,6 +20,11 @@ void MapEntity::SetMapPosition(Vector2 tilePos, Vector2 scrollOffset)
 Vector2 MapEntity::GetMapPos()
 {
 	return m_mapPos;
+}
+
+Vector2 MapEntity::GetMapTilePos()
+{
+	return m_mapTilePos;
 }
 
 Vector2 MapEntity::calcScreenPos(Vector2 scrollOffset)

@@ -11,6 +11,13 @@
 
 class MVC_Model_Spectre : public MVC_Model
 {
+private:
+	enum TILE_MARKER_TYPE
+	{
+		TM_SHADOW,
+		TM_VIEWED,
+		NUM_TILE_MARKER
+	};
 public:
 	enum E_APP_STATE
 	{
@@ -22,8 +29,8 @@ public:
 private:	// Variables
 	//TileMap/Overworld
 	Level* m__testLevel;
-	vector<GameObject2D*> m__shadowResource;				// A vector of lights that can be used to render a "lighted" effect
-	Mesh* m__shadowMesh;									// The mesh used for m__shadowResource
+	vector<GameObject2D*> m__tileMarkers;					// A vector of lights that can be used to render a "lighted" effect
+	Mesh* m__tileMarkerMesh[NUM_TILE_MARKER];									// The meshes used for marking areas (shadows, areas being viewed)
 
 	// Characters
 	Player* m__player;
@@ -60,7 +67,7 @@ protected:
 
 	// Light Resource
 	void resetLightResources(void);
-	GameObject2D* fetchShadow(void);
+	GameObject2D* fetchTileMarker(TILE_MARKER_TYPE type);
 
 	// Hack Mode (Spectre HexTech MiniGame)
 	void updateHackMode(const double DT);
