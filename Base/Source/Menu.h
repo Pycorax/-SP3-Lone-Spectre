@@ -59,6 +59,7 @@ public:		// Functions
 	void Init();
 	void Update();
 
+	UIButton* m_UIButton;
 
 protected:
 	E_MENU_STATE m_menuState;
