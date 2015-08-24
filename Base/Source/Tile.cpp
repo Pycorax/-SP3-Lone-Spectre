@@ -61,6 +61,11 @@ void Tile::updateScreenPos(Vector2 pos)
 	m_transforms.Translation = pos;
 }
 
+void Tile::AddViewer(Viewer * _viewer)
+{
+	m__viewerList.push_back(_viewer);
+}
+
 void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
 {
 	Viewer* _view;
@@ -89,6 +94,11 @@ void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
 	_view->Init(distViewX ,distViewY);
 	//add into list
 	m__viewerList.push_back(_view);
+}
+
+void Tile::ResetViewers(void)
+{
+	m__viewerList.clear();
 }
 
 void Tile::AddLight(int lightValue)

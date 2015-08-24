@@ -9,9 +9,9 @@ MapEntity::~MapEntity(void)
 {
 }
 
-void MapEntity::SetMapPosition(Vector2 pos, Vector2 scrollOffset)
+void MapEntity::SetMapPosition(Vector2 tilePos, Vector2 scrollOffset)
 {
-	m_mapPos = pos;
+	m_mapPos = tilePos;
 
 	updateScreenPos(calcScreenPos(scrollOffset));
 }

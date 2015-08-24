@@ -7,7 +7,7 @@
 #include "MapEntity.h"
 #include "Viewer.h"
 
-class Character : public GameObject2D , public MapEntity , public Viewer
+class Character : public GameObject2D , public MapEntity
 {
 protected:
 	int m_health;

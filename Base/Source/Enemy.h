@@ -73,6 +73,10 @@ private:
 protected:
 	// Function to get the player's current position
 	virtual Vector2 pathFinder_getTilePosition(void);
+	// Function to allow the viewer to get the child class's transform details
+	virtual Vector2 viewer_GetTilePos(void);
+	// Function ti allow the viewer to get the child class's facing direction
+	virtual Vector2 viewer_GetDirection(void);
 };
 
 #endif

@@ -53,7 +53,9 @@ public:
 	Tile(Vector2 mapPos = Vector2(0,0), Vector3 scale = Vector3(1,1,1), E_TILE_TYPE type = TILE_FLOOR, Mesh* _mesh = NULL);
 	~Tile(void);
 
+	void AddViewer(Viewer* _viewer);
 	void AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles);
+	void ResetViewers(void);
 
 	void AddLight(int lightValue);
 	void ResetLighting(void);

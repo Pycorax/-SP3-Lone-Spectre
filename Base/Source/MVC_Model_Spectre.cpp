@@ -193,7 +193,7 @@ void MVC_Model_Spectre::Init(void)
 	m__testEnemy->SetMapPosition(Vector2 (500 , 200 ) ,m__testLevel->GetTileMap()->GetScrollOffset());
 	m__testEnemy->SetScale(Vector2(32.f, 32.f));
 	m__testEnemy->initPathFinder(m__testLevel->GetTileMap());
-	m__testEnemy->SetTarget(m__player->GetMapPos() );//m__player->GetTransform().Translation);
+	m__testEnemy->SetTarget(m__player->GetMapPos(), m__testLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
 	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
 	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
 

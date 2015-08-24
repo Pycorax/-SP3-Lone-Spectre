@@ -248,6 +248,16 @@ Vector2 Enemy::pathFinder_getTilePosition(void)
 	return GetMapPos();
 }
 
+Vector2 Enemy::viewer_GetTilePos(void)
+{
+	return GetMapPos();		// TODO: This will start working when proper tile map positions are passed in like intended
+}
+
+Vector2 Enemy::viewer_GetDirection(void)
+{
+	return m_lookDir;
+}
+
 void Enemy::SetSpectrePosition(Vector2 spectralPosition)
 {
 	this->m_spectralPositon = spectralPosition;

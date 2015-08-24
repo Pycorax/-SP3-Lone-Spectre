@@ -62,6 +62,7 @@
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\MVC_View.cpp" />
     <ClCompile Include="Source\Viewer.cpp" />
+    <ClCompile Include="Source\ViewerUpdater.cpp" />
     <ClCompile Include="Source\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +122,7 @@
     <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\MVC_View.h" />
     <ClInclude Include="Source\Viewer.h" />
+    <ClInclude Include="Source\ViewerUpdater.h" />
     <ClInclude Include="Source\Weapon.h" />
   </ItemGroup>
   <ItemGroup>
