@@ -18,7 +18,7 @@ public:
 		DIR_RIGHT,
 		NUM_DIR,
 	};
-	static const Vector2 directions[NUM_DIR];
+	static const Vector2 S_DIRECTION[NUM_DIR];
 protected:
 	int m_health;
 	int m_maxHealth;

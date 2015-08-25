@@ -363,12 +363,12 @@ vector<Mesh*> MVC_View::LoadMeshes(string SONFile) const
 			{
 				mesh = MeshBuilder::GenerateSpriteAnimation2D(meshName, meshAnimRow, meshAnimCol, meshPosX, meshPosY, meshScaleX, meshScaleY);
 
-				SpriteAnimation *sa = dynamic_cast<SpriteAnimation*>(mesh);
+				/*SpriteAnimation *sa = dynamic_cast<SpriteAnimation*>(mesh);
 				if (sa)
 				{
 					sa->m_anim = new Animation();
 					sa->m_anim->Set(0, meshAnimCol - 1, meshAnimRepeat, meshFloats[F_ANIM_TIME]);
-				}
+				}*/
 			}
 			else if (meshType == "SkyPlane")
 			{

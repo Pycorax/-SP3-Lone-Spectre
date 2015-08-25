@@ -24,16 +24,16 @@ class Player : public Character
 		// used to tell which state player is in and change the rendering of mesh
 		enum E_PLAYER_STATE
 		{
-			PS_IDLE = 0,
-			PS_WALK,
-			/*PS_IDLE_UP = 0,
+			/*PS_IDLE = 0,
+			PS_WALK,*/
+			PS_IDLE_UP = 0,
 			PS_IDLE_LEFT,
 			PS_IDLE_RIGHT,
 			PS_IDLE_DOWN,
 			PS_WALK_UP,
 			PS_WALK_DOWN,
 			PS_WALK_LEFT,
-			PS_WALK_RIGHT,*/
+			PS_WALK_RIGHT,
 			PS_SPECTRAL_DIVE,
 			PS_SPECTRAL_JUMP,
 			PS_SPECTRAL_HOST,
@@ -86,8 +86,8 @@ class Player : public Character
 		Tile* m__tile;
 		
 		//sprite animation vector
-		Mesh* m__saList[NUM_PLAYERSTATE];
-		int m_saStateCounter;
+		Animation* m__animationList[NUM_PLAYERSTATE];
+		float m_animTime;
 	public:
 		static Player* GetInstance(int instance = 0);
 		static void Clear();
@@ -95,7 +95,7 @@ class Player : public Character
 		virtual ~Player(void);
 
 		void Init(Mesh* _mesh);
-		void AddMesh(Mesh* _mesh, E_PLAYER_STATE playerState);
+		void AddAnimation(Animation* _anim, E_PLAYER_STATE playerState);
 		void Update(double dt, TileMap* _map);
 		void UpdateHost(double dt);
 

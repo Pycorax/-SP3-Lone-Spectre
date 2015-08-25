@@ -24,6 +24,7 @@ void Player::Init(Mesh* _mesh)
 	resetMove();
 	resetDive();
 	resetJump();
+	m_currentState = Player::PS_IDLE_DOWN;
 }
 
 Player::~Player(void)
@@ -49,9 +50,9 @@ Player* Player::GetInstance(int instance)
 }
 
 //adds sprite animation depending on the state specified
-void Player::AddMesh(Mesh* _mesh, E_PLAYER_STATE playerState)
+void Player::AddAnimation(Animation* _anim, E_PLAYER_STATE playerState)
 {
-	m__saList[playerState] = _mesh;
+	m__animationList[playerState] = _anim;
 }
 
 Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
@@ -106,7 +107,23 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 			tilePos += (m_lookDir * _map->GetTileSize());
 			if (tilePos.x < 0 || tilePos.x >= _map->GetMapSize().x || tilePos.y < 0 || tilePos.y >= _map->GetMapSize().y || _map->CheckCollision(tilePos))
 			{
-				return PS_IDLE; // Hit the end of map or collided
+				if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+				{
+					return PS_IDLE_UP; // Hit the end of map or collided
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+				{
+					return PS_IDLE_DOWN; //Hit the end of map or collided
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+				{
+					return PS_IDLE_LEFT; //Hit the end of map or collided
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+				{
+					return PS_IDLE_RIGHT; //Hit the end of map or collided
+				}
+				
 			}
 			else
 			{
@@ -116,7 +133,23 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 				}
 			}
 		}
-		return PS_IDLE; // Unable to jump since no shadow within range
+		//updates idle based on look dir
+		if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+		{
+			return PS_IDLE_UP;
+		}
+		else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+		{
+			return PS_IDLE_DOWN;
+		}
+		else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+		{
+			return PS_IDLE_LEFT;
+		}
+		else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+		{
+			return PS_IDLE_RIGHT; 
+		} // Unable to jump since no shadow within range
 	}
 
 	//If inside enemy's shadow (Not completed)
@@ -148,7 +181,23 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	{
 		return PS_SPECTRAL_HAX;
 	}
-	return PS_IDLE; // No interactions suit criteria
+	//updates idle based on look dir
+	if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+	{
+		return PS_IDLE_UP;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+	{
+		return PS_IDLE_DOWN;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+	{
+		return PS_IDLE_LEFT;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+	{
+		return PS_IDLE_RIGHT; 
+	} // No interactions suit criteria
 }
 
 void Player::Update(double dt, TileMap* _map)
@@ -166,6 +215,10 @@ void Player::Update(double dt, TileMap* _map)
 
 	if (m_currentState != PS_SPECTRAL_HAX)
 	{
+		if (m_moving)
+		{
+			move(dt, _map);
+		}
 		if (m_diving)
 		{
 			dive(dt, _map);
@@ -174,30 +227,16 @@ void Player::Update(double dt, TileMap* _map)
 		{
 			jump(dt, _map);
 		}
-		if (m_moving)
+		//update animation
+		static SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(GetMesh());
+		if(_sa)
 		{
-			move(dt, _map);
+			_sa->m_anim = m__animationList[m_currentState];
+			_sa->Update(dt);
 		}
+
 	}
 
-	// TODO: Update spriteanimation here
-	//updates idle side - changes side according to last position
-	/*if(m_lookDir == Vector3(0,1) ) // if facing up
-	{
-		m_currentState = PS_IDLE_UP;
-	}
-	else if(m_lookDir == Vector3(-1,0)  )//if facing left
-	{
-		m_currentState = PS_IDLE_LEFT;
-	}
-	else if(m_lookDir == Vector3(1,0) ) // if facing right
-	{
-		m_currentState = PS_IDLE_RIGHT;
-	}
-	else if(m_lookDir == Vector3(0,-1) ) //if facing down
-	{
-		m_currentState = PS_IDLE_DOWN;
-	}*/
 }
 
 void Player::UpdateHost(double dt)
@@ -299,13 +338,45 @@ void Player::resetMove()
 {
 	m_moving = false;
 	m_moveDist = 0.f;
-	m_currentState = PS_IDLE;
+	//updates idle based on look dir
+	if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+	{
+		m_currentState = PS_IDLE_UP;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+	{
+		m_currentState = PS_IDLE_DOWN;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+	{
+		m_currentState = PS_IDLE_LEFT;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+	{
+		m_currentState = PS_IDLE_RIGHT; 
+	}
 }
 
 void Player::resetDive()
 {
 	m_diving = false;
-	m_currentState = PS_IDLE;
+	//updates idle based on look dir
+	if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+	{
+		m_currentState = PS_IDLE_UP;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+	{
+		m_currentState = PS_IDLE_DOWN;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+	{
+		m_currentState = PS_IDLE_LEFT;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+	{
+		m_currentState = PS_IDLE_RIGHT; 
+	}
 	m_inShadow = !m_inShadow;
 	m_diveTimer = S_SPECTRE_DIVE_COOLDOWN;
 }
@@ -313,7 +384,23 @@ void Player::resetDive()
 void Player::resetJump()
 {
 	m_jumping = false;
-	m_currentState = PS_IDLE;
+	//updates idle based on look dir
+	if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+	{
+		m_currentState = PS_IDLE_UP;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+	{
+		m_currentState = PS_IDLE_DOWN;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+	{
+		m_currentState = PS_IDLE_LEFT;
+	}
+	else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+	{
+		m_currentState = PS_IDLE_RIGHT; 
+	}
 	m_jumpTimer = S_SPECTRE_JUMP_COOLDOWN;
 	m_tileMoved = 0;
 }
@@ -326,7 +413,23 @@ void Player::SetMove(Vector2 dir)
 		{
 			SetLookDir(dir);
 			m_moving = true;
-			m_currentState = PS_WALK;
+			//updates idle based on look dir
+			if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+			{
+				m_currentState = PS_WALK_UP;
+			}
+			else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+			{
+				m_currentState = PS_WALK_DOWN;
+			}
+			else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+			{
+				m_currentState = PS_WALK_LEFT;
+			}
+			else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+			{
+				m_currentState = PS_WALK_RIGHT; 
+			}
 		}
 		else // Disable all movement when in hax mode
 		{
@@ -375,15 +478,17 @@ void Player::dive(double dt, TileMap* _map)
 		{
 			if (m_currentState != PS_SPECTRAL_DIVE)
 			{
+				m_animTime += dt;
 				m_currentState = PS_SPECTRAL_DIVE;
 				// TODO: Change spriteanimation to diving animation
 			}
 			resetDive();
 			// When animation ended, change m_inShadow to true
+			m_inShadow = true;
 		}
 		else // Dive in the tile in front of player
 		{
-			if (m_currentState != PS_WALK)
+			if (m_currentState != (PS_WALK_UP || PS_WALK_DOWN || PS_WALK_LEFT || PS_WALK_RIGHT) )
 			{
 				forceSetMove(m_lookDir); // Set to move player to proper tile
 			}
@@ -432,7 +537,23 @@ void Player::forceSetMove(Vector2 dir)
 	{
 		SetLookDir(dir);
 		m_moving = true;
-		m_currentState = PS_WALK;
+		//updates idle based on look dir
+		if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+		{
+			m_currentState = PS_WALK_UP;
+		}
+		else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+		{
+			m_currentState = PS_WALK_DOWN;
+		}
+		else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+		{
+			m_currentState = PS_WALK_LEFT;
+		}
+		else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+		{
+			m_currentState = PS_WALK_RIGHT; 
+		}
 	}
 	else // Disable all movement when in hax mode
 	{

@@ -1,6 +1,6 @@
 #include "CChar.h"
 
-const Vector2 Character::directions[NUM_DIR] = 
+const Vector2 Character::S_DIRECTION[NUM_DIR] = 
 {
 	Vector2(0.f, 1.f),
 	Vector2(0.f, -1.f),

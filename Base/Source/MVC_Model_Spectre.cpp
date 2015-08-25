@@ -26,19 +26,19 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		
 			if (m_bKeyPressed[MOVE_FORWARD_KEY])
 			{
-				m__player->SetMove(Character::directions[Character::DIR_UP]);
+				m__player->SetMove(Character::S_DIRECTION[Character::DIR_UP]);
 			}
 			if (m_bKeyPressed[MOVE_BACKWARD_KEY])
 			{
-				m__player->SetMove(Character::directions[Character::DIR_DOWN]);
+				m__player->SetMove(Character::S_DIRECTION[Character::DIR_DOWN]);
 			}
 			if (m_bKeyPressed[MOVE_LEFT_KEY])
 			{
-				m__player->SetMove(Character::directions[Character::DIR_LEFT]);
+				m__player->SetMove(Character::S_DIRECTION[Character::DIR_LEFT]);
 			}
 			if (m_bKeyPressed[MOVE_RIGHT_KEY])
 			{
-				m__player->SetMove(Character::directions[Character::DIR_RIGHT]);
+				m__player->SetMove(Character::S_DIRECTION[Character::DIR_RIGHT]);
 			}
 
 			if (m_bKeyPressed[INTERACT_SKILL_2_KEY]) // Spectral Hax
@@ -140,8 +140,50 @@ void MVC_Model_Spectre::Init(void)
 
 	// Load the player
 	m__player = Player::GetInstance();
-	m__player->Init(GetMeshResource("Player"));
-	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetPlayerSpawnPos(), Vector2(0,0), m__testLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
+	m__player->Init(GetMeshResource("Player_ANIMATION"));
+	//player mesh and states
+	//SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(GetMeshResource("Player_ANIMATION"));
+	//m__player->SetMesh(_sa);
+	Animation* _a;
+
+	//walking south
+	_a = new Animation();
+	_a->Set(0, 2, 0, 0.4f);
+	m__player->AddAnimation(_a, Player::PS_WALK_DOWN);
+	//walking right
+	_a = new Animation();
+	_a->Set(3, 5, 0, 0.4f); 
+	m__player->AddAnimation(_a, Player::PS_WALK_RIGHT);
+	//walk left
+	_a = new Animation();
+	_a->Set(6, 8, 0, 0.4f);
+	m__player->AddAnimation(_a, Player::PS_WALK_LEFT);
+	//walk north
+	_a = new Animation();
+	_a->Set(9, 11, 0, 0.4f);
+	m__player->AddAnimation(_a, Player::PS_WALK_UP);
+	//idle south
+	_a = new Animation();
+	_a->Set(1,1,0,0.f);
+	m__player->AddAnimation(_a , Player::PS_IDLE_DOWN);
+	//idle right
+	_a = new Animation();
+	_a->Set(5,5,0,0.f);
+	m__player->AddAnimation(_a, Player::PS_IDLE_RIGHT);
+	//idle left
+	_a = new Animation();
+	_a->Set(7,7, 0, 0.f);
+	m__player->AddAnimation(_a, Player::PS_IDLE_LEFT);
+	//idle north
+	_a = new Animation();
+	_a->Set(10, 10, 0, 0.f);
+	m__player->AddAnimation(_a , Player::PS_IDLE_UP);
+	//shadow ball
+	_a = new Animation();
+	_a->Set(36, 36, 0, 0.f);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE);
+
+	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0), m__testLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
 	// Init the hacking game
@@ -164,6 +206,54 @@ void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
 
+	// Update tile size to fit screen resolution
+	if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
+	{
+		TileMap* _tilemap = m__testLevel->GetTileMap();
+		vector<vector<Tile*>*> _map = _tilemap->GetMap();
+		float tileSize = _tilemap->GetTileSize();
+		Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
+		Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / tileSize), ceil(_tilemap->GetScrollOffset().y / tileSize));
+		if (resolution.x < m_viewWidth) // Scale up screen
+		{
+			++mapScrollOffset.y;
+			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+		}
+		else if (resolution.x > m_viewWidth) // Scale down screen
+		{
+			--mapScrollOffset.y;
+			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+		}
+		tileSize = _tilemap->GetTileSize();
+		for (int row = 0; row < _tilemap->GetNumMapTile().y; ++row)
+		{
+			for (int col = 0; col < _tilemap->GetNumMapTile().x; ++col)
+			{
+				_tilemap->SetScrollOffset(mapScrollOffset * tileSize);
+				_tilemap->SetMapSize(_tilemap->GetNumMapTile() * tileSize);
+				(*_map[row])[col]->SetMapPosition(Vector2(col * tileSize, row * tileSize), _tilemap->GetScrollOffset(), _tilemap->GetTileSize());
+				(*_map[row])[col]->SetScale(Vector2(tileSize, tileSize));
+				m__player->SetMapPosition(playerTilePos * tileSize, _tilemap->GetScrollOffset(), _tilemap->GetTileSize());
+				m__player->SetScale(Vector2(tileSize, tileSize));
+			}
+		}
+		resolution.Set(m_viewWidth, m_viewHeight);
+	}
+
+	//updates sprite animation
+	/*SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(m__player->GetMesh());
+	{
+		if(_sa)
+		{
+			_sa->Update(dt);
+		}
+	}*/
+	//Updates player depending on actions queued.
+	//m__player->Update(dt,m__testLevel->GetTileMap());
+
+	//update enemy;
+	//m__testEnemy->Update(dt, m__testLevel->GetTileMap() );
+
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);
@@ -171,13 +261,13 @@ void MVC_Model_Spectre::Update(double dt)
 		if (m_hackingGame.IsVictory())
 		{
 			m_hackMode = false;
-			m__player->SetState(Player::PS_IDLE);
+			m__player->SetState(Player::PS_IDLE_DOWN);
 			// TODO: Do an action for when the mini game ends in a win
 		}
 		else if (m_hackingGame.IsLoss())
 		{
 			m_hackMode = false;
-			m__player->SetState(Player::PS_IDLE);
+			m__player->SetState(Player::PS_IDLE_DOWN);
 			// TODO: Do an action for when the mini game ends in a loss
 		}
 
@@ -187,6 +277,7 @@ void MVC_Model_Spectre::Update(double dt)
 			m_renderList2D.push(*go);
 		}
 	}
+	//not in mini game - update normally
 	else
 	{
 		// Update tile size to fit screen resolution
@@ -215,15 +306,28 @@ void MVC_Model_Spectre::Update(double dt)
 		// Rendering
 		m__testLevel->GetTileMap()->UpdateLighting();
 		tileMapToRender(m__testLevel->GetTileMap());
-		if (m__player->GetInShadow())
-		{
-			m__player->SetMesh(GetMeshResource("ShadowPlayer"));
-		}
-		else
-		{
-			m__player->SetMesh(GetMeshResource("Player"));
-		}
 		m_renderList2D.push(m__player);
+
+		// -- MiniGame
+		if (m_hackMode)
+		{
+			if (m_hackingGame.IsVictory())
+			{
+				m_hackMode = false;
+				// TODO: Do an action for when the mini game ends in a win
+			}
+			else if (m_hackingGame.IsLoss())
+			{
+				m_hackMode = false;
+				// TODO: Do an action for when the mini game ends in a loss
+			}
+
+			vector<GameObject2D*> minigameObjects = m_hackingGame.GetRenderObjects();
+			for (vector<GameObject2D*>::iterator go = minigameObjects.begin(); go != minigameObjects.end(); ++go)
+			{				
+				m_renderList2D.push(*go);
+			}
+		}
 
 		// Render Enemies
 		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
@@ -232,7 +336,6 @@ void MVC_Model_Spectre::Update(double dt)
 		}
 	}
 }
-
 void MVC_Model_Spectre::Exit(void)
 {
 	m_hackingGame.Exit();
