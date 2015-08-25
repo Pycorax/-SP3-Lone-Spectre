@@ -356,6 +356,9 @@ void SpectreHexGame::startUpdate(double dt)
 		firstRun = true;
 		timer = 0.0f;
 
+		// Ensure that the mesh of the player is not NULL when it leaves
+		m__player->SetMesh(m__playerBallMesh);
+
 		// Disable the air bubble
 		_airBubble->SetActive(false);
 	}
