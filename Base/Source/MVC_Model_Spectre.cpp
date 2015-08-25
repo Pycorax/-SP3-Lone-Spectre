@@ -23,7 +23,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 	else
 	{
 		#pragma region Player Controls
-
+		
 			if (m_bKeyPressed[MOVE_FORWARD_KEY])
 			{
 				m__player->SetMove(Character::directions[Character::DIR_UP]);

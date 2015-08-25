@@ -52,6 +52,7 @@ class Player : public Character
 
 		//player move speed
 		static const float S_PLAYER_MOVE_SPEED;
+		static const float S_PLAYER_JUMP_SPEED;
 		static const float S_SPECTRE_DIVE_LIGHT_LIMIT;
 		static const float S_SPECTRE_DIVE_COOLDOWN;
 		static const float S_SPECTRE_JUMP_COOLDOWN;
@@ -70,6 +71,7 @@ class Player : public Character
 		// Moving
 		bool m_moving;
 		float m_moveDist;
+		float m_currentSpeed;
 
 		// Spectral dive
 		bool m_diving;
@@ -114,6 +116,7 @@ class Player : public Character
 		//getters
 		Mesh* GetSA(void) const;
 	private:
+		void forceSetMove(Vector2 dir);
 		void move(double dt, TileMap* _map);
 		void dive(double dt, TileMap* _map);
 		void jump(double dt, TileMap* _map);

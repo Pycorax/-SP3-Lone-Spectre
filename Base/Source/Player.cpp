@@ -2,10 +2,11 @@
 
 Player* Player::s_instances = NULL;
 const float Player::S_PLAYER_MOVE_SPEED = 300.f;
-const float Player::S_SPECTRE_DIVE_LIGHT_LIMIT = 2.f;
+const float Player::S_PLAYER_JUMP_SPEED = 1200.f;
+const float Player::S_SPECTRE_DIVE_LIGHT_LIMIT = 5.f;
 const float Player::S_SPECTRE_DIVE_COOLDOWN = 1.f;
 const float Player::S_SPECTRE_JUMP_COOLDOWN = 1.f;
-const int Player::S_MAX_JUMP_RANGE = 2; // Minimum 2
+const int Player::S_MAX_JUMP_RANGE = 7; // Minimum 2
 
 Player::Player(void)
 {
@@ -19,6 +20,7 @@ void Player::Init(Mesh* _mesh)
 	m_tileMoved = 0;
 	m_diveTimer = m_jumpTimer = 0.f;
 	m_currentState = PS_IDLE;*/
+	m_currentSpeed = S_PLAYER_MOVE_SPEED;
 	resetMove();
 	resetDive();
 	resetJump();
@@ -101,7 +103,7 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	{
 		for (int tile = 1; tile < S_MAX_JUMP_RANGE; ++tile)
 		{
-			tilePos += (m_lookDir * _map->GetTileSize()) * tile;
+			tilePos += (m_lookDir * _map->GetTileSize());
 			if (tilePos.x < 0 || tilePos.x >= _map->GetMapSize().x || tilePos.y < 0 || tilePos.y >= _map->GetMapSize().y || _map->CheckCollision(tilePos))
 			{
 				return PS_IDLE; // Hit the end of map or collided
@@ -225,6 +227,14 @@ Player::E_PLAYER_STATE Player::GetState(void) const
 
 void Player::move(double dt, TileMap* _map)
 {
+	if (m_jumping)
+	{
+		m_currentSpeed = S_PLAYER_JUMP_SPEED;
+	}
+	else
+	{
+		m_currentSpeed = S_PLAYER_MOVE_SPEED;
+	}
 	static Vector2 s_newOrigin;
 	bool shiftOrigin = false;
 	float tileSize = _map->GetTileSize();
@@ -237,8 +247,8 @@ void Player::move(double dt, TileMap* _map)
 		s_newOrigin = GetMapPos() + (m_lookDir * tileSize); // Change in origin (Top or Right)
 		shiftOrigin = true;
 	}
-	Vector2 newPos = s_newOrigin + (m_lookDir * S_PLAYER_MOVE_SPEED * dt); // New position if move
-	if (_map->CheckCollision(newPos) || (m_moveDist + (S_PLAYER_MOVE_SPEED * dt)) >= tileSize || ((m_inShadow && !m_jumping) && _map->GetTileAt(newPos)->GetLightLevel() > S_SPECTRE_DIVE_LIGHT_LIMIT)) // Collided or moving more than 1 tile
+	Vector2 newPos = s_newOrigin + (m_lookDir * m_currentSpeed * dt); // New position if move
+	if (_map->CheckCollision(newPos) || (m_moveDist + (m_currentSpeed * dt)) >= tileSize || ((m_inShadow && !m_jumping) && _map->GetTileAt(newPos)->GetLightLevel() > S_SPECTRE_DIVE_LIGHT_LIMIT)) // Collided or moving more than 1 tile
 	{
 		Vector2 tilePos;
 		if (shiftOrigin)
@@ -279,9 +289,9 @@ void Player::move(double dt, TileMap* _map)
 		{
 			newPos -= GetLookDir() * _map->GetTileSize();
 		}
-		_map->AddToScrollOffset(GetLookDir() * S_PLAYER_MOVE_SPEED * dt);
+		_map->AddToScrollOffset(GetLookDir() * m_currentSpeed * dt);
 		SetMapPosition(newPos, _map->GetScrollOffset(), _map->GetTileSize()); // Remove tile size that was added previously
-		m_moveDist += S_PLAYER_MOVE_SPEED * dt;
+		m_moveDist += m_currentSpeed * dt;
 	}
 }
 
@@ -310,7 +320,7 @@ void Player::resetJump()
 
 void Player::SetMove(Vector2 dir)
 {
-	if (!m_moving)
+	if (!m_moving && !m_jumping && !m_diving)
 	{
 		if (m_currentState != PS_SPECTRAL_HAX) // Move when not in hax mode
 		{
@@ -375,7 +385,7 @@ void Player::dive(double dt, TileMap* _map)
 		{
 			if (m_currentState != PS_WALK)
 			{
-				SetMove(m_lookDir); // Set to move player to proper tile
+				forceSetMove(m_lookDir); // Set to move player to proper tile
 			}
 		}
 	}
@@ -385,7 +395,7 @@ void Player::jump(double dt, TileMap* _map)
 {
 	if (m_tileMoved == 0) // Move once
 	{
-		SetMove(m_lookDir);
+		forceSetMove(m_lookDir);
 		++m_tileMoved;
 	}
 	else if (!m_moving)
@@ -396,7 +406,7 @@ void Player::jump(double dt, TileMap* _map)
 		}
 		else // Not in shadow
 		{
-			SetMove(m_lookDir);
+			forceSetMove(m_lookDir);
 			++m_tileMoved;
 		}
 		if (m_tileMoved >= S_MAX_JUMP_RANGE) // Hit max, reset
@@ -414,4 +424,18 @@ void Player::SetInShadow(bool inShadow)
 bool Player::GetInShadow()
 {
 	return m_inShadow;
+}
+
+void Player::forceSetMove(Vector2 dir)
+{
+	if (m_currentState != PS_SPECTRAL_HAX) // Move when not in hax mode
+	{
+		SetLookDir(dir);
+		m_moving = true;
+		m_currentState = PS_WALK;
+	}
+	else // Disable all movement when in hax mode
+	{
+		m_moving = false;
+	}
 }
