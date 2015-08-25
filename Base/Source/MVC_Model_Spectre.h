@@ -8,6 +8,7 @@
 #include "SpectreHexGame.h"
 #include "PhysicalObject.h"
 #include "Enemy.h"
+#include "SecurityCamera.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -40,6 +41,9 @@ private:	// Variables
 	Player* m__player;
 	vector<Enemy*> m_enemyList;
 
+	// Camera
+	vector<SecurityCamera*> m_cameraList;
+
 	// Collision
 	vector<Collider2D *> m__colliderList;
 
@@ -64,12 +68,19 @@ protected:
 	//init player and animations
 	void InitPlayer(void);
 
+	// Load entities to lists
+	void loadToList(TileMap* _map);
+
 	// Process Key Action Abstract Function
 	void processKeyAction(double dt);
 
 	// Levels
 	int findLevelFiles(string folderPath);
 	void loadLevel(string levelMapFile);
+
+	// Cameras
+	void updateCamera(double dt);
+	void clearCameraList();
 
 	// Light Resource
 	void resetTileMarkers(void);

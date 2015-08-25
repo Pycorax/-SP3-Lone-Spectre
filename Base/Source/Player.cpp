@@ -99,19 +99,19 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 			tilePos += (m_lookDir * _map->GetTileSize());
 			if (tilePos.x < 0 || tilePos.x >= _map->GetMapSize().x || tilePos.y < 0 || tilePos.y >= _map->GetMapSize().y || _map->CheckCollision(tilePos))
 			{
-				if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+				if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 				{
 					return PS_IDLE_UP; // Hit the end of map or collided
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 				{
 					return PS_IDLE_DOWN; //Hit the end of map or collided
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 				{
 					return PS_IDLE_LEFT; //Hit the end of map or collided
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 				{
 					return PS_IDLE_RIGHT; //Hit the end of map or collided
 				}
@@ -126,19 +126,19 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 			}
 		}
 		//updates idle based on look dir
-		if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+		if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 		{
 			return PS_IDLE_UP;
 		}
-		else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 		{
 			return PS_IDLE_DOWN;
 		}
-		else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 		{
 			return PS_IDLE_LEFT;
 		}
-		else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 		{
 			return PS_IDLE_RIGHT; 
 		} // Unable to jump since no shadow within range
@@ -174,19 +174,19 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 		return PS_SPECTRAL_HAX;
 	}
 	//updates idle based on look dir
-	if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+	if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 	{
 		return PS_IDLE_UP;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 	{
 		return PS_IDLE_DOWN;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 	{
 		return PS_IDLE_LEFT;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 	{
 		return PS_IDLE_RIGHT; 
 	} // No interactions suit criteria
@@ -241,19 +241,19 @@ void Player::Update(double dt, TileMap* _map)
 			//if animation finish
 			if(m_animTime >= divingAnimTime)
 			{
-				if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+				if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 				{
 					m_currentState = PS_SPECTRAL_DIVE_UP;
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 				{
 					m_currentState = PS_SPECTRAL_DIVE_DOWN;
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 				{
 					m_currentState = PS_SPECTRAL_DIVE_LEFT;
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 				{
 					m_currentState = PS_SPECTRAL_DIVE_RIGHT;
 				}
@@ -261,19 +261,19 @@ void Player::Update(double dt, TileMap* _map)
 			//diving state set - will update the render
 			else
 			{
-				if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+				if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 				{
 					m_currentState = PS_SPECTRAL_DIVING_UP;
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 				{
 					m_currentState = PS_SPECTRAL_DIVING_DOWN;
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 				{
 					m_currentState = PS_SPECTRAL_DIVING_LEFT;
 				}
-				else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+				else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 				{
 					m_currentState = PS_SPECTRAL_DIVING_RIGHT;
 				}
@@ -411,19 +411,19 @@ void Player::resetMove()
 	m_moving = false;
 	m_moveDist = 0.f;
 	//updates idle based on look dir
-	if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+	if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 	{
 		m_currentState = PS_IDLE_UP;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 	{
 		m_currentState = PS_IDLE_DOWN;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 	{
 		m_currentState = PS_IDLE_LEFT;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 	{
 		m_currentState = PS_IDLE_RIGHT; 
 	}
@@ -433,19 +433,19 @@ void Player::resetDive()
 {
 	m_diving = false;
 	//updates idle based on look dir
-	if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+	if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 	{
 		m_currentState = PS_IDLE_UP;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 	{
 		m_currentState = PS_IDLE_DOWN;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 	{
 		m_currentState = PS_IDLE_LEFT;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 	{
 		m_currentState = PS_IDLE_RIGHT; 
 	}
@@ -457,19 +457,19 @@ void Player::resetJump()
 {
 	m_jumping = false;
 	//updates idle based on look dir
-	if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+	if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 	{
 		m_currentState = PS_IDLE_UP;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 	{
 		m_currentState = PS_IDLE_DOWN;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 	{
 		m_currentState = PS_IDLE_LEFT;
 	}
-	else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+	else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 	{
 		m_currentState = PS_IDLE_RIGHT; 
 	}
@@ -491,19 +491,19 @@ void Player::SetMove(Vector2 dir)
 			SetLookDir(dir);
 			m_moving = true;
 			//updates idle based on look dir
-			if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+			if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 			{
 				m_currentState = PS_WALK_UP;
 			}
-			else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+			else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 			{
 				m_currentState = PS_WALK_DOWN;
 			}
-			else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+			else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 			{
 				m_currentState = PS_WALK_LEFT;
 			}
-			else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+			else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 			{
 				m_currentState = PS_WALK_RIGHT; 
 			}
@@ -632,19 +632,19 @@ void Player::forceSetMove(Vector2 dir)
 		SetLookDir(dir);
 		m_moving = true;
 		//updates idle based on look dir
-		if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+		if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 		{
 			m_currentState = PS_WALK_UP;
 		}
-		else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 		{
 			m_currentState = PS_WALK_DOWN;
 		}
-		else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 		{
 			m_currentState = PS_WALK_LEFT;
 		}
-		else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 		{
 			m_currentState = PS_WALK_RIGHT; 
 		}

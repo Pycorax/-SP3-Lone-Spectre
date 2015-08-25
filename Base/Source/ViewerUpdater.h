@@ -4,6 +4,7 @@
 #include "TileMap.h"
 #include "Viewer.h"
 
-void UpdateViewBox(Viewer* _viewer, TileMap* _tileMap);
+void CreateViewBox(Viewer* _viewer, TileMap* _tileMap);
+void ClearViewBox(Viewer* _viewer, TileMap* _tileMap);
 
 #endif

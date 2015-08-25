@@ -9,16 +9,6 @@
 
 class Character : public GameObject2D , public MapEntity
 {
-public:
-	enum E_DIR
-	{
-		DIR_UP,
-		DIR_DOWN,
-		DIR_LEFT,
-		DIR_RIGHT,
-		NUM_DIR,
-	};
-	static const Vector2 S_DIRECTION[NUM_DIR];
 protected:
 	int m_health;
 	int m_maxHealth;

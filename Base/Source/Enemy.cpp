@@ -1,5 +1,5 @@
 #include "Enemy.h"
-
+#include "Direction.h"
 #include "ViewerUpdater.h"
 
 Enemy::Enemy(void)
@@ -21,7 +21,7 @@ void Enemy::Init(Vector2 pos, Mesh* _mesh)
 {
 	m_oldPos = pos;
 	SetMesh(_mesh );
-	m_lookDir = S_DIRECTION[Character::DIR_RIGHT];
+	m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
 	m_enemyAction = EA_IDLE_DOWN;
 }
 
@@ -41,7 +41,7 @@ void Enemy::Update(double dt, TileMap* _map)
 	//PathFinder::UpdatePath(_map->GetTileSize());
 
 	// Update FOV
-	UpdateViewBox(this, _map);
+	CreateViewBox(this, _map);
 
 	//if ()//If any enemy see Hero, affects other enemies too
 	//{
@@ -142,19 +142,19 @@ void Enemy::Update(double dt, TileMap* _map)
 
 				if (m_checkAround >= S_WAIT_TIME * 1)
 				{
-					m_lookDir = S_DIRECTION[Character::DIR_UP];
+					m_lookDir = Direction::DIRECTIONS[Direction::DIR_UP];
 				}
 				else if (m_checkAround >= 2 && m_checkAround < S_WAIT_TIME * 2)
 				{
-					m_lookDir = S_DIRECTION[Character::DIR_DOWN];
+					m_lookDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
 				}
 				else if (m_checkAround >= 4 && m_checkAround < S_WAIT_TIME * 3)
 				{
-					m_lookDir = S_DIRECTION[Character::DIR_LEFT];
+					m_lookDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
 				}
 				else if (m_checkAround >= 6 && m_checkAround < S_WAIT_TIME * 4)
 				{
-					m_lookDir = S_DIRECTION[Character::DIR_RIGHT];
+					m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
 				}
 				m_alertLevel -= 1;
 				m_checkAround += dt;
@@ -179,38 +179,38 @@ void Enemy::ChangeAnimation(double dt)
 {
 	if (m_enemyState == ES_POSSESED || m_enemyState == ES_SCAN ||m_enemyState == ES_ATTACK )
 	{
-		if (m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 		{
 			m_enemyAction = EA_IDLE_DOWN;
 		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_UP])
+		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 		{
 			m_enemyAction = EA_IDLE_UP;
 		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 		{
 			m_enemyAction = EA_IDLE_LEFT;
 		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 		{
 			m_enemyAction = EA_IDLE_RIGHT;
 		}
 	}
 	else if (m_enemyState == ES_POSSESED  || m_enemyState == ES_CHASE || m_enemyState == ES_PATROL )
 	{
-		if (m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 		{
 			m_enemyAction = EA_WALK_DOWN;
 		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_UP])
+		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 		{
 			m_enemyAction = EA_WALK_UP;
 		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 		{
 			m_enemyAction = EA_WALK_LEFT;
 		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 		{
 			m_enemyAction = EA_WALK_RIGHT;
 		}

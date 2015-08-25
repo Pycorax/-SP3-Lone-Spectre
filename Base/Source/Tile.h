@@ -55,12 +55,15 @@ public:
 
 	void AddViewer(Viewer* _viewer);
 	void AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles);
+	void RemoveViewer(Viewer* _viewer);
 	void ResetViewers(void);
 	bool IsViewed(void);
+	void NotifyViewer(Vector2 targetTilePos);
 
 	void AddLight(int lightValue);
 	void ResetLighting(void);
 
+	void SetType(E_TILE_TYPE type);
 	E_TILE_TYPE GetType(void);
 	int GetLightLevel(void);
 

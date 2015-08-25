@@ -5,7 +5,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__currentLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
-	, m_enableShadow(true)
+	, m_enableShadow(false)
 {
 }
 
@@ -27,19 +27,19 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		
 			if (m_bKeyPressed[MOVE_FORWARD_KEY])
 			{
-				m__player->SetMove(Character::S_DIRECTION[Character::DIR_UP]);
+				m__player->SetMove(Direction::DIRECTIONS[Direction::DIR_UP]);
 			}
 			if (m_bKeyPressed[MOVE_BACKWARD_KEY])
 			{
-				m__player->SetMove(Character::S_DIRECTION[Character::DIR_DOWN]);
+				m__player->SetMove(Direction::DIRECTIONS[Direction::DIR_DOWN]);
 			}
 			if (m_bKeyPressed[MOVE_LEFT_KEY])
 			{
-				m__player->SetMove(Character::S_DIRECTION[Character::DIR_LEFT]);
+				m__player->SetMove(Direction::DIRECTIONS[Direction::DIR_LEFT]);
 			}
 			if (m_bKeyPressed[MOVE_RIGHT_KEY])
 			{
-				m__player->SetMove(Character::S_DIRECTION[Character::DIR_RIGHT]);
+				m__player->SetMove(Direction::DIRECTIONS[Direction::DIR_RIGHT]);
 			}
 
 			if (m_bKeyPressed[INTERACT_SKILL_2_KEY]) // Spectral Hax
@@ -139,6 +139,19 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	m__currentLevel = new Level();
 	//m__currentLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
 	m__currentLevel->Load(levelMapFile, m_viewWidth, m_viewHeight, meshList);
+	SecurityCamera::InitCamMeshList(meshList);
+	loadToList(m__currentLevel->GetTileMap());
+	
+	// Setup camera view
+	for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
+	{
+		SecurityCamera* _camera = (SecurityCamera*)*it;
+		if (_camera)
+		{
+			_camera->GenerateViewBox(m__currentLevel->GetTileMap());
+		}
+	}
+	
 
 	// Initialize the player
 	int tileSize = m__currentLevel->GetTileMap()->GetTileSize();
@@ -380,40 +393,6 @@ void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
 
-	// Update tile size to fit screen resolution
-	if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
-	{
-		TileMap* _tilemap = m__currentLevel->GetTileMap();
-		vector<vector<Tile*>*> _map = _tilemap->GetMap();
-		float tileSize = _tilemap->GetTileSize();
-		Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
-		Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / tileSize), ceil(_tilemap->GetScrollOffset().y / tileSize));
-		if (resolution.x < m_viewWidth) // Scale up screen
-		{
-			++mapScrollOffset.y;
-			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
-		}
-		else if (resolution.x > m_viewWidth) // Scale down screen
-		{
-			--mapScrollOffset.y;
-			_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
-		}
-		tileSize = _tilemap->GetTileSize();
-		for (int row = 0; row < _tilemap->GetNumMapTile().y; ++row)
-		{
-			for (int col = 0; col < _tilemap->GetNumMapTile().x; ++col)
-			{
-				_tilemap->SetScrollOffset(mapScrollOffset * tileSize);
-				_tilemap->SetMapSize(_tilemap->GetNumMapTile() * tileSize);
-				(*_map[row])[col]->SetMapPosition(Vector2(col * tileSize, row * tileSize), _tilemap->GetScrollOffset(), _tilemap->GetTileSize());
-				(*_map[row])[col]->SetScale(Vector2(tileSize, tileSize));
-				m__player->SetMapPosition(playerTilePos * tileSize, _tilemap->GetScrollOffset(), _tilemap->GetTileSize());
-				m__player->SetScale(Vector2(tileSize, tileSize));
-			}
-		}
-		resolution.Set(m_viewWidth, m_viewHeight);
-	}
-
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);
@@ -422,6 +401,89 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			m_hackMode = false;
 			m__player->SetState(Player::PS_IDLE_DOWN);
+			// TODO: Do an action for when the mini game ends in a win
+			for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
+			{
+				SecurityCamera* _camera = *it;
+				Vector2 cameraTilePos = _camera->GetMapTilePos();
+				Vector2 playerTilePos = m__player->GetMapTilePos();
+				Vector2 playerFrontTilePos = playerTilePos + m__player->GetLookDir();
+				if (cameraTilePos == playerTilePos || cameraTilePos == playerFrontTilePos) // Found camera
+				{
+					_camera->DestroyViewBox(m__currentLevel->GetTileMap());
+					_camera->SetState(false);
+					// Change mesh for camera and tile obj
+					if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_UP])
+					{
+						_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
+						// Force set tilemap
+						if (cameraTilePos == playerTilePos)
+						{
+							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
+							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_3);
+						}
+						else if (cameraTilePos == playerFrontTilePos)
+						{
+							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
+							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
+							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_3);
+						}
+					}
+					else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_DOWN])
+					{
+						_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
+						// Force set tilemap
+						if (cameraTilePos == playerTilePos)
+						{
+							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
+							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_1);
+						}
+						else if (cameraTilePos == playerFrontTilePos)
+						{
+							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
+							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
+							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_1);
+						}
+					}
+					else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_LEFT])
+					{
+						_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
+						// Force set tilemap
+						if (cameraTilePos == playerTilePos)
+						{
+							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
+							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_2);
+						}
+						else if (cameraTilePos == playerFrontTilePos)
+						{
+							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
+							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
+							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_2);
+						}
+					}
+					else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_RIGHT])
+					{
+						_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
+						// Force set tilemap
+						if (cameraTilePos == playerTilePos)
+						{
+							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
+							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_4);
+						}
+						else if (cameraTilePos == playerFrontTilePos)
+						{
+							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
+							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
+							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_4);
+						}
+					}
+					break;
+				}
+			}
 		}
 		else if (m_hackingGame.IsLoss())
 		{
@@ -443,9 +505,19 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			resizeScreen();
 		}
-
+		
 		//Updates player depending on actions queued.
 		m__player->Update(dt, m__currentLevel->GetTileMap());
+
+		// Update camera list
+		updateCamera(dt);
+
+		// Player inside viewed tile
+		Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+		if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
+		{
+			_tile->NotifyViewer(m__player->GetMapTilePos());
+		}
 
 		//update enemies
 		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
@@ -455,11 +527,23 @@ void MVC_Model_Spectre::Update(double dt)
 
 		// Update Lighting
 		vector<Vector2> shadowCasters;
-		shadowCasters.push_back(m__player->GetMapTilePos()); 
+		//shadowCasters.push_back(m__player->GetMapTilePos());
 		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
 
 		// Rendering
 		tileMapToRender(m__currentLevel->GetTileMap());
+
+		// Render camera
+		for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
+		{
+			SecurityCamera* _camera = (SecurityCamera*)*it;
+			if (_camera)
+			{
+				_camera->SetMapPosition(_camera->GetMapPos(), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
+				m_renderList2D.push(_camera);
+			}
+		}
+		
 		// -- Render Player
 		m_renderList2D.push(m__player);
 
@@ -516,7 +600,7 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 		( 
 			floor(_ToRender->GetScrollOffset().x / _ToRender->GetTileSize()),
 			floor(_ToRender->GetScrollOffset().y / _ToRender->GetTileSize()) 
-		); 
+		);
 
 	for (int row = 0; row < ceil(_ToRender->GetNumScreenTile().y) + 1; ++row)			// Loop for rows
 	{
@@ -531,8 +615,11 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 				continue;
 			}
 			Tile* _tile = (*_map[tileStart.y + row])[tileStart.x + col]; // Get the tile data based on loop
-			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
-			m_renderList2D.push(_tile); // Add to queue for rendering
+			if (_tile->GetType() < Tile::TILE_OBJ_CAMERA_ON_1_1 || _tile->GetType() > Tile::TILE_OBJ_CAMERA_OFF_1_4)
+			{
+				_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
+				m_renderList2D.push(_tile); // Add to queue for rendering
+			}
 
 			/*
 			 * Shadow Portion
@@ -593,4 +680,109 @@ void MVC_Model_Spectre::resizeScreen()
 		}
 	}
 	resolution.Set(m_viewWidth, m_viewHeight);
+}
+
+void MVC_Model_Spectre::updateCamera(double dt)
+{
+	for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
+	{
+		SecurityCamera* _camera = (SecurityCamera*)*it;
+		if (_camera) // If camera exists, update it
+		{
+			_camera->Update(dt, m__currentLevel->GetTileMap());
+		}
+	}
+}
+
+void MVC_Model_Spectre::clearCameraList()
+{
+	while (m_cameraList.size() > 0)
+	{
+		SecurityCamera* _camera = m_cameraList.back();
+		if (_camera)
+		{
+			delete _camera;
+			m_cameraList.pop_back();
+		}
+	}
+}
+
+void MVC_Model_Spectre::loadToList(TileMap* _map)
+{
+	float tileSize = _map->GetTileSize();
+	for (int row = 0; row < _map->GetNumMapTile().y; ++row)
+	{
+		for (int col = 0; col < _map->GetNumMapTile().x; ++col)
+		{
+			Tile::E_TILE_TYPE tileType = (*_map->GetMap()[row])[col]->GetType();
+			SecurityCamera* _camera = NULL;
+			switch (tileType)
+			{
+			case Tile::TILE_OBJ_CAMERA_ON_1_1:
+				{
+					_camera = new SecurityCamera(Vector2(col * tileSize, row * tileSize), Direction::DIRECTIONS[Direction::DIR_DOWN], true, _map->GetTileSize());
+					_camera->SetMapPosition(_camera->GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_ON_DOWN]);
+					m_cameraList.push_back(_camera);
+				}
+				break;
+			case Tile::TILE_OBJ_CAMERA_ON_1_2:
+				{
+					_camera = new SecurityCamera(Vector2(col * tileSize, row * tileSize), Direction::DIRECTIONS[Direction::DIR_LEFT], true, _map->GetTileSize());
+					_camera->SetMapPosition(_camera->GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_ON_LEFT]);
+					m_cameraList.push_back(_camera);
+				}
+				break;
+			case Tile::TILE_OBJ_CAMERA_ON_1_3:
+				{
+					_camera = new SecurityCamera(Vector2(col * tileSize, row * tileSize), Direction::DIRECTIONS[Direction::DIR_UP], true, _map->GetTileSize());
+					_camera->SetMapPosition(_camera->GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_ON_UP]);
+					m_cameraList.push_back(_camera);
+				}
+				break;
+			case Tile::TILE_OBJ_CAMERA_ON_1_4:
+				{
+					_camera = new SecurityCamera(Vector2(col * tileSize, row * tileSize), Direction::DIRECTIONS[Direction::DIR_RIGHT], true, _map->GetTileSize());
+					_camera->SetMapPosition(_camera->GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_ON_RIGHT]);
+					m_cameraList.push_back(_camera);
+				}
+				break;
+			case Tile::TILE_OBJ_CAMERA_OFF_1_1:
+				{
+					_camera = new SecurityCamera(Vector2(col * tileSize, row * tileSize), Direction::DIRECTIONS[Direction::DIR_DOWN], false, _map->GetTileSize());
+					_camera->SetMapPosition(_camera->GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
+					m_cameraList.push_back(_camera);
+				}
+				break;
+			case Tile::TILE_OBJ_CAMERA_OFF_1_2:
+				{
+					_camera = new SecurityCamera(Vector2(col * tileSize, row * tileSize), Direction::DIRECTIONS[Direction::DIR_LEFT], false, _map->GetTileSize());
+					_camera->SetMapPosition(_camera->GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
+					m_cameraList.push_back(_camera);
+				}
+				break;
+			case Tile::TILE_OBJ_CAMERA_OFF_1_3:
+				{
+					_camera = new SecurityCamera(Vector2(col * tileSize, row * tileSize), Direction::DIRECTIONS[Direction::DIR_UP], false, _map->GetTileSize());
+					_camera->SetMapPosition(_camera->GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
+					m_cameraList.push_back(_camera);
+				}
+				break;
+			case Tile::TILE_OBJ_CAMERA_OFF_1_4:
+				{
+					_camera = new SecurityCamera(Vector2(col * tileSize, row * tileSize), Direction::DIRECTIONS[Direction::DIR_RIGHT], false, _map->GetTileSize());
+					_camera->SetMapPosition(_camera->GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
+					m_cameraList.push_back(_camera);
+				}
+				break;
+			}
+		}
+	}
 }

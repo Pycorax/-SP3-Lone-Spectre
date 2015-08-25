@@ -46,6 +46,11 @@ Tile::~Tile(void)
 	}
 }
 
+void Tile::SetType(E_TILE_TYPE type)
+{
+	this->m_type = type;
+}
+
 Tile::E_TILE_TYPE Tile::GetType()
 {
 	return m_type;
@@ -96,6 +101,19 @@ void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
 	m__viewerList.push_back(_view);
 }
 
+void Tile::RemoveViewer(Viewer* _viewer)
+{
+	for (std::vector<Viewer*>::iterator it = m__viewerList.begin(); it != m__viewerList.end(); ++it)
+	{
+		Viewer* _v = (Viewer*)*it;
+		if (_v == _viewer) // Same viewer
+		{
+			m__viewerList.erase(it);
+			break;
+		}
+	}
+}
+
 void Tile::ResetViewers(void)
 {
 	m__viewerList.clear();
@@ -104,6 +122,18 @@ void Tile::ResetViewers(void)
 bool Tile::IsViewed(void)
 {
 	return m__viewerList.size() > 0;
+}
+
+void Tile::NotifyViewer(Vector2 targetTilePos)
+{
+	for (vector<Viewer*>::iterator it = m__viewerList.begin(); it != m__viewerList.end(); ++it)
+	{
+		Viewer* _viewer = (Viewer*)*it;
+		if (_viewer)
+		{
+			_viewer->SpottedTarget(targetTilePos);
+		}
+	}
 }
 
 void Tile::AddLight(int lightValue)

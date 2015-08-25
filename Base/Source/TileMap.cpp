@@ -143,11 +143,14 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 				{
 					int tile = std::stoi(token.c_str()); // Convert a tile from string to int
 
-					if (tile == S_PLAYER_SPAWN_MARKER)
+					switch (tile)
 					{
-						m_playerSpawnPos.Set(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize));
-
-						tile = Tile::TILE_FLOOR;
+					case S_PLAYER_SPAWN_MARKER:
+						{
+							m_playerSpawnPos.Set(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize));
+							tile = Tile::TILE_FLOOR;
+						}
+						break;
 					}
 
 					m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row

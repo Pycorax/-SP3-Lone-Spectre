@@ -1,8 +1,8 @@
 #include "Viewer.h"
 
-Viewer::Viewer()
-	: m_viewSideGrowthX(0)
-	, m_maxRangeY(0)
+Viewer::Viewer(int maxRangeX, int maxRangeY)
+	: m_viewSideGrowthX(maxRangeX)
+	, m_maxRangeY(maxRangeY)
 {
 }
 
