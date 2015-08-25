@@ -34,7 +34,7 @@ private:	// Variables
 
 	// Characters
 	Player* m__player;
-	Enemy* m__testEnemy;
+	vector<Enemy*> m_enemyList;
 
 	// Collision
 	vector<Collider2D *> m__colliderList;

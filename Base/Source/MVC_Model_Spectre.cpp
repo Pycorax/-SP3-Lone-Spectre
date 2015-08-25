@@ -148,15 +148,16 @@ void MVC_Model_Spectre::Init(void)
 	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("PlayerBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
 
 	//Enemy
-	m__testEnemy = new Enemy;
-	m__testEnemy->SetMesh(GetMeshResource("ShadowBall"));
-	m__testEnemy->SetMapPosition(Vector2 (500, 200), m__testLevel->GetTileMap()->GetScrollOffset(), m__testLevel->GetTileMap()->GetTileSize());
-	m__testEnemy->SetScale(Vector2(32.f, 32.f));
-	m__testEnemy->initPathFinder(m__testLevel->GetTileMap());
-	m__testEnemy->SetTarget(m__player->GetMapPos(), m__testLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
-	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20));
-	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60));
-	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(40,20));
+	Enemy* _enemy = new Enemy;
+	_enemy->SetMesh(GetMeshResource("ShadowBall"));
+	_enemy->SetMapPosition(Vector2 (500, 200), m__testLevel->GetTileMap()->GetScrollOffset(), m__testLevel->GetTileMap()->GetTileSize());
+	_enemy->SetScale(Vector2(32.f, 32.f));
+	_enemy->initPathFinder(m__testLevel->GetTileMap());
+	_enemy->SetTarget(m__player->GetMapPos(), m__testLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,20));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,60));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(40,20));
+	m_enemyList.push_back(_enemy);
 }
 
 void MVC_Model_Spectre::Update(double dt)
@@ -205,8 +206,11 @@ void MVC_Model_Spectre::Update(double dt)
 		//Updates player depending on actions queued.
 		m__player->Update(dt, m__testLevel->GetTileMap());
 
-		//update enemy;
-		m__testEnemy->Update(dt, m__testLevel->GetTileMap());
+		//update enemies
+		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+		{
+			(*enemyIter)->Update(dt, m__testLevel->GetTileMap());
+		}
 
 		// Rendering
 		m__testLevel->GetTileMap()->UpdateLighting();
@@ -220,7 +224,12 @@ void MVC_Model_Spectre::Update(double dt)
 			m__player->SetMesh(GetMeshResource("Player"));
 		}
 		m_renderList2D.push(m__player);
-		m_renderList2D.push(m__testEnemy);
+
+		// Render Enemies
+		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+		{
+			m_renderList2D.push((*enemyIter));
+		}
 	}
 }
 
@@ -237,8 +246,17 @@ void MVC_Model_Spectre::Exit(void)
 		delete go;
 		m__colliderList.pop_back();
 	}
-	delete m__testEnemy;
-	m__testEnemy = NULL;
+
+	while (m_enemyList.size() > 0)
+	{
+		if (m_enemyList.back() != NULL)
+		{
+			delete m_enemyList.back();
+		}
+
+		m_enemyList.pop_back();
+	}
+	
 	MVC_Model::Exit();
 }
 
