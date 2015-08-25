@@ -303,9 +303,14 @@ void MVC_Model_Spectre::Update(double dt)
 			(*enemyIter)->Update(dt, m__testLevel->GetTileMap());
 		}
 
+		// Update Lighting
+		vector<Vector2> shadowCasters;
+		shadowCasters.push_back(m__player->GetMapTilePos());
+		m__testLevel->GetTileMap()->UpdateLighting(shadowCasters);
+
 		// Rendering
-		m__testLevel->GetTileMap()->UpdateLighting();
 		tileMapToRender(m__testLevel->GetTileMap());
+		// -- Render Player
 		m_renderList2D.push(m__player);
 
 		// -- MiniGame
