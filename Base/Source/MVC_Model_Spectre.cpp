@@ -74,11 +74,11 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 	}
 }
 
-void MVC_Model_Spectre::resetLightResources(void)
+void MVC_Model_Spectre::resetTileMarkers(void)
 {
-	for (vector<GameObject2D*>::iterator light = m__tileMarkers.begin(); light != m__tileMarkers.end(); ++light)
+	for (vector<GameObject2D*>::iterator tileMarker = m__tileMarkers.begin(); tileMarker != m__tileMarkers.end(); ++tileMarker)
 	{
-		(*light)->SetActive(false);
+		(*tileMarker)->SetActive(false);
 	}
 }
 
@@ -248,7 +248,7 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 	vector<vector<Tile*>*> _map = _ToRender->GetMap();
 
 	// Reset the lights from the previous frame rendered
-	resetLightResources();
+	resetTileMarkers();
 
 	// Calc the starting tile to render and round down any decimal as it is still seen
 	Vector2 tileStart
@@ -282,10 +282,10 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 				for (size_t lightLevel = 0; lightLevel < numShadows; lightLevel += 3/*TODO: Remove hardcode. Should be attenuation value.*/)
 				{
 					Transform tileT = _tile->GetTransform();
-					GameObject2D* light = fetchTileMarker(TM_SHADOW);
-					light->SetPos(tileT.Translation);
-					light->SetScale(tileT.Scale);
-					m_renderList2D.push(light);
+					GameObject2D* _shadow = fetchTileMarker(TM_SHADOW);
+					_shadow->SetPos(tileT.Translation);
+					_shadow->SetScale(tileT.Scale);
+					m_renderList2D.push(_shadow);
 				}
 			}
 

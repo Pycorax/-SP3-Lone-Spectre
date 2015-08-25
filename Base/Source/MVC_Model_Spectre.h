@@ -61,7 +61,7 @@ protected:
 	void processKeyAction(double dt);
 
 	// Light Resource
-	void resetLightResources(void);
+	void resetTileMarkers(void);
 	GameObject2D* fetchTileMarker(TILE_MARKER_TYPE type);
 
 	// Hack Mode (Spectre HexTech MiniGame)

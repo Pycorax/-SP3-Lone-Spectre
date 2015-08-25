@@ -26,6 +26,27 @@ void TileMap::UpdateLighting(void)
 {
 	int countX = 0;
 	int countY = 0;
+
+	// Reset the lighting for this frame
+	for (vector<vector<Tile*>*>::iterator row = m_map.begin(); row != m_map.end(); ++row, ++countY)
+	{
+		for (vector<Tile*>::iterator col = (*row)->begin(); col != (*row)->end(); ++col, ++countX)
+		{
+			// Make it bright
+			Tile* _tile = GetTileAt(countX, countY);
+
+			if (_tile != NULL)
+			{
+				_tile->ResetLighting();
+			}
+		}
+
+		countX = 0;
+	}
+
+	// Reset count for this next loop
+	countX = countY = 0;
+	// Calculate the lighting this frame
 	for (vector<vector<Tile*>*>::iterator row = m_map.begin(); row != m_map.end(); ++row, ++countY)
 	{
 		for (vector<Tile*>::iterator col = (*row)->begin(); col != (*row)->end(); ++col, ++countX)
@@ -171,17 +192,17 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 
 void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 {
-	static const int LIGHT_RANGE = 3;
-	static const int ATTENUATION = 4;
+	static const int LIGHT_RANGE = 4;
+	static const int ATTENUATION = 2;
 	static const float ACCURACY = 0.5;
 
 	/*
 	 * Calculating the brightness of each tile
 	 */
 	// Origin is at top left
-	for (size_t yTile = LIGHT_POS_Y - LIGHT_RANGE; yTile <= LIGHT_POS_Y + LIGHT_RANGE; ++yTile)
+	for (int yTile = LIGHT_POS_Y - LIGHT_RANGE; yTile <= LIGHT_POS_Y + LIGHT_RANGE; ++yTile)
 	{
-		for (size_t xTile = LIGHT_POS_X - LIGHT_RANGE; xTile <= LIGHT_POS_X + LIGHT_RANGE; ++xTile)
+		for (int xTile = LIGHT_POS_X - LIGHT_RANGE; xTile <= LIGHT_POS_X + LIGHT_RANGE; ++xTile)
 		{
 		
 			// If this is outside the range of the map
@@ -264,17 +285,23 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 						furthestDist = deltaPos.y;
 					}
 					
-					int lightLevel = Tile::MAX_LIGHT_LEVEL - furthestDist * ATTENUATION;
+					int lightLevel = Tile::MAX_LIGHT_LEVEL - abs(furthestDist) * ATTENUATION;
 
 					// Assign the light level
 					Tile* tile = GetTileAt(xTile, yTile);
 					tile->AddLight(lightLevel);
 					
 				}
+				
 				// else		// Don't add any light at all
 			}
+			//std::cout << xTile << ", " << yTile << " == " << GetTileAt(xTile, yTile)->GetLightLevel() << std::endl;
+			
 		}
+		//std::cout << std::endl;
 	}
+
+	//int wtf = 420;
 }
 
 Vector2 TileMap::posRoundingForLight(Vector2 pos, Vector2 dir)
