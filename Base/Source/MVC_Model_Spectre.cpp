@@ -276,10 +276,10 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 			/*
 			 * Shadow Portion
 			 */
-			if (m_enableShadow)
+			if (m_enableShadow && _tile->GetType() != Tile::TILE_INVISIBLE_WALL)
 			{
 				int numShadows = Tile::MAX_LIGHT_LEVEL - _tile->GetLightLevel();
-				for (size_t lightLevel = 0; lightLevel < numShadows; lightLevel += 3/*TODO: Remove hardcode. Should be attenuation value.*/)
+				for (size_t lightLevel = 0; lightLevel < numShadows; lightLevel += TileMap::S_LIGHT_ATTENUATION)
 				{
 					Transform tileT = _tile->GetTransform();
 					GameObject2D* _shadow = fetchTileMarker(TM_SHADOW);

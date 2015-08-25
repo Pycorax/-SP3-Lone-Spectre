@@ -1,5 +1,6 @@
 #include "TileMap.h"
 
+const float TileMap::S_LIGHT_ACCURACY = 0.5f;
 
 TileMap::TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize) : m_numMapTile(numMapTile), m_numScreenTile(numScreenTile), m_tileSize(tileSize), m_mapSize(numMapTile * m_tileSize), m_screenSize(numScreenTile * m_tileSize), m_scrollOffset(0,0), m_map(NULL)
 {
@@ -192,17 +193,13 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 
 void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 {
-	static const int LIGHT_RANGE = 4;
-	static const int ATTENUATION = 2;
-	static const float ACCURACY = 0.5;
-
 	/*
 	 * Calculating the brightness of each tile
 	 */
 	// Origin is at top left
-	for (int yTile = LIGHT_POS_Y - LIGHT_RANGE; yTile <= LIGHT_POS_Y + LIGHT_RANGE; ++yTile)
+	for (int yTile = LIGHT_POS_Y - S_LIGHT_RANGE; yTile <= LIGHT_POS_Y + S_LIGHT_RANGE; ++yTile)
 	{
-		for (int xTile = LIGHT_POS_X - LIGHT_RANGE; xTile <= LIGHT_POS_X + LIGHT_RANGE; ++xTile)
+		for (int xTile = LIGHT_POS_X - S_LIGHT_RANGE; xTile <= LIGHT_POS_X + S_LIGHT_RANGE; ++xTile)
 		{
 		
 			// If this is outside the range of the map
@@ -240,7 +237,7 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 					static Vector2 prevMidTilePosInt;
 
 					// Move to the next block, towards our tile
-					midTilePos += ACCURACY * dir;
+					midTilePos += S_LIGHT_ACCURACY * dir;
 
 					// For decimal round up or down according to the dir being positive or negative
 					Vector2 midTilePosInt;
@@ -274,34 +271,33 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 				// If it is not blocked
 				if (!blocked)
 				{
-					// Calculate the light level
-					int furthestDist = 0;
-					if (deltaPos.x > deltaPos.y)
-					{
-						furthestDist = deltaPos.x;
-					}
-					else
-					{
-						furthestDist = deltaPos.y;
-					}
-					
-					int lightLevel = Tile::MAX_LIGHT_LEVEL - abs(furthestDist) * ATTENUATION;
+					// Get the tile to light up
+					Tile* _tile = GetTileAt(xTile, yTile);
 
-					// Assign the light level
-					Tile* tile = GetTileAt(xTile, yTile);
-					tile->AddLight(lightLevel);
-					
+					if (_tile != NULL && _tile->GetType() != Tile::TILE_INVISIBLE_WALL)
+					{
+						// Calculate the light level
+						int furthestDist = 0;
+						if (deltaPos.x > deltaPos.y)
+						{
+							furthestDist = deltaPos.x;
+						}
+						else
+						{
+							furthestDist = deltaPos.y;
+						}
+
+						int lightLevel = Tile::MAX_LIGHT_LEVEL - abs(furthestDist) * S_LIGHT_ATTENUATION;
+
+						// Assign the light level
+						_tile->AddLight(lightLevel);
+					}
 				}
 				
 				// else		// Don't add any light at all
 			}
-			//std::cout << xTile << ", " << yTile << " == " << GetTileAt(xTile, yTile)->GetLightLevel() << std::endl;
-			
 		}
-		//std::cout << std::endl;
 	}
-
-	//int wtf = 420;
 }
 
 Vector2 TileMap::posRoundingForLight(Vector2 pos, Vector2 dir)

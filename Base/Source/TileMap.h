@@ -19,6 +19,12 @@ using std::endl;
 
 class TileMap
 {
+public:
+	static const int S_LIGHT_RANGE = 5;
+	static const int S_LIGHT_ATTENUATION = 2;
+
+private:
+	static const float S_LIGHT_ACCURACY;
 
 private:
 	vector<vector<Tile*>*> m_map;			// Tile data for map
