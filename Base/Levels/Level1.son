@@ -1,0 +1,14 @@
+# Level1.son #
+##############
+# A SON File that specifies the properties of a level to load
+# All Levels must be contained in a branch named LevelContainer
+{
+	[Name] LevelContainer
+	
+	[TileMapFilePath] TileMap//Level1.csv
+	[TileSize] 64
+	[NumMapTile] 64.0f, 5.0f
+	
+	[MaxTimer] 999.0f
+	[MissionType] LM_COLLECT
+}

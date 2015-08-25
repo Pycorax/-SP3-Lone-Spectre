@@ -132,7 +132,7 @@ void MVC_Model_Spectre::Init(void)
 
 	// Load the map
 	m__testLevel = new Level();
-	m__testLevel->InitMap(Vector2(64, 50), Vector2(ceil(m_viewWidth / 64.f), ceil(m_viewHeight / 64.f)), 64, "TileMap//Level1.csv", meshList);
+	m__testLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
 	int tileSize = m__testLevel->GetTileMap()->GetTileSize();
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
