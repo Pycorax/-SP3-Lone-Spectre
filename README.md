@@ -1,4 +1,4 @@
-# Lone Spectre  - Convention Document `Revision 4.1.0`
+# Lone Spectre  - Convention Document `Revision 4.1.1`
 
 Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in development to be Team 4's Studio Project 3 game.
 
@@ -15,6 +15,7 @@ Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in
 - Always use `void` when a function accepts no parameters.
 - Describe every member variable if possible.
 - For loop iterator variables should be descriptive. E.g. `row` instead of `i`.
+- For function calls, only leave a single space after a comma. E.g. `Vector2(2, 3)`
 
 ## Naming Conventions
 ### General 
@@ -64,6 +65,13 @@ private:
 	
 	// Functions
 public:
+
+/*
+ * Setters
+ */
+/*
+ * Getters
+ */
 protected:
 private:
 	
@@ -75,3 +83,4 @@ private:
 ```
 ### Files
 - Use `lowercase_with_underscores` naming convention
+
