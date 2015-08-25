@@ -1,7 +1,8 @@
 #include "MVC_Model_Spectre.h"
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
-	, m__testLevel(NULL)
+	, m_currentLevelID(0)
+	, m__currentLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
 	, m_enableShadow(true)
@@ -43,7 +44,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 			if (m_bKeyPressed[INTERACT_SKILL_2_KEY]) // Spectral Hax
 			{
-				switch (m__player->Interact(Player::INTERACT_HAX, m__testLevel->GetTileMap()))
+				switch (m__player->Interact(Player::INTERACT_HAX, m__currentLevel->GetTileMap()))
 				{
 				case Player::PS_SPECTRAL_HAX:
 					// TODO: Get a pointer to the camera so as to change it
@@ -53,12 +54,12 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				}
 			}
 
-			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__testLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
+			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
 			{
 				m__player->SetDive();
 			}
 
-			if (m_bKeyPressed[MOVE_JUMP_KEY] && m__player->Interact(Player::INTERACT_JUMP, m__testLevel->GetTileMap()) == Player::PS_SPECTRAL_JUMP) // Spectral Jump
+			if (m_bKeyPressed[MOVE_JUMP_KEY] && m__player->Interact(Player::INTERACT_JUMP, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_JUMP) // Spectral Jump
 			{
 				m__player->SetJump();
 			}
@@ -72,6 +73,64 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		// TODO: Open a pause menu and then quit by that instead. Do actual pausing or return to menus
 		m_running = false;
 	}
+}
+
+int MVC_Model_Spectre::findLevelFiles(string folderPath)
+{
+	m_levelFiles.clear();
+
+	short numOfFiles = 0;
+	ifstream files;
+
+	//Gets all file names
+	std::ostringstream command;
+	command <<"dir \"" << folderPath << "\" /b /a-d > level_names";
+	system(command.str().c_str());
+
+	files.open("level_names");
+
+	if (files.is_open())
+	{
+		string output;
+
+		while (!files.eof())
+		{
+			getline(files, output);
+			if (!(output == ""))
+			{
+				// Append the Folder
+				output = folderPath + output;
+				m_levelFiles.push_back(output);
+				++numOfFiles;
+			}
+		}
+
+		files.close();
+
+		remove("level_names");
+	}
+	else
+	{
+		return -1;
+	}
+
+	return numOfFiles;
+}
+
+void MVC_Model_Spectre::loadLevel(string levelMapFile)
+{
+	if (m__currentLevel != NULL)
+	{
+		delete m__currentLevel;
+	}
+
+	m__currentLevel = new Level();
+	//m__testLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
+	m__currentLevel->Load(levelMapFile, m_viewWidth, m_viewHeight, meshList);
+
+	int tileSize = m__currentLevel->GetTileMap()->GetTileSize();
+	m__player->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0, 0), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
+	m__player->SetScale(Vector3(tileSize, tileSize));
 }
 
 void MVC_Model_Spectre::resetTileMarkers(void)
@@ -129,11 +188,7 @@ void MVC_Model_Spectre::Init(void)
 	MVC_Model::Init();
 
 	resolution.Set(m_viewWidth, m_viewHeight);
-
-	// Load the map
-	m__testLevel = new Level();
-	m__testLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
-	int tileSize = m__testLevel->GetTileMap()->GetTileSize();
+	
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
@@ -183,19 +238,20 @@ void MVC_Model_Spectre::Init(void)
 	_a->Set(36, 36, 0, 0.f);
 	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE);
 
-	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0), m__testLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
-	m__player->SetScale(Vector3(tileSize, tileSize));
-
 	// Init the hacking game
 	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("PlayerBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
+
+	// Load the map
+	findLevelFiles("Levels//");
+	loadLevel(m_levelFiles[m_currentLevelID]);
 
 	//Enemy
 	Enemy* _enemy = new Enemy;
 	_enemy->SetMesh(GetMeshResource("ShadowBall"));
-	_enemy->SetMapPosition(Vector2 (500, 200), m__testLevel->GetTileMap()->GetScrollOffset(), m__testLevel->GetTileMap()->GetTileSize());
+	_enemy->SetMapPosition(Vector2 (500, 200), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
 	_enemy->SetScale(Vector2(32.f, 32.f));
-	_enemy->initPathFinder(m__testLevel->GetTileMap());
-	_enemy->SetTarget(m__player->GetMapPos(), m__testLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
+	_enemy->initPathFinder(m__currentLevel->GetTileMap());
+	_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,20));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,60));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(40,20));
@@ -209,7 +265,7 @@ void MVC_Model_Spectre::Update(double dt)
 	// Update tile size to fit screen resolution
 	if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
 	{
-		TileMap* _tilemap = m__testLevel->GetTileMap();
+		TileMap* _tilemap = m__currentLevel->GetTileMap();
 		vector<vector<Tile*>*> _map = _tilemap->GetMap();
 		float tileSize = _tilemap->GetTileSize();
 		Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
@@ -239,20 +295,6 @@ void MVC_Model_Spectre::Update(double dt)
 		}
 		resolution.Set(m_viewWidth, m_viewHeight);
 	}
-
-	//updates sprite animation
-	/*SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(m__player->GetMesh());
-	{
-		if(_sa)
-		{
-			_sa->Update(dt);
-		}
-	}*/
-	//Updates player depending on actions queued.
-	//m__player->Update(dt,m__testLevel->GetTileMap());
-
-	//update enemy;
-	//m__testEnemy->Update(dt, m__testLevel->GetTileMap() );
 
 	if (m_hackMode)
 	{
@@ -295,21 +337,21 @@ void MVC_Model_Spectre::Update(double dt)
 			}
 		}*/
 		//Updates player depending on actions queued.
-		m__player->Update(dt, m__testLevel->GetTileMap());
+		m__player->Update(dt, m__currentLevel->GetTileMap());
 
 		//update enemies
 		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 		{
-			(*enemyIter)->Update(dt, m__testLevel->GetTileMap());
+			(*enemyIter)->Update(dt, m__currentLevel->GetTileMap());
 		}
 
 		// Update Lighting
 		vector<Vector2> shadowCasters;
 		shadowCasters.push_back(m__player->GetMapTilePos());
-		m__testLevel->GetTileMap()->UpdateLighting(shadowCasters);
+		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
 
 		// Rendering
-		tileMapToRender(m__testLevel->GetTileMap());
+		tileMapToRender(m__currentLevel->GetTileMap());
 		// -- Render Player
 		m_renderList2D.push(m__player);
 
@@ -364,6 +406,12 @@ void MVC_Model_Spectre::Exit(void)
 
 		m_enemyList.pop_back();
 	}
+
+	// Clear the level
+	if (m__currentLevel != NULL)
+	{
+		delete m__currentLevel;
+	}
 	
 	MVC_Model::Exit();
 }
@@ -396,7 +444,7 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 				continue;
 			}
 			Tile* _tile = (*_map[tileStart.y + row])[tileStart.x + col]; // Get the tile data based on loop
-			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__testLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
+			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
 			m_renderList2D.push(_tile); // Add to queue for rendering
 
 			/*
@@ -429,7 +477,7 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 
 void MVC_Model_Spectre::resizeScreen()
 {
-	TileMap* _tilemap = m__testLevel->GetTileMap();
+	TileMap* _tilemap = m__currentLevel->GetTileMap();
 	vector<vector<Tile*>*> _map = _tilemap->GetMap();
 	float tileSize = _tilemap->GetTileSize();
 	Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));

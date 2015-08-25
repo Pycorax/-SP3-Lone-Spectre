@@ -27,8 +27,12 @@ public:
 		APP_GAME_HACK,
 	};
 private:	// Variables
+	// Levels
+	Level* m__currentLevel;
+	int m_currentLevelID;
+	vector<string> m_levelFiles;
+
 	//TileMap/Overworld
-	Level* m__testLevel;
 	vector<GameObject2D*> m__tileMarkers;					// A vector of lights that can be used to render a "lighted" effect
 	Mesh* m__tileMarkerMesh[NUM_TILE_MARKER];									// The meshes used for marking areas (shadows, areas being viewed)
 
@@ -59,6 +63,10 @@ public:
 protected:
 	// Process Key Action Abstract Function
 	void processKeyAction(double dt);
+
+	// Levels
+	int findLevelFiles(string folderPath);
+	void loadLevel(string levelMapFile);
 
 	// Light Resource
 	void resetTileMarkers(void);
