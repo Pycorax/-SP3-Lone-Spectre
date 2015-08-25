@@ -289,15 +289,7 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 					if (_tile != NULL && _tile->GetType() != Tile::TILE_INVISIBLE_WALL)
 					{
 						// Calculate the light level
-						int furthestDist = 0;
-						if (deltaPos.x > deltaPos.y)
-						{
-							furthestDist = deltaPos.x;
-						}
-						else
-						{
-							furthestDist = deltaPos.y;
-						}
+						int furthestDist = deltaPos.Length();
 
 						int lightLevel = Tile::MAX_LIGHT_LEVEL - abs(furthestDist) * S_LIGHT_ATTENUATION;
 
