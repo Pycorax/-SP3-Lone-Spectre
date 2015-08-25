@@ -9,7 +9,7 @@ MapEntity::~MapEntity(void)
 {
 }
 
-void MapEntity::SetMapPosition(Vector2 pos, Vector2 scrollOffset, int tileSize)
+void MapEntity::SetMapPosition(Vector2 pos, Vector2 scrollOffset, float tileSize)
 {
 	m_mapPos = pos;
 	m_mapTilePos = pos * (1 / tileSize);

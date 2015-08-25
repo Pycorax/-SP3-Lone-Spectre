@@ -14,7 +14,7 @@ public:		// Functions
 	virtual ~MapEntity(void);
 
 	// Use this function with MapEntities to set the position on the map and automatically update the screen position.
-	void SetMapPosition(Vector2 pos, Vector2 scrollOffset, int tileSize);
+	void SetMapPosition(Vector2 pos, Vector2 scrollOffset, float tileSize);
 	Vector2 GetMapPos();
 	Vector2 GetMapTilePos();
 
