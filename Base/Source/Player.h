@@ -88,6 +88,8 @@ class Player : public Character
 		//sprite animation vector
 		Animation* m__animationList[NUM_PLAYERSTATE];
 		float m_animTime;
+
+		bool m_spectreMode;
 	public:
 		static Player* GetInstance(int instance = 0);
 		static void Clear();

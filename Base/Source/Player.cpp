@@ -25,6 +25,7 @@ void Player::Init(Mesh* _mesh)
 	resetDive();
 	resetJump();
 	m_currentState = Player::PS_IDLE_DOWN;
+	m_spectreMode = false;
 }
 
 Player::~Player(void)
@@ -226,6 +227,10 @@ void Player::Update(double dt, TileMap* _map)
 		if (m_jumping)
 		{
 			jump(dt, _map);
+		}
+		if(m_spectreMode)
+		{
+			m_currentState = PS_SPECTRAL_DIVE;
 		}
 		//update animation
 		static SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(GetMesh());
@@ -471,9 +476,13 @@ void Player::dive(double dt, TileMap* _map)
 	{
 		// When animation ended, change m_inShadow to false
 		resetDive();
+		m_spectreMode = false;
 	}
 	else // Jump into shadow
 	{
+		//shows player in spectre form - to be changed ->need to finish diving animation first
+		m_spectreMode = true;
+
 		if (_map->GetTileAt(GetMapPos())->GetLightLevel() <= S_SPECTRE_DIVE_LIGHT_LIMIT) // Dive in current tile
 		{
 			if (m_currentState != PS_SPECTRAL_DIVE)

@@ -33,7 +33,7 @@
 	{
 		[Name] Player_ANIMATION
 		[Type] SpriteAnimation2D
-		[SpriteAnimationRow] 13
+		[SpriteAnimationRow] 14
 		[SpriteAnimationColumn] 3
 		[ScaleX] 1
 		[ScaleY] 1
