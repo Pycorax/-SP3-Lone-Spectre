@@ -23,7 +23,7 @@ void TileMap::LoadTileMap(const string &filePath, const vector<Mesh*>& meshList)
 	}
 }
 
-void TileMap::UpdateLighting(void)
+void TileMap::UpdateLighting(vector<Vector2> shadowCasters)
 {
 	int countX = 0;
 	int countY = 0;
@@ -55,7 +55,7 @@ void TileMap::UpdateLighting(void)
 			// If this is a light...
 			if ((*col)->GetType() == Tile::TILE_LIGHT)
 			{
-				calcLighting(countX, countY);
+				calcLighting(countX, countY, shadowCasters);
 			}
 		}
 
@@ -203,7 +203,7 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 	return true;
 }
 
-void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
+void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y, vector<Vector2> shadowCasters)
 {
 	/*
 	 * Calculating the brightness of each tile
@@ -269,7 +269,35 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y)
 						Tile* midTile = GetTileAt(midTilePosInt.x, midTilePosInt.y);
 
 						// Check if the mid tile is out of the map or is solid
-						if (midTile == NULL || Tile::S_IS_TILE_SOLID[midTile->GetType()])
+						
+						bool isWall = false;
+
+						if (midTile == NULL)
+						{
+							isWall = true;
+						}
+						else
+						{
+							if (Tile::S_IS_TILE_SOLID[midTile->GetType()])
+							{
+								isWall = true;
+							}
+							else
+							{
+								for (vector<Vector2>::iterator shadowCastIter = shadowCasters.begin(); shadowCastIter != shadowCasters.end(); ++shadowCastIter)
+								{
+									Vector2 pos(floor((*shadowCastIter).x), floor((*shadowCastIter).y));
+
+									if (midTilePosInt.x == pos.x && midTilePosInt.y == pos.y)
+									{
+										isWall = true;
+										break;
+									}
+								}
+							}
+						}
+
+						if (isWall)
 						{
 							// No Lighting. Don't add anything. Just break.
 							blocked = true;

@@ -44,7 +44,7 @@ public:
 	~TileMap(void);
 
 	void LoadTileMap(const string &filePath, const vector<Mesh*>& meshList);
-	void UpdateLighting(void);
+	void UpdateLighting(vector<Vector2> shadowCasters);
 
 	Tile* GetTileAt(int xPos, int yPos);		// Get tile info based on index location
 	Tile* GetTileAt(Vector2 pos);				// Get tile info based on actual map pos
@@ -77,7 +77,7 @@ public:
 
 private:
 	bool loadFile(const string &filePath, const vector<Mesh*>& meshList);
-	void calcLighting(int x, int y);
+	void calcLighting(int x, int y, vector<Vector2> shadowCasters);
 	Vector2 posRoundingForLight(Vector2 pos, Vector2 dir);				// Adds the dir to the pos and rounds up/down to the int based on positive or negative dir
 };
 
