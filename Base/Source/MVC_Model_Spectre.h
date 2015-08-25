@@ -39,16 +39,11 @@ private:	// Variables
 	// Collision
 	vector<Collider2D *> m__colliderList;
 
-	// Physics Test Code
-	PhysicalObject* m__po1;
-	PhysicalObject* m__po2;
- 
 	// Spectral HexText MiniGame 
 	bool m_hackMode;					// Controls whether hack mode is enabled
 	SpectreHexGame m_hackingGame;		// Controls the hacking minigame for the spectre hextech skill
 
 	// Other/Debug
-	GameObject2D* m__testGO;
 	bool m_enableShadow;				// Controls if shadows will be rendered
 	// Keep track of resolution change
 	Vector2 resolution;

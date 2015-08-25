@@ -144,28 +144,8 @@ void MVC_Model_Spectre::Init(void)
 	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0), m__testLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
-	// Load debugging test object
-	m__testGO = new GameObject2D;
-	m__testGO->SetMesh(GetMeshResource("Quad"));
-	m__testGO->SetPos(Vector2(100.0f, m_viewHeight * 0.5));
-	m__testGO->SetScale(Vector2(32.f, 32.f));
-	m__colliderList.push_back(dynamic_cast<Collider2D *>(m__testGO));
-
 	// Init the hacking game
 	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("PlayerBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
-
-	// Physics Testing
-	m__po1 = new PhysicalObject;
-	m__po1->SetPos(Vector2(300.0f, 100.0f));
-	m__po1->SetScale(Vector2(50.f, 50.0f));
-	m__po1->InitPhysics2D(1.0f, false, Vector2(0.0f, 50.0f));
-	m__po1->SetMesh(GetMeshResource("Quad"));
-
-	m__po2 = new PhysicalObject;
-	m__po2->SetPos(Vector2(300.0f, 300.0f));
-	m__po2->SetScale(Vector2(150.0f, 50.0f));
-	m__po2->InitPhysics2D(1.0f, true, Vector2::ZERO_VECTOR, Vector2(0.0f, 1.0f));
-	m__po2->SetMesh(GetMeshResource("Quad"));
 
 	//Enemy
 	m__testEnemy = new Enemy;
@@ -174,9 +154,9 @@ void MVC_Model_Spectre::Init(void)
 	m__testEnemy->SetScale(Vector2(32.f, 32.f));
 	m__testEnemy->initPathFinder(m__testLevel->GetTileMap());
 	m__testEnemy->SetTarget(m__player->GetMapPos(), m__testLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
-	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20) );
-	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60) );
-	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(40,20) );
+	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() - Vector2(0,20));
+	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(0,60));
+	m__testEnemy->AddPatrolPoint(m__testEnemy->GetMapPos() + Vector2(40,20));
 }
 
 void MVC_Model_Spectre::Update(double dt)
@@ -228,23 +208,9 @@ void MVC_Model_Spectre::Update(double dt)
 		//update enemy;
 		m__testEnemy->Update(dt, m__testLevel->GetTileMap());
 
-		Vector3 pos = m__testGO->GetTransform().Translation;
-		pos += Vector3(50.0f * dt);
-		m__testGO->SetPos(pos);
-
-		//po1->SetColliderType(Collider2D::CT_AABB);
-		m__po1->UpdatePhysics(dt);
-		m__po2->UpdatePhysics(dt);
-
-		if (m__po1->CollideWith(m__po2, dt))
-		{
-			m__po1->CollideRespondTo(m__po2);
-		}
-
 		// Rendering
 		m__testLevel->GetTileMap()->UpdateLighting();
 		tileMapToRender(m__testLevel->GetTileMap());
-		m_renderList2D.push(m__testGO);
 		if (m__player->GetInShadow())
 		{
 			m__player->SetMesh(GetMeshResource("ShadowPlayer"));
@@ -254,8 +220,6 @@ void MVC_Model_Spectre::Update(double dt)
 			m__player->SetMesh(GetMeshResource("Player"));
 		}
 		m_renderList2D.push(m__player);
-		m_renderList2D.push(m__po1);
-		m_renderList2D.push(m__po2);
 		m_renderList2D.push(m__testEnemy);
 	}
 }
@@ -263,12 +227,6 @@ void MVC_Model_Spectre::Update(double dt)
 void MVC_Model_Spectre::Exit(void)
 {
 	m_hackingGame.Exit();
-
-	if (m__testGO)
-	{
-		delete m__testGO;
-		m__testGO = NULL;
-	}
 
 	Player::Clear();
 
