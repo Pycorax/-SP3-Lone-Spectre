@@ -255,7 +255,7 @@ Vector2 Enemy::pathFinder_getTilePosition(void)
 
 Vector2 Enemy::viewer_GetTilePos(void)
 {
-	return GetMapPos();		// TODO: This will start working when proper tile map positions are passed in like intended
+	return GetMapTilePos();		// TODO: This will start working when proper tile map positions are passed in like intended
 }
 
 Vector2 Enemy::viewer_GetDirection(void)

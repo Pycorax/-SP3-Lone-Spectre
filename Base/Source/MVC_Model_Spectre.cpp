@@ -4,7 +4,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__testLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
-	, m_enableShadow(false)
+	, m_enableShadow(true)
 {
 }
 
@@ -247,14 +247,13 @@ void MVC_Model_Spectre::Update(double dt)
 		m_renderList2D.push(m__testGO);
 		if (m__player->GetInShadow())
 		{
-			m__player->SetMesh(GetMeshResource("TILE_OBJ_CABINET"));
-			m_renderList2D.push(m__player);
+			m__player->SetMesh(GetMeshResource("ShadowPlayer"));
 		}
 		else
 		{
 			m__player->SetMesh(GetMeshResource("Player"));
-			m_renderList2D.push(m__player);
 		}
+		m_renderList2D.push(m__player);
 		m_renderList2D.push(m__po1);
 		m_renderList2D.push(m__po2);
 		m_renderList2D.push(m__testEnemy);
