@@ -142,9 +142,20 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 				while (getline(iss, token, ',') && colCounter < m_numMapTile.x) // Load each column in a row
 				{
 					int tile = std::stoi(token.c_str()); // Convert a tile from string to int
+
+					if (tile == S_PLAYER_SPAWN_MARKER)
+					{
+						m_playerSpawnPos.Set(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize));
+
+						tile = Tile::TILE_FLOOR;
+					}
+
 					m_map.front()->push_back(new Tile(Vector2(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize)), Vector3(m_tileSize, m_tileSize), static_cast<Tile::E_TILE_TYPE>(tile), _tileMeshList[tile])); // Add tiles into row
+					
+					
 					++colCounter;
 				}
+
 				for (; colCounter < m_numMapTile.x; ++colCounter) // Add empty tiles to fill up missing columns in file
 				{
 					int tile = 0;
@@ -164,6 +175,7 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 				{
 					m_map.insert(m_map.begin(), new vector<Tile*>); // Insert new row at the front
 				}
+
 				for (; colCounter < m_numMapTile.x; ++colCounter) // Loop number of tiles for width
 				{
 					int tile = 0;
@@ -466,4 +478,9 @@ void TileMap::SetTileSize(float tileSize)
 float TileMap::GetTileSize()
 {
 	return m_tileSize;
+}
+
+Vector2 TileMap::GetPlayerSpawnPos(void)
+{
+	return m_playerSpawnPos;
 }

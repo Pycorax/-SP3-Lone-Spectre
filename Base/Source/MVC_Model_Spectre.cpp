@@ -141,7 +141,7 @@ void MVC_Model_Spectre::Init(void)
 	// Load the player
 	m__player = Player::GetInstance();
 	m__player->Init(GetMeshResource("Player"));
-	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0), m__testLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
+	m__player->SetMapPosition(m__testLevel->GetTileMap()->GetPlayerSpawnPos(), Vector2(0,0), m__testLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
 	// Init the hacking game

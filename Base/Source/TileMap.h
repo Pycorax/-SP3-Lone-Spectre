@@ -25,6 +25,7 @@ public:
 
 private:
 	static const float S_LIGHT_ACCURACY;
+	static const int S_PLAYER_SPAWN_MARKER = -1;
 
 private:
 	vector<vector<Tile*>*> m_map;			// Tile data for map
@@ -35,6 +36,9 @@ private:
 	Vector2 m_mapSize, m_screenSize;		// Size of map and screen in pixels
 	Vector2 m_scrollOffset;					// Distance between start of map to start of screen in pixels
 	
+	// Map Markers
+	Vector2 m_playerSpawnPos;				// Stores the position of the player's spawn as defined by the tilemap
+
 public:
 	TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize);
 	~TileMap(void);
@@ -68,6 +72,8 @@ public:
 
 	void SetTileSize(float tileSize);
 	float GetTileSize();
+
+	Vector2 GetPlayerSpawnPos(void);
 
 private:
 	bool loadFile(const string &filePath, const vector<Mesh*>& meshList);
