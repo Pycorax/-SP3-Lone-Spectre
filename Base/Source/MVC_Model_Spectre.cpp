@@ -119,19 +119,34 @@ int MVC_Model_Spectre::findLevelFiles(string folderPath)
 
 void MVC_Model_Spectre::loadLevel(string levelMapFile)
 {
+	// Delete the previous level
 	if (m__currentLevel != NULL)
 	{
 		delete m__currentLevel;
 	}
 
+	// Initialize the level
 	m__currentLevel = new Level();
 	//m__currentLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
 	m__currentLevel->Load(levelMapFile, m_viewWidth, m_viewHeight, meshList);
 
+	// Initialize the player
 	int tileSize = m__currentLevel->GetTileMap()->GetTileSize();
 	m__player->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0, 0), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
-}
+
+	// Initialize the enemies
+	vector<Enemy*> enemies = m__currentLevel->GetEnemyList();
+	for (vector<Enemy*>::iterator enemyIT = enemies.begin(); enemyIT != enemies.end(); ++enemyIT)
+	{
+		Enemy* _enemy = new Enemy(**enemyIT);
+
+		_enemy->initPathFinder(m__currentLevel->GetTileMap());
+		_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
+
+		m_enemyList.push_back(_enemy);
+	}
+}   
 
 void MVC_Model_Spectre::resetTileMarkers(void)
 {
@@ -202,17 +217,19 @@ void MVC_Model_Spectre::Init(void)
 	findLevelFiles("Levels//");
 	loadLevel(m_levelFiles[m_currentLevelID]);
 
+	int i = 100;
+
 	//Enemy
-	Enemy* _enemy = new Enemy;
-	_enemy->SetMesh(GetMeshResource("ShadowBall"));
-	_enemy->SetMapPosition(Vector2 (500, 200), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
-	_enemy->SetScale(Vector2(64.f, 64.f));
-	_enemy->initPathFinder(m__currentLevel->GetTileMap());
-	_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,20));
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,60));
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(40,20));
-	m_enemyList.push_back(_enemy);
+	//Enemy* _enemy = new Enemy;
+	//_enemy->SetMesh(GetMeshResource("ShadowBall"));
+	//_enemy->SetMapPosition(Vector2 (500, 200), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
+	//_enemy->SetScale(Vector2(64.f, 64.f));
+	//_enemy->initPathFinder(m__currentLevel->GetTileMap());
+	//_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
+	//_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,20));
+	//_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,60));
+	//_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(40,20));
+	//m_enemyList.push_back(_enemy);
 }
 
 void MVC_Model_Spectre::InitPlayer(void)

@@ -1,7 +1,8 @@
 # Level1.son #
 ##############
 # A SON File that specifies the properties of a level to load
-# All Levels must be contained in a branch named LevelContainer
+# All Level Properties must be contained in a main branch named LevelContainer
+# Enemies are to be contained in a child branch named EnemyContainer
 {
 	[Name] LevelContainer
 	
@@ -11,4 +12,17 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_COLLECT
+	
+	{
+		[Name] EnemyContainer
+		
+		{
+			[Name] Enemy1
+			[Mesh] ShadowBall
+			[SpawnPosition] 10.0f, 50.0f
+			[PatrolPoint] 0.0f, 20.0f
+			[PatrolPoint] 0.0f, 40.0f
+			[PatrolPoint] 40.0f, 20.0f
+		}
+	}
 }

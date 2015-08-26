@@ -64,9 +64,9 @@ void Enemy::Update(double dt, TileMap* _map)
 		case ES_PATROL:
 		{ 
 			//MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt) ;// updates to next postition
-			if (MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt))
+			if (MoveTo(m_pathWay.at(m_pathPointCounter), _map, dt))
 			{
-				if (m_pathPointCounter >= m_pathWay.GetSize() - 1)
+				if (m_pathPointCounter >= m_pathWay.size() - 1)
 				{
 					m_pathPointCounter = 0;
 				}
@@ -158,9 +158,9 @@ void Enemy::Update(double dt, TileMap* _map)
 	
 }
 
-void Enemy::AddPatrolPoint(Vector2 Pos)
+void Enemy::AddPatrolPoint(Vector2 pos)
 {
-	m_pathWay.AddPoint(PathPoint(Pos));
+	m_pathWay.push_back(pos);
 }
 
 //return true if reached 

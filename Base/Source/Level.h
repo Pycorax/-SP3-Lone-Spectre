@@ -2,6 +2,7 @@
 #define LEVEL_H
 
 #include "TileMap.h"
+#include "Enemy.h"
 
 class Level
 {
@@ -26,7 +27,8 @@ private:
 	// Level Mission Type
 	LEVEL_MISSION_TYPE m_missionType;
 
-	// TODO: List of enemies
+	// List of enemies
+	vector<Enemy*> m_enemyList;
 
 	// Level Score
 	int m_score;
@@ -41,6 +43,7 @@ public:
 	void Clear(void);
 
 	TileMap* GetTileMap();
+	vector<Enemy*> GetEnemyList(void);
 };
 
 #endif

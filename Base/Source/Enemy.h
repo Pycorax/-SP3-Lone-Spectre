@@ -5,8 +5,6 @@
 #include <vector>
 #include "TileMap.h"
 #include "Viewer.h"
-#include "Pathway.h"
-#include "PathPoint.h"
 #include "PathFinder.h"
 
 class Enemy : public Character, public Viewer, public PathFinder
@@ -38,7 +36,7 @@ private:
 	//m_patrolPointA -> the old target location, m_patrolPointB -> the target location
 	Vector2 m_patrolPointA, m_patrolPointB; 
 	//stores target location;
-	Pathway m_pathWay;
+	vector<Vector2> m_pathWay;
 	//keep track 
 	int m_pathPointCounter;
 	//use to check if mode start patrolling
