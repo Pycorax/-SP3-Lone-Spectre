@@ -1,4 +1,4 @@
-# Lone Spectre  - Convention Document `Revision 4.1.1`
+# Lone Spectre  - Convention Document `Revision 4.2.0_BLAZE_IT`
 
 Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in development to be Team 4's Studio Project 3 game.
 
@@ -27,6 +27,22 @@ Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in
 | Pointer | `_pointer` |
 | Enumeration | `E_ALL_CAPS`|
 | Enumeration Members | `<Enumeration Acronym>_ALL_CAPS` |
+| Static Variables | `s_` |
+| Static Constants | `S_ALL_CAPS` |
+
+### Switch Case
+Switch cases should follow this format:
+
+```C++
+switch (foo)
+{
+	case 1:
+	{
+		// Do stuff
+		break;
+	}
+}
+```
 
 ### Classes
 | Type  | Formatting |
@@ -35,8 +51,8 @@ Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in
 | Public Symbols | `PascalCase` |
 | Protected/Private Symbols | `camelCase` |
 | Member Variables | `m_` |
-| Static Variables | `s_` |
-| Static Constants | `S_ALL_CAPS` |
+| Static Member Variables | `s_m_` |
+| Static Member Constants | `S_M_ALL_CAPS` |
 | Abstract Public Functions | `className_FunctionName` |
 | Abstract Protected/ Private Functions | `className_functionName` |
 
@@ -83,4 +99,3 @@ private:
 ```
 ### Files
 - Use `lowercase_with_underscores` naming convention
-
