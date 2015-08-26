@@ -228,9 +228,57 @@ void Player::Update(double dt, TileMap* _map)
 		{
 			jump(dt, _map);
 		}
+
 		if(m_spectreMode)
 		{
-			m_currentState = PS_SPECTRAL_DIVE;
+			m_animTime += dt;
+			// total time taken = time per frame * ( last frame - first frame + 1)
+			float divingAnimTime = m__animationList[PS_SPECTRAL_DIVING_UP]->animTime;
+			//if animation finish
+			if(m_animTime >= divingAnimTime)
+			{
+				if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+				{
+					m_currentState = PS_SPECTRAL_DIVE_UP;
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+				{
+					m_currentState = PS_SPECTRAL_DIVE_DOWN;
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+				{
+					m_currentState = PS_SPECTRAL_DIVE_LEFT;
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+				{
+					m_currentState = PS_SPECTRAL_DIVE_RIGHT;
+				}
+			}
+			//diving state set - will update the render
+			else
+			{
+				if(m_lookDir == S_DIRECTION[Character::DIR_UP])
+				{
+					m_currentState = PS_SPECTRAL_DIVING_UP;
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+				{
+					m_currentState = PS_SPECTRAL_DIVING_DOWN;
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+				{
+					m_currentState = PS_SPECTRAL_DIVING_LEFT;
+				}
+				else if(m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+				{
+					m_currentState = PS_SPECTRAL_DIVING_RIGHT;
+				}
+			}
+		
+		}
+		else
+		{
+			m_animTime = 0.f;
 		}
 		//update animation
 		static SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(GetMesh());
@@ -488,7 +536,7 @@ void Player::dive(double dt, TileMap* _map)
 			if (m_currentState != PS_SPECTRAL_DIVE)
 			{
 				m_animTime += dt;
-				m_currentState = PS_SPECTRAL_DIVE;
+				//m_currentState = PS_SPECTRAL_DIVE;
 				// TODO: Change spriteanimation to diving animation
 			}
 			resetDive();

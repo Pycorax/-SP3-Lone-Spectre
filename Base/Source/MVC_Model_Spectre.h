@@ -61,6 +61,9 @@ public:
 	virtual void Exit();
 
 protected:
+	//init player and animations
+	void InitPlayer(void);
+
 	// Process Key Action Abstract Function
 	void processKeyAction(double dt);
 
@@ -75,7 +78,7 @@ protected:
 	// Hack Mode (Spectre HexTech MiniGame)
 	void updateHackMode(const double DT);
 	void startHackMode(void);
-	
+
 	// Tilemap rendering
 	void tileMapToRender(TileMap* _ToRender);
 

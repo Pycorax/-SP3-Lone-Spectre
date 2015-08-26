@@ -26,7 +26,7 @@ void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();
 	
-	PathFinder::UpdatePath(_map->GetTileSize());
+	//PathFinder::UpdatePath(_map->GetTileSize());
 	
 	// Update FOV
 	UpdateViewBox(this, _map);

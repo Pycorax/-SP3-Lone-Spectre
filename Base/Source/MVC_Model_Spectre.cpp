@@ -125,7 +125,7 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	}
 
 	m__currentLevel = new Level();
-	//m__testLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
+	//m__currentLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
 	m__currentLevel->Load(levelMapFile, m_viewWidth, m_viewHeight, meshList);
 
 	int tileSize = m__currentLevel->GetTileMap()->GetTileSize();
@@ -194,6 +194,29 @@ void MVC_Model_Spectre::Init(void)
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
 
 	// Load the player
+	InitPlayer();
+
+	// Init the hacking game
+	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("PlayerBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
+
+	findLevelFiles("Levels//");
+	loadLevel(m_levelFiles[m_currentLevelID]);
+
+	//Enemy
+	Enemy* _enemy = new Enemy;
+	_enemy->SetMesh(GetMeshResource("ShadowBall"));
+	//_enemy->SetMapPosition(Vector2 (500, 200), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
+	//_enemy->SetScale(Vector2(32.f, 32.f));
+	//_enemy->initPathFinder(m__currentLevel->GetTileMap());
+	//_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,20));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,60));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(40,20));
+	m_enemyList.push_back(_enemy);
+}
+
+void MVC_Model_Spectre::InitPlayer(void)
+{
 	m__player = Player::GetInstance();
 	m__player->Init(GetMeshResource("Player_ANIMATION"));
 	//player mesh and states
@@ -233,29 +256,46 @@ void MVC_Model_Spectre::Init(void)
 	_a = new Animation();
 	_a->Set(10, 10, 0, 0.f);
 	m__player->AddAnimation(_a , Player::PS_IDLE_UP);
-	//shadow ball
+	
+	
+	//diving South
+	_a = new Animation();
+	_a->Set(12, 17, 1, 0.2f);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVING_DOWN);
+	//diving right
+	_a = new Animation();
+	_a->Set(18, 23, 1, 0.2f);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVING_RIGHT);
+	//diving left
+	_a = new Animation();
+	_a->Set(24, 29, 1, 0.2f);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVING_LEFT);
+	//diving north
+	_a = new Animation();
+	_a->Set(30, 35, 1, 0.2f);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVING_UP);
+
+	//shadow form north
 	_a = new Animation();
 	_a->Set(36, 36, 0, 0.f);
-	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE_UP);
+	// must set a animation or else cannot use and dont need to change much code
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE); 
+	//shadow form south
+	_a = new Animation();
+	_a->Set(37, 37, 0, 0.f);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE_DOWN);
+	//shadow form left
+	_a = new Animation();
+	_a->Set(38, 38, 0, 0.f);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE_LEFT);
+	//shadow form right
+	_a = new Animation();
+	_a->Set(39, 39, 0, 0.f);
+	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE_RIGHT);
 
-	// Init the hacking game
-	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("PlayerBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
-
-	// Load the map
-	findLevelFiles("Levels//");
-	loadLevel(m_levelFiles[m_currentLevelID]);
-
-	//Enemy
-	Enemy* _enemy = new Enemy;
-	_enemy->SetMesh(GetMeshResource("ShadowBall"));
-	_enemy->SetMapPosition(Vector2 (500, 200), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
-	_enemy->SetScale(Vector2(32.f, 32.f));
-	_enemy->initPathFinder(m__currentLevel->GetTileMap());
-	_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,20));
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,60));
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(40,20));
-	m_enemyList.push_back(_enemy);
+	//m__player->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
+	//m__player->SetScale(Vector3(m__currentLevel->GetTileMap()->GetTileSize(), m__currentLevel->GetTileMap()->GetTileSize()));
 }
 
 void MVC_Model_Spectre::Update(double dt)
