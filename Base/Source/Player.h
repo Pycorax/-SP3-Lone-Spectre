@@ -94,7 +94,11 @@ class Player : public Character
 		float m_jumpTimer;
 		int m_tileMoved;
 
-		GameObject2D* m__host;
+		//spectral host
+		bool m_hosting;
+		float m_hostingTimeLimit;
+		Enemy* m__host;
+
 		Tile* m__tile;
 		
 		//sprite animation vector
@@ -111,11 +115,12 @@ class Player : public Character
 		void Init(Mesh* _mesh);
 		void AddAnimation(Animation* _anim, E_PLAYER_STATE playerState);
 		void Update(double dt, TileMap* _map);
-		void UpdateHost(double dt);
 
+		void SetHostPTR(Enemy* _enemy);
 		void SetMove(Vector2 dir);
 		void SetDive();
 		void SetJump();
+		void SetHost();
 
 		void SetState(E_PLAYER_STATE currentState);
 		E_PLAYER_STATE GetState(void)const;
@@ -126,17 +131,17 @@ class Player : public Character
 		void SetInShadow(bool inShadow);
 		bool GetInShadow();
 
-
 		//getters
-		Mesh* GetSA(void) const;
 	private:
 		void forceSetMove(Vector2 dir);
 		void move(double dt, TileMap* _map);
 		void dive(double dt, TileMap* _map);
 		void jump(double dt, TileMap* _map);
+		void UpdateHost(double dt, TileMap* _map);
 		void resetMove();
 		void resetDive();
 		void resetJump();
+		void resetHost();
 
 };
 

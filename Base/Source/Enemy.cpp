@@ -3,10 +3,12 @@
 #include "ViewerUpdater.h"
 
 Enemy::Enemy(void)
-:m_alertLevel(0)
-, m_enemyState(ES_PATROL)
-, m_bReachPos(false)
-, m_pathPointCounter(0)
+	:m_alertLevel(0)
+	, m_enemyState(ES_PATROL)
+	, m_bReachPos(false)
+	, m_pathPointCounter(0)
+	, m_bPossesion(false)
+	
 {
 
 }
@@ -15,11 +17,21 @@ Enemy::~Enemy(void)
 {
 }
 
-void Enemy::Init(Vector2 pos, E_ENEMY_STATE enemyState)
+void Enemy::Init(Vector2 pos, Mesh* _mesh)
 {
-	this->SetPos(pos);
 	m_oldPos = pos;
-	m_enemyState = enemyState;
+	SetMesh(_mesh );
+	m_lookDir = S_DIRECTION[Character::DIR_RIGHT];
+	m_enemyAction = EA_IDLE_DOWN;
+}
+
+void Enemy::SetPossesion(bool state)
+{
+	m_bPossesion = state;
+	if(m_bPossesion == false)
+	{
+		m_enemyState = ES_PATROL;
+	}
 }
 
 void Enemy::Update(double dt, TileMap* _map)
@@ -34,40 +46,39 @@ void Enemy::Update(double dt, TileMap* _map)
 	//if ()//If any enemy see Hero, affects other enemies too
 	//{
 	//	m_enemyState = ES_CHASE;
-	//  m_alertLevel = 2;
+	//	m_alertLevel = 2;
 	//}
-	//else if() //Enemy can hit Hero
-	//{
-	//	m_enemyState = ES_ATTACK;
-	//}
-	//else if (alerted == true) //Enemy lost sight of Hero || hero hides in a shadow
+	////else if() //Enemy can hit Hero
+	////{
+	////	m_enemyState = ES_ATTACK;
+	////}
+	//else if (m_bAlerted) //Enemy lost sight of Hero || hero hides in a shadow
 	//{
 	//	m_enemyState = ES_SCAN;
 	//}
-	//else if() //Spectre hosts on the enemy
+	//else if(m_bPossesion) //Spectre hosts on the enemy
 	//{
-	//  m_enemyState = ES_POSSESED
+	//	m_enemyState = ES_POSSESED
 	//}
-	//else if () //Enemy dies
+	//else if (GetHealth() <= 0) //Enemy dies
 	//{
 	//	m_enemyState = ES_KNOCKOUT;
-	//  alerted = false;
+	//	m_bAlerted = false;
 	//}
 	//else if (m_alertLevel == 0) //Enemy becomes less suspicious after checking
-	//{y
+	//{
 	//	m_enemyState = ES_PATROL;
-	//  alerted = false;
+	//	m_bAlerted = false;
 	//}
 
 	switch (m_enemyState)
 	{
-		case ES_PATROL:
+	case ES_PATROL:
 		{
 			//MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt) ;// updates to next postition
 
 			if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
 			{
-
 				if (m_pathPointCounter >= m_pathWay.size() - 1)
 				{
 					m_pathPointCounter = 0;
@@ -112,22 +123,20 @@ void Enemy::Update(double dt, TileMap* _map)
 				}
 			}
 		}
-		case ES_ATTACK:
+	case ES_ATTACK:
 		{
 			break;
 		}
-		case ES_POSSESED:
+	case ES_POSSESED:
 		{
-			if (m_oldPos != m_spectralPositon)
-			{
-				SetMapPosition(m_oldPos, _map->GetScrollOffset(), _map->GetTileSize());
-			}
 			break;
 		}
-		case ES_SCAN:
+	case ES_SCAN:
 		{
 			if (m_alertLevel > 0)
 			{
+				
+			//Check the area for 2 rotation
 				m_checkAround = 0;
 				static const double S_WAIT_TIME = 2.0;
 
@@ -158,6 +167,7 @@ void Enemy::Update(double dt, TileMap* _map)
 			break;
 		}
 	}
+	ChangeAnimation(dt);
 }
 
 void Enemy::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
@@ -165,28 +175,9 @@ void Enemy::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
 	m__animationList[enemyState] = _anim;
 }
 
-void Enemy::ChangeAnimation()
+void Enemy::ChangeAnimation(double dt)
 {
-	if (m_bPossesion == true || m_bChasing == true || m_bSearching == true)
-	{
-		if (m_lookDir == S_DIRECTION[Character::DIR_DOWN])
-		{
-			m_enemyAction = EA_WALK_DOWN;
-		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_UP])
-		{
-			m_enemyAction = EA_WALK_UP;
-		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_LEFT])
-		{
-			m_enemyAction = EA_WALK_LEFT;
-		}
-		else if (m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
-		{
-			m_enemyAction = EA_WALK_RIGHT;
-		}
-	}
-	else if (m_bScanning == true || m_bAttacking == true)
+	if (m_enemyState == ES_POSSESED || m_enemyState == ES_SCAN ||m_enemyState == ES_ATTACK )
 	{
 		if (m_lookDir == S_DIRECTION[Character::DIR_DOWN])
 		{
@@ -205,6 +196,36 @@ void Enemy::ChangeAnimation()
 			m_enemyAction = EA_IDLE_RIGHT;
 		}
 	}
+	else if (m_enemyState == ES_POSSESED  || m_enemyState == ES_CHASE || m_enemyState == ES_PATROL )
+	{
+		if (m_lookDir == S_DIRECTION[Character::DIR_DOWN])
+		{
+			m_enemyAction = EA_WALK_DOWN;
+		}
+		else if (m_lookDir == S_DIRECTION[Character::DIR_UP])
+		{
+			m_enemyAction = EA_WALK_UP;
+		}
+		else if (m_lookDir == S_DIRECTION[Character::DIR_LEFT])
+		{
+			m_enemyAction = EA_WALK_LEFT;
+		}
+		else if (m_lookDir == S_DIRECTION[Character::DIR_RIGHT])
+		{
+			m_enemyAction = EA_WALK_RIGHT;
+		}
+	}
+	//updates the sprite animtion with the correct set of animation
+	SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(m__mesh);
+	if(_sa)
+	{
+		_sa->m_anim = m__animationList[m_enemyAction];
+		_sa->Update(dt);
+	}
+}
+void Enemy::ForceSetEnemyState(E_ENEMY_STATE enemyState)
+{
+	m_enemyState = enemyState;
 }
 
 void Enemy::AddPatrolPoint(Vector2 pos)
@@ -213,7 +234,7 @@ void Enemy::AddPatrolPoint(Vector2 pos)
 }
 
 //return true if reached 
-bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt) //TODO: PathFinding
+bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
 	//set look direction towards next target location base off current location on map
 	m_lookDir = (EndPos - GetMapPos()).Normalized();
@@ -260,6 +281,7 @@ int Enemy::GetAlertLevel(void)
 
 void Enemy::SpottedTarget(Vector2 pos)
 {
+	m_bAlerted = true;
 }
 
 Vector2 Enemy::pathFinder_getTilePosition(void)
@@ -275,9 +297,4 @@ Vector2 Enemy::viewer_GetTilePos(void)
 Vector2 Enemy::viewer_GetDirection(void)
 {
 	return m_lookDir;
-}
-
-void Enemy::SetSpectrePosition(Vector2 spectralPosition)
-{
-	this->m_spectralPositon = spectralPosition;
 }

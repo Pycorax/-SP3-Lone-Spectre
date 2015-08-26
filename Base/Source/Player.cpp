@@ -15,17 +15,14 @@ Player::Player(void)
 void Player::Init(Mesh* _mesh)
 {
 	SetMesh(_mesh);
-	/*m_moving = m_diving = m_jumping = m_inShadow = false;
-	m_moveDist = 0.f;
-	m_tileMoved = 0;
-	m_diveTimer = m_jumpTimer = 0.f;
-	m_currentState = PS_IDLE;*/
 	m_currentSpeed = S_PLAYER_MOVE_SPEED;
 	resetMove();
 	resetDive();
 	resetJump();
+	resetHost();
 	m_currentState = Player::PS_IDLE_DOWN;
 	m_spectreMode = false;
+	m__host = NULL;
 }
 
 Player::~Player(void)
@@ -59,12 +56,6 @@ void Player::AddAnimation(Animation* _anim, E_PLAYER_STATE playerState)
 Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 {
 	Vector2 interactionDistance(m_lookDir * _map->GetTileSize());
-	//TODO : Add in algorithm for determerning the type of action
-	//		Host, Dive , Jump or Hex
-	// if( lookDir == enemy back) -> host
-	// if( lookDir == Item on map) ->dive
-	// if( m_currentState == Dive || host && lookDir == enemyBack || item on map) -> jump then become dive ||host
-	// if (lookDir == Camera ) -> Hex goto minigame
 	bool shiftOrigin = false;
 	static Vector2 s_newOrigin;
 	if (GetLookDir().x < 0 || GetLookDir().y < 0) // Moving left or down
@@ -81,7 +72,7 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	Tile::E_TILE_TYPE tileTypeInFrontOfPlayer = static_cast<Tile::E_TILE_TYPE>(NULL);
 	if (tilePos.x < 0 || tilePos.x >= _map->GetMapSize().x || tilePos.y < 0 || tilePos.y >= _map->GetMapSize().y)
 	{
-		// skip
+		// skip if not within map
 	}
 	else
 	{
@@ -154,7 +145,7 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	}
 
 	//If inside enemy's shadow (Not completed)
-	if (interact == INTERACT_HOST) // Control enemy
+	if (interact == INTERACT_HOST && !m_moving) // Control enemy
 	{
 		return PS_SPECTRAL_HOST;
 	}
@@ -228,11 +219,24 @@ void Player::Update(double dt, TileMap* _map)
 		{
 			jump(dt, _map);
 		}
-
+		if(m_hosting)
+		{
+			//TODO: set time limit
+			UpdateHost(dt, _map);
+			m_hostingTimeLimit += dt;
+		}
+		else
+		{
+			if(m__host)
+			{
+				m__host->SetPossesion(false);
+				m__host = NULL;
+			}
+		}
 		if(m_spectreMode)
 		{
 			m_animTime += dt;
-			// total time taken = time per frame * ( last frame - first frame + 1)
+			// total time taken = time 
 			float divingAnimTime = m__animationList[PS_SPECTRAL_DIVING_UP]->animTime;
 			//if animation finish
 			if(m_animTime >= divingAnimTime)
@@ -292,10 +296,25 @@ void Player::Update(double dt, TileMap* _map)
 
 }
 
-void Player::UpdateHost(double dt)
+void Player::SetHostPTR(Enemy* _enemy)
 {
-	static_cast <Enemy* >(m__host);
+	m_hosting = true;
+	//set enemy ptr to being possed
+	_enemy->ForceSetEnemyState(Enemy::ES_POSSESED);
+	//give player ptr to become that
+	m__host = _enemy;
+	//set the host to be being possed
+	m__host->SetPossesion(true);
+}
+
+void Player::UpdateHost(double dt, TileMap* _map)
+{
 	//update host here
+	//if player walk - use the direction to change the direction moving
+	//update enemy depending on lookdir
+		m__host->SetLookDir(GetLookDir());
+		m__host->SetMapPosition(GetMapPos() , _map->GetScrollOffset(), _map->GetTileSize());
+	
 }
 
 void Player::Clear()
@@ -458,6 +477,11 @@ void Player::resetJump()
 	m_tileMoved = 0;
 }
 
+void Player::resetHost()
+{
+	m_hosting = false;
+}
+
 void Player::SetMove(Vector2 dir)
 {
 	if (!m_moving && !m_jumping && !m_diving)
@@ -518,12 +542,26 @@ void Player::SetJump()
 	}
 }
 
+void Player::SetHost()
+{
+	if(m_currentState != PS_SPECTRAL_HAX)
+	{
+		m_hosting = true;
+		m_currentState = PS_SPECTRAL_HOST;
+	}
+	else
+	{
+		m_hosting = false;
+	}
+}
+
 void Player::dive(double dt, TileMap* _map)
 {
 	if (m_inShadow) // Already in shadow, jump out
 	{
 		// When animation ended, change m_inShadow to false
 		resetDive();
+		resetHost();
 		m_spectreMode = false;
 	}
 	else // Jump into shadow
@@ -537,7 +575,6 @@ void Player::dive(double dt, TileMap* _map)
 			{
 				m_animTime += dt;
 				//m_currentState = PS_SPECTRAL_DIVE;
-				// TODO: Change spriteanimation to diving animation
 			}
 			resetDive();
 			// When animation ended, change m_inShadow to true

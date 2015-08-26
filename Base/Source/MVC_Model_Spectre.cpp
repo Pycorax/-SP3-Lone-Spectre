@@ -57,6 +57,16 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
 			{
 				m__player->SetDive();
+				// if enemy within range - set host
+				for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+				{
+					Enemy* _enemy = *enemyIter;
+					//if player dives within a tile distance from player
+					if((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize())
+					{
+						m__player->SetHostPTR(_enemy);
+					}
+				}
 			}
 
 			if (m_bKeyPressed[MOVE_JUMP_KEY] && m__player->Interact(Player::INTERACT_JUMP, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_JUMP) // Spectral Jump
@@ -225,14 +235,11 @@ void MVC_Model_Spectre::Init(void)
 
 	findLevelFiles("Levels//");
 	loadLevel(m_levelFiles[m_currentLevelID]);
+	float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
 
 	//Enemy
-	//Enemy* _enemy = new Enemy;
-	//_enemy->SetMesh(GetMeshResource("ShadowBall"));
 	Enemy* _enemy = new Enemy;
-	_enemy->SetMesh(GetMeshResource("Enemy_ANIMATION"));
 	Animation* _a;
-
 	//Idle South
 	_a = new Animation();
 	_a->Set(1, 1, 0, 0.f);
@@ -273,14 +280,17 @@ void MVC_Model_Spectre::Init(void)
 	_a->Set(9, 11, 0, 0.4f);
 	_enemy->AddAnimation(_a, Enemy::EA_WALK_UP);
 
-	//_enemy->SetMapPosition(Vector2 (500, 200), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
-	//_enemy->SetScale(Vector2(64.f, 64.f));
-	//_enemy->initPathFinder(m__currentLevel->GetTileMap());
-	//_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
-	//_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,20));
-	//_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,60));
-	//_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(40,20));
-	//m_enemyList.push_back(_enemy);
+	_enemy->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, m__currentLevel->GetTileMap()->GetScrollOffset(),tileSize);
+	_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
+	_enemy->SetScale(Vector2(tileSize, tileSize));
+	_enemy->initPathFinder(m__currentLevel->GetTileMap());
+	_enemy->SetTarget(m__player->GetMapPos(), tileSize);//m__player->GetTransform().Translation);
+	//patrol points per enemy
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,tileSize));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,tileSize));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(2 * tileSize ,tileSize));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(2 * tileSize, -tileSize));
+	m_enemyList.push_back(_enemy);
 }
 
 void MVC_Model_Spectre::InitPlayer(void)
@@ -328,19 +338,19 @@ void MVC_Model_Spectre::InitPlayer(void)
 	
 	//diving South
 	_a = new Animation();
-	_a->Set(12, 17, 1, 0.2f);
+	_a->Set(12, 17, 1, 0.3f);
 	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVING_DOWN);
 	//diving right
 	_a = new Animation();
-	_a->Set(18, 23, 1, 0.2f);
+	_a->Set(18, 23, 1, 0.3f);
 	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVING_RIGHT);
 	//diving left
 	_a = new Animation();
-	_a->Set(24, 29, 1, 0.2f);
+	_a->Set(24, 29, 1, 0.3f);
 	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVING_LEFT);
 	//diving north
 	_a = new Animation();
-	_a->Set(30, 35, 1, 0.2f);
+	_a->Set(30, 35, 1, 0.3f);
 	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVING_UP);
 
 	//shadow form north
@@ -412,13 +422,11 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			m_hackMode = false;
 			m__player->SetState(Player::PS_IDLE_DOWN);
-			// TODO: Do an action for when the mini game ends in a win
 		}
 		else if (m_hackingGame.IsLoss())
 		{
 			m_hackMode = false;
 			m__player->SetState(Player::PS_IDLE_DOWN);
-			// TODO: Do an action for when the mini game ends in a loss
 		}
 
 		vector<GameObject2D*> minigameObjects = m_hackingGame.GetRenderObjects();
@@ -436,14 +444,6 @@ void MVC_Model_Spectre::Update(double dt)
 			resizeScreen();
 		}
 
-		//updates sprite animation
-		/*SpriteAnimation* _sa = dynamic_cast<SpriteAnimation* >(m__player->GetMesh());
-		{
-			if(_sa)
-			{
-				_sa->Update(dt);
-			}
-		}*/
 		//Updates player depending on actions queued.
 		m__player->Update(dt, m__currentLevel->GetTileMap());
 

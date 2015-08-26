@@ -37,14 +37,16 @@ public:
 	};
 
 private:
-	int m_alertLevel;
+	//spawn position
 	Vector2 m_oldPos;
+
+	int m_alertLevel;
 	bool m_bAlerted;
-	bool m_bSearching;
 	bool m_bChasing;
 	bool m_bAttacking;
 	bool m_bScanning;
 	bool m_bPossesion;
+	bool m_bMoving;
 
 	//Scan the area around the enemy, to see if the Spectre is still there
 	float m_checkAround; 
@@ -58,17 +60,14 @@ private:
 	//use to check if mode start patrolling
 	bool m_bReachPos;
 
-	Vector2 m_spectralPositon;
-
 	//sprite animation vector
 	Animation* m__animationList[NUM_ENEMY_ACTION];
 	float m_animTime;
 
-
 public:
 	Enemy(void);
 	virtual ~Enemy(void);
-	void Init(Vector2 pos, E_ENEMY_STATE enemyState);
+	void Init(Vector2 pos, Mesh* _mesh);
 	void Update(double dt, TileMap* _map);
 	
 	//void SetStartPatrolPoint(Vector2 pos);
@@ -80,17 +79,17 @@ public:
 	void SetAlertLevel(int alertlevel);
 	int GetAlertLevel(void);
 
-	void SetSpectrePosition(Vector2 spectralPosition);
-	Vector2 GetSpectrePosition();
-
-	E_ENEMY_STATE m_enemyState;
 	E_ENEMY_ACTION m_enemyAction;
 
+	void SetPossesion(bool state);
+
+	E_ENEMY_STATE m_enemyState;
+	void ForceSetEnemyState(E_ENEMY_STATE enemyState);
 	void SpottedTarget(Vector2 pos);
 
 	//init enemy and animations
 	void AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState);
-	void ChangeAnimation();
+	void ChangeAnimation(double dt);
 private:
 	bool checkTileMapCollision(TileMap* _map);
 
