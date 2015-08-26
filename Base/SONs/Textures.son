@@ -20,12 +20,19 @@
 		[Name] PlayerBall
 		[FilePath] Image//player_ball.tga
 	}
-	#   PLAYER TEXTURE START 
+	#   PLAYER TEXTURE
 	{
 		[Name] Player_ANIMATION
 		[FilePath] Image//Spectre//Spectre.tga
+	} 
+
+	#   ENEMY TEXTURE
+	{
+		[Name] Enemy_ANIMATION
+		[FilePath] Image//Enemy//Enemy.tga
 	}
-	#    PLAYER TEXTURES END  
+
+
 	{
 		[Name] CircuitWall
 		[FilePath] Image//CircuitWall.tga

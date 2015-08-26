@@ -6,6 +6,8 @@
 #include "TileMap.h"
 #include "Viewer.h"
 #include "PathFinder.h"
+#include "SpriteAnimation.h"
+#include "MVC_Model.h"
 
 class Enemy : public Character, public Viewer, public PathFinder
 {
@@ -18,6 +20,20 @@ public:
 		ES_ATTACK,
 		ES_POSSESED,
 		ES_KNOCKOUT,
+		NUM_ENEMY_STATE,
+	};
+
+	enum E_ENEMY_ACTION
+	{
+		EA_IDLE_UP = 0,
+		EA_IDLE_DOWN,
+		EA_IDLE_LEFT,
+		EA_IDLE_RIGHT,
+		EA_WALK_UP,
+		EA_WALK_DOWN,
+		EA_WALK_LEFT,
+		EA_WALK_RIGHT,
+		NUM_ENEMY_ACTION,
 	};
 
 private:
@@ -44,12 +60,17 @@ private:
 
 	Vector2 m_spectralPositon;
 
+	//sprite animation vector
+	Animation* m__animationList[NUM_ENEMY_ACTION];
+	float m_animTime;
+
+
 public:
 	Enemy(void);
 	virtual ~Enemy(void);
 	void Init(Vector2 pos, E_ENEMY_STATE enemyState);
 	void Update(double dt, TileMap* _map);
-
+	
 	//void SetStartPatrolPoint(Vector2 pos);
 	//void SetEndPatrolPoint(Vector2 pos);
 	void AddPatrolPoint(Vector2 pos);
@@ -63,8 +84,13 @@ public:
 	Vector2 GetSpectrePosition();
 
 	E_ENEMY_STATE m_enemyState;
+	E_ENEMY_ACTION m_enemyAction;
 
 	void SpottedTarget(Vector2 pos);
+
+	//init enemy and animations
+	void AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState);
+	void ChangeAnimation();
 private:
 	bool checkTileMapCollision(TileMap* _map);
 
@@ -73,7 +99,7 @@ protected:
 	virtual Vector2 pathFinder_getTilePosition(void);
 	// Function to allow the viewer to get the child class's transform details
 	virtual Vector2 viewer_GetTilePos(void);
-	// Function ti allow the viewer to get the child class's facing direction
+	// Function to allow the viewer to get the child class's facing direction
 	virtual Vector2 viewer_GetDirection(void);
 };
 

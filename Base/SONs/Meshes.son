@@ -29,7 +29,7 @@
 		[Length] 1.0f
 	}
 
-	#   PLAYER MESHES START 
+	#   PLAYER MESHES 
 	{
 		[Name] Player_ANIMATION
 		[Type] SpriteAnimation2D
@@ -37,7 +37,6 @@
 		[SpriteAnimationColumn] 3
 		[ScaleX] 1
 		[ScaleY] 1
-		[SpriteAnimationRepeat] 0
 		[Texture] Player_ANIMATION
 	}
 
@@ -58,6 +57,16 @@
 	}
 
 	#    PLAYER MESHES END  
+
+	{
+		[Name] Enemy_ANIMATION
+		[Type] SpriteAnimation2D
+		[SpriteAnimationRow] 4
+		[SpriteAnimationColumn] 3
+		[ScaleX] 1
+		[ScaleY] 1
+		[Texture] Enemy_ANIMATION
+	}
 
 	{
 		[Name] Player
