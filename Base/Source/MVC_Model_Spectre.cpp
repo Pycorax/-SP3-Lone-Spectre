@@ -205,10 +205,10 @@ void MVC_Model_Spectre::Init(void)
 	//Enemy
 	Enemy* _enemy = new Enemy;
 	_enemy->SetMesh(GetMeshResource("ShadowBall"));
-	//_enemy->SetMapPosition(Vector2 (500, 200), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
-	//_enemy->SetScale(Vector2(32.f, 32.f));
-	//_enemy->initPathFinder(m__currentLevel->GetTileMap());
-	//_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
+	_enemy->SetMapPosition(Vector2 (500, 200), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
+	_enemy->SetScale(Vector2(64.f, 64.f));
+	_enemy->initPathFinder(m__currentLevel->GetTileMap());
+	_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());//m__player->GetTransform().Translation);
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,20));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,60));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(40,20));
@@ -387,7 +387,7 @@ void MVC_Model_Spectre::Update(double dt)
 
 		// Update Lighting
 		vector<Vector2> shadowCasters;
-		shadowCasters.push_back(m__player->GetMapTilePos());
+		shadowCasters.push_back(m__player->GetMapTilePos()); 
 		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
 
 		// Rendering
