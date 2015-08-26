@@ -212,12 +212,19 @@ void MVC_Model_Spectre::Init(void)
 	InitPlayer();
 
 	// Init the hacking game
-	m_hackingGame.Init(GetMeshResource("ShadowBall"), GetMeshResource("PlayerBall"), GetMeshResource("CircuitWall"), GetMeshResource("DestroyedWall"), GetMeshResource("RestrictedWall"), GetMeshResource("LoseScreen"), GetMeshResource("MinigameBG"), m_viewWidth, m_viewHeight);
+	m_hackingGame.Init
+		(
+			GetMeshResource("ShadowBall"), 
+			GetMeshResource("PlayerBall"), 
+			GetMeshResource("CircuitWall"), 
+			GetMeshResource("DestroyedWall"), 
+			GetMeshResource("RestrictedWall"), 
+			GetMeshResource("LoseScreen"), 
+			GetMeshResource("MinigameBG"),
+			m_viewWidth, m_viewHeight);
 
 	findLevelFiles("Levels//");
 	loadLevel(m_levelFiles[m_currentLevelID]);
-
-	int i = 100;
 
 	//Enemy
 	//Enemy* _enemy = new Enemy;
