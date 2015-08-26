@@ -16,7 +16,7 @@ class TextObject : public GameObject2D
 	Color m_col;
 
 	public:
-		TextObject(Mesh * font, string text, Color col = Color());
+		TextObject(Mesh * font, string text = "", Color col = Color());
 		~TextObject(void);
 
 		void SetText(string text);
