@@ -7,8 +7,8 @@
 
 	# # Criticals DO NOT TOUCH
 	{
-		[Name] Calibri
-		[FilePath] Image//calibri.tga
+		[Name] DejaVuSansMono
+		[FilePath] Image//DejaVuSansMono.tga
 	}
 	
 	{
