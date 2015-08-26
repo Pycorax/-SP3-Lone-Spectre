@@ -552,6 +552,7 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			m_renderList2D.push((*enemyIter));
 		}
+		m_renderList2D.push(m_fpsCount);
 	}
 }
 void MVC_Model_Spectre::Exit(void)
