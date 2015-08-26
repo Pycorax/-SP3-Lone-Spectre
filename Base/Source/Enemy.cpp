@@ -114,54 +114,48 @@ void Enemy::Update(double dt, TileMap* _map)
 		}
 		case ES_POSSESED:
 		{
-			if (m_oldPos.x != m_spectralPositon.x)
+			if (m_oldPos != m_spectralPositon)
 			{
-				m_oldPos.x = m_spectralPositon.x;
+				SetMapPosition(m_oldPos, _map->GetScrollOffset(), _map->GetTileSize());
 			}
-			if (m_oldPos.y != m_spectralPositon.y)
-			{
-				m_oldPos.y = m_spectralPositon.y;
-			}
-
 			break;
 		}
 		case ES_SCAN:
 		{
-			m_bScanning = true;
-			if (m_bScanning == true)
+			if (m_alertLevel > 0)
 			{
-				if (m_alertLevel > 0)
+				m_checkAround = 0;
+				static const double S_WAIT_TIME = 2.0;
+
+				if (m_checkAround >= S_WAIT_TIME * 1)
 				{
-					m_checkAround = 0;
-					if (m_checkAround >= 2)
-					{
-						m_lookDir = Vector2(1, 0);
-					}
-					else if (m_checkAround >= 2 && m_checkAround < 4)
-					{
-						m_lookDir = Vector2(0, 1);
-					}
-					else if (m_checkAround >= 4 && m_checkAround < 6)
-					{
-						m_lookDir = Vector2(-1, 0);
-					}
-					else if (m_checkAround >= 6 && m_checkAround < 8)
-					{
-						m_lookDir = Vector2(0, -1);
-					}
-					m_alertLevel -= 1;
+					m_lookDir = S_DIRECTION[Character::DIR_UP];
 				}
-				else
+				else if (m_checkAround >= 2 && m_checkAround < S_WAIT_TIME * 2)
 				{
-					m_bScanning = false;
+					m_lookDir = S_DIRECTION[Character::DIR_DOWN];
 				}
+				else if (m_checkAround >= 4 && m_checkAround < S_WAIT_TIME * 3)
+				{
+					m_lookDir = S_DIRECTION[Character::DIR_LEFT];
+				}
+				else if (m_checkAround >= 6 && m_checkAround < S_WAIT_TIME * 4)
+				{
+					m_lookDir = S_DIRECTION[Character::DIR_RIGHT];
+				}
+				m_alertLevel -= 1;
+				m_checkAround += dt;
+			}
+			else
+			{
+				m_enemyState = ES_PATROL;
 			}
 			//Check the area for 2 rotation
 			break;
 		}			
 	}
 
-	m_checkAround += dt;
+	
 }
 
 void Enemy::AddPatrolPoint(Vector2 Pos)
