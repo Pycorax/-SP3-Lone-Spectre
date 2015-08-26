@@ -46,6 +46,10 @@ struct Message
 class MessageManager
 {
 private:	// Variables
+	// Static Constants
+	static const Vector2 TITLE_POS_OFFSET;		// Offset from the top left of the message box
+	static const Vector2 TEXT_POS_OFFSET;		// Offset from the top left of the message box
+
 	// Message Renderers
 	GameObject2D* m_messageBG;			// GameObject of the message's background image
 	TextObject* m_messageTitle;			// TextObject of the message's title
@@ -61,11 +65,11 @@ public:		// Functions
 	MessageManager();
 	~MessageManager();
 
-	void Init(Mesh * _messageBackground, Mesh* _textMesh, Mesh* _titleMesh, int messageWidth, int messageHeight);
+	void Init(Mesh * _messageBackground, Mesh* _textMesh, Mesh* _titleMesh, Vector2 messageScale, Vector2 margin = Vector2::ZERO_VECTOR);
 
 	void AddMessages(string filePath);
 	void AddMessage(Message msg);
-	vector<GameObject2D*> GetMessageObject(int viewWidth, int viewHeight);
+	vector<GameObject2D*> GetMessageObjects(int viewWidth, int viewHeight);
 
 private:	// Functions
 };

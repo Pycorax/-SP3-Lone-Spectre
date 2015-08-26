@@ -11,7 +11,8 @@
 			[Name] Level3
 			[MeshType] Sphere
 			[MeshDir] Mesh
-			[MeshMaterial] Plastic
+			[MeshMaterial] Plastic SPACING
+			[MeshScale] 1.0
 
 		}
 	}

@@ -14,6 +14,7 @@
 			[MeshType]Sphere
 			[MeshDir]Mesh
 			[MeshMaterial] "Plastic SPACING"
+			[MeshScale] 1.0
 		}
 	}
 	

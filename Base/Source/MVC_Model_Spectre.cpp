@@ -169,7 +169,30 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 
 		m_enemyList.push_back(_enemy);
 	}
-}   
+}
+
+void MVC_Model_Spectre::updateMessenger(double dt)
+{
+	// Timer for displaying 
+	static const double MESSAGE_DELAY = 5.0f;			// TODO: Move this into message struct
+	static double timer = MESSAGE_DELAY;
+	timer += dt;
+
+	if (timer > MESSAGE_DELAY)
+	{
+		// Store the message objects into this
+		m_messageObjects = m_messenger.GetMessageObjects(m_viewWidth, m_viewHeight);
+		timer = 0.0f;
+	}
+}
+
+void MVC_Model_Spectre::pushMessageToRender(void)
+{
+	for (vector<GameObject2D*>::iterator messageObjects = m_messageObjects.begin(); messageObjects != m_messageObjects.end(); ++messageObjects)
+	{
+		m_renderList2D.push(*messageObjects);
+	}
+}
 
 void MVC_Model_Spectre::resetTileMarkers(void)
 {
@@ -249,6 +272,10 @@ void MVC_Model_Spectre::Init(void)
 	findLevelFiles("Levels//");
 	loadLevel(m_levelFiles[m_currentLevelID]);
 	float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
+
+	// Init the MessageManager
+	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(600.0f, 200.0f), Vector2(20.0f, 20.0f));
+	m_messenger.AddMessages("Messages//Level1_Message.son");
 
 	//Enemy
 	Enemy* _enemy = new Enemy;
@@ -506,8 +533,11 @@ void MVC_Model_Spectre::Update(double dt)
 			resizeScreen();
 		}
 		
-		//Updates player depending on actions queued.
+		// Updates player depending on actions queued.
 		m__player->Update(dt, m__currentLevel->GetTileMap());
+
+		// Update messages
+		updateMessenger(dt);
 
 		// Update camera list
 		updateCamera(dt);
@@ -552,6 +582,10 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			m_renderList2D.push((*enemyIter));
 		}
+
+		// Render Messages
+		pushMessageToRender();
+
 		m_renderList2D.push(m_fpsCount);
 	}
 }

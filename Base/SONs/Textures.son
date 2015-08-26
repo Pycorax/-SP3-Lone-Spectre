@@ -118,4 +118,9 @@
 		[Name] ShadowOverlay
 		[FilePath] Image//Lab_Tiles//shadow.tga
 	}
+	
+	{
+		[Name] MessageBG
+		[FilePath] Image//message_box.tga
+	}
 }

@@ -8,17 +8,21 @@
 	{
 			[Name] General
 			[Message] "Welcome back, Commander!"
+			[MessagePosition] MP_TOP_LEFT
 	}
 	{
 			[Name] General
 			[Message] "Welcome back, Commander!"
+			[MessagePosition] MP_TOP_RIGHT
 	}
 	{
 			[Name] General
 			[Message] "Welcome back, Commander!"
+			[MessagePosition] MP_BOT_LEFT
 	}
 	{
 			[Name] General
 			[Message] "Welcome back, Commander!"
+			[MessagePosition] MP_BOT_RIGHT
 	}
 }

@@ -9,6 +9,7 @@
 #include "PhysicalObject.h"
 #include "Enemy.h"
 #include "SecurityCamera.h"
+#include "MessageManager.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -33,7 +34,7 @@ private:	// Variables
 	int m_currentLevelID;
 	vector<string> m_levelFiles;
 
-	//TileMap/Overworld
+	//TileMap/Over-world
 	vector<GameObject2D*> m__tileMarkers;					// A vector of lights that can be used to render a "lighted" effect
 	Mesh* m__tileMarkerMesh[NUM_TILE_MARKER];									// The meshes used for marking areas (shadows, areas being viewed)
 
@@ -41,7 +42,11 @@ private:	// Variables
 	Player* m__player;
 	vector<Enemy*> m_enemyList;
 
-	// Camera
+	// Messaging System
+	MessageManager m_messenger;
+	vector<GameObject2D*> m_messageObjects;
+
+	// Cameras
 	vector<SecurityCamera*> m_cameraList;
 
 	// Collision
@@ -49,7 +54,7 @@ private:	// Variables
 
 	// Spectral HexText MiniGame 
 	bool m_hackMode;					// Controls whether hack mode is enabled
-	SpectreHexGame m_hackingGame;		// Controls the hacking minigame for the spectre hextech skill
+	SpectreHexGame m_hackingGame;		// Controls the hacking mini-game for the spectre hex-tech skill
 
 	// Other/Debug
 	bool m_enableShadow;				// Controls if shadows will be rendered
@@ -78,6 +83,10 @@ protected:
 	int findLevelFiles(string folderPath);
 	void loadLevel(string levelMapFile);
 
+	// MessageManager
+	void updateMessenger(double dt);
+	void pushMessageToRender(void);
+
 	// Cameras
 	void updateCamera(double dt);
 	void clearCameraList();
@@ -90,7 +99,7 @@ protected:
 	void updateHackMode(const double DT);
 	void startHackMode(void);
 
-	// Tilemap rendering
+	// Tile-map rendering
 	void tileMapToRender(TileMap* _ToRender);
 
 	// Screen resizing
