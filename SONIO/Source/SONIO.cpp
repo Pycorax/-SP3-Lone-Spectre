@@ -113,8 +113,8 @@ void SONIO::WriteBranch(Branch branchBlock, ofstream& file)
 {
 	// Indentation
 	static int depth = 0;
-	string braceIndent = CreateIndent(depth);
-	string indent = CreateIndent(depth + 1);
+	string braceIndent = createIndent(depth);
+	string indent = createIndent(depth + 1);
 	++depth;
 
 	//-------------------- Start of the Branch --------------------//
@@ -143,7 +143,7 @@ void SONIO::WriteBranch(Branch branchBlock, ofstream& file)
 	--depth;
 }
 
-vector<string> SONIO::FileToVector(string fileName)
+vector<string> SONIO::fileToVector(string fileName)
 {
 	vector<string> result;
 	ifstream file;
@@ -156,7 +156,7 @@ vector<string> SONIO::FileToVector(string fileName)
 		{
 			string line;
 			getline(file, line);
-			line = Trim(line);
+			line = trim(line);
 
 			// Only add if the line is empty or not a comment
 			if (line.length() > 0 && line[0] != '#')
@@ -169,13 +169,18 @@ vector<string> SONIO::FileToVector(string fileName)
 	return result;
 }
 
-string SONIO::Trim(string str)
+string SONIO::trim(string str)
 {
 	string result = "";
+	bool stopTrim = false;
 
 	for (size_t i = 0; i < str.length(); ++i)
 	{
-		if (str[i] != ' ' && str[i] != '\t')
+		if (str[i] == IGNORE_TRIM)
+		{
+			stopTrim = !stopTrim;
+		}
+		else if (stopTrim || (!stopTrim && !isWhiteSpace(str[i])))
 		{
 			result += str[i];
 		}
@@ -186,7 +191,7 @@ string SONIO::Trim(string str)
 
 Branch SONIO::LoadSON(string fileName)
 {
-	vector<string> codeToProcess = FileToVector(fileName);
+	vector<string> codeToProcess = fileToVector(fileName);
 
 	return GetBranches(codeToProcess);
 }
@@ -217,7 +222,7 @@ bool SONIO::fileExists(const char *fileName)
 	return infile.good();
 }
 
-string SONIO::CreateIndent(int depth)
+string SONIO::createIndent(int depth)
 {
 	ostringstream result;
 	
@@ -227,4 +232,16 @@ string SONIO::CreateIndent(int depth)
 	}
 
 	return result.str();
+}
+
+bool SONIO::isWhiteSpace(char c)
+{
+	if (c == ' ' || c == '\t')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

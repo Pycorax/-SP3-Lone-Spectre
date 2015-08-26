@@ -61,101 +61,102 @@ void Enemy::Update(double dt, TileMap* _map)
 
 	switch (m_enemyState)
 	{
-	case ES_PATROL:
-	{
-					  //MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt) ;// updates to next postition
+		case ES_PATROL:
+		{
+			//MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt) ;// updates to next postition
 
-					  if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
-					  {
+			if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
+			{
 
-						  if (m_pathPointCounter >= m_pathWay.size() - 1)
-						  {
-							  m_pathPointCounter = 0;
-						  }
-						  else
-						  {
-							  m_pathPointCounter++;
-						  }
+				if (m_pathPointCounter >= m_pathWay.size() - 1)
+				{
+					m_pathPointCounter = 0;
+				}
+				else
+				{
+					m_pathPointCounter++;
+				}
 
-						  break;
-					  }
-	}
-	case ES_CHASE:
-	{
-					 //Make enemy chase after the hero's current position with path-finding
-					 m_bAlerted = true;
-					 Vector2 nextTarget;
-					 vector<AINode*> path = GetPath();
-					 if (path.size() > 0)
-					 {
-						 nextTarget.x = path[m_pathPointCounter]->m_gridPosX;
-						 nextTarget.y = path[m_pathPointCounter]->m_gridPosY;
-					 }
+				break;
+			}
+		}
+		case ES_CHASE:
+		{
+			//Make enemy chase after the hero's current position with path-finding
+			m_bAlerted = true;
+			Vector2 nextTarget;
+			UpdatePath(_map->GetTileSize());
+			vector<AINode*> path = GetPath();
+			if (path.size() > 0)
+			{
+				nextTarget.x = path[m_pathPointCounter]->m_gridPosX;
+				nextTarget.y = path[m_pathPointCounter]->m_gridPosY;
+			}
 
-					 if (MoveTo(nextTarget, _map, dt));
-					 {
-						 if (path.size() == m_pathPointCounter) // if patrol counter reached the last one
-						 {
-							 m_pathPointCounter = 0; // reset back to 0
-						 }
-						 else
-						 {
-							 m_pathPointCounter += 1; // move on to next point
-						 }
-					 }
-					 if (m_bAlerted)
-					 {
-						 if (m_alertLevel < 3)
-						 {
-							 m_alertLevel += dt;
-						 }
-					 }
-	}
-	case ES_ATTACK:
-	{
-					  break;
-	}
-	case ES_POSSESED:
-	{
-						if (m_oldPos != m_spectralPositon)
-						{
-							SetMapPosition(m_oldPos, _map->GetScrollOffset(), _map->GetTileSize());
-						}
-						break;
-	}
-	case ES_SCAN:
-	{
-					if (m_alertLevel > 0)
-					{
-						m_checkAround = 0;
-						static const double S_WAIT_TIME = 2.0;
+			if (MoveTo(nextTarget, _map, dt));
+			{
+				if (path.size() == m_pathPointCounter) // if patrol counter reached the last one
+				{
+					m_pathPointCounter = 0; // reset back to 0
+				}
+				else
+				{
+					m_pathPointCounter += 1; // move on to next point
+				}
+			}
+			if (m_bAlerted)
+			{
+				if (m_alertLevel < 3)
+				{
+					m_alertLevel += dt;
+				}
+			}
+		}
+		case ES_ATTACK:
+		{
+			break;
+		}
+		case ES_POSSESED:
+		{
+			if (m_oldPos != m_spectralPositon)
+			{
+				SetMapPosition(m_oldPos, _map->GetScrollOffset(), _map->GetTileSize());
+			}
+			break;
+		}
+		case ES_SCAN:
+		{
+			if (m_alertLevel > 0)
+			{
+				m_checkAround = 0;
+				static const double S_WAIT_TIME = 2.0;
 
-						if (m_checkAround >= S_WAIT_TIME * 1)
-						{
-							m_lookDir = S_DIRECTION[Character::DIR_UP];
-						}
-						else if (m_checkAround >= 2 && m_checkAround < S_WAIT_TIME * 2)
-						{
-							m_lookDir = S_DIRECTION[Character::DIR_DOWN];
-						}
-						else if (m_checkAround >= 4 && m_checkAround < S_WAIT_TIME * 3)
-						{
-							m_lookDir = S_DIRECTION[Character::DIR_LEFT];
-						}
-						else if (m_checkAround >= 6 && m_checkAround < S_WAIT_TIME * 4)
-						{
-							m_lookDir = S_DIRECTION[Character::DIR_RIGHT];
-						}
-						m_alertLevel -= 1;
-						m_checkAround += dt;
-					}
-					else
-					{
-						m_enemyState = ES_PATROL;
-					}
-					//Check the area for 2 rotation
-					break;
-	}
+				if (m_checkAround >= S_WAIT_TIME * 1)
+				{
+					m_lookDir = S_DIRECTION[Character::DIR_UP];
+				}
+				else if (m_checkAround >= 2 && m_checkAround < S_WAIT_TIME * 2)
+				{
+					m_lookDir = S_DIRECTION[Character::DIR_DOWN];
+				}
+				else if (m_checkAround >= 4 && m_checkAround < S_WAIT_TIME * 3)
+				{
+					m_lookDir = S_DIRECTION[Character::DIR_LEFT];
+				}
+				else if (m_checkAround >= 6 && m_checkAround < S_WAIT_TIME * 4)
+				{
+					m_lookDir = S_DIRECTION[Character::DIR_RIGHT];
+				}
+				m_alertLevel -= 1;
+				m_checkAround += dt;
+			}
+			else
+			{
+				m_enemyState = ES_PATROL;
+			}
+			//Check the area for 2 rotation
+			break;
+		}
 	}
 }
 

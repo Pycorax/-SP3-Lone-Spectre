@@ -78,7 +78,7 @@ void PathFinder::UpdatePath(int tileSize)
 				continue;
 			}
 
-			// Calculate the mvoement cost
+			// Calculate the movement cost
 			int movementCost = currentNode->m_GCost + getDistance(currentNode, neighbour);
 
 			// Check if neighbour is not in open

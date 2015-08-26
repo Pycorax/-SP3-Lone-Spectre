@@ -43,15 +43,17 @@ class SONIO
 		static const char CLOSE_BRANCH = '}';
 		static const char OPEN_ATTRIB = '[';
 		static const char CLOSE_ATTRIB = ']';
+		static const char IGNORE_TRIM = '"';
 		static const char COMMENT = '#';
 
 		static Branch GetBranches(vector<string> branchBlock);
 		static void WriteBranch(Branch branchBlock, ofstream& file);
 
-		static vector<string> FileToVector(string fileName);
-		static string Trim(string str);
+		static vector<string> fileToVector(string fileName);
+		static string trim(string str);
 		static bool fileExists(const char *fileName);
-		static string CreateIndent(int depth);
+		static string createIndent(int depth);
+		static bool isWhiteSpace(char c);
 
 	public:
 		static Branch LoadSON(string fileName);
