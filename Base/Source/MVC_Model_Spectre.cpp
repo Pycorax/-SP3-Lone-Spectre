@@ -6,6 +6,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_hackMode(false)
 	, m__player(NULL)
 	, m_enableShadow(true)
+	, m_alertLevel(0.f)
 {
 }
 
@@ -499,7 +500,7 @@ void MVC_Model_Spectre::Update(double dt)
 		Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
 		if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
 		{
-			_tile->NotifyViewer(m__player->GetMapTilePos());
+			_tile->NotifyViewer(m__player->GetMapTilePos(), m_alertLevel, dt);
 		}
 
 		//update enemies

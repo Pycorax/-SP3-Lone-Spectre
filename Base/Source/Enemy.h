@@ -85,7 +85,7 @@ public:
 
 	E_ENEMY_STATE m_enemyState;
 	void ForceSetEnemyState(E_ENEMY_STATE enemyState);
-	void SpottedTarget(Vector2 pos);
+	void SpottedTarget(Vector2 pos, float &alertLevel, double dt);
 
 	//init enemy and animations
 	void AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState);

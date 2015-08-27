@@ -319,9 +319,10 @@ int Enemy::GetAlertLevel(void)
 	return this->m_alertLevel;
 }
 
-void Enemy::SpottedTarget(Vector2 pos)
+void Enemy::SpottedTarget(Vector2 pos, float &alertLevel, double dt)
 {
 	m_bAlerted = true;
+	alertLevel += dt;
 }
 
 Vector2 Enemy::pathFinder_getTilePosition(void)

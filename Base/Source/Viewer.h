@@ -31,7 +31,7 @@ public:			// Functions
 	// Function to allow the viewer to get the child class's facing direction
 	virtual Vector2 viewer_GetDirection(void) = 0;
 	// Function to be called by the tile that stores the Viewers, to inform the Viewer of the Character that has entered the Viewer's viewing box (Response)
-	virtual void SpottedTarget(Vector2 pos) = 0;
+	virtual void SpottedTarget(Vector2 pos, float &alertLevel, double dt) = 0;
 };
 
 #endif

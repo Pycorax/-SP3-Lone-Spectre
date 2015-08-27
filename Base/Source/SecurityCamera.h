@@ -33,7 +33,7 @@ public:
 	~SecurityCamera(void);
 	virtual Vector2 viewer_GetTilePos(void);
 	virtual Vector2 viewer_GetDirection(void);
-	virtual void SpottedTarget(Vector2 targetTilePos); // Response
+	virtual void SpottedTarget(Vector2 targetTilePos, float &alertLevel, double dt); // Response
 	virtual void updateScreenPos(Vector2 pos);
 
 	void Init(Vector2 dir, bool state, int maxRangeX, int maxRangeY);

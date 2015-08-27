@@ -47,6 +47,9 @@ private:	// Variables
 	MessageManager m_messenger;
 	vector<GameObject2D*> m_messageObjects;
 
+	// Alert
+	float m_alertLevel;
+
 	// Cameras
 	vector<SecurityCamera*> m_cameraList;
 

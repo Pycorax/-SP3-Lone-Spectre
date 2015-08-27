@@ -58,7 +58,7 @@ public:
 	void RemoveViewer(Viewer* _viewer);
 	void ResetViewers(void);
 	bool IsViewed(void);
-	void NotifyViewer(Vector2 targetTilePos);
+	void NotifyViewer(Vector2 targetTilePos, float &alertLevel, double dt);
 
 	void AddLight(int lightValue);
 	void ResetLighting(void);

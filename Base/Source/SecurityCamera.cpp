@@ -85,9 +85,9 @@ Vector2 SecurityCamera::viewer_GetDirection(void)
 	return m_dir;
 }
 
-void SecurityCamera::SpottedTarget(Vector2 targetTilePos)
+void SecurityCamera::SpottedTarget(Vector2 targetTilePos, float &alertLevel, double dt)
 {
-	// TODO: Increase alert of guards
+	alertLevel += dt;
 	cout << "Spotted" << endl;
 }
 

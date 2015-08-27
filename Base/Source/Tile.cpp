@@ -124,14 +124,14 @@ bool Tile::IsViewed(void)
 	return m__viewerList.size() > 0;
 }
 
-void Tile::NotifyViewer(Vector2 targetTilePos)
+void Tile::NotifyViewer(Vector2 targetTilePos, float &alertLevel, double dt)
 {
 	for (vector<Viewer*>::iterator it = m__viewerList.begin(); it != m__viewerList.end(); ++it)
 	{
 		Viewer* _viewer = (Viewer*)*it;
 		if (_viewer)
 		{
-			_viewer->SpottedTarget(targetTilePos);
+			_viewer->SpottedTarget(targetTilePos, alertLevel, dt);
 		}
 	}
 }
