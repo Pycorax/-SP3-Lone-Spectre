@@ -279,58 +279,18 @@ void MVC_Model_Spectre::Init(void)
 
 	//Enemy
 	Enemy* _enemy = new Enemy;
-	Animation* _a;
-	//Idle South
-	_a = new Animation();
-	_a->Set(1, 1, 0, 0.f);
-	_enemy->AddAnimation(_a, Enemy::EA_IDLE_DOWN);
-
-	//Idle East
-	_a = new Animation();
-	_a->Set(4, 4, 0, 0.f);
-	_enemy->AddAnimation(_a, Enemy::EA_IDLE_RIGHT);
-
-	//Idle East
-	_a = new Animation();
-	_a->Set(7, 7, 0, 0.f);
-	_enemy->AddAnimation(_a, Enemy::EA_IDLE_LEFT);
-
-	//Idle North
-	_a = new Animation();
-	_a->Set(10, 10, 0, 0.f);
-	_enemy->AddAnimation(_a, Enemy::EA_IDLE_UP);
-
-	//Walk South
-	_a = new Animation();
-	_a->Set(0, 2, 0, 0.4f);
-	_enemy->AddAnimation(_a, Enemy::EA_WALK_DOWN);
-
-	//Walk East
-	_a = new Animation();
-	_a->Set(3, 5, 0, 0.4f);
-	_enemy->AddAnimation(_a, Enemy::EA_WALK_RIGHT);
-
-	//Walk East
-	_a = new Animation();
-	_a->Set(6, 8, 0, 0.4f);
-	_enemy->AddAnimation(_a, Enemy::EA_WALK_LEFT);
-
-	//Walk North
-	_a = new Animation();
-	_a->Set(9, 11, 0, 0.4f);
-	_enemy->AddAnimation(_a, Enemy::EA_WALK_UP);
 
 	_enemy->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, m__currentLevel->GetTileMap()->GetScrollOffset(),tileSize);
-	_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
+	//_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
 	_enemy->SetScale(Vector2(tileSize, tileSize));
 	_enemy->initPathFinder(m__currentLevel->GetTileMap());
 	_enemy->SetTarget(m__player->GetMapPos(), tileSize);//m__player->GetTransform().Translation);
 	//patrol points per enemy
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0,tileSize));
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0,tileSize));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0, tileSize));
+	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0, tileSize));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(2 * tileSize ,tileSize));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(2 * tileSize, -tileSize));
-	m_enemyList.push_back(_enemy);
+	//m_enemyList.push_back(_enemy);
 }
 
 void MVC_Model_Spectre::InitPlayer(void)

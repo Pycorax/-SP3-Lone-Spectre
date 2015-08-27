@@ -90,8 +90,6 @@ public:
 	//init enemy and animations
 	void AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState);
 	void ChangeAnimation(double dt);
-private:
-	bool checkTileMapCollision(TileMap* _map);
 
 protected:
 	// Function to get the player's current position

@@ -112,8 +112,9 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 					Branch enemyBranch = *enemyBranchIT;
 					
 					Enemy* _enemy = new Enemy;
+					_enemy->Init(_enemy->GetMapPos(), NULL);
 					_enemy->SetScale(Vector2(tileSize, tileSize));
-
+					
 					// For each of the enemy's attribute
 					for (vector<Attribute>::iterator enemyAttribIT = enemyBranch.attributes.begin(); enemyAttribIT != enemyBranch.attributes.end(); ++enemyAttribIT)
 					{
@@ -125,7 +126,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 
 							if (values.size() >= 2)			// If the size of the vector is greater or equal to 2 for the 2 values for positioning
 							{
-								_enemy->SetMapPosition(Vector2(values[0] * tileSize, values[1] * tileSize), m__map->GetScrollOffset(), tileSize);
+								_enemy->SetMapPosition(Vector2(values[0], values[1]), m__map->GetScrollOffset(), tileSize);
 							}
 						}
 						else if (attrib.name == ATTRIBUTE_NAMES[A_MESH])

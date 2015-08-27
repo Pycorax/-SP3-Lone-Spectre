@@ -21,8 +21,6 @@ void PathFinder::initPathFinder(TileMap * _tileMap)
 void PathFinder::UpdatePath(int tileSize)
 {
 	Vector2 startPos = pathFinder_getTilePosition();
-	startPos.x = startPos.x / tileSize;
-	startPos.y = startPos.y / tileSize;
 	AINode* startNode = m_nodeGrid.GetNodeAt(startPos.x, startPos.y);
 
 	vector<AINode*> openSet;

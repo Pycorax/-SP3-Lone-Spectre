@@ -18,8 +18,8 @@
 		
 		{
 			[Name] Enemy1
-			[Mesh] ShadowBall
-			[SpawnPosition] 10.0f, 50.0f
+			[Mesh] Enemy_ANIMATION
+			[SpawnPosition] 640.0f, 384.0f
 			[PatrolPoint] 0.0f, 20.0f
 			[PatrolPoint] 0.0f, 40.0f
 			[PatrolPoint] 40.0f, 20.0f

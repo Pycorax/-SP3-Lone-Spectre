@@ -15,6 +15,7 @@ Enemy::Enemy(void)
 
 Enemy::~Enemy(void)
 {
+	// TODO: Delete animations
 }
 
 void Enemy::Init(Vector2 pos, Mesh* _mesh)
@@ -23,6 +24,47 @@ void Enemy::Init(Vector2 pos, Mesh* _mesh)
 	SetMesh(_mesh );
 	m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
 	m_enemyAction = EA_IDLE_DOWN;
+
+	Animation* _a;
+	//Idle South
+	_a = new Animation();
+	_a->Set(1, 1, 0, 0.f);
+	AddAnimation(_a, Enemy::EA_IDLE_DOWN);
+
+	//Idle East
+	_a = new Animation();
+	_a->Set(4, 4, 0, 0.f);
+	AddAnimation(_a, Enemy::EA_IDLE_RIGHT);
+
+	//Idle East
+	_a = new Animation();
+	_a->Set(7, 7, 0, 0.f);
+	AddAnimation(_a, Enemy::EA_IDLE_LEFT);
+
+	//Idle North
+	_a = new Animation();
+	_a->Set(10, 10, 0, 0.f);
+	AddAnimation(_a, Enemy::EA_IDLE_UP);
+
+	//Walk South
+	_a = new Animation();
+	_a->Set(0, 2, 0, 0.4f);
+	AddAnimation(_a, Enemy::EA_WALK_DOWN);
+
+	//Walk East
+	_a = new Animation();
+	_a->Set(3, 5, 0, 0.4f);
+	AddAnimation(_a, Enemy::EA_WALK_RIGHT);
+
+	//Walk East
+	_a = new Animation();
+	_a->Set(6, 8, 0, 0.4f);
+	AddAnimation(_a, Enemy::EA_WALK_LEFT);
+
+	//Walk North
+	_a = new Animation();
+	_a->Set(9, 11, 0, 0.4f);
+	AddAnimation(_a, Enemy::EA_WALK_UP);
 }
 
 void Enemy::SetPossesion(bool state)
@@ -73,10 +115,8 @@ void Enemy::Update(double dt, TileMap* _map)
 
 	switch (m_enemyState)
 	{
-	case ES_PATROL:
+		case ES_PATROL:
 		{
-			//MoveTo(m_pathWay.GetPoint(m_pathPointCounter).ToVector3(), _map, dt) ;// updates to next postition
-
 			if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
 			{
 				if (m_pathPointCounter >= m_pathWay.size() - 1)
@@ -286,7 +326,7 @@ void Enemy::SpottedTarget(Vector2 pos)
 
 Vector2 Enemy::pathFinder_getTilePosition(void)
 {
-	return GetMapPos();
+	return GetMapTilePos();
 }
 
 Vector2 Enemy::viewer_GetTilePos(void)
