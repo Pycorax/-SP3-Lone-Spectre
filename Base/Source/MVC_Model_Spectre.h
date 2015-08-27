@@ -58,8 +58,6 @@ private:	// Variables
 
 	// Other/Debug
 	bool m_enableShadow;				// Controls if shadows will be rendered
-	// Keep track of resolution change
-	Vector2 resolution;
 
 public:
 	MVC_Model_Spectre(string configSONFile);
@@ -102,8 +100,9 @@ protected:
 	// Tile-map rendering
 	void tileMapToRender(TileMap* _ToRender);
 
-	// Screen resizing
-	void resizeScreen();
+	// Screen resizing code
+	void onResolutionChanged(int oldViewWidth, int oldViewHeight);
+	void resizeTileMap(int oldViewWidth);
 };
 
 #endif

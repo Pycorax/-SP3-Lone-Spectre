@@ -248,8 +248,6 @@ void MVC_Model_Spectre::Init(void)
 {
 	MVC_Model::Init();
 
-	resolution.Set(m_viewWidth, m_viewHeight);
-	
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
@@ -486,13 +484,7 @@ void MVC_Model_Spectre::Update(double dt)
 	}
 	//not in mini game - update normally
 	else
-	{
-		// Update tile size to fit screen resolution
-		if (resolution.x != m_viewWidth || resolution.y != m_viewHeight)
-		{
-			resizeScreen();
-		}
-		
+	{	
 		// Updates player depending on actions queued.
 		m__player->Update(dt, m__currentLevel->GetTileMap());
 
@@ -630,19 +622,24 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 	}
 }
 
-void MVC_Model_Spectre::resizeScreen()
+void MVC_Model_Spectre::onResolutionChanged(int oldViewWidth, int oldViewHeight)
+{
+	resizeTileMap(oldViewWidth);
+}
+
+void MVC_Model_Spectre::resizeTileMap(int oldViewWidth)
 {
 	TileMap* _tilemap = m__currentLevel->GetTileMap();
 	vector<vector<Tile*>*> _map = _tilemap->GetMap();
 	float tileSize = _tilemap->GetTileSize();
 	Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
 	Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / tileSize), ceil(_tilemap->GetScrollOffset().y / tileSize));
-	if (resolution.x < m_viewWidth) // Scale up screen
+	if (oldViewWidth < m_viewWidth) // Scale up screen
 	{
 		++mapScrollOffset.y;
 		_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
 	}
-	else if (resolution.x > m_viewWidth) // Scale down screen
+	else if (oldViewWidth > m_viewWidth) // Scale down screen
 	{
 		--mapScrollOffset.y;
 		_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
@@ -660,7 +657,6 @@ void MVC_Model_Spectre::resizeScreen()
 			m__player->SetScale(Vector2(tileSize, tileSize));
 		}
 	}
-	resolution.Set(m_viewWidth, m_viewHeight);
 }
 
 void MVC_Model_Spectre::updateCamera(double dt)

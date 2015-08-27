@@ -198,6 +198,9 @@ protected:
 	// Input
 	virtual void processKeyAction(double dt) = 0;
 	void resetKeysPressed(void);
+
+	// Resizing Code
+	virtual void onResolutionChanged(int oldViewWidth, int oldViewHeight) = 0;
 };
 
 #endif

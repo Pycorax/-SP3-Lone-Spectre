@@ -53,8 +53,13 @@ void MVC_Model::GetViewRes(int& x, int& y)
 
 void MVC_Model::UpdateViewRes(int width, int height)
 {
+	int oldWidth = m_viewWidth;
+	int oldHeight = m_viewHeight;
+
 	m_viewWidth = width;
 	m_viewHeight = height;
+
+	onResolutionChanged(oldWidth, oldHeight);
 }
 
 void MVC_Model::Init(void)
