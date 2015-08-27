@@ -24,21 +24,24 @@ private:
 	// TileMap
 	TileMap* m__map;
 	
+	// Messages
+	string m_messagesFile;				// A string that contains the file path to a message file with messages to load into a MessageManager
+
 	// Level Timer
-	double m_levelTimer;
-	double m_levelMaxTime;
+	double m_levelTimer;				// A timer for the level
+	double m_levelMaxTime;				// The max time for this level
 	
 	// Level Mission Type
-	LEVEL_MISSION_TYPE m_missionType;
+	LEVEL_MISSION_TYPE m_missionType;	// Stores the type of mission that this level will have
 
 	// List of enemies
-	vector<Enemy*> m_enemyList;
+	vector<Enemy*> m_enemyList;			// A list of enemy templates for this level
 
 	// Level Score
-	int m_score;
+	int m_score;						// Stores the score of this level
 
-	//objective of current levels
-	Objective* m__objective;
+	//Objective of current levels
+	Objective* m__objective;			// Stores a pointer to an Objective Manager that manages this level's objectives
 
 public:
 	Level(void);
@@ -51,8 +54,13 @@ public:
 
 	void ActivateObjective(void);
 	void UpdateObjective(double dt);
+
+	/*
+	 * Getter Functions
+	 */
 	bool GetObjectiveComplete(void) const;
 	bool GetActiveObjective(void) const;
+	string GetMessagesFile(void) const;
 
 	TileMap* GetTileMap();
 	vector<Enemy*> GetEnemyList(void);

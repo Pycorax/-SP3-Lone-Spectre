@@ -4,6 +4,7 @@
 
 const Vector2 MessageManager::TITLE_POS_OFFSET(50.0f, 55.0f);
 const Vector2 MessageManager::TEXT_POS_OFFSET(50.0f, 90.0f);
+const string MessageManager::NO_MESSAGE_TIMER_TITLE("NO_MESSAGE");
 
 MessageManager::MessageManager()
 {
@@ -120,6 +121,12 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	if (m_messages.size() > 0)
 	{
 		message = m_messages.front();
+
+		// If message is meant as a timer, then don't render anything
+		if (message.m_messageTitle == NO_MESSAGE_TIMER_TITLE)
+		{
+			return goList;
+		}
 	}
 	else
 	{

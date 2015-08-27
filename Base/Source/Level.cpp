@@ -20,6 +20,8 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		A_NUM_MAP_TILE,
 		A_MAX_TIMER,
 		A_MISSION_TYPE,
+		A_MESSAGES_FILE_PATH,
+		// -- For Enemies
 		A_MESH,
 		A_SPAWN_POSITION,
 		A_PATROL_POINT,
@@ -36,6 +38,8 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		"NumMapTile",
 		"MaxTimer",
 		"MissionType",
+		"MessagesFilePath",
+		// -- For Enemies
 		"Mesh",
 		"SpawnPosition",
 		"PatrolPoint"
@@ -117,6 +121,10 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 									   break;
 				}
 				}
+			}
+			else if (attrib.name == ATTRIBUTE_NAMES[A_MESSAGES_FILE_PATH])
+			{
+				m_messagesFile = attrib.value;
 			}
 		}
 
@@ -216,6 +224,11 @@ bool Level::GetObjectiveComplete(void) const
 bool Level::GetActiveObjective()const
 {
 	return m__objective->Active();
+}
+
+string Level::GetMessagesFile(void) const
+{
+	return m_messagesFile;
 }
 
 void Level::Clear(void)

@@ -199,10 +199,11 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 		}
 	}
 	
-
 	// Initialize the player
 	int tileSize = m__currentLevel->GetTileMap()->GetTileSize();
-	m__player->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0, 0), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
+	Vector2 playerSpawnPos = m__currentLevel->GetTileMap()->GetPlayerSpawnPos();
+	m__player->SetMapPosition(playerSpawnPos, playerSpawnPos - Vector2(m_viewWidth * 0.5, m_viewHeight * 0.5), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
+	m__currentLevel->GetTileMap()->SetScrollOffset(playerSpawnPos - Vector2(m_viewWidth * 0.5, m_viewHeight * 0.5));
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
 	// Initialize the enemies
@@ -216,6 +217,9 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 
 		m_enemyList.push_back(_enemy);
 	}
+
+	// Initialize the messages
+	m_messenger.AddMessages(m__currentLevel->GetMessagesFile());
 }
 
 void MVC_Model_Spectre::pushMessageToRender(void)
@@ -311,7 +315,6 @@ void MVC_Model_Spectre::Init(void)
 
 	// Init the MessageManager
 	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(600.0f, 200.0f), Vector2(20.0f, 20.0f));
-	m_messenger.AddMessages("Messages//Level1_Message.son");
 
 	//Enemy
 	Enemy* _enemy = new Enemy;

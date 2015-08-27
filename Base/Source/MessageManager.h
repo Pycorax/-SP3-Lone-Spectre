@@ -49,8 +49,9 @@ class MessageManager
 {
 private:	// Variables
 	// Static Constants
-	static const Vector2 TITLE_POS_OFFSET;		// Offset from the top left of the message box
-	static const Vector2 TEXT_POS_OFFSET;		// Offset from the top left of the message box
+	static const Vector2 TITLE_POS_OFFSET;			// Offset from the top left of the message box
+	static const Vector2 TEXT_POS_OFFSET;			// Offset from the top left of the message box
+	static const string NO_MESSAGE_TIMER_TITLE;		// A message with this title will be treated as a timer, no message will be displayed
 
 	// Message Renderers
 	GameObject2D* m_messageBG;					// GameObject of the message's background image
