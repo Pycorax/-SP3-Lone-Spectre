@@ -52,7 +52,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			{
 				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE)
 				{
-					// TODO: Go to level selection menu or end level screen
+					nextLevel();
 				}
 			}
 
@@ -117,10 +117,6 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			}
 
 		#pragma endregion
-	}
-	if(m__currentLevel->GetObjectiveComplete() )
-	{
-		std::cout << "COMPLETE!" << std::endl;
 	}
 	// Quitting the game
 	if (m_bKeyPressed[GAME_EXIT_KEY])
@@ -197,11 +193,10 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 		}
 	}
 	
+
 	// Initialize the player
 	int tileSize = m__currentLevel->GetTileMap()->GetTileSize();
-	Vector2 playerSpawnPos = m__currentLevel->GetTileMap()->GetPlayerSpawnPos();
-	m__player->SetMapPosition(playerSpawnPos, playerSpawnPos - Vector2(m_viewWidth * 0.5, m_viewHeight * 0.5), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
-	m__currentLevel->GetTileMap()->SetScrollOffset(playerSpawnPos - Vector2(m_viewWidth * 0.5, m_viewHeight * 0.5));
+	m__player->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0, 0), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
 	// Initialize the enemies
@@ -217,7 +212,24 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	}
 
 	// Initialize the messages
+	// -- Clear any previous messages from any previous levels
+	m_messenger.ClearMessages();
+	// -- Load the messages for this map
 	m_messenger.AddMessages(m__currentLevel->GetMessagesFile());
+}
+
+void MVC_Model_Spectre::nextLevel(void)
+{
+	m_currentLevelID = Math::Wrap(++m_currentLevelID, 0, static_cast<int>(m_levelFiles.size() - 1));
+
+	loadLevel(m_levelFiles[m_currentLevelID]);
+}
+
+void MVC_Model_Spectre::prevLevel(void)
+{
+	m_currentLevelID = Math::Wrap(--m_currentLevelID, 0, static_cast<int>(m_levelFiles.size() - 1));
+
+	loadLevel(m_levelFiles[m_currentLevelID]);
 }
 
 void MVC_Model_Spectre::pushMessageToRender(void)
@@ -313,6 +325,7 @@ void MVC_Model_Spectre::Init(void)
 
 	// Init the MessageManager
 	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(600.0f, 200.0f), Vector2(20.0f, 20.0f));
+	m_messenger.AddMessages("Messages//Level1_Message.son");
 
 	//Enemy
 	Enemy* _enemy = new Enemy;
@@ -434,7 +447,11 @@ void MVC_Model_Spectre::InitPlayer(void)
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
-
+	//TODO: Update to next map;
+	/*if(m__currentLevel->GetObjectiveComplete() )
+	{
+		std::cout << "COMPLETE!" << std::endl;
+	}*/
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);

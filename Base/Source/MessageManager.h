@@ -75,8 +75,16 @@ public:		// Functions
 	void Init(Mesh * _messageBackground, Mesh* _textMesh, Mesh* _titleMesh, Vector2 messageScale, Vector2 margin = Vector2::ZERO_VECTOR);
 	void Update(double dt);
 
+	/*
+	 * Setters
+	 */
 	void AddMessages(string filePath);
 	void AddMessage(Message msg);
+	void ClearMessages(void);
+
+	/*
+	 * Getters
+	 */
 	vector<GameObject2D*> GetMessageObjects(int viewWidth, int viewHeight);
 
 private:	// Functions

@@ -94,6 +94,8 @@ protected:
 	// Levels
 	int findLevelFiles(string folderPath);
 	void loadLevel(string levelMapFile);
+	void nextLevel(void);
+	void prevLevel(void);
 
 	// MessageManager
 	void pushMessageToRender(void);
