@@ -176,14 +176,15 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	deactivateTextObjects();
 
 	// -- Split a long message into multiple lines
-	const size_t MAX_LETTERS_PER_LINE = (m_messageBG->GetTransform().Scale.x - m_margin.x * 2) / (m_messageTextTemplate->GetTransform().Scale.x * 10);
+	const size_t MAX_LETTERS_PER_LINE = m_messageTextTemplate->GetTransform().Scale.x * 17.27 /* A constant value that returns the correct values. */;
 	static const Vector2 SHIFT_PER_LINE(0.0f, -m_messageTextTemplate->GetTransform().Scale.x);
+
 	int numSubStr = 0;		// Notes down number of substring created so as to shift the text down properly
+
 	for (size_t letter = 0; letter < message.m_message.length(); ++numSubStr)
 	{
 		// Concatenate the string
-		size_t substrLength = Math::Clamp(letter + MAX_LETTERS_PER_LINE, static_cast<unsigned>(0), message.m_message.length() - 1);
-		string str = message.m_message.substr(letter, substrLength - letter);
+		string str = message.m_message.substr(letter, MAX_LETTERS_PER_LINE);
 
 		// Build the Text Object
 		TextObject* text = fetchTextObject();
@@ -192,7 +193,7 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 		m_messageTextList.push_back(text);
 
 		// Move to the next sub string
-		letter += substrLength;
+		letter += MAX_LETTERS_PER_LINE;
 	}
 
 	// Prepare the title
