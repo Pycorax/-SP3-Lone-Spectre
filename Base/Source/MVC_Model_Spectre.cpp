@@ -71,18 +71,30 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					if (m_objective != NULL && m__currentLevel->GetObjectiveComplete() == false)
 					{
 						m__currentLevel->ActivateObjective();
-						
 					}
+					
 				}
-				//if the objective is to set or defuse bomb
-				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
-					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
-				{
-					if (m_objective != NULL && m__currentLevel->GetActiveObjective())
-					{
-						m__currentLevel->UpdateObjective(dt);
-					}
-				}
+				//else if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
+				//{
+				//	if (m_objective != NULL)
+				//	{
+				//		m_objective->Activate();
+				//	}
+				//}
+				//else if (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
+				//{
+				//	if (m_objective != NULL)
+				//	{
+				//		m_objective->Activate();
+				//	}
+				//}
+				//else if (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
+				//{
+				//	if (m_objective != NULL)
+				//	{
+				//		m_objective->Activate();
+				//	}
+				//}
 			}
 
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive

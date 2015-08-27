@@ -22,12 +22,12 @@ void MessageManager::Init(Mesh * _messageBackground, Mesh* _textMesh, Mesh* _tit
 	m_messageBG->SetScale(messageScale);
 
 	// Init the Text
-	m_messageText = new TextObject(_textMesh);
-	m_messageText->SetScale(Vector2(3.0f));
+	m_messageTextTemplate = new TextObject(_textMesh);
+	m_messageTextTemplate->SetScale(Vector2(2.2f));
 
 	// Init the Title
 	m_messageTitle = new TextObject(_titleMesh);
-	m_messageTitle->SetScale(Vector2(4.5f));
+	m_messageTitle->SetScale(Vector2(3.5f));
 
 	// Set the Margin
 	m_margin = margin;
@@ -172,8 +172,28 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	messageTextPos.y += messageBGScale.y - TEXT_POS_OFFSET.y;
 	messageTextPos = messageTextPos * 0.1;
 
-	m_messageText->SetPos(messageTextPos);
-	m_messageText->SetText(message.m_message);
+	// -- Deactivate the previous text objects
+	deactivateTextObjects();
+
+	// -- Split a long message into multiple lines
+	const size_t MAX_LETTERS_PER_LINE = (m_messageBG->GetTransform().Scale.x - m_margin.x * 2) / (m_messageTextTemplate->GetTransform().Scale.x * 10);
+	static const Vector2 SHIFT_PER_LINE(0.0f, -m_messageTextTemplate->GetTransform().Scale.x);
+	int numSubStr = 0;		// Notes down number of substring created so as to shift the text down properly
+	for (size_t letter = 0; letter < message.m_message.length(); ++numSubStr)
+	{
+		// Concatenate the string
+		size_t substrLength = Math::Clamp(letter + MAX_LETTERS_PER_LINE, static_cast<unsigned>(0), message.m_message.length() - 1);
+		string str = message.m_message.substr(letter, substrLength - letter);
+
+		// Build the Text Object
+		TextObject* text = fetchTextObject();
+		text->SetPos(messageTextPos + (SHIFT_PER_LINE * numSubStr));
+		text->SetText(str);
+		m_messageTextList.push_back(text);
+
+		// Move to the next sub string
+		letter += substrLength;
+	}
 
 	// Prepare the title
 	// -- Calculate the position of the text
@@ -191,9 +211,43 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	// Render the background
 	goList.push_back(m_messageBG);
 	// Render the message on top of the background
-	goList.push_back(m_messageText);
+	for (vector<TextObject*>::iterator textObjIter = m_messageTextList.begin(); textObjIter != m_messageTextList.end(); ++textObjIter)
+	{
+		if ((*textObjIter)->GetActive() == true)
+		{
+			goList.push_back(*textObjIter);
+		}
+	}	
 	// Render the title on top of the background
 	goList.push_back(m_messageTitle);
 
 	return goList;
+}
+
+TextObject * MessageManager::fetchTextObject(void)
+{
+	// Find an inactive TextObject
+	for (vector<TextObject*>::iterator textObjIter = m_messageTextList.begin(); textObjIter != m_messageTextList.end(); ++textObjIter)
+	{
+		if ((*textObjIter)->GetActive() == false)
+		{
+			(*textObjIter)->SetActive(true);
+			return *textObjIter;
+		}
+	}
+
+	// Generate one if none are available
+	TextObject* textObj = new TextObject(*m_messageTextTemplate);
+	textObj->SetActive(true);
+	m_messageTextList.push_back(textObj);
+
+	return m_messageTextList.back();
+}
+
+void MessageManager::deactivateTextObjects(void)
+{
+	for (vector<TextObject*>::iterator textObjIter = m_messageTextList.begin(); textObjIter != m_messageTextList.end(); ++textObjIter)
+	{
+		(*textObjIter)->SetActive(false);
+	}
 }

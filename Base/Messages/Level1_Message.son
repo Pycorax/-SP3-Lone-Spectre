@@ -7,7 +7,7 @@
    
 	{
 			[Name] General
-			[Message] "Welcome back, Commander!"
+			[Message] "Welcome back, Commander! It's certainly has been a long time. We are glad to have you back. You are about to embark on a long mission. Are you ready?"
 			[MessagePosition] MP_TOP_LEFT
 			[TimeToShow] 5.0
 	}
@@ -15,13 +15,13 @@
 			[Name] General
 			[Message] "Welcome back, Commander!"
 			[MessagePosition] MP_TOP_RIGHT
-			[TimeToShow] 1.0
+			[TimeToShow] 3.0
 	}
 	{
 			[Name] General
 			[Message] "Welcome back, Commander!"
 			[MessagePosition] MP_BOT_LEFT
-			[TimeToShow] 1.0
+			[TimeToShow] 2.0
 	}
 	{
 			[Name] General

@@ -53,9 +53,10 @@ private:	// Variables
 	static const Vector2 TEXT_POS_OFFSET;		// Offset from the top left of the message box
 
 	// Message Renderers
-	GameObject2D* m_messageBG;			// GameObject of the message's background image
-	TextObject* m_messageTitle;			// TextObject of the message's title
-	TextObject* m_messageText;			// TextObject of the message
+	GameObject2D* m_messageBG;					// GameObject of the message's background image
+	TextObject* m_messageTitle;					// TextObject of the message's title
+	TextObject* m_messageTextTemplate;			// TextObject Template for the message bodies
+	vector<TextObject*> m_messageTextList;		// TextObject of the message
 
 	// Message Properties
 	Vector2 m_margin;					// The distance away from the corner of the screen stated by MESSAGE_POSITION_TYPE that the message should be rendered
@@ -78,6 +79,8 @@ public:		// Functions
 	vector<GameObject2D*> GetMessageObjects(int viewWidth, int viewHeight);
 
 private:	// Functions
+	TextObject* fetchTextObject(void);
+	void deactivateTextObjects(void);
 };
 
 #endif
