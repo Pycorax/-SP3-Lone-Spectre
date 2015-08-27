@@ -108,6 +108,21 @@
 		[Name] TILE_LIGHT
 		[FilePath] Image//Lab_Tiles//light.tga
 	}
+
+	{
+		[Name] TILE_DOCUMENT
+		[FilePath] Image//Lab_Tiles//Document.tga
+	}
+
+	{
+		[Name] TILE_BOMB
+		[FilePath] Image//Lab_Tiles//Bomb.tga
+	}
+
+	{
+		[Name] TILE_SETBOMBAREA
+		[FilePath] Image//Lab_Tiles//BombArea.tga
+	}
 	
 	{
 		[Name] LightOverlay
