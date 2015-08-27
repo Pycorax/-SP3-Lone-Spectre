@@ -171,6 +171,9 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 		"TILE_OBJ_CAMERA_OFF_1_3", // Row 1 col 3
 		"TILE_OBJ_CAMERA_OFF_1_4", // Row 1 col 4
 		"TILE_LIGHT"
+		"TILE_DOCUMENT"
+		"TILE_BOMB"
+		"TILE_SETBOMBAREA"
 	};
 	Mesh* _tileMeshList[Tile::NUM_TILE];
 	for (int name = 0; name < Tile::NUM_TILE; ++name)
