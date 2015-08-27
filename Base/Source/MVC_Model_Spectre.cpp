@@ -300,16 +300,16 @@ void MVC_Model_Spectre::Init(void)
 	//Enemy
 	Enemy* _enemy = new Enemy;
 	//_enemy->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, m__currentLevel->GetTileMap()->GetScrollOffset(),tileSize);
-	_enemy->SetMapTilePosition(Vector2(5,5),Vector2(0, 32), tileSize);
+	_enemy->SetMapTilePosition(Vector2(4,5),Vector2(0, 32), tileSize);
 	_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
 	_enemy->SetScale(Vector2(tileSize, tileSize));
 	_enemy->initPathFinder(m__currentLevel->GetTileMap());
 	_enemy->SetTarget(m__player->GetMapPos(), tileSize);
 	//patrol points per enemy
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() - Vector2(0, 2));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0, -5));
 	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0,  2));
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , 2));
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , -2));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7,  2));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7, -5));
 	// Set up enemy's view
 	_enemy->InitViewer(1, 2);
 	m_enemyList.push_back(_enemy);

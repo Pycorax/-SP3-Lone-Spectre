@@ -128,13 +128,13 @@ void Enemy::Update(double dt, TileMap* _map)
 			//** NOTE: array store the tile position not map position **
 			if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
 			{
-				if (m_pathPointCounter >= m_pathWay.size() - 1)
+				if (m_pathPointCounter < m_pathWay.size() - 1)
 				{
-					m_pathPointCounter = 0;
+					m_pathPointCounter++;
 				}
 				else
 				{
-					m_pathPointCounter++;
+					m_pathPointCounter = 0;
 				}
 			}
 			break;
@@ -246,19 +246,19 @@ void Enemy::ChangeAnimation(double dt)
 	}
 	else if (m_enemyState == ES_POSSESED  || m_enemyState == ES_CHASE || m_enemyState == ES_PATROL )
 	{
-		if (m_lookDir.x < 0)
+		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 		{
 			m_enemyAction = EA_WALK_LEFT;
 		}
-		else if (m_lookDir.x > 0)
+		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 		{
 			m_enemyAction = EA_WALK_RIGHT;
 		}
-		if (m_lookDir.y < 0)
+		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 		{
 			m_enemyAction = EA_WALK_DOWN;
 		}
-		else if (m_lookDir.y > 0)
+		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 		{
 			m_enemyAction = EA_WALK_UP;
 		}
@@ -284,45 +284,46 @@ void Enemy::AddPatrolPoint(Vector2 pos)
 //return true if reached 
 bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
-	if(EndPos == GetMapTilePos() )
+	if(EndPos == GetMapTilePos())
 	{
-		return true; // reached target
+		return true;
 	}
+
 	//set look direction towards next target location base off current tile location on map
 	m_lookDir = (EndPos - GetMapTilePos()).Normalized();
 	Vector2 TargetmapPos = Vector2(EndPos.x * _map->GetTileSize(), EndPos.y * _map->GetTileSize());
 	//next location adding using tile 
 	Vector2 newMapPos = GetMapPos() + m_lookDir;
 
-	if (_map->CheckCollision(newMapPos)) // check collision at next pos
+	//if (_map->CheckCollision(newMapPos)) // check collision at next pos
+	//{
+	//	// swap pos - patrolPointB - target location
+	//	return true; // reached a dead end
+	//}
+	//else
+	//{
+	if (m_lookDir.x > 0 && newMapPos.x > TargetmapPos.x + _map->GetTileSize()) //traveling along x axis -> moving right
 	{
-		// swap pos - patrolPointB - target location
-		return true; // reached a dead end
+		return true; // reached target
 	}
-	else
+	else if (m_lookDir.x < 0 && newMapPos.x < TargetmapPos.x) // -> moving left
 	{
-		if (m_lookDir.x > 0 && newMapPos.x >= TargetmapPos.x) //traveling along x axis -> moving right
-		{
-			return true; // reached target
-		}
-		else if (m_lookDir.x < 0 && newMapPos.x <= TargetmapPos.x) // -> moving left
-		{
-			return true; // reached target
-		}
-		if (m_lookDir.y > 0 && newMapPos.y >= TargetmapPos.y) //traveling along y axis -> moving up
-		{
-			return true; // reached target
-		}
-		else if (m_lookDir.y < 0 && newMapPos.y <= TargetmapPos.y) // -> moving down
-		{
-			return true; // reached target
-		}
-
-		SetMapPosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
+		return true; // reached target
 	}
-	return false;
+	if (m_lookDir.y > 0 && newMapPos.y > TargetmapPos.y + _map->GetTileSize()) //traveling along y axis -> moving up
+	{
+		return true; // reached target
+	}
+	else if (m_lookDir.y < 0 && newMapPos.y < TargetmapPos.y ) // -> moving down
+	{
+		return true; // reached target
+	}
 
-}
+	SetMapPosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
+	//}
+		return false;
+	}
+
 
 void Enemy::SetAlertLevel(int alertlevel)
 {
