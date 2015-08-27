@@ -174,6 +174,7 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 		"TILE_DOCUMENT",
 		"TILE_BOMB",
 		"TILE_SETBOMBAREA",
+		"TILE_EXTRACTION"
 	};
 	Mesh* _tileMeshList[Tile::NUM_TILE];
 	for (int name = 0; name < Tile::NUM_TILE; ++name)

@@ -28,6 +28,7 @@ const bool Tile::S_IS_TILE_SOLID[NUM_TILE] =
 	false,
 	false,
 	false,
+	false
 };
 
 Tile::Tile(Vector2 mapPos, Vector3 scale, E_TILE_TYPE type, Mesh* _mesh)
