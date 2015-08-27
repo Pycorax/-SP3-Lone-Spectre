@@ -113,11 +113,10 @@ void Enemy::Update(double dt, TileMap* _map)
 	//}
 	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
 	{
-		MoveTo(m_oldPos, _map, dt);
-		if(GetMapTilePos() == m_oldPos)
+		if(MoveTo(m_pathWay[0], _map, dt) )
 		{
 			m_pathPointCounter = 0;
-			m_enemyState == ES_PATROL;
+			m_enemyState = ES_PATROL;
 		}
 	}
 
