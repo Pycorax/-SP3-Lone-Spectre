@@ -111,6 +111,14 @@ void MessageManager::AddMessage(Message msg)
 	m_messages.push(msg);
 }
 
+void MessageManager::ClearMessages(void)
+{
+	while (m_messages.size() > 0)
+	{
+		m_messages.pop();
+	}
+}
+
 vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewHeight)
 {
 	vector<GameObject2D*> goList;			// The list of gameobjects to render regarding this message

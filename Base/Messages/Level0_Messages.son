@@ -1,0 +1,60 @@
+# Level0_Message.son #
+######################
+# A SON File that specifies the messages to push to the player in a level.
+# All Messages must be contained in a main branch named MessageContainer
+{
+	[Name] MessageContainer
+   
+	{
+			[Name] ???
+			[Message] "WAKE UP COMMANDER!!!"
+			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 0.5
+	}
+	{
+			[Name] ???
+			[Message] "Welcome back to the land of the living. We don't have much time."
+			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 1.5
+	}
+	{
+			[Name] ???
+			[Message] "Head on right to get out, I'll explain..."
+			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 1.5
+	}
+	{
+			[Name] NO_MESSAGE
+			[TimeToShow] 1.0
+	}
+	{
+			[Name] ???
+			[Message] "Remember Afghanistan? TL;DR, you were nuked, we brought you back."
+			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 3.0
+	}
+	{
+			[Name] ???
+			[Message] "The revival process was rather..."
+			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 2.0
+	}
+	{
+			[Name] ???
+			[Message] "...mystifying and so you may realize you're now a Spectre."
+			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 3.0
+	}
+	{
+			[Name] ???
+			[Message] "Press [J] to do a Spectral Dive and [Space] while diving, to Spectral Leap across shadows!"
+			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 10.0
+	}
+	{
+			[Name] ???
+			[Message] "Head right on to the exit and we'll continue"
+			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 2.5
+	}
+}

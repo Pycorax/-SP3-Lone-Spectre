@@ -1,0 +1,28 @@
+# Level0.son #
+##############
+# A SON File that specifies the properties of a level to load
+# All Level Properties must be contained in a main branch named LevelContainer
+# Enemies are to be contained in a child branch named EnemyContainer
+{
+	[Name] LevelContainer
+	
+	[TileMapFilePath] TileMap//Level0.csv
+	[TileSize] 64
+	[NumMapTile] 64.0f, 17.0f
+	
+	[MaxTimer] 999.0f
+	[MissionType] LM_COLLECT
+	[MessagesFilePath] Messages//Level0_Messages.son
+	{
+		#[Name] EnemyContainer
+		
+		#{
+			#[Name] Enemy1
+			#[Mesh] Enemy_ANIMATION
+			#[SpawnPosition] 640.0f, 384.0f
+			#[PatrolPoint] 0.0f, 20.0f
+			#[PatrolPoint] 0.0f, 40.0f
+			#[PatrolPoint] 40.0f, 20.0f
+		#}
+	}
+}

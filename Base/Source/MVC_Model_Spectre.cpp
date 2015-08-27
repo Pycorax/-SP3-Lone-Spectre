@@ -52,7 +52,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			{
 				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE)
 				{
-					// TODO: Go to level selection menu or end level screen
+					nextLevel();
 				}
 			}
 
@@ -219,7 +219,24 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	}
 
 	// Initialize the messages
+	// -- Clear any previous messages from any previous levels
+	m_messenger.ClearMessages();
+	// -- Load the messages for this map
 	m_messenger.AddMessages(m__currentLevel->GetMessagesFile());
+}
+
+void MVC_Model_Spectre::nextLevel(void)
+{
+	m_currentLevelID = Math::Wrap(++m_currentLevelID, 0, static_cast<int>(m_levelFiles.size() - 1));
+
+	loadLevel(m_levelFiles[m_currentLevelID]);
+}
+
+void MVC_Model_Spectre::prevLevel(void)
+{
+	m_currentLevelID = Math::Wrap(--m_currentLevelID, 0, static_cast<int>(m_levelFiles.size() - 1));
+
+	loadLevel(m_levelFiles[m_currentLevelID]);
 }
 
 void MVC_Model_Spectre::pushMessageToRender(void)
