@@ -59,25 +59,35 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					m__player->SetState(Player::PS_SPECTRAL_HAX);
 					startHackMode();
 				}
-				else if (m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE)
-				{
-					m_objective->Activate();
-				}
-				else if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
-				{
-					m_objective->Activate();
-				}
-				else if (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
-				{
-					m_objective->Activate();
-				}
-				else if (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
+				else if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) || (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT) || (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) || (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
 					if (m_objective != NULL)
 					{
-						m_objective->Activate();
+						m__currentLevel->UpdateObjective();
 					}
+					
 				}
+				//else if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
+				//{
+				//	if (m_objective != NULL)
+				//	{
+				//		m_objective->Activate();
+				//	}
+				//}
+				//else if (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
+				//{
+				//	if (m_objective != NULL)
+				//	{
+				//		m_objective->Activate();
+				//	}
+				//}
+				//else if (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
+				//{
+				//	if (m_objective != NULL)
+				//	{
+				//		m_objective->Activate();
+				//	}
+				//}
 			}
 
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
@@ -322,6 +332,8 @@ void MVC_Model_Spectre::Init(void)
 	_enemy->InitViewer(1, 2);
 	//_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
 	m_enemyList.push_back(_enemy);
+
+	m_objective = new ObjectiveCollect;
 }
 
 void MVC_Model_Spectre::InitPlayer(void)
@@ -574,7 +586,7 @@ void MVC_Model_Spectre::Exit(void)
 	m_hackingGame.Exit();
 
 	Player::Clear();
-
+	
 	//clearing list
 	while(m__colliderList.size() > 0)
 	{
@@ -591,6 +603,11 @@ void MVC_Model_Spectre::Exit(void)
 		}
 
 		m_enemyList.pop_back();
+	}
+
+	if (m_objective != NULL)
+	{
+		delete m_objective;
 	}
 
 	// Clear the level

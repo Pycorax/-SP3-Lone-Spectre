@@ -1,7 +1,7 @@
 #include "ObjectiveCollect.h"
 
 ObjectiveCollect::ObjectiveCollect(void):
-totalObjects(0)
+totalObjects(1)
 {
 	
 }
@@ -21,8 +21,9 @@ void ObjectiveCollect::Update(double dt)
 
 }
 
-bool ObjectiveCollect::Completed()
+bool ObjectiveCollect::IsCompleted()
 {
+	
 	return totalObjects == 0;
 }
 

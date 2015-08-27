@@ -93,6 +93,30 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 						m_missionType = static_cast<LEVEL_MISSION_TYPE>(missionType);
 					}
 				}
+				//setting the objective ptr to the correct objective type
+				switch (m_missionType)
+				{
+				case LM_COLLECT:
+				{
+								   m__objective = new ObjectiveCollect;
+								   break;
+				}
+				case LM_PLANT_BOMB:
+				{
+									  m__objective = new ObjectiveSetBomb;
+									  break;
+				}
+				case LM_DEFUSE_BOMB:
+				{
+									   m__objective = new ObjectiveDefuse;
+									   break;
+				}
+				case LM_ASSASSINATE:
+				{
+									   m__objective = new ObjectiveAssassinate;
+									   break;
+				}
+				}
 			}
 		}
 
@@ -174,12 +198,27 @@ void Level::Update(double dt)
 
 }
 
+void Level::ActivateObjective(void)
+{
+	m__objective->Activate();
+}
+
+bool Level::GetObjectiveComplete(void) const
+{
+	return m__objective->IsCompleted();
+}
+
 void Level::Clear(void)
 {
 	if (m__map)
 	{
 		delete m__map;
 		m__map = NULL;
+	}
+
+	if (m__objective != NULL)
+	{
+		delete m__objective;
 	}
 
 	while (m_enemyList.size() > 0)
@@ -189,7 +228,7 @@ void Level::Clear(void)
 			delete m_enemyList.back();
 			m_enemyList.pop_back();
 		}
-	}
+	}	
 }
 
 TileMap* Level::GetTileMap()

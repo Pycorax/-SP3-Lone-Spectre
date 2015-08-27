@@ -3,6 +3,10 @@
 
 #include "TileMap.h"
 #include "Enemy.h"
+#include "ObjectiveAssassinate.h"
+#include "ObjectiveCollect.h"
+#include "ObjectiveDefuse.h"
+#include "ObjectiveSetBomb.h"
 
 class Level
 {
@@ -33,6 +37,9 @@ private:
 	// Level Score
 	int m_score;
 
+	//objective of current levels
+	Objective* m__objective;
+
 public:
 	Level(void);
 	~Level(void);
@@ -41,6 +48,9 @@ public:
 	void InitMap(Vector2 numMapTile, int viewWidth, int viewHeight, float tileSize, string filePath, vector<Mesh*> &meshList);
 	void Update(double dt);
 	void Clear(void);
+
+	void ActivateObjective(void);
+	bool GetObjectiveComplete(void) const;
 
 	TileMap* GetTileMap();
 	vector<Enemy*> GetEnemyList(void);

@@ -11,7 +11,7 @@ public: //Functions
 
 	virtual void Init();
 	virtual void Update(double dt);
-	virtual void IsCompleted() = 0;
+	virtual bool IsCompleted() = 0;
 	
 	virtual void Activate() = 0;
 };

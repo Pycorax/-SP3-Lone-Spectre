@@ -186,7 +186,7 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	//}
 
 	//If next to a document to collect
-	if (interact == INTERACT_COLLECT && (tileTypeOnPlayer == Tile::TILE_DOCUMENT || tileTypeInFrontOfPlayer == Tile::TILE_DOCUMENT) && m_currentState != PS_SPECTRAL_COLLECT && !m_moving && !m_diving)
+	if (interact == INTERACT_COLLECT && (tileTypeOnPlayer == Tile::TILE_LIGHT || tileTypeInFrontOfPlayer == Tile::TILE_LIGHT) && m_currentState != PS_SPECTRAL_COLLECT && !m_moving && !m_diving)
 	{
 		return PS_SPECTRAL_COLLECT;
 	}

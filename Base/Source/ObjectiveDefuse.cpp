@@ -21,7 +21,7 @@ void ObjectiveDefuse::Update(double dt)
 
 }
 
-bool ObjectiveDefuse::Completed()
+bool ObjectiveDefuse::IsCompleted()
 {
 	return defused == true;
 }

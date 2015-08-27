@@ -238,10 +238,10 @@
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="Source\ObjectiveDefuse.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="Source\ObjectiveSetBomb.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

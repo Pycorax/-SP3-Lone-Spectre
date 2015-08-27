@@ -11,6 +11,7 @@
 #include "SecurityCamera.h"
 #include "MessageManager.h"
 #include "Objective.h"
+#include "ObjectiveCollect.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {

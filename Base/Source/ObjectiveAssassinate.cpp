@@ -21,7 +21,7 @@ void ObjectiveAssassinate::Update(double dt)
 
 }
 
-bool ObjectiveAssassinate::Completed()
+bool ObjectiveAssassinate::IsCompleted()
 {
 	return assassinated == true;
 }

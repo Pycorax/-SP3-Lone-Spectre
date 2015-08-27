@@ -21,7 +21,7 @@ void ObjectiveSetBomb::Update(double dt)
 
 }
 
-bool ObjectiveSetBomb::Completed()
+bool ObjectiveSetBomb::IsCompleted()
 {
 	return setBomb == true;
 }
