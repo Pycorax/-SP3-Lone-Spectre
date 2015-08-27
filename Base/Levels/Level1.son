@@ -11,17 +11,13 @@
 	[NumMapTile] 64.0f, 50.0f
 	
 	[MaxTimer] 999.0f
-	[MissionType] LM_COLLECT
+	#init objective type
+	[MissionType] LM_DEFUSE_BOMB
+	#[MissionType] LM_COLLECT
+	# [MissionType]
 	
-	{
-		#[Name] LevelContainer
-		#{
-			#init objective type
-			# [MissionType] LM_COLLECT
-
-		#}
-			
-			#init enemy
+	{			
+		#init enemy
 		#[Name] EnemyContainer
 		
 		#{

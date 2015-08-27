@@ -100,26 +100,26 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 				//setting the objective ptr to the correct objective type
 				switch (m_missionType)
 				{
-				case LM_COLLECT:
-				{
-								   m__objective = new ObjectiveCollect;
-								   break;
-				}
-				case LM_PLANT_BOMB:
-				{
-									  m__objective = new ObjectiveSetBomb;
-									  break;
-				}
-				case LM_DEFUSE_BOMB:
-				{
-									   m__objective = new ObjectiveDefuse;
-									   break;
-				}
-				case LM_ASSASSINATE:
-				{
-									   m__objective = new ObjectiveAssassinate;
-									   break;
-				}
+					case LM_COLLECT:
+						{
+							m__objective = new ObjectiveCollect;
+							break;
+						}
+					case LM_PLANT_BOMB:
+						{
+							m__objective = new ObjectiveSetBomb;
+							break;
+						}
+					case LM_DEFUSE_BOMB:
+						{
+							m__objective = new ObjectiveDefuse;
+							break;
+						}
+					case LM_ASSASSINATE:
+						{
+							m__objective = new ObjectiveAssassinate;
+							break;
+						}
 				}
 			}
 			else if (attrib.name == ATTRIBUTE_NAMES[A_MESSAGES_FILE_PATH])

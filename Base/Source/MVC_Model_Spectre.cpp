@@ -7,7 +7,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__currentLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
-	, m_enableShadow(true)
+	, m_enableShadow(false)
 	, m_alertLevel(0.f)
 	, m__alertBar(NULL)
 	, m__alertCover(NULL)
@@ -63,38 +63,33 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					m__player->SetState(Player::PS_SPECTRAL_HAX);
 					startHackMode();
 				}
-				else if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) 
+				if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) 
 					|| (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT) 
 					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
-					if (m_objective != NULL && m__currentLevel->GetObjectiveComplete() == false)
+					if (m__currentLevel->GetObjectiveComplete() == false && m__currentLevel->GetActiveObjective() == false)
 					{
 						m__currentLevel->ActivateObjective();
 					}
 					
 				}
-				//else if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
-				//{
-				//	if (m_objective != NULL)
-				//	{
-				//		m_objective->Activate();
-				//	}
-				//}
-				//else if (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
-				//{
-				//	if (m_objective != NULL)
-				//	{
-				//		m_objective->Activate();
-				//	}
-				//}
-				//else if (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
-				//{
-				//	if (m_objective != NULL)
-				//	{
-				//		m_objective->Activate();
-				//	}
-				//}
+				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
+					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+				{
+					//GetActiveObjective - means objective is updating
+					if(m__currentLevel->GetActiveObjective() )
+					{
+						m__currentLevel->UpdateObjective(dt);
+					}
+				}
+			}
+			else
+			{
+				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
+					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+				{
+				}
 			}
 
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
@@ -123,7 +118,10 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 		#pragma endregion
 	}
-
+	if(m__currentLevel->GetObjectiveComplete() )
+	{
+		std::cout << "COMPLETE!" << std::endl;
+	}
 	// Quitting the game
 	if (m_bKeyPressed[GAME_EXIT_KEY])
 	{
