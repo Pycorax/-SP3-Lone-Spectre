@@ -529,10 +529,16 @@ void MVC_Model_Spectre::Update(double dt)
 		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 		{
 			(*enemyIter)->Update(dt, m__currentLevel->GetTileMap());
+			(*enemyIter)->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
 		}
 
 		// Update Lighting
 		vector<Vector2> shadowCasters;
+		// Give enemies a shadow
+		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+		{
+			shadowCasters.push_back((*enemyIter)->GetMapTilePos());
+		}
 		//shadowCasters.push_back(m__player->GetMapTilePos());
 		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
 
