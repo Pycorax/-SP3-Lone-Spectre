@@ -87,6 +87,7 @@ vector<AINode*> AINodeGrid::GetNeighboursOf(AINode * node)
 	vector<AINode*> neighbours;
 	AINode* neighbour = NULL;
 
+	/*
 	for (int y = -1; y <= 1; ++y)
 	{
 		for (int x = -1; x <= 1; ++x)
@@ -94,7 +95,8 @@ vector<AINode*> AINodeGrid::GetNeighboursOf(AINode * node)
 			if (y == 0)		// Add the left and right
 			{
 				neighbour = GetNodeAt(node->m_gridPosX + x, node->m_gridPosY);
- 			}
+
+			}
 			else if (x == 0)		// Add the up and down
 			{
 				neighbour = GetNodeAt(node->m_gridPosX, node->m_gridPosY + 1);
@@ -111,6 +113,23 @@ vector<AINode*> AINodeGrid::GetNeighboursOf(AINode * node)
 			}
 		}
 	}
+	*/
 
+	for (int y = -1; y <= 1; ++y)
+	{
+		for (int x = -1; x <= 1; ++x)
+		{
+			if (x == 0 && y == 0)
+				continue;
+
+			int checkX = node->m_gridPosX + x;
+			int checkY = node->m_gridPosY + y;
+
+			if (checkY >= 0 && checkY < m_nodeGrid.size() && checkX >= 0 && checkX < m_nodeGrid.at(checkY)->size()) 
+			{
+				neighbours.push_back(m_nodeGrid.at(checkY)->at(checkX));
+			}
+		}
+	}
 	return neighbours;
 }

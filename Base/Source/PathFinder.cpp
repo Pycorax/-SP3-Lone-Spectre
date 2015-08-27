@@ -71,7 +71,7 @@ void PathFinder::UpdatePath(int tileSize)
 			// Check if this neighbour is accessible
 			// THEN 
 			// Check if this neighbour was closed (logically, this should go before the wall check but this is more expensive so we're checking it afterwards)
-			if (neighbour->m_isWall || closedSet.find(neighbour) == closedSet.end())
+			if (neighbour->m_isWall || closedSet.find(neighbour) != closedSet.end())
 			{
 				continue;
 			}
@@ -108,8 +108,8 @@ void PathFinder::UpdatePath(int tileSize)
 
 void PathFinder::SetTarget(Vector2 pos, int tileSize)
 {
-	pos.x = pos.x / tileSize;
-	pos.y = pos.y / tileSize;
+	pos.x = floor(pos.x / tileSize);
+	pos.y = floor(pos.y / tileSize);
 	m__target = m_nodeGrid.GetNodeAt(pos.x, pos.y);
 }
 
@@ -139,7 +139,6 @@ int PathFinder::getDistance(AINode * nodeA, AINode * nodeB)
 	dist.x = abs(nodeA->m_gridPosX - nodeB->m_gridPosX);
 	dist.y = abs(nodeA->m_gridPosY - nodeB->m_gridPosY);
 
-	/* For Diagonal
 	if (dist.x > dist.y)
 	{
 		return DIAG_TILE_DIST * dist.y + ADJ_TILE_DIST * (dist.x - dist.y);
@@ -148,7 +147,5 @@ int PathFinder::getDistance(AINode * nodeA, AINode * nodeB)
 	{
 		return DIAG_TILE_DIST * dist.x + ADJ_TILE_DIST * (dist.y - dist.x);
 	}
-	*/
-
-	return ADJ_TILE_DIST * (dist.x + dist.y);
+	
 }

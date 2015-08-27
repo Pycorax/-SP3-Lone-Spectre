@@ -320,6 +320,7 @@ void MVC_Model_Spectre::Init(void)
 	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7, -5));
 	// Set up enemy's view
 	_enemy->InitViewer(1, 2);
+	//_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
 	m_enemyList.push_back(_enemy);
 }
 

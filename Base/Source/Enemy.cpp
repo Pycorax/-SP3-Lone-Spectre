@@ -77,9 +77,7 @@ void Enemy::SetPossesion(bool state)
 
 void Enemy::Update(double dt, TileMap* _map)
 {
-	Character::Update();
-
-	//PathFinder::UpdatePath(_map->GetTileSize());
+	Character::Update();	
 
 	// Update FOV
 	ClearViewBox(this, _map);
@@ -151,7 +149,6 @@ void Enemy::Update(double dt, TileMap* _map)
 			//	nextTarget.x = path[m_pathPointCounter]->m_gridPosX;
 			//	nextTarget.y = path[m_pathPointCounter]->m_gridPosY;
 			//}
-
 			//if (MoveTo(nextTarget, _map, dt));
 			//{
 			//	if (path.size() == m_pathPointCounter) // if patrol counter reached the last one
@@ -170,6 +167,16 @@ void Enemy::Update(double dt, TileMap* _map)
 			//		m_alertLevel += dt;
 			//	}
 			//}
+			
+			UpdatePath(_map->GetTileSize());
+
+			vector<AINode*> chasePath = GetPath();
+
+			if (chasePath.size() > 0)
+			{
+				Vector2 targetPos(chasePath.front()->m_gridPosX, chasePath.front()->m_gridPosY);
+				MoveTo(targetPos, _map, dt);
+			}
 		}
 	case ES_ATTACK:
 		{
