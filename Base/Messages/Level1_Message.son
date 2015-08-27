@@ -9,20 +9,24 @@
 			[Name] General
 			[Message] "Welcome back, Commander!"
 			[MessagePosition] MP_TOP_LEFT
+			[TimeToShow] 5.0
 	}
 	{
 			[Name] General
 			[Message] "Welcome back, Commander!"
 			[MessagePosition] MP_TOP_RIGHT
+			[TimeToShow] 1.0
 	}
 	{
 			[Name] General
 			[Message] "Welcome back, Commander!"
 			[MessagePosition] MP_BOT_LEFT
+			[TimeToShow] 1.0
 	}
 	{
 			[Name] General
 			[Message] "Welcome back, Commander!"
 			[MessagePosition] MP_BOT_RIGHT
+			[TimeToShow] 1.0
 	}
 }

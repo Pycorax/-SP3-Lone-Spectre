@@ -33,6 +33,24 @@ void MessageManager::Init(Mesh * _messageBackground, Mesh* _textMesh, Mesh* _tit
 	m_margin = margin;
 }
 
+void MessageManager::Update(double dt)
+{
+	if (m_messages.size() > 0)
+	{
+		Message message = m_messages.front();
+
+		// Only update the timer if there is still a message
+		m_timer += dt;
+
+		// Remove this message if this message's time is up
+		if (m_timer > message.m_timeToShow)
+		{
+			m_timer = 0.0;
+			m_messages.pop();
+		}
+	}
+}
+
 void MessageManager::AddMessages(string filePath)
 {
 	const string ROOT_NAME = "MessageContainer";
@@ -75,6 +93,10 @@ void MessageManager::AddMessages(string filePath)
 						}
 					}
 				}
+				else if (attrib.name == "TimeToShow")
+				{
+					message.m_timeToShow = stod(attrib.value);
+				}
 			}
 
 			// Add this message into the message queue
@@ -90,7 +112,7 @@ void MessageManager::AddMessage(Message msg)
 
 vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewHeight)
 {
-	vector<GameObject2D*> goList;
+	vector<GameObject2D*> goList;			// The list of gameobjects to render regarding this message
 
 	// Retrieve a message
 	Message message;
@@ -98,7 +120,6 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	if (m_messages.size() > 0)
 	{
 		message = m_messages.front();
-		m_messages.pop();
 	}
 	else
 	{
@@ -106,7 +127,7 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	}
 
 	// Calculate the position of this message
-	static const Vector2 S_POS_OF[NUM_MESSAGE_POSITION] =
+	const Vector2 S_POS_OF[NUM_MESSAGE_POSITION] =
 	{
 		Vector2(0.0f, viewHeight),
 		Vector2(viewWidth, viewHeight),

@@ -211,23 +211,11 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	}
 }
 
-void MVC_Model_Spectre::updateMessenger(double dt)
-{
-	// Timer for displaying 
-	static const double MESSAGE_DELAY = 5.0f;			// TODO: Move this into message struct
-	static double timer = MESSAGE_DELAY;
-	timer += dt;
-
-	if (timer > MESSAGE_DELAY)
-	{
-		// Store the message objects into this
-		m_messageObjects = m_messenger.GetMessageObjects(m_viewWidth, m_viewHeight);
-		timer = 0.0f;
-	}
-}
-
 void MVC_Model_Spectre::pushMessageToRender(void)
 {
+	// Store the message objects into this
+	m_messageObjects = m_messenger.GetMessageObjects(m_viewWidth, m_viewHeight);
+
 	for (vector<GameObject2D*>::iterator messageObjects = m_messageObjects.begin(); messageObjects != m_messageObjects.end(); ++messageObjects)
 	{
 		m_renderList2D.push(*messageObjects);
@@ -533,8 +521,8 @@ void MVC_Model_Spectre::Update(double dt)
 		// Updates player depending on actions queued.
 		m__player->Update(dt, m__currentLevel->GetTileMap());
 
-		// Update messages
-		updateMessenger(dt);
+		// Update the messenger
+		m_messenger.Update(dt);
 
 		// Update camera list
 		updateCamera(dt);

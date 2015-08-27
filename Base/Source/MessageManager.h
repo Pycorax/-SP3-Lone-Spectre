@@ -29,17 +29,19 @@ struct Message
 	string m_messageTitle;						// The title of the message. Will be displayed above the message body
 	string m_message;							// The message body
 	MESSAGE_POSITION_TYPE m_posType;			// Determine the position of the message. The edge that the message will be aligned to.
+	double m_timeToShow;						// Determines the time that the message should be shown
 
-	Message(string messageTitle = "", string message = "", MESSAGE_POSITION_TYPE posType = MP_BOT_LEFT)
+	Message(string messageTitle = "", string message = "", MESSAGE_POSITION_TYPE posType = MP_BOT_LEFT, double timer = 5.0)
 	{
 		Set(messageTitle, message, posType);
 	}
 
-	void Set(string messageTitle = "", string message = "", MESSAGE_POSITION_TYPE posType = MP_BOT_LEFT)
+	void Set(string messageTitle = "", string message = "", MESSAGE_POSITION_TYPE posType = MP_BOT_LEFT, double timer = 5.0)
 	{
 		m_messageTitle = messageTitle;
 		m_message = message;
 		m_posType = posType;
+		m_timeToShow = timer;
 	}
 };
 
@@ -61,11 +63,15 @@ private:	// Variables
 	// Message List
 	queue<Message> m_messages;			// The queue of messages to send
 
+	// Message Timer
+	double m_timer;						// Timer for the messages
+
 public:		// Functions
 	MessageManager();
 	~MessageManager();
 
 	void Init(Mesh * _messageBackground, Mesh* _textMesh, Mesh* _titleMesh, Vector2 messageScale, Vector2 margin = Vector2::ZERO_VECTOR);
+	void Update(double dt);
 
 	void AddMessages(string filePath);
 	void AddMessage(Message msg);
