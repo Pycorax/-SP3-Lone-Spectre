@@ -63,35 +63,26 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					m__player->SetState(Player::PS_SPECTRAL_HAX);
 					startHackMode();
 				}
-				else if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) || (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT) || (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) || (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+				else if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) 
+					|| (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT) 
+					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
+					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
-					if (m_objective != NULL)
+					if (m_objective != NULL && m__currentLevel->GetObjectiveComplete() == false)
 					{
 						m__currentLevel->ActivateObjective();
+						
 					}
-					
 				}
-				//else if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
-				//{
-				//	if (m_objective != NULL)
-				//	{
-				//		m_objective->Activate();
-				//	}
-				//}
-				//else if (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
-				//{
-				//	if (m_objective != NULL)
-				//	{
-				//		m_objective->Activate();
-				//	}
-				//}
-				//else if (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
-				//{
-				//	if (m_objective != NULL)
-				//	{
-				//		m_objective->Activate();
-				//	}
-				//}
+				//if the objective is to set or defuse bomb
+				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
+					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+				{
+					if (m_objective != NULL && m__currentLevel->GetActiveObjective())
+					{
+						m__currentLevel->UpdateObjective(dt);
+					}
+				}
 			}
 
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
@@ -328,7 +319,7 @@ void MVC_Model_Spectre::Init(void)
 	//_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
 	m_enemyList.push_back(_enemy);
 
-	m_objective = new ObjectiveCollect;
+ObjectiveCollect;
 }
 
 void MVC_Model_Spectre::initAlert(void)

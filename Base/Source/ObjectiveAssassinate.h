@@ -14,6 +14,8 @@ public: //Functions
 	void Init();
 	void Update(double dt);
 	void Activate();
+	bool Active();
+	void Reset();
 	bool IsCompleted();
 };
 

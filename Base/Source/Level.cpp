@@ -198,6 +198,11 @@ void Level::Update(double dt)
 
 }
 
+void Level::UpdateObjective(double dt)
+{
+	m__objective->Update(dt);
+}
+
 void Level::ActivateObjective(void)
 {
 	m__objective->Activate();
@@ -206,6 +211,11 @@ void Level::ActivateObjective(void)
 bool Level::GetObjectiveComplete(void) const
 {
 	return m__objective->IsCompleted();
+}
+
+bool Level::GetActiveObjective()const
+{
+	return m__objective->Active();
 }
 
 void Level::Clear(void)

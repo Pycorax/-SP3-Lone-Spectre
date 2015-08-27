@@ -50,7 +50,9 @@ public:
 	void Clear(void);
 
 	void ActivateObjective(void);
+	void UpdateObjective(double dt);
 	bool GetObjectiveComplete(void) const;
+	bool GetActiveObjective(void) const;
 
 	TileMap* GetTileMap();
 	vector<Enemy*> GetEnemyList(void);

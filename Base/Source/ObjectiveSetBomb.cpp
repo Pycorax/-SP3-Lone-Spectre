@@ -42,3 +42,8 @@ void ObjectiveSetBomb::Activate() //If the bomb has been set
 	//Reset duration time needed to set the bomb
 	m_setTime = 5.f;
 }
+
+bool ObjectiveSetBomb::Active()
+{
+	return m_setting;
+}

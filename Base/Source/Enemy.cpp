@@ -327,6 +327,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 	}
 
 	SetMapPosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
+
 	//}
 		return false;
 	}

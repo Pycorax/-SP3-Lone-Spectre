@@ -6,7 +6,12 @@
 class ObjectiveDefuse : public Objective
 {
 private: //Variables
-	bool defused;
+	//if complete
+	bool m_defused;
+	//if defusing
+	bool m_defusing;
+	//defuse timer
+	float m_defuseTime;
 public: //Functions
 	ObjectiveDefuse();
 	virtual ~ObjectiveDefuse();
@@ -14,6 +19,7 @@ public: //Functions
 	void Init();
 	void Update(double dt);
 	void Activate();
+	bool Active();
 	bool IsCompleted();
 };
 
