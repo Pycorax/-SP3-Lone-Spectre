@@ -45,7 +45,7 @@ void CreateViewBox(Viewer* _viewer, TileMap* _tileMap)
 			Tile* _tile = _tileMap->GetTileAt(posX, posY);
 
 			// Prevent any invalid tiles from being added
-			if (_tile != NULL)
+			if (_tile != NULL && !_tileMap->IsObstructed(viewerPos, Vector2(posX, posY), vector<Vector2>()))
 			{
 				_tile->AddViewer(_viewer);
 			}

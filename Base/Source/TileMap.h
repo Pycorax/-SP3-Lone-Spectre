@@ -75,6 +75,8 @@ public:
 
 	Vector2 GetPlayerSpawnPos(void);
 
+	bool IsObstructed(Vector2 source, Vector2 destination, vector<Vector2> obstructions);		// Checks if a line between the source and the destination is obstructed
+
 private:
 	bool loadFile(const string &filePath, const vector<Mesh*>& meshList);
 	void calcLighting(int x, int y, vector<Vector2> shadowCasters);

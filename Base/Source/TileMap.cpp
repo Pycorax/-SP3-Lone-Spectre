@@ -64,6 +64,86 @@ void TileMap::UpdateLighting(vector<Vector2> shadowCasters)
 	}
 }
 
+bool TileMap::IsObstructed(Vector2 source, Vector2 destination, vector<Vector2> obstructions)
+{
+	Vector2 deltaPos = source - destination;					// Vector2 from the light to this tile
+	Vector2 dir = deltaPos.Normalized();						// Unit Vector2 direction from the light to this tile
+
+																// Check if it is blocked
+	bool blocked = false;
+	Vector2 searchStartPos = destination + Vector2(0.5, 0.5) /* To move into the center if the tile (need not be tied to tile size as all the calculations are done to relative sizing */;
+	Vector2 midTilePos = searchStartPos;
+
+	// Check through all the tiles on the way to our tile
+	//for (vector<Vector2>::iterator tilePos = tilePositions.begin(); tilePos != tilePositions.end(); ++tilePos)
+	while (true)
+	{
+		// For optimization: Prevent rechecks
+		static Vector2 prevMidTilePosInt;
+
+		// Move to the next block, towards our tile
+		midTilePos += S_LIGHT_ACCURACY * dir;
+
+		// For decimal round up or down according to the dir being positive or negative
+		Vector2 midTilePosInt;
+		midTilePosInt.x = static_cast<int>(midTilePos.x);
+		midTilePosInt.y = static_cast<int>(midTilePos.y);
+
+		// Prevent rechecking the same spot over and over again due to the high accuracy
+		if (midTilePosInt != prevMidTilePosInt)
+		{
+			// If we reached the source, staph it
+			if (midTilePosInt == source)
+			{
+				break;
+			}
+
+			// Get a pointer to the tile to check
+			Tile* midTile = GetTileAt(midTilePosInt.x, midTilePosInt.y);
+
+			// Check if the mid tile is out of the map or is solid
+
+			bool isWall = false;
+
+			if (midTile == NULL)
+			{
+				isWall = true;
+			}
+			else
+			{
+				if (Tile::S_IS_TILE_SOLID[midTile->GetType()])
+				{
+					isWall = true;
+				}
+				else
+				{
+					for (vector<Vector2>::iterator obstructIter = obstructions.begin(); obstructIter != obstructions.end(); ++obstructIter)
+					{
+						Vector2 pos(floor((*obstructIter).x), floor((*obstructIter).y));
+
+						if (midTilePosInt.x == pos.x && midTilePosInt.y == pos.y)
+						{
+							isWall = true;
+							break;
+						}
+					}
+				}
+			}
+
+			if (isWall)
+			{
+				// No Lighting. Don't add anything. Just break.
+				blocked = true;
+				break;
+			}
+
+			prevMidTilePosInt = midTilePosInt;
+		}
+	}
+
+	return blocked;
+}
+
 bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 {
 	const string tileTypeName[Tile::NUM_TILE] = 
@@ -237,82 +317,9 @@ void TileMap::calcLighting(const int LIGHT_POS_X, const int LIGHT_POS_Y, vector<
 				const Vector2 LIGHT_POS(LIGHT_POS_X, LIGHT_POS_Y);
 				const Vector2 TILE_POS(xTile, yTile);
 				Vector2 deltaPos = LIGHT_POS - TILE_POS;			// Vector2 from the light to this tile
-				Vector2 dir = deltaPos.Normalized();													// Unit Vector2 direction from the light to this tile
-
-				// Check if it is blocked
-				bool blocked = false;
-				Vector2 searchStartPos = TILE_POS + Vector2(0.5, 0.5) /* To move into the center if the tile (need not be tied to tile size as all the calculations are done to relative sizing */;
-				Vector2 midTilePos = searchStartPos;
-
-				// Check through all the tiles on the way to our tile
-				//for (vector<Vector2>::iterator tilePos = tilePositions.begin(); tilePos != tilePositions.end(); ++tilePos)
-				while(true)
-				{
-					// For optimization: Prevent rechecks
-					static Vector2 prevMidTilePosInt;
-
-					// Move to the next block, towards our tile
-					midTilePos += S_LIGHT_ACCURACY * dir;
-
-					// For decimal round up or down according to the dir being positive or negative
-					Vector2 midTilePosInt;
-					midTilePosInt.x = static_cast<int>(midTilePos.x);
-					midTilePosInt.y = static_cast<int>(midTilePos.y);
-
-					// Prevent rechecking the same spot over and over again due to the high accuracy
-					if (midTilePosInt != prevMidTilePosInt)
-					{
-						// If we reached the source, staph it
-						if (midTilePosInt == LIGHT_POS)
-						{
-							break;
-						}
-
-						// Get a pointer to the tile to check
-						Tile* midTile = GetTileAt(midTilePosInt.x, midTilePosInt.y);
-
-						// Check if the mid tile is out of the map or is solid
-						
-						bool isWall = false;
-
-						if (midTile == NULL)
-						{
-							isWall = true;
-						}
-						else
-						{
-							if (Tile::S_IS_TILE_SOLID[midTile->GetType()])
-							{
-								isWall = true;
-							}
-							else
-							{
-								for (vector<Vector2>::iterator shadowCastIter = shadowCasters.begin(); shadowCastIter != shadowCasters.end(); ++shadowCastIter)
-								{
-									Vector2 pos(floor((*shadowCastIter).x), floor((*shadowCastIter).y));
-
-									if (midTilePosInt.x == pos.x && midTilePosInt.y == pos.y)
-									{
-										isWall = true;
-										break;
-									}
-								}
-							}
-						}
-
-						if (isWall)
-						{
-							// No Lighting. Don't add anything. Just break.
-							blocked = true;
-							break;
-						}
-
-						prevMidTilePosInt = midTilePosInt;
-					}
-				}
 
 				// If it is not blocked
-				if (!blocked)
+				if (!IsObstructed(LIGHT_POS, TILE_POS, shadowCasters))
 				{
 					// Get the tile to light up
 					Tile* _tile = GetTileAt(xTile, yTile);
