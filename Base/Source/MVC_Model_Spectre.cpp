@@ -7,6 +7,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__player(NULL)
 	, m_enableShadow(true)
 	, m_alertLevel(0.f)
+	, m_objective(NULL)
 {
 }
 
@@ -52,7 +53,10 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				}
 				if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()))
 				{
-					m_objective->Activate();
+					if (m_objective != NULL)
+					{
+						m_objective->Activate();
+					}
 				}
 			}
 
