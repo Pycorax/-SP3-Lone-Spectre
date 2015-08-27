@@ -11,7 +11,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_alertLevel(0.f)
 	, m__alertBar(NULL)
 	, m__alertCover(NULL)
-	, m_objective(NULL)
+	, m__objective(NULL)
 {
 }
 
@@ -52,7 +52,10 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			{
 				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE)
 				{
-					nextLevel();
+					if (m__objective == NULL || m__objective->IsCompleted())
+					{
+						nextLevel();
+					}
 				}
 			}
 
@@ -63,7 +66,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					m__player->SetState(Player::PS_SPECTRAL_HAX);
 					startHackMode();
 				}
-				if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) 
+				/*else if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) 
 					|| (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT) 
 					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
@@ -73,23 +76,35 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						m__currentLevel->ActivateObjective();
 					}
 					
-				}
-				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
-					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+				}*/
+				else if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
 				{
-					//GetActiveObjective - means objective is updating
-					if(m__currentLevel->GetActiveObjective() )
+					if (m__objective != NULL)
 					{
-						m__currentLevel->UpdateObjective(dt);
+						// Trigger the objective
+						m__objective->Activate();
+
+						// Swap the tile
+						// -- Get a pointer to the tile the player is standing on
+						Tile* _collectTile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapTilePos());
+						// -- Pick up the tile
+						_collectTile->SetType(Tile::TILE_FLOOR);		// TODO: Change the tile mesh
 					}
 				}
-			}
-			else
-			{
-				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
-					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
-				{
-				}
+				//else if (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
+				//{
+				//	if (m_objective != NULL)
+				//	{
+				//		m_objective->Activate();
+				//	}
+				//}
+				//else if (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
+				//{
+				//	if (m_objective != NULL)
+				//	{
+				//		m_objective->Activate();
+				//	}
+				//}
 			}
 
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
@@ -209,6 +224,39 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 		_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
 
 		m_enemyList.push_back(_enemy);
+	}
+
+	// Initialize the Mission Type
+	// -- Clear the Previous Objective
+	if (m__objective != NULL)
+	{
+		delete m__objective;
+		m__objective = NULL;
+	}
+	// -- Create the New Objective
+	switch (m__currentLevel->GetMissionType())
+	{
+		case Level::LM_COLLECT:
+		{
+			m__objective = new ObjectiveCollect;
+			dynamic_cast<ObjectiveCollect*>(m__objective)->Init(m__currentLevel->GetTileMap()->GetNumDocuments());
+			break;
+		}
+		case Level::LM_PLANT_BOMB:
+		{
+			m__objective = new ObjectiveSetBomb;
+			break;
+		}
+		case Level::LM_DEFUSE_BOMB:
+		{
+			m__objective = new ObjectiveDefuse;
+			break;
+		}
+		case Level::LM_ASSASSINATE:
+		{
+			m__objective = new ObjectiveAssassinate;
+			break;
+	}
 	}
 
 	// Initialize the messages
@@ -643,9 +691,9 @@ void MVC_Model_Spectre::Exit(void)
 		m_enemyList.pop_back();
 	}
 
-	if (m_objective != NULL)
+	if (m__objective != NULL)
 	{
-		delete m_objective;
+		delete m__objective;
 	}
 
 	// Clear the level

@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Characters">
       <UniqueIdentifier>{0b3a2ab4-9f7f-43d2-b345-f8ae534b8249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GamePlay\Objectives">
+      <UniqueIdentifier>{cffcc160-a9cc-4417-a2b1-3ad780e44dc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GamePlay\Objectives">
+      <UniqueIdentifier>{50ac5ca5-8d95-4497-ae20-4585392bb3d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -229,19 +235,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Objective.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ObjectiveCollect.cpp">
-      <Filter>Source Files\GamePlay</Filter>
+      <Filter>Source Files\GamePlay\Objectives</Filter>
     </ClCompile>
     <ClCompile Include="Source\ObjectiveAssassinate.cpp">
-      <Filter>Source Files\GamePlay</Filter>
+      <Filter>Source Files\GamePlay\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectiveCollect.cpp">
+      <Filter>Source Files\GamePlay\Objectives</Filter>
     </ClCompile>
     <ClCompile Include="Source\ObjectiveDefuse.cpp">
-      <Filter>Source Files\GamePlay</Filter>
+      <Filter>Source Files\GamePlay\Objectives</Filter>
     </ClCompile>
     <ClCompile Include="Source\ObjectiveSetBomb.cpp">
-      <Filter>Source Files\GamePlay</Filter>
+      <Filter>Source Files\GamePlay\Objectives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -432,19 +438,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Objective.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ObjectiveCollect.h">
-      <Filter>Header Files\GamePlay</Filter>
+      <Filter>Header Files\GamePlay\Objectives</Filter>
     </ClInclude>
     <ClInclude Include="Source\ObjectiveAssassinate.h">
-      <Filter>Header Files\GamePlay</Filter>
+      <Filter>Header Files\GamePlay\Objectives</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectiveCollect.h">
+      <Filter>Header Files\GamePlay\Objectives</Filter>
     </ClInclude>
     <ClInclude Include="Source\ObjectiveDefuse.h">
-      <Filter>Header Files\GamePlay</Filter>
+      <Filter>Header Files\GamePlay\Objectives</Filter>
     </ClInclude>
     <ClInclude Include="Source\ObjectiveSetBomb.h">
-      <Filter>Header Files\GamePlay</Filter>
+      <Filter>Header Files\GamePlay\Objectives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

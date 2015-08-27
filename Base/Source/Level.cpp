@@ -97,30 +97,6 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 						m_missionType = static_cast<LEVEL_MISSION_TYPE>(missionType);
 					}
 				}
-				//setting the objective ptr to the correct objective type
-				switch (m_missionType)
-				{
-					case LM_COLLECT:
-						{
-							m__objective = new ObjectiveCollect;
-							break;
-						}
-					case LM_PLANT_BOMB:
-						{
-							m__objective = new ObjectiveSetBomb;
-							break;
-						}
-					case LM_DEFUSE_BOMB:
-						{
-							m__objective = new ObjectiveDefuse;
-							break;
-						}
-					case LM_ASSASSINATE:
-						{
-							m__objective = new ObjectiveAssassinate;
-							break;
-						}
-				}
 			}
 			else if (attrib.name == ATTRIBUTE_NAMES[A_MESSAGES_FILE_PATH])
 			{
@@ -262,4 +238,9 @@ TileMap* Level::GetTileMap()
 vector<Enemy*> Level::GetEnemyList(void)
 {
 	return m_enemyList;
+}
+
+Level::LEVEL_MISSION_TYPE Level::GetMissionType(void)
+{
+	return m_missionType;
 }

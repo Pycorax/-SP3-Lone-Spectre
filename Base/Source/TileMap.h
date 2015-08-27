@@ -39,6 +39,9 @@ private:
 	// Map Markers
 	Vector2 m_playerSpawnPos;				// Stores the position of the player's spawn as defined by the tilemap
 
+	// Counters
+	int m_numDocuments;						// Stores the number of documents in a level
+
 public:
 	TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize);
 	~TileMap(void);
@@ -50,30 +53,31 @@ public:
 	Tile* GetTileAt(Vector2 pos);				// Get tile info based on actual map pos
 	bool CheckCollision(Vector2 pos);			// Check position with tile map for collision
 	Tile::E_TILE_TYPE GetTileType(Vector2 pos);	// Get the tile type for a position
+	
+	/*
+	 * Setters
+	 */
 	void Clear(void);
-
 	void SetScrollOffset(Vector2 scrollOffset);
-	Vector2 GetScrollOffset(void);
 	void AddToScrollOffset(Vector2 addScrollOffset);
-
-	vector<vector<Tile*>*>& GetMap();
-
 	void SetNumMapTile(Vector2 numMapTile);
-	Vector2 GetNumMapTile();
-
 	void SetNumScreenTile(Vector2 numScreenTile);
-	Vector2 GetNumScreenTile();
-
 	void SetMapSize(Vector2 mapSize);
-	Vector2 GetMapSize();
-
 	void SetScreenSize(Vector2 screenSize);
-	Vector2 GetScreenSize();
-
 	void SetTileSize(float tileSize);
+	
+	/*
+	* Getters
+	*/
+	Vector2 GetScrollOffset(void);
+	vector<vector<Tile*>*>& GetMap();
+	Vector2 GetNumMapTile();
+	Vector2 GetNumScreenTile();
+	Vector2 GetMapSize();
+	Vector2 GetScreenSize();
 	float GetTileSize();
-
 	Vector2 GetPlayerSpawnPos(void);
+	int GetNumDocuments(void);
 
 	bool IsObstructed(Vector2 source, Vector2 destination, vector<Vector2> obstructions);		// Checks if a line between the source and the destination is obstructed
 

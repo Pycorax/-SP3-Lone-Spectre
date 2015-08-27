@@ -6,16 +6,18 @@
 class ObjectiveCollect : public Objective
 {
 private: //Variables
-	int totalObjects;
+	int m_totalObjects;
 public: //Functions
 	ObjectiveCollect();
 	virtual ~ObjectiveCollect();
 
-	void Init();
+	void Init(int numDocuments);
 	void Update(double dt);
-	void Activate();	
+	void Activate();
+
 	bool Active();
 	void Reset();
+
 	bool IsCompleted();
 };
 

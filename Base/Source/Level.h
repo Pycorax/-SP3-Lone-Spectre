@@ -64,6 +64,7 @@ public:
 
 	TileMap* GetTileMap();
 	vector<Enemy*> GetEnemyList(void);
+	LEVEL_MISSION_TYPE GetMissionType(void);
 };
 
 #endif

@@ -68,7 +68,7 @@ private:	// Variables
 	bool m_enableShadow;				// Controls if shadows will be rendered
 
 	//Objectives
-	Objective* m_objective;
+	Objective* m__objective;
 public:
 	MVC_Model_Spectre(string configSONFile);
 	virtual ~MVC_Model_Spectre(void);

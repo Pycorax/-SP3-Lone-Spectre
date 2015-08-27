@@ -2,7 +2,15 @@
 
 const float TileMap::S_LIGHT_ACCURACY = 0.4f;
 
-TileMap::TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize) : m_numMapTile(numMapTile), m_numScreenTile(numScreenTile), m_tileSize(tileSize), m_mapSize(numMapTile * m_tileSize), m_screenSize(numScreenTile * m_tileSize), m_scrollOffset(0,0), m_map(NULL)
+TileMap::TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize) 
+	: m_numMapTile(numMapTile)
+	, m_numScreenTile(numScreenTile)
+	, m_tileSize(tileSize)
+	, m_mapSize(numMapTile * m_tileSize)
+	, m_screenSize(numScreenTile * m_tileSize)
+	, m_scrollOffset(0,0)
+	, m_map(NULL)
+	, m_numDocuments(0)
 {
 
 }
@@ -235,10 +243,15 @@ bool TileMap::loadFile(const string &filePath, const vector<Mesh*>& meshList)
 
 					switch (tile)
 					{
-					case S_PLAYER_SPAWN_MARKER:
+						case S_PLAYER_SPAWN_MARKER:
+							{
+								m_playerSpawnPos.Set(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize));
+								tile = Tile::TILE_FLOOR;
+							}
+							break;
+						case Tile::TILE_DOCUMENT:
 						{
-							m_playerSpawnPos.Set(colCounter * m_tileSize, m_mapSize.y - ((rowCounter + 1) * m_tileSize));
-							tile = Tile::TILE_FLOOR;
+							++m_numDocuments;
 						}
 						break;
 					}
@@ -523,4 +536,9 @@ float TileMap::GetTileSize()
 Vector2 TileMap::GetPlayerSpawnPos(void)
 {
 	return m_playerSpawnPos;
+}
+
+int TileMap::GetNumDocuments(void)
+{
+	return m_numDocuments;
 }
