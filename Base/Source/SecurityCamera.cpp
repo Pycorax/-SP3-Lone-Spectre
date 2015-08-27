@@ -98,7 +98,7 @@ void SecurityCamera::updateScreenPos(Vector2 pos)
 
 void SecurityCamera::Init(Vector2 dir, bool state, int maxRangeX, int maxRangeY)
 {
-	Viewer::Init(maxRangeX, maxRangeY);
+	Viewer::InitViewer(maxRangeX, maxRangeY);
 	this->m_dir = dir;
 	this->m_state = state;
 	this->m_timer = S_M_CAMERA_MAX_TIMER;

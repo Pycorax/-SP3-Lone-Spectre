@@ -82,6 +82,7 @@ void Enemy::Update(double dt, TileMap* _map)
 	//PathFinder::UpdatePath(_map->GetTileSize());
 
 	// Update FOV
+	ClearViewBox(this, _map);
 	CreateViewBox(this, _map);
 
 	//if ()//If any enemy see Hero, affects other enemies too

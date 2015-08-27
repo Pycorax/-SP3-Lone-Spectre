@@ -66,6 +66,12 @@ void TileMap::UpdateLighting(vector<Vector2> shadowCasters)
 
 bool TileMap::IsObstructed(Vector2 source, Vector2 destination, vector<Vector2> obstructions)
 {
+	// If the source is the destination, then of course there's no obstruction
+	if (source == destination)
+	{
+		return false;
+	}
+
 	Vector2 deltaPos = source - destination;					// Vector2 from the light to this tile
 	Vector2 dir = deltaPos.Normalized();						// Unit Vector2 direction from the light to this tile
 

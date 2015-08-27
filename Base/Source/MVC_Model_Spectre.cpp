@@ -310,7 +310,8 @@ void MVC_Model_Spectre::Init(void)
 	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0,  2));
 	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , 2));
 	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , -2));
-	
+	// Set up enemy's view
+	_enemy->InitViewer(1, 2);
 	m_enemyList.push_back(_enemy);
 }
 

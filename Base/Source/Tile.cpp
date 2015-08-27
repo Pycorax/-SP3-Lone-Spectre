@@ -100,7 +100,7 @@ void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
 		*/
 	}
 	//set the direction and view distance of viewer's View
-	_view->Init(distViewX ,distViewY);
+	_view->InitViewer(distViewX ,distViewY);
 	//add into list
 	m__viewerList.push_back(_view);
 }
