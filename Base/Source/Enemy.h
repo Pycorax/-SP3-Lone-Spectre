@@ -55,6 +55,9 @@ private:
 	Vector2 m_patrolPointA, m_patrolPointB; 
 	//stores target location;
 	vector<Vector2> m_pathWay;
+	//time need before next move
+	float m_moveTime;
+
 	//keep track 
 	int m_pathPointCounter;
 	//use to check if mode start patrolling

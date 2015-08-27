@@ -306,10 +306,10 @@ void MVC_Model_Spectre::Init(void)
 	_enemy->initPathFinder(m__currentLevel->GetTileMap());
 	_enemy->SetTarget(m__player->GetMapPos(), tileSize);
 	//patrol points per enemy
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() - Vector2(0, 3));
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0,  3));
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , 3));
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , -3));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() - Vector2(0, 2));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0,  2));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , 2));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , -2));
 	
 	m_enemyList.push_back(_enemy);
 }
