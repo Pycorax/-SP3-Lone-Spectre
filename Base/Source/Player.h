@@ -125,9 +125,9 @@ class Player : public Character
 
 		void SetHostPTR(Enemy* _enemy);
 		void SetMove(Vector2 dir);
-		void SetDive();
-		void SetJump();
-		void SetHost();
+		void SetDive(void);
+		void SetJump(void);
+		void SetHost(void);
 
 		void SetState(E_PLAYER_STATE currentState);
 		E_PLAYER_STATE GetState(void)const;
@@ -139,16 +139,17 @@ class Player : public Character
 		bool GetInShadow();
 
 		//getters
+		bool GetHosting(void)const;
 	private:
 		void forceSetMove(Vector2 dir);
 		void move(double dt, TileMap* _map);
 		void dive(double dt, TileMap* _map);
 		void jump(double dt, TileMap* _map);
 		void UpdateHost(double dt, TileMap* _map);
-		void resetMove();
-		void resetDive();
-		void resetJump();
-		void resetHost();
+		void resetMove(void);
+		void resetDive(void);
+		void resetJump(void);
+		void resetHost(void);
 
 };
 

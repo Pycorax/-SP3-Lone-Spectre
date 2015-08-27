@@ -23,7 +23,7 @@ void Enemy::Init(Vector2 pos, Mesh* _mesh)
 	m_oldPos = pos;
 	SetMesh(_mesh );
 	m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
-	m_enemyAction = EA_IDLE_DOWN;
+	m_enemyAction = EA_IDLE_RIGHT;
 
 	Animation* _a;
 	//Idle South
@@ -176,38 +176,38 @@ void Enemy::Update(double dt, TileMap* _map)
 			if (m_alertLevel > 0)
 			{
 				
-			//Check the area for 2 rotation
+			//Check the area for depending on alert level : MAX (2)
 				m_checkAround = 0;
 				static const double S_WAIT_TIME = 2.0;
 
-				if (m_checkAround >= S_WAIT_TIME * 1)
+				if (m_checkAround < S_WAIT_TIME * 1)
 				{
 					m_lookDir = Direction::DIRECTIONS[Direction::DIR_UP];
 				}
-				else if (m_checkAround >= 2 && m_checkAround < S_WAIT_TIME * 2)
+				else if (m_checkAround >= S_WAIT_TIME * 1 && m_checkAround < S_WAIT_TIME * 2)
 				{
 					m_lookDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
 				}
-				else if (m_checkAround >= 4 && m_checkAround < S_WAIT_TIME * 3)
+				else if (m_checkAround >= S_WAIT_TIME * 2 && m_checkAround < S_WAIT_TIME * 3)
 				{
 					m_lookDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
 				}
-				else if (m_checkAround >= 6 && m_checkAround < S_WAIT_TIME * 4)
+				else if (m_checkAround >= S_WAIT_TIME * 3 && m_checkAround < S_WAIT_TIME * 4)
 				{
 					m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
 				}
 				m_alertLevel -= 1;
 				m_checkAround += dt;
 			}
-			else
+			else // alert level (0)
 			{
 				m_enemyState = ES_PATROL;
 			}
-			//Check the area for 2 rotation
 			break;
 		}
 	}
 	ChangeAnimation(dt);
+	SetMapPosition(GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
 }
 
 void Enemy::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
@@ -277,9 +277,9 @@ void Enemy::AddPatrolPoint(Vector2 pos)
 bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
 	//set look direction towards next target location base off current location on map
-	m_lookDir = (EndPos - GetMapPos()).Normalized();
+	m_lookDir = (EndPos - GetMapTilePos()).Normalized();
 	//next location
-	Vector2 newMapPos = GetMapPos() + GetLookDir();
+	Vector2 newMapPos = GetMapTilePos() + GetLookDir() * _map->GetTileSize();
 
 	if (_map->CheckCollision(newMapPos)) // check collision at next pos
 	{
@@ -304,7 +304,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 		{
 			return true; // reached target
 		}
-		SetMapPosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
+		SetMapTilePosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
 	}
 	return false;
 }

@@ -307,13 +307,18 @@ void Player::SetHostPTR(Enemy* _enemy)
 	m__host->SetPossesion(true);
 }
 
+bool Player::GetHosting() const
+{
+	return m_hosting;
+}
+
 void Player::UpdateHost(double dt, TileMap* _map)
 {
 	//update host here
 	//if player walk - use the direction to change the direction moving
 	//update enemy depending on lookdir
-		m__host->SetLookDir(GetLookDir());
-		m__host->SetMapPosition(GetMapPos() , _map->GetScrollOffset(), _map->GetTileSize());
+	m__host->SetLookDir(GetLookDir());
+	m__host->SetMapPosition(GetMapPos() , _map->GetScrollOffset(), _map->GetTileSize());
 	
 }
 

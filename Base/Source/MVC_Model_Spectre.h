@@ -65,6 +65,8 @@ private:	// Variables
 
 	//Objectives
 	Objective* m_objective;
+	
+	GameObject2D* m__testGO;
 public:
 	MVC_Model_Spectre(string configSONFile);
 	virtual ~MVC_Model_Spectre(void);

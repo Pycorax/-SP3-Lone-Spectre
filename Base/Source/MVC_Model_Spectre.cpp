@@ -64,7 +64,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				{
 					Enemy* _enemy = *enemyIter;
 					//if player dives within a tile distance from player
-					if((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize())
+					if((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize() && m__player->GetHosting() == false)
 					{
 						m__player->SetHostPTR(_enemy);
 					}
@@ -279,18 +279,26 @@ void MVC_Model_Spectre::Init(void)
 
 	//Enemy
 	Enemy* _enemy = new Enemy;
-
-	_enemy->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, m__currentLevel->GetTileMap()->GetScrollOffset(),tileSize);
-	//_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
+	//_enemy->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, m__currentLevel->GetTileMap()->GetScrollOffset(),tileSize);
+	_enemy->SetMapTilePosition(Vector2(5,5),Vector2(0, 32), tileSize);
+	_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
 	_enemy->SetScale(Vector2(tileSize, tileSize));
 	_enemy->initPathFinder(m__currentLevel->GetTileMap());
-	_enemy->SetTarget(m__player->GetMapPos(), tileSize);//m__player->GetTransform().Translation);
+	_enemy->SetTarget(m__player->GetMapPos(), tileSize);
 	//patrol points per enemy
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() - Vector2(0, tileSize));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + 1);
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() - Vector2(0, tileSize));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0, tileSize));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(2 * tileSize ,tileSize));
 	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(2 * tileSize, -tileSize));
-	//m_enemyList.push_back(_enemy);
+	
+	m_enemyList.push_back(_enemy);
+
+	m__testGO = new GameObject2D;
+	m__testGO->SetMesh(GetMeshResource("PlayerBall"));
+	m__testGO->SetPos(_enemy->GetTransform().Translation);
+	m__testGO->SetScale(Vector2(64,64) );
+	m__testGO->SetActive(true);
 }
 
 void MVC_Model_Spectre::InitPlayer(void)
@@ -530,6 +538,9 @@ void MVC_Model_Spectre::Update(double dt)
 		pushMessageToRender();
 
 		m_renderList2D.push(m_fpsCount);
+		
+		//testing obj
+		//m_renderList2D.push(m__testGO);
 	}
 }
 void MVC_Model_Spectre::Exit(void)
