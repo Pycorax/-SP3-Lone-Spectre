@@ -388,7 +388,7 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			m_hackMode = false;
 			m__player->SetState(Player::PS_IDLE_DOWN);
-			// TODO: Do an action for when the mini game ends in a win
+			// Deactivate camera from camera list and tilemap
 			for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
 			{
 				SecurityCamera* _camera = *it;
@@ -522,17 +522,6 @@ void MVC_Model_Spectre::Update(double dt)
 
 		// Rendering
 		tileMapToRender(m__currentLevel->GetTileMap());
-
-		// Render camera
-		for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
-		{
-			SecurityCamera* _camera = (SecurityCamera*)*it;
-			if (_camera)
-			{
-				_camera->SetMapPosition(_camera->GetMapPos(), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
-				m_renderList2D.push(_camera);
-			}
-		}
 		
 		// -- Render Player
 		m_renderList2D.push(m__player);
@@ -610,11 +599,8 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 				continue;
 			}
 			Tile* _tile = (*_map[tileStart.y + row])[tileStart.x + col]; // Get the tile data based on loop
-			if (_tile->GetType() < Tile::TILE_OBJ_CAMERA_ON_1_1 || _tile->GetType() > Tile::TILE_OBJ_CAMERA_OFF_1_4)
-			{
-				_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
-				m_renderList2D.push(_tile); // Add to queue for rendering
-			}
+			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
+			m_renderList2D.push(_tile); // Add to queue for rendering
 
 			/*
 			 * Shadow Portion
@@ -685,6 +671,7 @@ void MVC_Model_Spectre::updateCamera(double dt)
 		if (_camera) // If camera exists, update it
 		{
 			_camera->Update(dt, m__currentLevel->GetTileMap());
+			_camera->SetMapPosition(_camera->GetMapPos(), m__currentLevel->GetTileMap()->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize());
 		}
 	}
 }

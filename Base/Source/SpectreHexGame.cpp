@@ -303,8 +303,8 @@ void SpectreHexGame::startUpdate(double dt)
 	static bool firstRun = true;
 
 	// Forces
-	static const Vector2 INITIAL_PUSH_PLAYER(0.5f);
-	static const float INITIAL_PUSH_X = 2.0f;
+	static const Vector2 INITIAL_PUSH_PLAYER(0.0f);
+	static const float INITIAL_PUSH_X = 0.0f;
 
 	// Timers
 	static double timer = 0.0;				// Timer for the balls to be introduced with the introduction shot
