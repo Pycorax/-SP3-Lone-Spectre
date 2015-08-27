@@ -128,4 +128,14 @@
 		[Name] TILE_EXTRACTION
 		[FilePath] Image//extraction_point.tga
 	}
+	
+	{
+		[Name] AlertBar
+		[FilePath] Image//HUD//alert_bar.tga
+	}
+	
+	{
+		[Name] AlertCover
+		[FilePath] Image//HUD//alert_cover.tga
+	}
 }

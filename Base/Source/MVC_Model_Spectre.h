@@ -30,6 +30,7 @@ public:
 		APP_GAME_MAIN,
 		APP_GAME_HACK,
 	};
+	static const float S_M_MAX_ALERT;
 private:	// Variables
 	// Levels
 	Level* m__currentLevel;
@@ -50,6 +51,8 @@ private:	// Variables
 
 	// Alert
 	float m_alertLevel;
+	GameObject2D* m__alertBar;
+	GameObject2D* m__alertCover;
 
 	// Cameras
 	vector<SecurityCamera*> m_cameraList;
@@ -77,6 +80,10 @@ public:
 protected:
 	//init player and animations
 	void InitPlayer(void);
+
+	// Init alert bar and cover
+	void initAlert(void);
+	void updateAlert(double dt);
 
 	// Load entities to lists
 	void loadToList(TileMap* _map);

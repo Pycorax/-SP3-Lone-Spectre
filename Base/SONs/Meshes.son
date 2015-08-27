@@ -411,6 +411,25 @@
 		[Texture] TILE_EXTRACTION
 	}
 	
+	# HUD
+	{
+		[Name] AlertBar
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] AlertBar
+	}
+	
+	{
+		[Name] AlertCover
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] AlertCover
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad

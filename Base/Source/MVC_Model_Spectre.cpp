@@ -1,5 +1,7 @@
 #include "MVC_Model_Spectre.h"
 
+const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
+
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
@@ -7,6 +9,8 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__player(NULL)
 	, m_enableShadow(true)
 	, m_alertLevel(0.f)
+	, m__alertBar(NULL)
+	, m__alertCover(NULL)
 	, m_objective(NULL)
 {
 }
@@ -280,6 +284,9 @@ void MVC_Model_Spectre::Init(void)
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
 
+	// Load alert
+	initAlert();
+
 	// Load the player
 	InitPlayer();
 
@@ -322,6 +329,19 @@ void MVC_Model_Spectre::Init(void)
 	m_enemyList.push_back(_enemy);
 
 	m_objective = new ObjectiveCollect;
+}
+
+void MVC_Model_Spectre::initAlert(void)
+{
+	m__alertBar = new GameObject2D();
+	m__alertBar->SetMesh(GetMeshResource("AlertBar"));
+	m__alertBar->SetScale(Vector2(static_cast<float>(m_viewWidth) * 0.2f, static_cast<float>(m_viewHeight) * 0.1));
+	m__alertBar->SetPos(Vector2(static_cast<float>(m_viewWidth) - m__alertBar->GetTransform().Scale.x, static_cast<float>(m_viewHeight) - m__alertBar->GetTransform().Scale.y));
+
+	m__alertCover = new GameObject2D();
+	m__alertCover->SetMesh(GetMeshResource("AlertCover"));
+	m__alertCover->SetScale(Vector2(static_cast<float>(m_viewWidth) * 0.2f, static_cast<float>(m_viewHeight) * 0.1));
+	m__alertCover->SetPos(Vector2(static_cast<float>(m_viewWidth) - m__alertCover->GetTransform().Scale.x, static_cast<float>(m_viewHeight) - m__alertCover->GetTransform().Scale.y));
 }
 
 void MVC_Model_Spectre::InitPlayer(void)
@@ -528,10 +548,11 @@ void MVC_Model_Spectre::Update(double dt)
 		updateCamera(dt);
 
 		// Player inside viewed tile
+		static const double S_ALERT_SPEED = 4.0; 
 		Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
 		if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
 		{
-			_tile->NotifyViewer(m__player->GetMapTilePos(), m_alertLevel, dt);
+			_tile->NotifyViewer(m__player->GetMapTilePos(), m_alertLevel, dt * S_ALERT_SPEED);
 		}
 
 		//update enemies
@@ -551,6 +572,10 @@ void MVC_Model_Spectre::Update(double dt)
 		//shadowCasters.push_back(m__player->GetMapTilePos());
 		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
 
+		// Update alert system
+		updateAlert(dt);
+
+
 		// Rendering
 		tileMapToRender(m__currentLevel->GetTileMap());
 		
@@ -562,6 +587,10 @@ void MVC_Model_Spectre::Update(double dt)
 		{
 			m_renderList2D.push((*enemyIter));
 		}
+
+		// Render alert bar and cover
+		m_renderList2D.push(m__alertBar);
+		m_renderList2D.push(m__alertCover);
 
 		// Render Messages
 		pushMessageToRender();
@@ -602,6 +631,18 @@ void MVC_Model_Spectre::Exit(void)
 	if (m__currentLevel != NULL)
 	{
 		delete m__currentLevel;
+	}
+
+	// Clear alert hud
+	if (m__alertBar)
+	{
+		delete m__alertBar;
+		m__alertBar = NULL;
+	}
+	if (m__alertCover)
+	{
+		delete m__alertCover;
+		m__alertCover = NULL;
 	}
 	
 	MVC_Model::Exit();
@@ -709,6 +750,25 @@ void MVC_Model_Spectre::resizeTileMap(int oldViewWidth)
 			m__player->SetScale(Vector2(tileSize, tileSize));
 		}
 	}
+}
+
+void MVC_Model_Spectre::updateAlert(double dt)
+{
+	if (m_alertLevel > S_M_MAX_ALERT)
+	{
+		m_alertLevel = S_M_MAX_ALERT;
+	}
+	if (m_alertLevel > 0.f)
+	{
+		m_alertLevel -= dt * 0.2f;
+		if (m_alertLevel < 0.f)
+		{
+			m_alertLevel = 0.f;
+		}
+	}
+	static const float alertPerValue = (static_cast<float>(m_viewWidth) * 0.2f) / S_M_MAX_ALERT;
+	m__alertCover->SetScale(Vector2((static_cast<float>(m_viewWidth) * 0.2f) - (alertPerValue * m_alertLevel), static_cast<float>(m_viewHeight) * 0.1f));
+	m__alertCover->SetPos(Vector2(static_cast<float>(m_viewWidth) - m__alertCover->GetTransform().Scale.x, static_cast<float>(m_viewHeight) - m__alertCover->GetTransform().Scale.y));
 }
 
 void MVC_Model_Spectre::updateCamera(double dt)
