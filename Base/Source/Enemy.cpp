@@ -291,6 +291,8 @@ void Enemy::AddPatrolPoint(Vector2 pos)
 //return true if reached 
 bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
+	static const float S_MOVE_SPEED = 60.0f;
+
 	if(EndPos == GetMapTilePos())
 	{
 		return true;
@@ -300,7 +302,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 	m_lookDir = (EndPos - GetMapTilePos()).Normalized();
 	Vector2 TargetmapPos = Vector2(EndPos.x * _map->GetTileSize(), EndPos.y * _map->GetTileSize());
 	//next location adding using tile 
-	Vector2 newMapPos = GetMapPos() + m_lookDir;
+	Vector2 newMapPos = GetMapPos() + m_lookDir * S_MOVE_SPEED * dt;
 
 	//if (_map->CheckCollision(newMapPos)) // check collision at next pos
 	//{
