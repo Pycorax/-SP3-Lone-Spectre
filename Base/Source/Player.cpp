@@ -173,6 +173,31 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	{
 		return PS_SPECTRAL_HAX;
 	}
+
+	//If assassinating someone
+	//if (m_currentState != PS_SPECTRAL_ASSASSINATE && !m_moving && !m_diving)
+	//{
+	//	return PS_SPECTRAL_ASSASSINATE;
+	//}
+
+	//If next to a document to collect
+	if ((tileTypeOnPlayer == Tile::TILE_DOCUMENT || tileTypeInFrontOfPlayer == Tile::TILE_DOCUMENT) && m_currentState != PS_SPECTRAL_COLLECT && !m_moving && !m_diving)
+	{
+		return PS_SPECTRAL_COLLECT;
+	}
+
+	//If next to a bomb to defuse
+	if ((tileTypeOnPlayer == Tile::TILE_BOMB || tileTypeInFrontOfPlayer == Tile::TILE_BOMB) && m_currentState != PS_SPECTRAL_DEFUSE && !m_moving && !m_diving)
+	{
+		return PS_SPECTRAL_DEFUSE;
+	}
+
+	//If need to plant a bomb
+	if ((tileTypeOnPlayer == Tile::TILE_SETBOMBAREA || tileTypeInFrontOfPlayer == Tile::TILE_SETBOMBAREA) && m_currentState != PS_SPECTRAL_SETBOMB && !m_moving && !m_diving)
+	{
+		return PS_SPECTRAL_SETBOMB;
+	}
+
 	//updates idle based on look dir
 	if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 	{

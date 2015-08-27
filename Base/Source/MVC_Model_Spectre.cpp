@@ -51,7 +51,19 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					m__player->SetState(Player::PS_SPECTRAL_HAX);
 					startHackMode();
 				}
-				if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()))
+				else if (m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE)
+				{
+					m_objective->Activate();
+				}
+				else if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
+				{
+					m_objective->Activate();
+				}
+				else if (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
+				{
+					m_objective->Activate();
+				}
+				else if (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
 				{
 					if (m_objective != NULL)
 					{

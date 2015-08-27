@@ -50,6 +50,12 @@ class Player : public Character
 			PS_SPECTRAL_DIVING_LEFT,
 			PS_SPECTRAL_DIVING_RIGHT,
 	
+			//Objective Interaction
+			PS_SPECTRAL_ASSASSINATE,
+			PS_SPECTRAL_COLLECT,
+			PS_SPECTRAL_DEFUSE,
+			PS_SPECTRAL_SETBOMB,
+
 			PS_INACTIVE,
 			NUM_PLAYERSTATE,
 		};
@@ -61,7 +67,7 @@ class Player : public Character
 			INTERACT_HAX,
 
 			//Objective Interaction
-			INTERACT_ASSASINATION,
+			INTERACT_ASSASSINATE,
 			INTERACT_COLLECT,
 			INTERACT_DEFUSE,
 			INTERACT_SETBOMB,
