@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "SecurityCamera.h"
 #include "MessageManager.h"
+#include "Objective.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -59,6 +60,8 @@ private:	// Variables
 	// Other/Debug
 	bool m_enableShadow;				// Controls if shadows will be rendered
 
+	//Objectives
+	Objective* m_objective;
 public:
 	MVC_Model_Spectre(string configSONFile);
 	virtual ~MVC_Model_Spectre(void);

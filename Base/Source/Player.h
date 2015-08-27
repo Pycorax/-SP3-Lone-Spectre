@@ -49,7 +49,7 @@ class Player : public Character
 			PS_SPECTRAL_DIVING_DOWN,
 			PS_SPECTRAL_DIVING_LEFT,
 			PS_SPECTRAL_DIVING_RIGHT,
-			
+	
 			PS_INACTIVE,
 			NUM_PLAYERSTATE,
 		};
@@ -59,6 +59,13 @@ class Player : public Character
 			INTERACT_HOST,
 			INTERACT_JUMP,
 			INTERACT_HAX,
+
+			//Objective Interaction
+			INTERACT_ASSASINATION,
+			INTERACT_COLLECT,
+			INTERACT_DEFUSE,
+			INTERACT_SETBOMB,
+
 			NUM_INTERACT,
 		};
 

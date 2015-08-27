@@ -35,6 +35,11 @@
     <ClCompile Include="Source\MVC_Model_3D.cpp" />
     <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
     <ClCompile Include="Source\NPC.cpp" />
+    <ClCompile Include="Source\Objective.cpp" />
+    <ClCompile Include="Source\ObjectiveAssassinate.cpp" />
+    <ClCompile Include="Source\ObjectiveCollect.cpp" />
+    <ClCompile Include="Source\ObjectiveDefuse.cpp" />
+    <ClCompile Include="Source\ObjectiveSetBomb.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\PathFinder.cpp" />
     <ClCompile Include="Source\Pathway.cpp" />
@@ -95,6 +100,11 @@
     <ClInclude Include="Source\MVC_Model_3D.h" />
     <ClInclude Include="Source\MVC_Model_Spectre.h" />
     <ClInclude Include="Source\NPC.h" />
+    <ClInclude Include="Source\Objective.h" />
+    <ClInclude Include="Source\ObjectiveAssassinate.h" />
+    <ClInclude Include="Source\ObjectiveCollect.h" />
+    <ClInclude Include="Source\ObjectiveDefuse.h" />
+    <ClInclude Include="Source\ObjectiveSetBomb.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\PathFinder.h" />
     <ClInclude Include="Source\PathPoint.h" />

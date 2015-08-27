@@ -44,13 +44,14 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 			if (m_bKeyPressed[INTERACT_SKILL_2_KEY]) // Spectral Hax
 			{
-				switch (m__player->Interact(Player::INTERACT_HAX, m__currentLevel->GetTileMap()))
+				if (m__player->Interact(Player::INTERACT_HAX, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HAX)
 				{
-				case Player::PS_SPECTRAL_HAX:
-					// TODO: Get a pointer to the camera so as to change it
 					m__player->SetState(Player::PS_SPECTRAL_HAX);
 					startHackMode();
-					break;
+				}
+				if (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()))
+				{
+					m_objective->Activate();
 				}
 			}
 
