@@ -89,7 +89,6 @@ protected:
 	void loadLevel(string levelMapFile);
 
 	// MessageManager
-	void updateMessenger(double dt);
 	void pushMessageToRender(void);
 
 	// Cameras
