@@ -300,7 +300,6 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 
 	//set look direction towards next target location base off current tile location on map
 	m_lookDir = (EndPos - GetMapTilePos()).Normalized();
-	//converting the end pos from tile pos to map pos
 	Vector2 TargetmapPos = Vector2(EndPos.x * _map->GetTileSize(), EndPos.y * _map->GetTileSize());
 	//next location adding using tile 
 	Vector2 newMapPos = GetMapPos() + m_lookDir * S_MOVE_SPEED * dt;
@@ -359,7 +358,7 @@ Vector2 Enemy::pathFinder_getTilePosition(void)
 
 Vector2 Enemy::viewer_GetTilePos(void)
 {
-	return GetMapTilePos();		
+	return GetMapTilePos();		// TODO: This will start working when proper tile map positions are passed in like intended
 }
 
 Vector2 Enemy::viewer_GetDirection(void)

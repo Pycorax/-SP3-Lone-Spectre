@@ -7,7 +7,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__currentLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
-	, m_enableShadow(false)
+	, m_enableShadow(true)
 	, m_alertLevel(0.f)
 	, m__alertBar(NULL)
 	, m__alertCover(NULL)
@@ -71,7 +71,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
-					if (m__currentLevel->GetObjectiveComplete() == false && m__currentLevel->GetActiveObjective() == false)
+					if (m_objective != NULL && m__currentLevel->GetObjectiveComplete() == false)
 					{
 						m__currentLevel->ActivateObjective();
 					}
@@ -133,6 +133,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 		#pragma endregion
 	}
+	
 	// Quitting the game
 	if (m_bKeyPressed[GAME_EXIT_KEY])
 	{
