@@ -6,7 +6,10 @@
 class ObjectiveSetBomb : public Objective
 {
 private: //Variables
-	bool setBomb;
+	bool m_setBomb;
+	bool m_setting;
+	//Time set to plant bomb
+	float m_setTime;
 public: //Functions
 	ObjectiveSetBomb();
 	virtual ~ObjectiveSetBomb();

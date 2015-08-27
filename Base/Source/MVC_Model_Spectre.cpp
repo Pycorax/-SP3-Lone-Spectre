@@ -63,7 +63,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				{
 					if (m_objective != NULL)
 					{
-						m__currentLevel->UpdateObjective();
+						m__currentLevel->ActivateObjective();
 					}
 					
 				}
