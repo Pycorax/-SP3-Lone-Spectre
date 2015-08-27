@@ -14,15 +14,15 @@
 	[MissionType] LM_COLLECT
 	
 	{
-		[Name] EnemyContainer
+		#[Name] EnemyContainer
 		
-		{
-			[Name] Enemy1
-			[Mesh] Enemy_ANIMATION
-			[SpawnPosition] 640.0f, 384.0f
-			[PatrolPoint] 0.0f, 20.0f
-			[PatrolPoint] 0.0f, 40.0f
-			[PatrolPoint] 40.0f, 20.0f
-		}
+		#{
+			#[Name] Enemy1
+			#[Mesh] Enemy_ANIMATION
+			#[SpawnPosition] 640.0f, 384.0f
+			#[PatrolPoint] 0.0f, 20.0f
+			#[PatrolPoint] 0.0f, 40.0f
+			#[PatrolPoint] 40.0f, 20.0f
+		#}
 	}
 }

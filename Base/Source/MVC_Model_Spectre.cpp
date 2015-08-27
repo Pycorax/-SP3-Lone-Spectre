@@ -63,14 +63,18 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
 			{
 				m__player->SetDive();
-				// if enemy within range - set host
-				for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+				//if player currently not hosting
+				if(m__player->GetHosting() == false)
 				{
-					Enemy* _enemy = *enemyIter;
-					//if player dives within a tile distance from player
-					if((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize() && m__player->GetHosting() == false)
+					for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 					{
-						m__player->SetHostPTR(_enemy);
+						Enemy* _enemy = *enemyIter;
+						//if player dives within a tile distance from player
+						if((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize())
+						{
+							m__player->SetHostPTR(_enemy);
+							break;
+						}
 					}
 				}
 			}
@@ -290,19 +294,12 @@ void MVC_Model_Spectre::Init(void)
 	_enemy->initPathFinder(m__currentLevel->GetTileMap());
 	_enemy->SetTarget(m__player->GetMapPos(), tileSize);
 	//patrol points per enemy
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + 1);
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() - Vector2(0, tileSize));
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(0, tileSize));
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(2 * tileSize ,tileSize));
-	_enemy->AddPatrolPoint(_enemy->GetMapPos() + Vector2(2 * tileSize, -tileSize));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() - Vector2(0, 3));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0,  3));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , 3));
+	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(-2 , -3));
 	
 	m_enemyList.push_back(_enemy);
-
-	m__testGO = new GameObject2D;
-	m__testGO->SetMesh(GetMeshResource("PlayerBall"));
-	m__testGO->SetPos(_enemy->GetTransform().Translation);
-	m__testGO->SetScale(Vector2(64,64) );
-	m__testGO->SetActive(true);
 }
 
 void MVC_Model_Spectre::InitPlayer(void)
@@ -542,9 +539,6 @@ void MVC_Model_Spectre::Update(double dt)
 		pushMessageToRender();
 
 		m_renderList2D.push(m_fpsCount);
-		
-		//testing obj
-		//m_renderList2D.push(m__testGO);
 	}
 }
 void MVC_Model_Spectre::Exit(void)

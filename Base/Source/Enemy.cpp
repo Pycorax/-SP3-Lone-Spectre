@@ -24,6 +24,8 @@ void Enemy::Init(Vector2 pos, Mesh* _mesh)
 	SetMesh(_mesh );
 	m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
 	m_enemyAction = EA_IDLE_RIGHT;
+	//patrol mode
+	m_enemyState = ES_PATROL;
 
 	Animation* _a;
 	//Idle South
@@ -70,10 +72,6 @@ void Enemy::Init(Vector2 pos, Mesh* _mesh)
 void Enemy::SetPossesion(bool state)
 {
 	m_bPossesion = state;
-	if(m_bPossesion == false)
-	{
-		m_enemyState = ES_PATROL;
-	}
 }
 
 void Enemy::Update(double dt, TileMap* _map)
@@ -112,11 +110,21 @@ void Enemy::Update(double dt, TileMap* _map)
 	//	m_enemyState = ES_PATROL;
 	//	m_bAlerted = false;
 	//}
+	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
+	{
+		MoveTo(m_oldPos, _map, dt);
+		if(GetMapTilePos() == m_oldPos)
+		{
+			m_pathPointCounter = 0;
+			m_enemyState == ES_PATROL;
+		}
+	}
 
 	switch (m_enemyState)
 	{
 		case ES_PATROL:
 		{
+			//** NOTE: array store the tile position not map position **
 			if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
 			{
 				if (m_pathPointCounter >= m_pathWay.size() - 1)
@@ -133,35 +141,35 @@ void Enemy::Update(double dt, TileMap* _map)
 		}
 		case ES_CHASE:
 		{
-			//Make enemy chase after the hero's current position with path-finding
-			m_bAlerted = true;
-			Vector2 nextTarget;
-			UpdatePath(_map->GetTileSize());
-			vector<AINode*> path = GetPath();
-			if (path.size() > 0)
-			{
-				nextTarget.x = path[m_pathPointCounter]->m_gridPosX;
-				nextTarget.y = path[m_pathPointCounter]->m_gridPosY;
-			}
+			////Make enemy chase after the hero's current position with path-finding
+			//m_bAlerted = true;
+			//Vector2 nextTarget;
+			//UpdatePath(_map->GetTileSize());
+			//vector<AINode*> path = GetPath();
+			//if (path.size() > 0)
+			//{
+			//	nextTarget.x = path[m_pathPointCounter]->m_gridPosX;
+			//	nextTarget.y = path[m_pathPointCounter]->m_gridPosY;
+			//}
 
-			if (MoveTo(nextTarget, _map, dt));
-			{
-				if (path.size() == m_pathPointCounter) // if patrol counter reached the last one
-				{
-					m_pathPointCounter = 0; // reset back to 0
-				}
-				else
-				{
-					m_pathPointCounter += 1; // move on to next point
-				}
-			}
-			if (m_bAlerted)
-			{
-				if (m_alertLevel < 3)
-				{
-					m_alertLevel += dt;
-				}
-			}
+			//if (MoveTo(nextTarget, _map, dt));
+			//{
+			//	if (path.size() == m_pathPointCounter) // if patrol counter reached the last one
+			//	{
+			//		m_pathPointCounter = 0; // reset back to 0
+			//	}
+			//	else
+			//	{
+			//		m_pathPointCounter += 1; // move on to next point
+			//	}
+			//}
+			//if (m_bAlerted)
+			//{
+			//	if (m_alertLevel < 3)
+			//	{
+			//		m_alertLevel += dt;
+			//	}
+			//}
 		}
 	case ES_ATTACK:
 		{
@@ -176,7 +184,7 @@ void Enemy::Update(double dt, TileMap* _map)
 			if (m_alertLevel > 0)
 			{
 				
-			//Check the area for depending on alert level : MAX (2)
+			//Rotate and check the area for depending on alert level : MAX (2)
 				m_checkAround = 0;
 				static const double S_WAIT_TIME = 2.0;
 
@@ -276,18 +284,18 @@ void Enemy::AddPatrolPoint(Vector2 pos)
 //return true if reached 
 bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
-	//set look direction towards next target location base off current location on map
+	//set look direction towards next target location base off current tile location on map
 	m_lookDir = (EndPos - GetMapTilePos()).Normalized();
-	//next location
-	Vector2 newMapPos = GetMapTilePos() + GetLookDir() * _map->GetTileSize();
+	//next location adding using tile 
+	Vector2 newMapPos = GetMapTilePos() + m_lookDir;
 
-	if (_map->CheckCollision(newMapPos)) // check collision at next pos
-	{
-		// swap pos - patrolPointB - target location
-		return true; // reached a dead end
-	}
-	else
-	{
+	//if (_map->CheckCollision(newMapPos)) // check collision at next pos
+	//{
+	//	// swap pos - patrolPointB - target location
+	//	return true; // reached a dead end
+	//}
+	//else
+	//{
 		if (m_lookDir.x > 0 && newMapPos.x >= EndPos.x) //traveling along x axis -> moving right
 		{
 			return true; // reached target
@@ -304,8 +312,10 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 		{
 			return true; // reached target
 		}
-		SetMapTilePosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
-	}
+		
+		Vector2 mapPos(newMapPos.x * _map->GetTileSize(), newMapPos.y * _map->GetTileSize());
+		SetMapPosition(mapPos, _map->GetScrollOffset(), _map->GetTileSize());
+	//}
 	return false;
 }
 
