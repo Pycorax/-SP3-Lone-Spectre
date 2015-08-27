@@ -123,4 +123,9 @@
 		[Name] MessageBG
 		[FilePath] Image//message_box.tga
 	}
+	
+	{
+		[Name] TILE_EXTRACTION
+		[FilePath] Image//extraction_point.tga
+	}
 }

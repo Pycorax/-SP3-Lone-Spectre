@@ -144,7 +144,7 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 		} // Unable to jump since no shadow within range
 	}
 
-	//If inside enemy's shadow (Not completed)
+	//If inside enemy's shadow
 	if (interact == INTERACT_HOST && !m_moving) // Control enemy
 	{
 		return PS_SPECTRAL_HOST;
@@ -174,6 +174,11 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 		return PS_SPECTRAL_HAX;
 	}
 
+	if (interact == INTERACT_ESCAPE && tileTypeOnPlayer == Tile::TILE_EXTRACTION)
+	{
+		return PS_SPECTRAL_ESCAPE;
+	}
+
 	//If assassinating someone
 	//if (m_currentState != PS_SPECTRAL_ASSASSINATE && !m_moving && !m_diving)
 	//{
@@ -181,19 +186,19 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	//}
 
 	//If next to a document to collect
-	if ((tileTypeOnPlayer == Tile::TILE_DOCUMENT || tileTypeInFrontOfPlayer == Tile::TILE_DOCUMENT) && m_currentState != PS_SPECTRAL_COLLECT && !m_moving && !m_diving)
+	if (interact == INTERACT_COLLECT && (tileTypeOnPlayer == Tile::TILE_DOCUMENT || tileTypeInFrontOfPlayer == Tile::TILE_DOCUMENT) && m_currentState != PS_SPECTRAL_COLLECT && !m_moving && !m_diving)
 	{
 		return PS_SPECTRAL_COLLECT;
 	}
 
 	//If next to a bomb to defuse
-	if ((tileTypeOnPlayer == Tile::TILE_BOMB || tileTypeInFrontOfPlayer == Tile::TILE_BOMB) && m_currentState != PS_SPECTRAL_DEFUSE && !m_moving && !m_diving)
+	if (interact == INTERACT_DEFUSE && (tileTypeOnPlayer == Tile::TILE_BOMB || tileTypeInFrontOfPlayer == Tile::TILE_BOMB) && m_currentState != PS_SPECTRAL_DEFUSE && !m_moving && !m_diving)
 	{
 		return PS_SPECTRAL_DEFUSE;
 	}
 
 	//If need to plant a bomb
-	if ((tileTypeOnPlayer == Tile::TILE_SETBOMBAREA || tileTypeInFrontOfPlayer == Tile::TILE_SETBOMBAREA) && m_currentState != PS_SPECTRAL_SETBOMB && !m_moving && !m_diving)
+	if (interact == INTERACT_SETBOMB && (tileTypeOnPlayer == Tile::TILE_SETBOMBAREA || tileTypeInFrontOfPlayer == Tile::TILE_SETBOMBAREA) && m_currentState != PS_SPECTRAL_SETBOMB && !m_moving && !m_diving)
 	{
 		return PS_SPECTRAL_SETBOMB;
 	}

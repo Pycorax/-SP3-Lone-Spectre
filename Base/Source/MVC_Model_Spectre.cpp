@@ -44,6 +44,14 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				m__player->SetMove(Direction::DIRECTIONS[Direction::DIR_RIGHT]);
 			}
 
+			if (m_bKeyPressed[INTERACT_GENERIC_KEY])
+			{
+				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE)
+				{
+					// TODO: Go to level selection menu or end level screen
+				}
+			}
+
 			if (m_bKeyPressed[INTERACT_SKILL_2_KEY]) // Spectral Hax
 			{
 				if (m__player->Interact(Player::INTERACT_HAX, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HAX)
@@ -622,31 +630,39 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 			}
 			Tile* _tile = (*_map[tileStart.y + row])[tileStart.x + col]; // Get the tile data based on loop
 			_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
-			m_renderList2D.push(_tile); // Add to queue for rendering
-
-			/*
-			 * Shadow Portion
-			 */
-			if (m_enableShadow && _tile->GetType() != Tile::TILE_INVISIBLE_WALL)
+			if (m__player->GetInShadow() && _tile->GetLightLevel() > Player::S_SPECTRE_DIVE_LIGHT_LIMIT)
 			{
-				int numShadows = Tile::MAX_LIGHT_LEVEL - _tile->GetLightLevel();
-				for (size_t lightLevel = 0; lightLevel < numShadows; lightLevel += TileMap::S_LIGHT_ATTENUATION)
+				continue;
+			}
+			else
+			{
+				_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
+				m_renderList2D.push(_tile); // Add to queue for rendering
+
+				/*
+				* Shadow Portion
+				*/
+				if (m_enableShadow && _tile->GetType() != Tile::TILE_INVISIBLE_WALL)
+				{
+					int numShadows = Tile::MAX_LIGHT_LEVEL - _tile->GetLightLevel();
+					for (size_t lightLevel = 0; lightLevel < numShadows; lightLevel += TileMap::S_LIGHT_ATTENUATION)
+					{
+						Transform tileT = _tile->GetTransform();
+						GameObject2D* _shadow = fetchTileMarker(TM_SHADOW);
+						_shadow->SetPos(tileT.Translation);
+						_shadow->SetScale(tileT.Scale);
+						m_renderList2D.push(_shadow);
+					}
+				}
+
+				if (_tile->IsViewed())
 				{
 					Transform tileT = _tile->GetTransform();
-					GameObject2D* _shadow = fetchTileMarker(TM_SHADOW);
-					_shadow->SetPos(tileT.Translation);
-					_shadow->SetScale(tileT.Scale);
-					m_renderList2D.push(_shadow);
+					GameObject2D* light = fetchTileMarker(TM_VIEWED);
+					light->SetPos(tileT.Translation);
+					light->SetScale(tileT.Scale);
+					m_renderList2D.push(light);
 				}
-			}
-
-			if (_tile->IsViewed())
-			{
-				Transform tileT = _tile->GetTransform();
-				GameObject2D* light = fetchTileMarker(TM_VIEWED);
-				light->SetPos(tileT.Translation);
-				light->SetScale(tileT.Scale);
-				m_renderList2D.push(light);
 			}
 		}	
 	}

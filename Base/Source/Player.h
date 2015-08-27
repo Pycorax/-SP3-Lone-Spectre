@@ -56,6 +56,9 @@ class Player : public Character
 			PS_SPECTRAL_DEFUSE,
 			PS_SPECTRAL_SETBOMB,
 
+			// Escape
+			PS_SPECTRAL_ESCAPE,
+
 			PS_INACTIVE,
 			NUM_PLAYERSTATE,
 		};
@@ -71,6 +74,9 @@ class Player : public Character
 			INTERACT_COLLECT,
 			INTERACT_DEFUSE,
 			INTERACT_SETBOMB,
+
+			// Escape
+			INTERACT_ESCAPE,
 
 			NUM_INTERACT,
 		};
