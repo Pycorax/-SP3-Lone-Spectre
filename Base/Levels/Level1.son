@@ -11,22 +11,20 @@
 	[NumMapTile] 64.0f, 50.0f
 	
 	[MaxTimer] 999.0f
-	#init objective type
 	[MissionType] LM_DEFUSE_BOMB
-	#[MissionType] LM_COLLECT
-	# [MissionType]
 	
 	{			
-		#init enemy
-		#[Name] EnemyContainer
+		[Name] EnemyContainer
 		
-		#{
-			#[Name] Enemy1
-			#[Mesh] Enemy_ANIMATION
-			#[SpawnPosition] 640.0f, 384.0f
-			#[PatrolPoint] 0.0f, 20.0f
-			#[PatrolPoint] 0.0f, 40.0f
-			#[PatrolPoint] 40.0f, 20.0f
-		#}
+		{
+			[Name] Enemy1
+			[Mesh] Enemy_ANIMATION
+			[SpawnPosition] 640.0f, 384.0f
+			[ViewRange] 1.0f, 2.0f
+			[PatrolPoint] 0.0f, -5.0f
+			[PatrolPoint] 0.0f, 2.0f
+			[PatrolPoint] 7.0f, 2.0f
+			[PatrolPoint] 7.0f, -5.0f
+		}
 	}
 }

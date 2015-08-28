@@ -24,6 +24,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		// -- For Enemies
 		A_MESH,
 		A_SPAWN_POSITION,
+		A_VIEW_RANGE,
 		A_PATROL_POINT,
 		NUM_ATTRIBUTE
 	};
@@ -42,6 +43,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		// -- For Enemies
 		"Mesh",
 		"SpawnPosition",
+		"ViewRange",
 		"PatrolPoint"
 	};
 
@@ -183,6 +185,16 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 								// Multiply by tile size to convert from tile coord to map coord
 								_enemy->AddPatrolPoint(Vector2(values[0] * tileSize, values[1] * tileSize));
 							}							
+						}
+						else if (attrib.name == ATTRIBUTE_NAMES[A_VIEW_RANGE])
+						{
+							vector<float> values = StringToFloats(attrib.value);
+
+							if (values.size() >= 2)			// If the size of the vector is greater or equal to 2 for the 2 values for positioning
+							{
+								// Multiply by tile size to convert from tile coord to map coord
+								_enemy->InitViewer(values[0], values[1]);
+							}	
 						}
 					}
 
