@@ -20,7 +20,7 @@ MVC_Model_Spectre::~MVC_Model_Spectre(void)
 {
 }
 
-void MVC_Model_Spectre::processKeyAction(double dt) 
+void MVC_Model_Spectre::processKeyAction(double dt)
 {
 	// Controls for Spectre HexTech minigame
 	if (m_hackMode)
@@ -354,7 +354,7 @@ void MVC_Model_Spectre::Init(void)
 void MVC_Model_Spectre::initHUD(void)
 {
 	int hudCount = 0;
-	const float HUD_OFFSET = static_cast<float>(m_viewWidth) * 0.08f;
+	const float HUD_OFFSET = static_cast<float>(m_viewHeight) * 0.15f;
 	m__alert = new HUD_Cooldown();
 	const Vector2 ALERT_SCALE(static_cast<float>(m_viewWidth) * 0.2f, static_cast<float>(m_viewHeight) * 0.1f);
 	const Vector2 ALERT_POS(static_cast<float>(m_viewWidth) - ALERT_SCALE.x, static_cast<float>(m_viewHeight) - ALERT_SCALE.y - (hudCount * HUD_OFFSET));
@@ -362,19 +362,19 @@ void MVC_Model_Spectre::initHUD(void)
 	++hudCount;
 
 	m__spectreDive = new HUD_Cooldown();
-	const Vector2 DIVE_SCALE(static_cast<float>(m_viewWidth) * 0.05f, static_cast<float>(m_viewWidth) * 0.05f);
+	const Vector2 DIVE_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
 	const Vector2 DIVE_POS(static_cast<float>(m_viewWidth) - DIVE_SCALE.x, static_cast<float>(m_viewHeight) - DIVE_SCALE.y - (hudCount * HUD_OFFSET));
 	m__spectreDive->Init(GetMeshResource("Skill_DiveIcon"), DIVE_POS, DIVE_SCALE, GetMeshResource("Skill_Cover"), DIVE_POS, DIVE_SCALE, false, true);
 	++hudCount;
 
 	m__spectreJump = new HUD_Cooldown();
-	const Vector2 JUMP_SCALE(static_cast<float>(m_viewWidth) * 0.05f, static_cast<float>(m_viewWidth) * 0.05f);
+	const Vector2 JUMP_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
 	const Vector2 JUMP_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
 	m__spectreJump->Init(GetMeshResource("Skill_JumpIcon"), JUMP_POS, JUMP_SCALE, GetMeshResource("Skill_Cover"), JUMP_POS, JUMP_SCALE, false, true);
 	++hudCount;
 
 	m__spectreHost = new HUD_Cooldown();
-	const Vector2 HOST_SCALE(static_cast<float>(m_viewWidth) * 0.05f, static_cast<float>(m_viewWidth) * 0.05f);
+	const Vector2 HOST_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
 	const Vector2 HOST_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
 	m__spectreHost->Init(GetMeshResource("Skill_HostIcon"), HOST_POS, HOST_SCALE, GetMeshResource("Skill_Cover"), HOST_POS, HOST_SCALE, false, true);
 	++hudCount;
@@ -717,7 +717,7 @@ void MVC_Model_Spectre::Exit(void)
 
 void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 {
-	static const Vector2 S_MAX_SCROLL_SIZE_TILE = _ToRender->GetNumMapTile(); // Max tile difference between map and screen
+	const Vector2 MAX_SCROLL_SIZE_TILE = _ToRender->GetNumMapTile(); // Max tile difference between map and screen
 	vector<vector<Tile*>*> _map = _ToRender->GetMap();
 
 	// Reset the lights from the previous frame rendered
@@ -738,7 +738,7 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 			{
 				break;
 			}
-			if (tileStart.y + row < 0 || tileStart.y + row >= S_MAX_SCROLL_SIZE_TILE.y || tileStart.x + col < 0 || tileStart.x + col >= S_MAX_SCROLL_SIZE_TILE.x)
+			if (tileStart.y + row < 0 || tileStart.y + row >= MAX_SCROLL_SIZE_TILE.y || tileStart.x + col < 0 || tileStart.x + col >= MAX_SCROLL_SIZE_TILE.x)
 			{
 				continue;
 			}
