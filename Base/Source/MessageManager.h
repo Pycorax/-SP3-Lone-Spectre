@@ -54,9 +54,9 @@ private:	// Variables
 	static const string NO_MESSAGE_TIMER_TITLE;		// A message with this title will be treated as a timer, no message will be displayed
 
 	// Message Renderers
-	GameObject2D* m_messageBG;					// GameObject of the message's background image
-	TextObject* m_messageTitle;					// TextObject of the message's title
-	TextObject* m_messageTextTemplate;			// TextObject Template for the message bodies
+	GameObject2D* m__messageBG;					// GameObject of the message's background image
+	TextObject* m__messageTitle;					// TextObject of the message's title
+	TextObject* m__messageTextTemplate;			// TextObject Template for the message bodies
 	vector<TextObject*> m_messageTextList;		// TextObject of the message
 
 	// Message Properties
@@ -77,6 +77,7 @@ public:		// Functions
 
 	void Init(Mesh * _messageBackground, Mesh* _textMesh, Mesh* _titleMesh, Vector2 messageScale, Vector2 margin = Vector2::ZERO_VECTOR);
 	void Update(double dt);
+	void Exit(void);
 
 	/*
 	 * Setters

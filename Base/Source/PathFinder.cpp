@@ -11,6 +11,7 @@ PathFinder::PathFinder()
 
 PathFinder::~PathFinder()
 {
+	m_nodeGrid.Exit();
 }
 
 void PathFinder::initPathFinder(TileMap * _tileMap)

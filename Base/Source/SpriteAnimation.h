@@ -42,7 +42,7 @@ class SpriteAnimation : public Mesh
 		Animation *m_anim;
 
 		SpriteAnimation(const string &meshName, int row, int col);
-		~SpriteAnimation();
+		virtual ~SpriteAnimation();
 	
 		void Update(double dt);
 		virtual void Render();

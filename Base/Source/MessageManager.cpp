@@ -20,17 +20,17 @@ MessageManager::~MessageManager()
 void MessageManager::Init(Mesh * _messageBackground, Mesh* _textMesh, Mesh* _titleMesh, Vector2 messageScale, Vector2 margin)
 {
 	// Init the MessageBG
-	m_messageBG = new GameObject2D;
-	m_messageBG->SetMesh(_messageBackground);
-	m_messageBG->SetScale(messageScale);
+	m__messageBG = new GameObject2D;
+	m__messageBG->SetMesh(_messageBackground);
+	m__messageBG->SetScale(messageScale);
 
 	// Init the Text
-	m_messageTextTemplate = new TextObject(_textMesh);
-	m_messageTextTemplate->SetScale(Vector2(2.2f));
+	m__messageTextTemplate = new TextObject(_textMesh);
+	m__messageTextTemplate->SetScale(Vector2(2.2f));
 
 	// Init the Title
-	m_messageTitle = new TextObject(_titleMesh);
-	m_messageTitle->SetScale(Vector2(3.5f));
+	m__messageTitle = new TextObject(_titleMesh);
+	m__messageTitle->SetScale(Vector2(3.5f));
 
 	// Set the Margin
 	m_margin = margin;
@@ -55,9 +55,45 @@ void MessageManager::Update(double dt)
 	}
 }
 
+void MessageManager::Exit()
+{
+	// Delete the TextObject resources
+	while (m_messageTextList.size() > 0)
+	{
+		TextObject* to = m_messageTextList.back();
+
+		if (to != NULL)
+		{
+			delete to;
+			m_messageTextList.pop_back();
+		}
+	}
+
+	// Delete the template
+	if (m__messageTextTemplate != NULL)
+	{
+		delete m__messageTextTemplate;
+		m__messageTextTemplate = NULL;
+	}
+
+	// Delete the background
+	if (m__messageBG != NULL)
+	{
+		delete m__messageBG;
+		m__messageBG = NULL;
+	}
+
+	// Delete the title
+	if (m__messageTitle != NULL)
+	{
+		delete m__messageTitle;
+		m__messageTitle = NULL;
+	}
+}
+
 void MessageManager::SetMessageBGScale(Vector2 scale)
 {
-	m_messageBG->SetScale(scale);
+	m__messageBG->SetScale(scale);
 }
 
 void MessageManager::AddMessages(string filePath)
@@ -129,7 +165,7 @@ void MessageManager::ClearMessages(void)
 
 Vector2 MessageManager::GetMessageBGScale(void)
 {
-	return m_messageBG->GetTransform().Scale;
+	return m__messageBG->GetTransform().Scale;
 }
 
 vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewHeight)
@@ -168,7 +204,7 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 		Vector2(viewWidth, 0.0f)
 	};
 	Vector2 messagePos = S_POS_OF[message.m_posType];
-	Vector2 messageBGScale = m_messageBG->GetTransform().Scale;
+	Vector2 messageBGScale = m__messageBG->GetTransform().Scale;
 
 	switch (message.m_posType)
 	{
@@ -209,8 +245,9 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	deactivateTextObjects();
 
 	// -- Split a long message into multiple lines
-	const size_t MAX_LETTERS_PER_LINE = (m_messageBG->GetTransform().Scale.x / m_messageTextTemplate->GetTransform().Scale.x) * 0.15 /* A constant value that returns the correct values. */;
-	static const Vector2 SHIFT_PER_LINE(0.0f, -m_messageTextTemplate->GetTransform().Scale.x);
+	vector<TextObject*> textMessages;
+	const size_t MAX_LETTERS_PER_LINE = (m__messageBG->GetTransform().Scale.x / m__messageTextTemplate->GetTransform().Scale.x) * 0.15 /* A constant value that returns the correct values. */;
+	static const Vector2 SHIFT_PER_LINE(0.0f, -m__messageTextTemplate->GetTransform().Scale.x);
 
 	int numSubStr = 0;		// Notes down number of substring created so as to shift the text down properly
 
@@ -223,7 +260,7 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 		TextObject* text = fetchTextObject();
 		text->SetPos(messageTextPos + (SHIFT_PER_LINE * numSubStr));
 		text->SetText(str);
-		m_messageTextList.push_back(text);
+		textMessages.push_back(text);
 
 		// Move to the next sub string
 		letter += MAX_LETTERS_PER_LINE;
@@ -236,18 +273,18 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	messageTitlePos.y += messageBGScale.y - TITLE_POS_OFFSET.y;
 	messageTitlePos = messageTitlePos * 0.1;
 
-	m_messageTitle->SetPos(messageTitlePos);
-	m_messageTitle->SetText(message.m_messageTitle);
+	m__messageTitle->SetPos(messageTitlePos);
+	m__messageTitle->SetText(message.m_messageTitle);
 
 	// Prepare the Background
-	m_messageBG->SetPos(messagePos);
+	m__messageBG->SetPos(messagePos);
 
 	// Ensure the list is clear
 	goList.clear();
 	// Render the background
-	goList.push_back(m_messageBG);
+	goList.push_back(m__messageBG);
 	// Render the message on top of the background
-	for (vector<TextObject*>::iterator textObjIter = m_messageTextList.begin(); textObjIter != m_messageTextList.end(); ++textObjIter)
+	for (vector<TextObject*>::iterator textObjIter = textMessages.begin(); textObjIter != textMessages.end(); ++textObjIter)
 	{
 		if ((*textObjIter)->GetActive() == true)
 		{
@@ -255,7 +292,7 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 		}
 	}	
 	// Render the title on top of the background
-	goList.push_back(m_messageTitle);
+	goList.push_back(m__messageTitle);
 
 	m_newMessage = false;
 
@@ -275,7 +312,8 @@ TextObject * MessageManager::fetchTextObject(void)
 	}
 
 	// Generate one if none are available
-	TextObject* textObj = new TextObject(*m_messageTextTemplate);
+	TextObject* textObj = new TextObject(NULL);
+	*textObj = *m__messageTextTemplate;
 	textObj->SetActive(true);
 	m_messageTextList.push_back(textObj);
 

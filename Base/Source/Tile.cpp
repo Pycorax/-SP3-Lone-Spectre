@@ -43,11 +43,6 @@ Tile::Tile(Vector2 mapPos, Vector3 scale, E_TILE_TYPE type, Mesh* _mesh)
 
 Tile::~Tile(void)
 {
-	if (m__mesh)
-	{
-		delete m__mesh;
-		m__mesh = NULL;
-	}
 }
 
 void Tile::SetType(E_TILE_TYPE type)

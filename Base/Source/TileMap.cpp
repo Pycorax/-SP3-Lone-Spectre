@@ -9,7 +9,6 @@ TileMap::TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize) : m_
 
 TileMap::~TileMap(void)
 {
-	Clear();
 }
 
 void TileMap::LoadTileMap(const string &filePath, const vector<Mesh*>& meshList)
@@ -430,25 +429,22 @@ Tile::E_TILE_TYPE TileMap::GetTileType(Vector2 pos)
 
 void TileMap::Clear(void)
 {
-	//if (m_map)
+	while (m_map.size() > 0)
 	{
-		while (m_map.size() > 0)
+		vector<Tile*>* _backRow = m_map.back();
+		if (_backRow != NULL)
 		{
-			vector<Tile*>* _backRow = m_map.back();
-			if (_backRow)
+			while (_backRow->size() > 0)
 			{
-				while (_backRow->size() > 0)
+				Tile* _backTile = _backRow->back();
+				if (_backTile != NULL)
 				{
-					Tile* _backTile = _backRow->back();
-					if (_backTile)
-					{
-						delete _backTile;
-						_backRow->pop_back();
-					}
+					delete _backTile;
+					_backRow->pop_back();
 				}
-				delete _backRow;
-				m_map.pop_back();
 			}
+			delete _backRow;
+			m_map.pop_back();
 		}
 	}
 }

@@ -8,7 +8,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__currentLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
-	, m_enableShadow(true)
+	, m_enableShadow(false)
 	, m_alertLevel(0.f)
 	, m__alert(NULL)
 	, m_objective(NULL)
@@ -207,6 +207,7 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	// Delete the previous level
 	if (m__currentLevel != NULL)
 	{
+		m__currentLevel->Clear();
 		delete m__currentLevel;
 	}
 	clearCameraList();
@@ -216,12 +217,13 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	//m__currentLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
 	m__currentLevel->Load(levelMapFile, m_viewWidth, m_viewHeight, meshList);
 	SecurityCamera::InitCamMeshList(meshList);
+	clearCameraList();
 	loadToList(m__currentLevel->GetTileMap());
 	
 	// Setup camera view
 	for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
 	{
-		SecurityCamera* _camera = (SecurityCamera*)*it;
+		SecurityCamera* _camera = *it;
 		if (_camera)
 		{
 			_camera->GenerateViewBox(m__currentLevel->GetTileMap());
@@ -701,10 +703,15 @@ void MVC_Model_Spectre::Update(double dt)
 }
 void MVC_Model_Spectre::Exit(void)
 {
+	clearCameraList();
+
 	m_hackingGame.Exit();
 
 	Player::Clear();
-	
+
+	// Delete the messenger
+	m_messenger.Exit();
+
 	//clearing list
 	while(m__colliderList.size() > 0)
 	{
@@ -731,7 +738,21 @@ void MVC_Model_Spectre::Exit(void)
 	// Clear the level
 	if (m__currentLevel != NULL)
 	{
+		m__currentLevel->Clear();
 		delete m__currentLevel;
+		m__currentLevel = NULL;
+	}
+
+	// Clear the tile marker list
+	while (m__tileMarkers.size() > 0)
+	{
+		GameObject2D* go = m__tileMarkers.back();
+
+		if (go != NULL)
+		{
+			delete go;
+			m__tileMarkers.pop_back();
+		}
 	}
 
 	// Clear alert hud

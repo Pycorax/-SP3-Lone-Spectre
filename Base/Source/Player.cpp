@@ -377,7 +377,7 @@ void Player::UpdateHost(double dt, TileMap* _map)
 
 void Player::Clear()
 {
-	if (s_instances)
+	if (s_instances != NULL)
 	{
 		delete[] s_instances;
 		s_instances = NULL;

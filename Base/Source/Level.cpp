@@ -261,8 +261,9 @@ string Level::GetMessagesFile(void) const
 
 void Level::Clear(void)
 {
-	if (m__map)
+	if (m__map != NULL)
 	{
+		m__map->Clear();
 		delete m__map;
 		m__map = NULL;
 	}

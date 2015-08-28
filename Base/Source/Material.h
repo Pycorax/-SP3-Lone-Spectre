@@ -28,6 +28,11 @@ struct Material
 		kSpecular.Set(0.3f, 0.3f, 0.3f);
 		kShininess = 5.f;
 	}
+
+	~Material()
+	{
+		
+	}
 };
 
 #endif

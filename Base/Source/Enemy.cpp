@@ -12,12 +12,14 @@ Enemy::Enemy(void)
 	, m_checkAround(0)
 	
 {
-
+	for (size_t anim = 0; anim < NUM_ENEMY_ACTION; ++anim)
+	{
+		m__animationList[anim] = NULL;
+	}
 }
 
 Enemy::~Enemy(void)
 {
-	// TODO: Delete animations
 }
 
 void Enemy::Init(Vector2 pos, Mesh* _mesh)
