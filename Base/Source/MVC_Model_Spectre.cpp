@@ -689,6 +689,27 @@ void MVC_Model_Spectre::Exit(void)
 		delete m__alert;
 		m__alert = NULL;
 	}
+
+	if (m__spectreDive)
+	{
+		m__spectreDive->Clear();
+		delete m__spectreDive;
+		m__spectreDive = NULL;
+	}
+
+	if (m__spectreJump)
+	{
+		m__spectreJump->Clear();
+		delete m__spectreJump;
+		m__spectreJump = NULL;
+	}
+
+	if (m__spectreHost)
+	{
+		m__spectreHost->Clear();
+		delete m__spectreHost;
+		m__spectreHost = NULL;
+	}
 	
 	MVC_Model::Exit();
 }
