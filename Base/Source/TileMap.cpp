@@ -4,7 +4,6 @@ const float TileMap::S_LIGHT_ACCURACY = 0.4f;
 
 TileMap::TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize) : m_numMapTile(numMapTile), m_numScreenTile(numScreenTile), m_tileSize(tileSize), m_mapSize(numMapTile * m_tileSize), m_screenSize(numScreenTile * m_tileSize), m_scrollOffset(0,0)
 {
-	int i;
 }
 
 TileMap::~TileMap(void)

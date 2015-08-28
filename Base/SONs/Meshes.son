@@ -493,6 +493,24 @@
 		[Texture] Skill_Cover
 	}
 	
+	{
+		[Name] F_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] F_Key
+	}
+	
+	{
+		[Name] K_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] K_Key
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad

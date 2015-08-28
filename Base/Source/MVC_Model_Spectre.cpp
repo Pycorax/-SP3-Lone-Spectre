@@ -8,9 +8,14 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__currentLevel(NULL)
 	, m_hackMode(false)
 	, m__player(NULL)
-	, m_enableShadow(false)
+	, m_enableShadow(true)
 	, m_alertLevel(0.f)
 	, m__alert(NULL)
+	, m__spectreDive(NULL)
+	, m__spectreHost(NULL)
+	, m__spectreJump(NULL)
+	, m__fKey(NULL)
+	, m__kKey(NULL)
 	, m_objective(NULL)
 {
 }
@@ -54,15 +59,6 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					&& m__currentLevel->GetObjectiveComplete() == true)
 				{
 					nextLevel();
-				}
-			}
-
-			if (m_bKeyPressed[INTERACT_SKILL_2_KEY]) // Spectral Hax
-			{
-				if (m__player->Interact(Player::INTERACT_HAX, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HAX)
-				{
-					m__player->SetState(Player::PS_SPECTRAL_HAX);
-					startHackMode();
 				}
 				if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) 
 					|| (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT) 
@@ -116,7 +112,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						}
 					}
 				}
-			} 
+			}
 			else
 			{
 				//GetActiveObjective - means objective is updating
@@ -125,6 +121,15 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					m__currentLevel->UpdateObjective(dt);
 				}
 			}
+
+			if (m_bKeyPressed[INTERACT_SKILL_2_KEY]) // Spectral Hax
+			{
+				if (m__player->Interact(Player::INTERACT_HAX, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HAX)
+				{
+					m__player->SetState(Player::PS_SPECTRAL_HAX);
+					startHackMode();
+				}
+			} 
 
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
 			{
@@ -204,18 +209,21 @@ int MVC_Model_Spectre::findLevelFiles(string folderPath)
 
 void MVC_Model_Spectre::loadLevel(string levelMapFile)
 {
+	Vector2 numScreenTile;
 	// Delete the previous level
 	if (m__currentLevel != NULL)
 	{
+		numScreenTile = m__currentLevel->GetTileMap()->GetNumScreenTile();
 		m__currentLevel->Clear();
 		delete m__currentLevel;
+		m__currentLevel = NULL;
 	}
 	clearCameraList();
 
 	// Initialize the level
 	m__currentLevel = new Level();
 	//m__currentLevel->InitMap(Vector2(64, 50), m_viewWidth, m_viewHeight, 64, "TileMap//Level1.csv", meshList);
-	m__currentLevel->Load(levelMapFile, m_viewWidth, m_viewHeight, meshList);
+	m__currentLevel->Load(levelMapFile, m_viewWidth, m_viewHeight, meshList, numScreenTile);
 	SecurityCamera::InitCamMeshList(meshList);
 	clearCameraList();
 	loadToList(m__currentLevel->GetTileMap());
@@ -229,7 +237,6 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 			_camera->GenerateViewBox(m__currentLevel->GetTileMap());
 		}
 	}
-	
 
 	// Initialize the player
 	int tileSize = m__currentLevel->GetTileMap()->GetTileSize();
@@ -341,9 +348,6 @@ void MVC_Model_Spectre::Init(void)
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
 
-	// Load alert
-	initHUD();
-
 	// Load the player
 	InitPlayer();
 
@@ -362,6 +366,9 @@ void MVC_Model_Spectre::Init(void)
 	findLevelFiles("Levels//");
 	loadLevel(m_levelFiles[m_currentLevelID]);
 	float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
+
+	// Load HUD
+	initHUD();
 
 	// Init the MessageManager
 	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x, 200.0f), S_M_MESSAGE_OFFSET);
@@ -392,29 +399,58 @@ void MVC_Model_Spectre::initHUD(void)
 {
 	int hudCount = 0;
 	const float HUD_OFFSET = static_cast<float>(m_viewHeight) * 0.15f;
-	m__alert = new HUD_Cooldown();
+	if (m__alert == NULL)
+	{
+		m__alert = new HUD_Cooldown();
+	}
 	const Vector2 ALERT_SCALE(static_cast<float>(m_viewWidth) * 0.2f, static_cast<float>(m_viewHeight) * 0.1f);
 	const Vector2 ALERT_POS(static_cast<float>(m_viewWidth) - ALERT_SCALE.x, static_cast<float>(m_viewHeight) - ALERT_SCALE.y - (hudCount * HUD_OFFSET));
 	m__alert->Init(GetMeshResource("AlertBar"), ALERT_POS, ALERT_SCALE, GetMeshResource("AlertCover"), ALERT_POS, ALERT_SCALE, true, false);
 	++hudCount;
 
-	m__spectreDive = new HUD_Cooldown();
+	if (m__spectreDive == NULL)
+	{
+		m__spectreDive = new HUD_Cooldown();
+	}
 	const Vector2 DIVE_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
 	const Vector2 DIVE_POS(static_cast<float>(m_viewWidth) - DIVE_SCALE.x, static_cast<float>(m_viewHeight) - DIVE_SCALE.y - (hudCount * HUD_OFFSET));
 	m__spectreDive->Init(GetMeshResource("Skill_DiveIcon"), DIVE_POS, DIVE_SCALE, GetMeshResource("Skill_Cover"), DIVE_POS, DIVE_SCALE, false, true);
 	++hudCount;
 
-	m__spectreJump = new HUD_Cooldown();
+	if (m__spectreJump == NULL)
+	{
+		m__spectreJump = new HUD_Cooldown();
+	}
 	const Vector2 JUMP_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
 	const Vector2 JUMP_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
 	m__spectreJump->Init(GetMeshResource("Skill_JumpIcon"), JUMP_POS, JUMP_SCALE, GetMeshResource("Skill_Cover"), JUMP_POS, JUMP_SCALE, false, true);
 	++hudCount;
 
-	m__spectreHost = new HUD_Cooldown();
+	if (m__spectreHost == NULL)
+	{
+		m__spectreHost = new HUD_Cooldown();
+	}
 	const Vector2 HOST_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
 	const Vector2 HOST_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
 	m__spectreHost->Init(GetMeshResource("Skill_HostIcon"), HOST_POS, HOST_SCALE, GetMeshResource("Skill_Cover"), HOST_POS, HOST_SCALE, false, true);
 	++hudCount;
+
+	// Action prompt HUD
+	float actionKeySize = m__currentLevel->GetTileMap()->GetTileSize() * 0.5f;
+	const Vector2 ACTION_KEY_SCALE(actionKeySize, actionKeySize);
+	if (m__fKey == NULL)
+	{
+		m__fKey = new HUD();
+	}
+	m__fKey->Init(GetMeshResource("F_Key"), Vector2(0,0), ACTION_KEY_SCALE);
+	m__fKey->SetActive(false);
+
+	if (m__kKey == NULL)
+	{
+		m__kKey = new HUD();
+	}
+	m__kKey->Init(GetMeshResource("K_Key"), Vector2(0,0), ACTION_KEY_SCALE);
+	m__kKey->SetActive(false);
 }
 
 void MVC_Model_Spectre::InitPlayer(void)
@@ -694,6 +730,100 @@ void MVC_Model_Spectre::Update(double dt)
 		// Host skill
 		m_renderList2D.push(m__spectreHost);
 		m_renderList2D.push(m__spectreHost->GetDisplayCover());
+		// Action prompts
+		float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
+		Tile* _tileOnPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+		Tile::E_TILE_TYPE tileTypeOnPlayer = _tileOnPlayer->GetType();
+		Vector2 frontTilePos = m__player->GetMapPos() + (m__player->GetLookDir() * tileSize);
+		frontTilePos.x = floor(frontTilePos.x / tileSize);
+		frontTilePos.y = floor(frontTilePos.y / tileSize);
+		Tile* _tileInFrontPlayer = NULL;
+		Tile::E_TILE_TYPE tileTypeInFrontPlayer;
+		if (frontTilePos.x >= 0 && frontTilePos.x < m__currentLevel->GetTileMap()->GetNumScreenTile().x && frontTilePos.y >= 0 && frontTilePos.y < m__currentLevel->GetTileMap()->GetNumScreenTile().y)
+		{
+			_tileInFrontPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * tileSize));
+			tileTypeInFrontPlayer = _tileInFrontPlayer->GetType();
+		}
+		Vector2 playerDir = m__player->GetLookDir();
+		Vector2 spawnDir;
+		const Vector2 S_ACTION_HUD_OFFSET(tileSize * 0.25f, tileSize * 0.25f);
+		if (tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_1
+			|| 
+			tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_2
+			||
+			tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_3
+			||
+			tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_4
+			||
+			(_tileInFrontPlayer && (tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_1
+			|| 
+			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_2
+			||
+			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_3
+			||
+			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_4))) // Spawn K key if camera
+		{
+			// Spawn hud key to the right of where player is
+			if (playerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// If facing up, set spawn direction to right
+			{
+				spawnDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
+			}
+			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])	// If facing right, set spawn direction to down
+			{
+				spawnDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
+			}
+			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_DOWN])	// If facing down, set spawn direction to left
+			{
+				spawnDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
+			}
+			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_LEFT])	// If facing left, set spawn direction to up
+			{
+				spawnDir = Direction::DIRECTIONS[Direction::DIR_UP];
+			}
+			m__kKey->SetActive(true);
+			m__kKey->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
+			m_renderList2D.push(m__kKey);
+		}
+		else if (tileTypeOnPlayer == Tile::TILE_BOMB
+				||
+				tileTypeOnPlayer == Tile::TILE_DOCUMENT
+				||
+				tileTypeOnPlayer == Tile::TILE_SETBOMBAREA
+				||
+				tileTypeOnPlayer == Tile::TILE_EXTRACTION
+				||
+				(_tileInFrontPlayer && (tileTypeInFrontPlayer == Tile::TILE_BOMB
+				||
+				tileTypeInFrontPlayer == Tile::TILE_DOCUMENT
+				||
+				tileTypeInFrontPlayer == Tile::TILE_SETBOMBAREA))) // Spawn F if interactions
+		{
+			// Spawn hud key to the right of where player is
+			if (playerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// If facing up, set spawn direction to right
+			{
+				spawnDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
+			}
+			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])	// If facing right, set spawn direction to down
+			{
+				spawnDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
+			}
+			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_DOWN])	// If facing down, set spawn direction to left
+			{
+				spawnDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
+			}
+			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_LEFT])	// If facing left, set spawn direction to up
+			{
+				spawnDir = Direction::DIRECTIONS[Direction::DIR_UP];
+			}
+			m__fKey->SetActive(true);
+			m__fKey->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
+			m_renderList2D.push(m__fKey);
+		}
+		else
+		{
+			m__fKey->SetActive(false);
+			m__kKey->SetActive(false);
+		}
 
 		// Render Messages
 		pushMessageToRender();
@@ -856,21 +986,47 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 
 void MVC_Model_Spectre::onResolutionChanged(int oldViewWidth, int oldViewHeight)
 {
+	TileMap* _tilemap = m__currentLevel->GetTileMap();
+	float oldTileSize = _tilemap->GetTileSize();
+	_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+	float newTileSize = _tilemap->GetTileSize();
 	// Update the tilemap
-	resizeTileMap(oldViewWidth);
+	resizeTileMap(oldTileSize, newTileSize);
+
+	// Update camera list position
+	for (vector<SecurityCamera*>::iterator cameraIter = m_cameraList.begin(); cameraIter != m_cameraList.end(); ++cameraIter)
+	{
+		SecurityCamera* _camera = *cameraIter;
+		Vector2 newPosition(floor(_camera->GetMapPos().x / oldTileSize) * newTileSize, floor(_camera->GetMapPos().y / oldTileSize) * newTileSize);
+		_camera->SetMapPosition(newPosition, _tilemap->GetScrollOffset(), newTileSize);
+	}
+
+	// Update HUD position
+	initHUD();
+
+	// Update enemy position
+	for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+	{
+		Enemy* _enemy = *enemyIter;
+		if (_enemy)
+		{
+			Vector2 enemyTilePos(floor(_enemy->GetMapPos().x / oldTileSize), floor(_enemy->GetMapPos().y / oldTileSize));
+			_enemy->SetMapPosition(enemyTilePos * newTileSize, _tilemap->GetScrollOffset(), newTileSize);
+			_enemy->SetScale(Vector2(newTileSize, newTileSize));
+		}
+	}
 
 	// Update the Messenger
 	m_messenger.SetMessageBGScale(Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x * 2, m_messenger.GetMessageBGScale().y));
 }
 
-void MVC_Model_Spectre::resizeTileMap(int oldViewWidth)
+void MVC_Model_Spectre::resizeTileMap(float oldTileSize, float newTileSize)
 {
 	TileMap* _tilemap = m__currentLevel->GetTileMap();
 	vector<vector<Tile*>*> _map = _tilemap->GetMap();
-	float tileSize = _tilemap->GetTileSize();
-	Vector2 playerTilePos(floor(m__player->GetMapPos().x / tileSize), floor(m__player->GetMapPos().y / tileSize));
-	Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / tileSize), ceil(_tilemap->GetScrollOffset().y / tileSize));
-	if (oldViewWidth < m_viewWidth) // Scale up screen
+	Vector2 playerTilePos(floor(m__player->GetMapPos().x / oldTileSize), floor(m__player->GetMapPos().y / oldTileSize));
+	Vector2 mapScrollOffset(ceil(_tilemap->GetScrollOffset().x / oldTileSize), ceil(_tilemap->GetScrollOffset().y / oldTileSize));
+	/*if (oldViewWidth < m_viewWidth) // Scale up screen
 	{
 		++mapScrollOffset.y;
 		_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
@@ -879,20 +1035,19 @@ void MVC_Model_Spectre::resizeTileMap(int oldViewWidth)
 	{
 		--mapScrollOffset.y;
 		_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
-	}
-	tileSize = _tilemap->GetTileSize();
+	}*/
+	_tilemap->SetScrollOffset(mapScrollOffset * newTileSize);
 	for (int row = 0; row < _tilemap->GetNumMapTile().y; ++row)
 	{
 		for (int col = 0; col < _tilemap->GetNumMapTile().x; ++col)
 		{
-			_tilemap->SetScrollOffset(mapScrollOffset * tileSize);
-			_tilemap->SetMapSize(_tilemap->GetNumMapTile() * tileSize);
-			(*_map[row])[col]->SetMapPosition(Vector2(col * tileSize, row * tileSize), _tilemap->GetScrollOffset(), _tilemap->GetTileSize());
-			(*_map[row])[col]->SetScale(Vector2(tileSize, tileSize));
-			m__player->SetMapPosition(playerTilePos * tileSize, _tilemap->GetScrollOffset(), _tilemap->GetTileSize());
-			m__player->SetScale(Vector2(tileSize, tileSize));
+			_tilemap->SetMapSize(_tilemap->GetNumMapTile() * newTileSize);
+			(*_map[row])[col]->SetMapPosition(Vector2(col * newTileSize, row * newTileSize), _tilemap->GetScrollOffset(), newTileSize);
+			(*_map[row])[col]->SetScale(Vector2(newTileSize, newTileSize));
 		}
 	}
+	m__player->SetMapPosition(playerTilePos * newTileSize, _tilemap->GetScrollOffset(), newTileSize);
+	m__player->SetScale(Vector2(newTileSize, newTileSize));
 }
 
 void MVC_Model_Spectre::updateHUD(double dt)

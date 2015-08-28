@@ -11,7 +11,7 @@ Level::~Level(void)
 {
 }
 
-void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mesh*>& meshList)
+void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mesh*>& meshList, Vector2 numScreenTile)
 {
 	enum ATTRIBUTE_TYPE
 	{
@@ -133,7 +133,11 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		}
 
 		// Load the TileMap
-		InitMap(numMapTile, viewWidth, viewHeight, tileSize, tileMapFilePath, meshList);
+		if (numScreenTile == Vector2::ZERO_VECTOR)
+		{
+			numScreenTile = Vector2(viewWidth / tileSize, viewHeight / tileSize);
+		}
+		InitMap(numMapTile, viewWidth, viewHeight, tileSize, tileMapFilePath, meshList, numScreenTile);
 
 		// For Each Branch
 		for (vector<Branch>::iterator branchIT = level.childBranches.begin(); branchIT != level.childBranches.end(); ++branchIT)
@@ -217,15 +221,9 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 	}
 }
 
-void Level::InitMap(Vector2 numMapTile, int viewWidth, int viewHeight, float tileSize, string filePath, vector<Mesh*> &meshList)
+void Level::InitMap(Vector2 numMapTile, int viewWidth, int viewHeight, float tileSize, string filePath, vector<Mesh*> &meshList, Vector2 numScreenTile)
 {
-	Vector2 numScreenTile(ceil(viewWidth / tileSize), ceil(viewHeight / tileSize));
-	if (m__map)
-	{
-		delete m__map;
-		m__map = NULL;
-	}
-	m__map = new TileMap(numMapTile, numScreenTile, tileSize);
+	m__map = new TileMap(numMapTile, numScreenTile, viewWidth / numScreenTile.x);
 	m__map->LoadTileMap(filePath, meshList);
 }
 

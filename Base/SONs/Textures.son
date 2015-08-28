@@ -174,4 +174,14 @@
 		[Name] Skill_Cover
 		[FilePath] Image//HUD//skill_cover.tga
 	}
+	
+	{
+		[Name] F_Key
+		[FilePath] Image//HUD//f_key.tga
+	}
+	
+	{
+		[Name] K_Key
+		[FilePath] Image//HUD//k_key.tga
+	}
 }

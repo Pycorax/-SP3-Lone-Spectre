@@ -47,8 +47,8 @@ public:
 	Level(void);
 	~Level(void);
 
-	void Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mesh*>& meshList);
-	void InitMap(Vector2 numMapTile, int viewWidth, int viewHeight, float tileSize, string filePath, vector<Mesh*> &meshList);
+	void Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mesh*>& meshList, Vector2 numScreenTile);
+	void InitMap(Vector2 numMapTile, int viewWidth, int viewHeight, float tileSize, string filePath, vector<Mesh*> &meshList, Vector2 numScreenTile);
 	void Update(double dt);
 	void Clear(void);
 

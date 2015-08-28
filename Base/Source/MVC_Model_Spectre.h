@@ -68,6 +68,9 @@ private:	// Variables
 	HUD_Cooldown* m__spectreJump;
 	HUD_Cooldown* m__spectreHost;
 
+	// Prompt action
+	HUD* m__fKey;
+	HUD* m__kKey;
 
 	// Cameras
 	vector<SecurityCamera*> m_cameraList;
@@ -132,7 +135,7 @@ protected:
 
 	// Screen resizing code
 	void onResolutionChanged(int oldViewWidth, int oldViewHeight);
-	void resizeTileMap(int oldViewWidth);
+	void resizeTileMap(float oldTileSize, float newTileSize);
 };
 
 #endif
