@@ -74,21 +74,15 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					}
 					
 				}
-				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
-					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
-				{
-					//GetActiveObjective - means objective is updating
-					if(m__currentLevel->GetActiveObjective() )
-					{
-						m__currentLevel->UpdateObjective(dt);
-					}
-				}
+				
 			}
-			else
+			if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
+				|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 			{
-				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
-					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+				//GetActiveObjective - means objective is updating
+				if(m__currentLevel->GetActiveObjective() )
 				{
+					m__currentLevel->UpdateObjective(dt);
 				}
 			}
 
@@ -330,22 +324,22 @@ void MVC_Model_Spectre::Init(void)
 	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x, 200.0f), S_M_MESSAGE_OFFSET);
 	m_messenger.AddMessages("Messages//Level1_Message.son");
 
-	//Enemy
-	Enemy* _enemy = new Enemy;
-	//_enemy->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, m__currentLevel->GetTileMap()->GetScrollOffset(),tileSize);
-	_enemy->SetMapTilePosition(Vector2(4,5),Vector2(0, 32), tileSize);
-	_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
-	_enemy->SetScale(Vector2(tileSize, tileSize));
-	_enemy->initPathFinder(m__currentLevel->GetTileMap());
-	_enemy->SetTarget(m__player->GetMapPos(), tileSize);
-	//patrol points per enemy
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0, -5));
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0,  2));
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7,  2));
-	_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7, -5));
-	// Set up enemy's view
-	_enemy->InitViewer(1, 2);
-	//_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
+	////Enemy
+	//Enemy* _enemy = new Enemy;
+	////_enemy->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, m__currentLevel->GetTileMap()->GetScrollOffset(),tileSize);
+	//_enemy->SetMapTilePosition(Vector2(4,5),Vector2(0, 32), tileSize);
+	//_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
+	//_enemy->SetScale(Vector2(tileSize, tileSize));
+	//_enemy->initPathFinder(m__currentLevel->GetTileMap());
+	//_enemy->SetTarget(m__player->GetMapPos(), tileSize);
+	////patrol points per enemy
+	//_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0, -5));
+	//_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0,  2));
+	//_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7,  2));
+	//_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7, -5));
+	//// Set up enemy's view
+	//_enemy->InitViewer(1, 2);
+	////_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
 	//m_enemyList.push_back(_enemy);
 
 	//ObjectiveCollect;
@@ -459,6 +453,9 @@ void MVC_Model_Spectre::InitPlayer(void)
 	_a->Set(39, 39, 0, 0.f);
 	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE_RIGHT);
 
+	//set player health
+	m__player->SetMaxHealth(1);
+	m__player->SetHealth(1);
 	//m__player->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	//m__player->SetScale(Vector3(m__currentLevel->GetTileMap()->GetTileSize(), m__currentLevel->GetTileMap()->GetTileSize()));
 }
@@ -466,11 +463,6 @@ void MVC_Model_Spectre::InitPlayer(void)
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
-	//TODO: Update to next map;
-	/*if(m__currentLevel->GetObjectiveComplete() )
-	{
-		std::cout << "COMPLETE!" << std::endl;
-	}*/
 	if (m_hackMode)
 	{
 		m_hackingGame.Update(dt);
@@ -589,6 +581,7 @@ void MVC_Model_Spectre::Update(double dt)
 
 		// Player inside viewed tile
 		static const double S_ALERT_SPEED = 4.0; 
+		static const double S_ALERT_HOSTILE = 2.0f;
 		Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
 		if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
 		{
@@ -598,10 +591,27 @@ void MVC_Model_Spectre::Update(double dt)
 		//update enemies
 		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 		{
-			(*enemyIter)->Update(dt, m__currentLevel->GetTileMap());
-			(*enemyIter)->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
+			Enemy* _enemy = (*enemyIter);
+			_enemy->Update(dt, m__currentLevel->GetTileMap());
+			_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
+			_enemy->SetAlertLevel(m_alertLevel);
+			if(_enemy->GetAlertLevel() > S_ALERT_HOSTILE)
+			{
+				if((_enemy->GetMapTilePos() - _tile->GetMapTilePos()).LengthSquared() < (m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize()))
+				{
+					_enemy->AttackingInView(m__player);
+				}
+				else
+				{
+					_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
+				}
+			}
+			
 		}
-
+		if(m__player->GetHealth() <= 0)
+		{
+			std::cout << "K.O." << std::endl;
+		}
 		// Update Lighting
 		vector<Vector2> shadowCasters;
 		// Give enemies a shadow

@@ -9,6 +9,7 @@ Enemy::Enemy(void)
 	, m_pathPointCounter(0)
 	, m_bPossesion(false)
 	, m_moveTime(0)
+	, m_checkAround(0)
 	
 {
 
@@ -78,47 +79,31 @@ void Enemy::SetPossesion(bool state)
 void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();	
-
+	
+	//update view distance
+	InitViewer(1, m_alertLevel + 2);
+	
 	// Update FOV
 	ClearViewBox(this, _map);
 	CreateViewBox(this, _map);
 
-	//if ()//If any enemy see Hero, affects other enemies too
-	//{
-	//	m_enemyState = ES_CHASE;
-	//	m_alertLevel = 2;
-	//}
-	////else if() //Enemy can hit Hero
-	////{
-	////	m_enemyState = ES_ATTACK;
-	////}
-	//else if (m_bAlerted) //Enemy lost sight of Hero || hero hides in a shadow
-	//{
-	//	m_enemyState = ES_SCAN;
-	//}
-	//else if(m_bPossesion) //Spectre hosts on the enemy
-	//{
-	//	m_enemyState = ES_POSSESED
-	//}
-	//else if (GetHealth() <= 0) //Enemy dies
-	//{
-	//	m_enemyState = ES_KNOCKOUT;
-	//	m_bAlerted = false;
-	//}
-	//else if (m_alertLevel == 0) //Enemy becomes less suspicious after checking
-	//{
-	//	m_enemyState = ES_PATROL;
-	//	m_bAlerted = false;
-	//}
 	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
 	{
-		if(MoveTo(m_pathWay[0], _map, dt) )
+		if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
 		{
-			m_pathPointCounter = 0;
-			m_enemyState = ES_PATROL;
+			if (m_pathPointCounter < m_pathWay.size() - 1)
+			{
+				m_pathPointCounter++;
+				m_enemyState = ES_KNOCKOUT;
+			}
+			else
+			{
+				m_pathPointCounter = 0;
+				m_enemyState = ES_KNOCKOUT;
+			}
 		}
-	}
 
+	}
 	switch (m_enemyState)
 	{
 		case ES_PATROL:
@@ -180,6 +165,11 @@ void Enemy::Update(double dt, TileMap* _map)
 		}
 	case ES_ATTACK:
 		{
+			//if alert level go below 2 , go back to patroling
+			if(m_alertLevel < 2)
+			{
+				m_enemyState = ES_SCAN;
+			}
 			break;
 		}
 	case ES_POSSESED:
@@ -188,41 +178,59 @@ void Enemy::Update(double dt, TileMap* _map)
 		}
 	case ES_SCAN:
 		{
-			if (m_alertLevel > 0)
-			{
-				
-			//Rotate and check the area for depending on alert level : MAX (2)
-				m_checkAround = 0;
-				static const double S_WAIT_TIME = 2.0;
+			static const double S_WAIT_TIME = 2.0;
 
-				if (m_checkAround < S_WAIT_TIME * 1)
-				{
-					m_lookDir = Direction::DIRECTIONS[Direction::DIR_UP];
-				}
-				else if (m_checkAround >= S_WAIT_TIME * 1 && m_checkAround < S_WAIT_TIME * 2)
-				{
-					m_lookDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
-				}
-				else if (m_checkAround >= S_WAIT_TIME * 2 && m_checkAround < S_WAIT_TIME * 3)
-				{
-					m_lookDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
-				}
-				else if (m_checkAround >= S_WAIT_TIME * 3 && m_checkAround < S_WAIT_TIME * 4)
-				{
-					m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
-				}
-				m_alertLevel -= 1;
-				m_checkAround += dt;
-			}
-			else // alert level (0)
+			if (m_checkAround < S_WAIT_TIME * 1)
 			{
+				m_lookDir = Direction::DIRECTIONS[Direction::DIR_UP];
+			}
+			else if (m_checkAround >= S_WAIT_TIME * 1 && m_checkAround < S_WAIT_TIME * 2)
+			{
+				m_lookDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
+			}
+			else if (m_checkAround >= S_WAIT_TIME * 2 && m_checkAround < S_WAIT_TIME * 3)
+			{
+				m_lookDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
+			}
+			else if (m_checkAround >= S_WAIT_TIME * 3 && m_checkAround < S_WAIT_TIME * 4)
+			{
+				m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
+			}
+			else //timing is over
+			{
+				m_checkAround = 0;
 				m_enemyState = ES_PATROL;
 			}
+			m_checkAround += dt;
 			break;
 		}
+	case ES_KNOCKOUT:
+		{
+			m_checkAround += dt;
+			if( m_checkAround > 4)
+			{
+				m_checkAround = 0;
+				m_enemyState = ES_PATROL;
+			}
+		}
+	}
+	if (m_alertLevel >= 3 )
+	{
+		m_enemyState = ES_ATTACK;
 	}
 	ChangeAnimation(dt);
 	SetMapPosition(GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+}
+
+bool Enemy::AttackingInView(Character* _go)
+{
+	//attacked player - target character
+	if(_go->GetHealth() > 0 )
+	{
+		_go->AddToHealth(-1);
+		return true;
+	}
+	return false;
 }
 
 void Enemy::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
@@ -316,7 +324,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 	{
 		return true; // reached target
 	}
-	else if (m_lookDir.x < 0 && newMapPos.x < TargetmapPos.x) // -> moving left
+	else if (m_lookDir.x < 0 && newMapPos.x < TargetmapPos.x - _map->GetTileSize()) // -> moving left
 	{
 		return true; // reached target
 	}
@@ -324,7 +332,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 	{
 		return true; // reached target
 	}
-	else if (m_lookDir.y < 0 && newMapPos.y < TargetmapPos.y ) // -> moving down
+	else if (m_lookDir.y < 0 && newMapPos.y < TargetmapPos.y - _map->GetTileSize()) // -> moving down
 	{
 		return true; // reached target
 	}

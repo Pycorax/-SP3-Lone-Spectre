@@ -25,6 +25,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		A_MESH,
 		A_SPAWN_POSITION,
 		A_VIEW_RANGE,
+		A_SPAWN_TILE_POSITION,
 		A_PATROL_POINT,
 		NUM_ATTRIBUTE
 	};
@@ -44,6 +45,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		"Mesh",
 		"SpawnPosition",
 		"ViewRange",
+		"SpawnTilePosition",
 		"PatrolPoint"
 	};
 
@@ -163,6 +165,15 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 								_enemy->SetMapPosition(Vector2(values[0], values[1]), m__map->GetScrollOffset(), tileSize);
 							}
 						}
+						else if (attrib.name == ATTRIBUTE_NAMES[A_SPAWN_TILE_POSITION])
+						{
+							vector<float> values = StringToFloats(attrib.value);
+
+							if (values.size() >= 2)			// If the size of the vector is greater or equal to 2 for the 2 values for positioning
+							{
+								_enemy->SetMapTilePosition(Vector2(values[0], values[1]), m__map->GetScrollOffset(), tileSize);
+							}
+						}
 						else if (attrib.name == ATTRIBUTE_NAMES[A_MESH])
 						{
 							for (vector<Mesh*>::iterator meshIT = meshList.begin(); meshIT != meshList.end(); ++meshIT)
@@ -182,8 +193,8 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 
 							if (values.size() >= 2)			// If the size of the vector is greater or equal to 2 for the 2 values for positioning
 							{
-								// Multiply by tile size to convert from tile coord to map coord
-								_enemy->AddPatrolPoint(Vector2(values[0] * tileSize, values[1] * tileSize));
+								// Multiply by tile size to convert from tile coord to map coord in funct
+								_enemy->AddPatrolPoint(Vector2(values[0], values[1]));
 							}							
 						}
 						else if (attrib.name == ATTRIBUTE_NAMES[A_VIEW_RANGE])

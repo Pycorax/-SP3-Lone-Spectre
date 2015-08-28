@@ -73,10 +73,8 @@ public:
 	void Init(Vector2 pos, Mesh* _mesh);
 	void Update(double dt, TileMap* _map);
 	
-	//void SetStartPatrolPoint(Vector2 pos);
-	//void SetEndPatrolPoint(Vector2 pos);
 	void AddPatrolPoint(Vector2 pos);
-	//moving to selected location
+	//moving to selected location - return true if reached
 	bool MoveTo(Vector2 Endpos, TileMap* _map, double dt);
 	
 	void SetAlertLevel(int alertlevel);
@@ -94,6 +92,8 @@ public:
 	void AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState);
 	void ChangeAnimation(double dt);
 
+	//if given location is in view, use this to attack
+	bool AttackingInView(Character* _go);
 protected:
 	// Function to get the player's current position
 	virtual Vector2 pathFinder_getTilePosition(void);
