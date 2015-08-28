@@ -2,13 +2,14 @@
 
 const float TileMap::S_LIGHT_ACCURACY = 0.4f;
 
-TileMap::TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize) : m_numMapTile(numMapTile), m_numScreenTile(numScreenTile), m_tileSize(tileSize), m_mapSize(numMapTile * m_tileSize), m_screenSize(numScreenTile * m_tileSize), m_scrollOffset(0,0), m_map(NULL)
+TileMap::TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize) : m_numMapTile(numMapTile), m_numScreenTile(numScreenTile), m_tileSize(tileSize), m_mapSize(numMapTile * m_tileSize), m_screenSize(numScreenTile * m_tileSize), m_scrollOffset(0,0)
 {
-
+	int i;
 }
 
 TileMap::~TileMap(void)
 {
+	Clear();
 }
 
 void TileMap::LoadTileMap(const string &filePath, const vector<Mesh*>& meshList)
@@ -429,22 +430,25 @@ Tile::E_TILE_TYPE TileMap::GetTileType(Vector2 pos)
 
 void TileMap::Clear(void)
 {
-	while (m_map.size() > 0)
+	//if (m_map)
 	{
-		vector<Tile*>* _backRow = m_map.back();
-		if (_backRow)
+		while (m_map.size() > 0)
 		{
-			while (_backRow->size() > 0)
+			vector<Tile*>* _backRow = m_map.back();
+			if (_backRow)
 			{
-				Tile* _backTile = _backRow->back();
-				if (_backTile)
+				while (_backRow->size() > 0)
 				{
-					delete _backTile;
-					_backRow->pop_back();
+					Tile* _backTile = _backRow->back();
+					if (_backTile)
+					{
+						delete _backTile;
+						_backRow->pop_back();
+					}
 				}
+				delete _backRow;
+				m_map.pop_back();
 			}
-			delete _backRow;
-			m_map.pop_back();
 		}
 	}
 }

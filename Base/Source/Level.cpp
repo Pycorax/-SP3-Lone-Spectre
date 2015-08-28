@@ -3,7 +3,7 @@
 #include "SONIO.h"
 #include "LoadResource.h"
 
-Level::Level(void)
+Level::Level(void) : m__map(NULL)
 {
 }
 
@@ -208,7 +208,12 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 
 void Level::InitMap(Vector2 numMapTile, int viewWidth, int viewHeight, float tileSize, string filePath, vector<Mesh*> &meshList)
 {
-	Vector2 numScreenTile(ceil(viewWidth / 64.f), ceil(viewHeight / 64.f));
+	Vector2 numScreenTile(ceil(viewWidth / tileSize), ceil(viewHeight / tileSize));
+	if (m__map)
+	{
+		delete m__map;
+		m__map = NULL;
+	}
 	m__map = new TileMap(numMapTile, numScreenTile, tileSize);
 	m__map->LoadTileMap(filePath, meshList);
 }
