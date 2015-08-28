@@ -121,7 +121,7 @@
 
 	{
 		[Name] TILE_SETBOMBAREA
-		[FilePath] Image//Lab_Tiles//BombArea.tga
+		[FilePath] Image//Lab_Tiles//Bomb_Area.tga
 	}
 	
 	{
