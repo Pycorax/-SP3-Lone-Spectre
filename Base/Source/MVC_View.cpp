@@ -19,6 +19,9 @@
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 
+// Sound Engine
+#include "SoundEngine.h"
+
 MVC_View::MVC_View(MVC_Model* model, string configSONFile) : m_configSONFile(configSONFile)
 {
 	m_model = model;
@@ -34,6 +37,10 @@ void MVC_View::Init()
 	// Load Config File
 	loadConfig();
 
+	// Initialize SoundSystem
+	SoundEngine::StartSoundEngine();
+
+	// Initialize OpenGL
 	InitGL();
 
 	m_lightDepthFBO = new DepthFBO;
@@ -91,6 +98,10 @@ void MVC_View::Render(void)
 
 void MVC_View::Exit(void)
 {
+	// End SoundEngine
+	SoundEngine::StopSoundEngine();
+
+	// End OpenGL
 	delete m_lightDepthFBO;
 
 	glDeleteProgram(m_programID);

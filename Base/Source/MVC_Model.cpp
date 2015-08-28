@@ -83,6 +83,8 @@ void MVC_Model::Init(void)
 	InitGameObjects();
 	// VisualObjects
 	// InitVisualObjects();		// TODO: Reimplement when 3D is required
+	// SoundObjects
+	InitSounds();
 	// DefaultFont
 	m_defaultFont = GetMeshResource(m_fontName);
 
@@ -387,6 +389,10 @@ void MVC_Model::loadConfig()
 			{
 				m_lightSONFile = attrib->value;
 			}
+			else if (attrib->name == "SoundSONFile")
+			{
+				m_soundSONFile = attrib->value;
+			}
 			// Fonts
 			else if (attrib->name == "DefaultFontMesh")
 			{
@@ -528,7 +534,6 @@ void MVC_Model::InitMeshes()
 
 void MVC_Model::InitGameObjects()
 {
-
 #ifdef _DEBUG
 	StopWatch initTimer;
 	initTimer.startTimer();
@@ -537,6 +542,22 @@ void MVC_Model::InitGameObjects()
 #endif
 
 	goList = LoadGameObject(m_goSONFile, meshList);
+
+#ifdef _DEBUG
+	std::cout << "Loaded! (" << initTimer.getElapsedTime() << "s)" << std::endl;
+#endif
+}
+
+void MVC_Model::InitSounds()
+{
+#ifdef _DEBUG
+	StopWatch initTimer;
+	initTimer.startTimer();
+
+	std::cout << "Loading " << m_soundSONFile << "... ";
+#endif
+
+	soundList = LoadSounds(m_soundSONFile);
 
 #ifdef _DEBUG
 	std::cout << "Loaded! (" << initTimer.getElapsedTime() << "s)" << std::endl;
@@ -582,7 +603,7 @@ Mesh * MVC_Model::GetMeshResource(string name)
 unsigned MVC_Model::GetTextureResource(string name) const
 {
 	// Search for texture with the specified name
-	// Find Texture from the textList and assign the Material
+	// Find Texture from the textList and return the Texture ID
 	map<string, unsigned>::const_iterator it = texList.find(name);
 	if (it != texList.end())
 	{
@@ -592,6 +613,25 @@ unsigned MVC_Model::GetTextureResource(string name) const
 	{
 		// Error message if no mesh is found
 		std::cout << "No Texture named " << name << " was found! Are you sure it is defined in the SON file?" << std::endl;
+
+		// Returns no texture if none is found
+		return -1;
+	}
+}
+
+unsigned MVC_Model::GetSoundResource(string name) const
+{
+	// Search for sound with the specified name
+	// Find Sound from the soundList and assign the sound ID
+	map<string, unsigned>::const_iterator it = soundList.find(name);
+	if (it != soundList.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		// Error message if no mesh is found
+		std::cout << "No Sound named " << name << " was found! Are you sure it is defined in the SON file?" << std::endl;
 
 		// Returns no texture if none is found
 		return -1;

@@ -1,5 +1,9 @@
 #include "SoundEngine.h"
 
+ISoundEngine* SoundEngine::s__engine = NULL;
+vector<ISoundSource*> SoundEngine::s_soundLibrary;
+vector<SoundPlayer2D*> SoundEngine::s_soundPlayers;
+
 void SoundEngine::StartSoundEngine()
 {
 	s__engine = createIrrKlangDevice();
@@ -12,6 +16,9 @@ void SoundEngine::StartSoundEngine()
 
 void SoundEngine::StopSoundEngine()
 {
+	StopAll();
+	ClearSoundLibrary();
+
 	if (s__engine != NULL)
 	{
 		s__engine->drop();
@@ -30,7 +37,11 @@ void SoundEngine::ClearSoundLibrary(void)
 {
 	while (s_soundLibrary.size() > 0)
 	{
-		s_soundLibrary.back()->drop();
+		if (s_soundLibrary.back() != NULL)
+		{
+			s_soundLibrary.back()->drop();
+		}
+
 		s_soundLibrary.pop_back();
 	}
 }

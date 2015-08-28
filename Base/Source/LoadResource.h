@@ -21,6 +21,7 @@ vector<Light>			LoadLight(string filename);
 vector<GameObject2D*>		LoadGameObject(string filename, const vector<Mesh*>& meshList);
 vector<GameObject2D*>		LoadVisualObject(string filename, const vector<Mesh*>& meshList);
 vector<Weapon*>			LoadWeapon(string filename, const vector<Mesh*> &meshList);
+map<string, unsigned>	LoadSounds(string filename);
 
 // Helper Functions
 vector<float> StringToFloats(string str);

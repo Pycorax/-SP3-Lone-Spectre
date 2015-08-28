@@ -34,6 +34,7 @@
 	[GameObjectSONFile] SONs//GameObjects.son
 	[VisualObjectSONFile] SONs//VisualObjects.son
 	[LightSONFile] SONs//Lights.son
+	[SoundSONFile] SONs//Sounds.son
 	
 	# Fonts
 	[DefaultFontMesh] DefaultFont

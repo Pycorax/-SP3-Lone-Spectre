@@ -90,6 +90,7 @@ protected:
 	vector<Color> colList;
 	map<string, unsigned> texList;
 	vector<Mesh*> meshList;
+	map<string, unsigned> soundList;
 	Mesh* m_defaultFont;
 
 	// Overworld
@@ -125,6 +126,8 @@ private:
 	string m_voSONFile;
 	string m_lightSONFile;
 	string m_fontName;
+	// -- External Project Loads
+	string m_soundSONFile;
 
 public:
 	MVC_Model(string configSONFile);
@@ -190,10 +193,12 @@ protected:
 	void InitColors();
 	void InitMeshes();
 	void InitGameObjects();
+	void InitSounds();
 	//void InitVisualObjects();		 // TODO: Reimplement when 3D is required
 
 	Mesh* GetMeshResource(string name);			// Returns a pointer to a copy of the resource
 	unsigned GetTextureResource(string name) const;
+	unsigned GetSoundResource(string name) const;
 
 	// Input
 	virtual void processKeyAction(double dt) = 0;

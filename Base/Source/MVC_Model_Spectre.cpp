@@ -1,4 +1,5 @@
 #include "MVC_Model_Spectre.h"
+#include "SoundEngine.h"
 
 const Vector2 MVC_Model_Spectre::S_M_MESSAGE_OFFSET(20.0f, 20.0f);
 const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
@@ -393,6 +394,10 @@ void MVC_Model_Spectre::Init(void)
 	//m_enemyList.push_back(_enemy);
 
 	//ObjectiveCollect;
+
+	// TODO: Remove this. This is preventing a crash of sound engine
+	SoundPlayer2D* _snd = SoundEngine::CreateSound2D(0);
+	_snd->Play(true);
 }
 
 void MVC_Model_Spectre::initHUD(void)

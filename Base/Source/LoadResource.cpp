@@ -3,6 +3,7 @@
 #include "LoadTGA.h"
 #include "MeshBuilder.h"
 #include "RangedWeapon.h"
+#include "SoundEngine.h"
 
 map<string, Material> LoadMaterial(string filename)
 {
@@ -649,6 +650,37 @@ vector<Weapon*> LoadWeapon(string filename, const vector<Mesh*> &meshList)
 	}
 
 	return weapList;
+}
+
+map<string, unsigned> LoadSounds(string filename)
+{
+	map<string, unsigned> soundList;
+
+	// Retrieve data as a Branch object from the SONFile
+	Branch sounds = SONIO::LoadSON(filename);
+
+	const string ROOT_NAME = "SoundContainer";
+
+	if (sounds.name == ROOT_NAME)
+	{
+		// For every Sound
+		for (size_t i = 0; i < sounds.childBranches.size(); ++i)
+		{
+			// Find the attribute and add it to this Material object
+			for (size_t j = 0; j < sounds.childBranches[i].attributes.size(); ++j)
+			{
+				Attribute attrib = sounds.childBranches[i].attributes[j];
+
+				// Extract the values out
+				if (attrib.name == "FilePath")
+				{
+					soundList.insert(std::pair<string, unsigned>(sounds.childBranches[i].name, SoundEngine::AddSoundSource(attrib.value)));
+				}
+			}
+		}
+	}
+
+	return soundList;
 }
 
 vector<float> StringToFloats(string str)
