@@ -31,7 +31,13 @@ public:
 		APP_GAME_MAIN,
 		APP_GAME_HACK,
 	};
+
+private:	// Static Constant
+	static const Vector2 S_M_MESSAGE_OFFSET;
+
+public:		// Static Constant
 	static const float S_M_MAX_ALERT;
+
 private:	// Variables
 	// Levels
 	Level* m__currentLevel;

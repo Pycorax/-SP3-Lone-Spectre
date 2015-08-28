@@ -52,6 +52,11 @@ void MessageManager::Update(double dt)
 	}
 }
 
+void MessageManager::SetMessageBGScale(Vector2 scale)
+{
+	m_messageBG->SetScale(scale);
+}
+
 void MessageManager::AddMessages(string filePath)
 {
 	const string ROOT_NAME = "MessageContainer";
@@ -117,6 +122,11 @@ void MessageManager::ClearMessages(void)
 	{
 		m_messages.pop();
 	}
+}
+
+Vector2 MessageManager::GetMessageBGScale(void)
+{
+	return m_messageBG->GetTransform().Scale;
 }
 
 vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewHeight)
@@ -191,7 +201,7 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	deactivateTextObjects();
 
 	// -- Split a long message into multiple lines
-	const size_t MAX_LETTERS_PER_LINE = m_messageTextTemplate->GetTransform().Scale.x * 17.27 /* A constant value that returns the correct values. */;
+	const size_t MAX_LETTERS_PER_LINE = (m_messageBG->GetTransform().Scale.x / m_messageTextTemplate->GetTransform().Scale.x) * 0.15 /* A constant value that returns the correct values. */;
 	static const Vector2 SHIFT_PER_LINE(0.0f, -m_messageTextTemplate->GetTransform().Scale.x);
 
 	int numSubStr = 0;		// Notes down number of substring created so as to shift the text down properly

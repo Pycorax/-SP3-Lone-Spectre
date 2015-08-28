@@ -78,6 +78,8 @@ public:		// Functions
 	/*
 	 * Setters
 	 */
+	void SetMessageBGScale(Vector2 scale);
+
 	void AddMessages(string filePath);
 	void AddMessage(Message msg);
 	void ClearMessages(void);
@@ -85,6 +87,7 @@ public:		// Functions
 	/*
 	 * Getters
 	 */
+	Vector2 GetMessageBGScale(void);
 	vector<GameObject2D*> GetMessageObjects(int viewWidth, int viewHeight);
 
 private:	// Functions

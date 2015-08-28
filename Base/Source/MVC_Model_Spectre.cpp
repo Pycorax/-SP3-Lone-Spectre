@@ -1,5 +1,6 @@
 #include "MVC_Model_Spectre.h"
 
+const Vector2 MVC_Model_Spectre::S_M_MESSAGE_OFFSET(20.0f, 20.0f);
 const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
@@ -326,7 +327,7 @@ void MVC_Model_Spectre::Init(void)
 	float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
 
 	// Init the MessageManager
-	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(600.0f, 200.0f), Vector2(20.0f, 20.0f));
+	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x, 200.0f), S_M_MESSAGE_OFFSET);
 	m_messenger.AddMessages("Messages//Level1_Message.son");
 
 	//Enemy
@@ -783,7 +784,11 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 
 void MVC_Model_Spectre::onResolutionChanged(int oldViewWidth, int oldViewHeight)
 {
+	// Update the tilemap
 	resizeTileMap(oldViewWidth);
+
+	// Update the Messenger
+	m_messenger.SetMessageBGScale(Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x * 2, m_messenger.GetMessageBGScale().y));
 }
 
 void MVC_Model_Spectre::resizeTileMap(int oldViewWidth)
