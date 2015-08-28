@@ -50,7 +50,8 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 			if (m_bKeyPressed[INTERACT_GENERIC_KEY])
 			{
-				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE)
+				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE 
+					&& m__currentLevel->GetObjectiveComplete() == true)
 				{
 					nextLevel();
 				}
@@ -74,10 +75,49 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					}
 					
 				}
-				
-			}
-			if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
-				|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
+					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+				{
+					//GetActiveObjective - means objective is updating
+					if(m__currentLevel->GetActiveObjective() )
+					{
+						m__currentLevel->UpdateObjective(dt);
+					}
+				}
+				if (m__currentLevel->GetObjectiveComplete() == true)
+				{
+					if ((m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
+						|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
+						|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+					{
+						// Force set tilemap
+						Tile* _tileOnPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+						Tile* _tileInFrontPlayer = m__currentLevel->GetTileMap()->GetTileAt
+							(m__player->GetMapPos() + m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize());
+						if (_tileOnPlayer->GetType() == Tile::TILE_BOMB || _tileOnPlayer->GetType() == Tile::TILE_DOCUMENT)			
+						{
+							_tileOnPlayer->SetMesh(GetMeshResource("TILE_FLOOR"));
+							_tileOnPlayer->SetType(Tile::TILE_FLOOR);
+						}
+						else if ((_tileInFrontPlayer->GetType() == Tile::TILE_BOMB || _tileInFrontPlayer->GetType() == Tile::TILE_DOCUMENT))
+						{
+							_tileInFrontPlayer->SetMesh(GetMeshResource("TILE_FLOOR"));
+							_tileInFrontPlayer->SetType(Tile::TILE_FLOOR);
+						}
+						else if (_tileOnPlayer->GetType() == Tile::TILE_SETBOMBAREA)
+						{
+							_tileOnPlayer->SetMesh(GetMeshResource("TILE_BOMB"));
+							_tileOnPlayer->SetType(Tile::TILE_BOMB);
+						}
+						else if (_tileInFrontPlayer->GetType() == Tile::TILE_SETBOMBAREA)
+						{
+							_tileInFrontPlayer->SetMesh(GetMeshResource("TILE_BOMB"));
+							_tileInFrontPlayer->SetType(Tile::TILE_BOMB);
+						}
+					}
+				}
+			} 
+			else
 			{
 				//GetActiveObjective - means objective is updating
 				if(m__currentLevel->GetActiveObjective() )
@@ -169,6 +209,7 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	{
 		delete m__currentLevel;
 	}
+	clearCameraList();
 
 	// Initialize the level
 	m__currentLevel = new Level();

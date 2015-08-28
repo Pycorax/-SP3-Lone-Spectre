@@ -10,5 +10,5 @@
 	[NumMapTile] 64.0f, 50.0f
 	
 	[MaxTimer] 999.0f
-	[MissionType] LM_COLLECT
+	[MissionType] LM_DEFUSE_BOMB
 }

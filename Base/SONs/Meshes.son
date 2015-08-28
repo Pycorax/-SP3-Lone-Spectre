@@ -374,6 +374,42 @@
 		[Height] 1.0f
 		[Texture] TILE_LIGHT
 	}
+
+	{
+		[Name] TILE_DOCUMENT
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] TILE_DOCUMENT
+	}
+
+	{
+		[Name] TILE_BOMB
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] TILE_BOMB
+	}
+
+	{
+		[Name] TILE_SETBOMBAREA
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] TILE_SETBOMBAREA
+	}
+
+	{
+		[Name] TILE_EXTRACTION
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] TILE_EXTRACTION
+	}
 	
 	{
 		[Name] LightOverlay
@@ -400,15 +436,6 @@
 		[Width] 1.0f
 		[Height] 1.0f
 		[Texture] MessageBG
-	}
-	
-	{
-		[Name] TILE_EXTRACTION
-		[Type] 2D
-		[Color] 1.0f, 1.0f, 1.0f
-		[Width] 1.0f
-		[Height] 1.0f
-		[Texture] TILE_EXTRACTION
 	}
 	
 	# HUD

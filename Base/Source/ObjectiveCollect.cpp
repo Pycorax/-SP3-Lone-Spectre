@@ -23,7 +23,6 @@ void ObjectiveCollect::Update(double dt)
 
 bool ObjectiveCollect::IsCompleted()
 {
-	
 	return totalObjects == 0;
 }
 
