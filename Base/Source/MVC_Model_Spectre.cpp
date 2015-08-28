@@ -5,9 +5,9 @@ const Vector2 MVC_Model_Spectre::S_M_MESSAGE_OFFSET(20.0f, 20.0f);
 const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
+	, m_appState(AS_MAIN_GAME)
 	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
-	, m_hackMode(false)
 	, m__player(NULL)
 	, m_enableShadow(true)
 	, m_alertLevel(0.f)
@@ -28,15 +28,10 @@ MVC_Model_Spectre::~MVC_Model_Spectre(void)
 
 void MVC_Model_Spectre::processKeyAction(double dt)
 {
-	// Controls for Spectre HexTech minigame
-	if (m_hackMode)
+	switch (m_appState)
 	{
-		m_hackingGame.Move(m_bKeyPressed[MOVE_LEFT_KEY], m_bKeyPressed[MOVE_RIGHT_KEY], m_bKeyPressed[MOVE_FORWARD_KEY], m_bKeyPressed[MOVE_BACKWARD_KEY], dt);
-	}
-	else
-	{
-		#pragma region Player Controls
-		
+		case AS_MAIN_GAME:
+		{
 			if (m_bKeyPressed[MOVE_FORWARD_KEY])
 			{
 				m__player->SetMove(Direction::DIRECTIONS[Direction::DIR_UP]);
@@ -56,27 +51,27 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 			if (m_bKeyPressed[INTERACT_GENERIC_KEY])
 			{
-				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE 
+				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE
 					&& m__currentLevel->GetObjectiveComplete() == true)
 				{
 					nextLevel();
 				}
-				if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE) 
-					|| (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT) 
-					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
+				if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE)
+					|| (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
+					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
 					if (m__currentLevel->GetObjectiveComplete() == false && m__currentLevel->GetActiveObjective() == false)
 					{
 						m__currentLevel->ActivateObjective();
 					}
-					
+
 				}
-				if((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE) 
+				if ((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
 					//GetActiveObjective - means objective is updating
-					if(m__currentLevel->GetActiveObjective() )
+					if (m__currentLevel->GetActiveObjective())
 					{
 						m__currentLevel->UpdateObjective(dt);
 					}
@@ -91,7 +86,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						Tile* _tileOnPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
 						Tile* _tileInFrontPlayer = m__currentLevel->GetTileMap()->GetTileAt
 							(m__player->GetMapPos() + m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize());
-						if (_tileOnPlayer->GetType() == Tile::TILE_BOMB || _tileOnPlayer->GetType() == Tile::TILE_DOCUMENT)			
+						if (_tileOnPlayer->GetType() == Tile::TILE_BOMB || _tileOnPlayer->GetType() == Tile::TILE_DOCUMENT)
 						{
 							_tileOnPlayer->SetMesh(GetMeshResource("TILE_FLOOR"));
 							_tileOnPlayer->SetType(Tile::TILE_FLOOR);
@@ -117,7 +112,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			else
 			{
 				//GetActiveObjective - means objective is updating
-				if(m__currentLevel->GetActiveObjective() )
+				if (m__currentLevel->GetActiveObjective())
 				{
 					m__currentLevel->UpdateObjective(dt);
 				}
@@ -130,19 +125,19 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					m__player->SetState(Player::PS_SPECTRAL_HAX);
 					startHackMode();
 				}
-			} 
+			}
 
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
 			{
 				m__player->SetDive();
 				//if player currently not hosting
-				if(m__player->GetHosting() == false)
+				if (m__player->GetHosting() == false)
 				{
 					for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 					{
 						Enemy* _enemy = *enemyIter;
 						//if player dives within a tile distance from player
-						if((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize())
+						if ((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize())
 						{
 							m__player->SetHostPTR(_enemy);
 							break;
@@ -155,9 +150,17 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			{
 				m__player->SetJump();
 			}
+			break;
+		}
 
-		#pragma endregion
+		case AS_HACK_GAME:
+		{
+			m_hackingGame.Move(m_bKeyPressed[MOVE_LEFT_KEY], m_bKeyPressed[MOVE_RIGHT_KEY], m_bKeyPressed[MOVE_FORWARD_KEY], m_bKeyPressed[MOVE_BACKWARD_KEY], dt);
+			break;
+		}
+		
 	}
+
 	// Quitting the game
 	if (m_bKeyPressed[GAME_EXIT_KEY])
 	{
@@ -327,17 +330,9 @@ GameObject2D * MVC_Model_Spectre::fetchTileMarker(TILE_MARKER_TYPE type)
 	return m__tileMarkers.back();
 }
 
-void MVC_Model_Spectre::updateHackMode(const double DT)
-{
-	if (m_hackMode)
-	{
-		m_hackingGame.Update(DT);
-	}
-}
-
 void MVC_Model_Spectre::startHackMode(void)
 {
-	m_hackMode = true;
+	m_appState = AS_HACK_GAME;
 	m_hackingGame.Reset(m_viewWidth, m_viewHeight);
 }
 
@@ -350,7 +345,7 @@ void MVC_Model_Spectre::Init(void)
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
 
 	// Load the player
-	InitPlayer();
+	initPlayer();
 
 	// Init the hacking game
 	m_hackingGame.Init
@@ -458,7 +453,296 @@ void MVC_Model_Spectre::initHUD(void)
 	m__kKey->SetActive(false);
 }
 
-void MVC_Model_Spectre::InitPlayer(void)
+void MVC_Model_Spectre::updateMainGame(double dt)
+{
+	// Updates player depending on actions queued.
+	m__player->Update(dt, m__currentLevel->GetTileMap());
+
+	// Update the messenger
+	m_messenger.Update(dt);
+
+	// Update camera list
+	updateCamera(dt);
+
+	// Player inside viewed tile
+	static const double S_ALERT_SPEED = 4.0;
+	static const double S_ALERT_HOSTILE = 2.0f;
+	Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+	if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
+	{
+		_tile->NotifyViewer(m__player->GetMapTilePos(), m_alertLevel, dt * S_ALERT_SPEED);
+	}
+
+	//update enemies
+	for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+	{
+		Enemy* _enemy = (*enemyIter);
+		_enemy->Update(dt, m__currentLevel->GetTileMap());
+		_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
+		_enemy->SetAlertLevel(m_alertLevel);
+		if (_enemy->GetAlertLevel() > S_ALERT_HOSTILE)
+		{
+			if ((_enemy->GetMapTilePos() - _tile->GetMapTilePos()).LengthSquared() < (m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize()))
+			{
+				_enemy->AttackingInView(m__player);
+			}
+			else
+			{
+				_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
+			}
+		}
+
+	}
+	if (m__player->GetHealth() <= 0)
+	{
+		std::cout << "K.O." << std::endl;
+	}
+	// Update Lighting
+	vector<Vector2> shadowCasters;
+	// Give enemies a shadow
+	for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+	{
+		shadowCasters.push_back((*enemyIter)->GetMapTilePos());
+	}
+	//shadowCasters.push_back(m__player->GetMapTilePos());
+	m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
+
+	// Update alert system
+	updateHUD(dt);
+
+
+	// Rendering
+	tileMapToRender(m__currentLevel->GetTileMap());
+
+	// -- Render Player
+	m_renderList2D.push(m__player);
+
+	// Render Enemies
+	for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+	{
+		m_renderList2D.push((*enemyIter));
+	}
+
+	// Render HUD
+	// Alert
+	m_renderList2D.push(m__alert);
+	m_renderList2D.push(m__alert->GetDisplayCover());
+	// Dive skill
+	m_renderList2D.push(m__spectreDive);
+	m_renderList2D.push(m__spectreDive->GetDisplayCover());
+	// Jump skill
+	m_renderList2D.push(m__spectreJump);
+	m_renderList2D.push(m__spectreJump->GetDisplayCover());
+	// Host skill
+	m_renderList2D.push(m__spectreHost);
+	m_renderList2D.push(m__spectreHost->GetDisplayCover());
+	// Action prompts
+	float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
+	Tile* _tileOnPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+	Tile::E_TILE_TYPE tileTypeOnPlayer = _tileOnPlayer->GetType();
+	Vector2 frontTilePos = m__player->GetMapPos() + (m__player->GetLookDir() * tileSize);
+	frontTilePos.x = floor(frontTilePos.x / tileSize);
+	frontTilePos.y = floor(frontTilePos.y / tileSize);
+	Tile* _tileInFrontPlayer = NULL;
+	Tile::E_TILE_TYPE tileTypeInFrontPlayer;
+	if (frontTilePos.x >= 0 && frontTilePos.x < m__currentLevel->GetTileMap()->GetNumScreenTile().x && frontTilePos.y >= 0 && frontTilePos.y < m__currentLevel->GetTileMap()->GetNumScreenTile().y)
+	{
+		_tileInFrontPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * tileSize));
+		tileTypeInFrontPlayer = _tileInFrontPlayer->GetType();
+	}
+	Vector2 playerDir = m__player->GetLookDir();
+	Vector2 spawnDir;
+	const Vector2 S_ACTION_HUD_OFFSET(tileSize * 0.25f, tileSize * 0.25f);
+	if (tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_1
+		||
+		tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_2
+		||
+		tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_3
+		||
+		tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_4
+		||
+		(_tileInFrontPlayer && (tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_1
+			||
+			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_2
+			||
+			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_3
+			||
+			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_4))) // Spawn K key if camera
+	{
+		// Spawn hud key to the right of where player is
+		if (playerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// If facing up, set spawn direction to right
+		{
+			spawnDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
+		}
+		else if (playerDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])	// If facing right, set spawn direction to down
+		{
+			spawnDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
+		}
+		else if (playerDir == Direction::DIRECTIONS[Direction::DIR_DOWN])	// If facing down, set spawn direction to left
+		{
+			spawnDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
+		}
+		else if (playerDir == Direction::DIRECTIONS[Direction::DIR_LEFT])	// If facing left, set spawn direction to up
+		{
+			spawnDir = Direction::DIRECTIONS[Direction::DIR_UP];
+		}
+		m__kKey->SetActive(true);
+		m__kKey->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
+		m_renderList2D.push(m__kKey);
+	}
+	else if (tileTypeOnPlayer == Tile::TILE_BOMB
+		||
+		tileTypeOnPlayer == Tile::TILE_DOCUMENT
+		||
+		tileTypeOnPlayer == Tile::TILE_SETBOMBAREA
+		||
+		tileTypeOnPlayer == Tile::TILE_EXTRACTION
+		||
+		(_tileInFrontPlayer && (tileTypeInFrontPlayer == Tile::TILE_BOMB
+			||
+			tileTypeInFrontPlayer == Tile::TILE_DOCUMENT
+			||
+			tileTypeInFrontPlayer == Tile::TILE_SETBOMBAREA))) // Spawn F if interactions
+	{
+		// Spawn hud key to the right of where player is
+		if (playerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// If facing up, set spawn direction to right
+		{
+			spawnDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
+		}
+		else if (playerDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])	// If facing right, set spawn direction to down
+		{
+			spawnDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
+		}
+		else if (playerDir == Direction::DIRECTIONS[Direction::DIR_DOWN])	// If facing down, set spawn direction to left
+		{
+			spawnDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
+		}
+		else if (playerDir == Direction::DIRECTIONS[Direction::DIR_LEFT])	// If facing left, set spawn direction to up
+		{
+			spawnDir = Direction::DIRECTIONS[Direction::DIR_UP];
+		}
+		m__fKey->SetActive(true);
+		m__fKey->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
+		m_renderList2D.push(m__fKey);
+	}
+	else
+	{
+		m__fKey->SetActive(false);
+		m__kKey->SetActive(false);
+	}
+
+	// Render Messages
+	pushMessageToRender();
+
+	m_renderList2D.push(m_fpsCount);
+}
+
+void MVC_Model_Spectre::updateHackGame(double dt)
+{
+	m_hackingGame.Update(dt);
+
+	if (m_hackingGame.IsVictory())
+	{
+		m_appState = AS_MAIN_GAME;
+		m__player->SetState(Player::PS_IDLE_DOWN);
+		// Deactivate camera from camera list and tilemap
+		for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
+		{
+			SecurityCamera* _camera = *it;
+			Vector2 cameraTilePos = _camera->GetMapTilePos();
+			Vector2 playerTilePos = m__player->GetMapTilePos();
+			Vector2 playerFrontTilePos = playerTilePos + m__player->GetLookDir();
+			if (cameraTilePos == playerTilePos || cameraTilePos == playerFrontTilePos) // Found camera
+			{
+				_camera->DestroyViewBox(m__currentLevel->GetTileMap());
+				_camera->SetState(false);
+				// Change mesh for camera and tile obj
+				if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_UP])
+				{
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
+					// Force set tilemap
+					if (cameraTilePos == playerTilePos)
+					{
+						Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+						_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
+						_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_3);
+					}
+					else if (cameraTilePos == playerFrontTilePos)
+					{
+						Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
+						_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
+						_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_3);
+					}
+				}
+				else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_DOWN])
+				{
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
+					// Force set tilemap
+					if (cameraTilePos == playerTilePos)
+					{
+						Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+						_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
+						_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_1);
+					}
+					else if (cameraTilePos == playerFrontTilePos)
+					{
+						Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
+						_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
+						_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_1);
+					}
+				}
+				else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_LEFT])
+				{
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
+					// Force set tilemap
+					if (cameraTilePos == playerTilePos)
+					{
+						Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+						_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
+						_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_2);
+					}
+					else if (cameraTilePos == playerFrontTilePos)
+					{
+						Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
+						_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
+						_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_2);
+					}
+				}
+				else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_RIGHT])
+				{
+					_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
+					// Force set tilemap
+					if (cameraTilePos == playerTilePos)
+					{
+						Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
+						_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
+						_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_4);
+					}
+					else if (cameraTilePos == playerFrontTilePos)
+					{
+						Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
+						_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
+						_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_4);
+					}
+				}
+				break;
+			}
+		}
+	}
+	else if (m_hackingGame.IsLoss())
+	{
+		m_appState = AS_MAIN_GAME;
+		m__player->SetState(Player::PS_IDLE_DOWN);
+	}
+
+	vector<GameObject2D*> minigameObjects = m_hackingGame.GetRenderObjects();
+	for (vector<GameObject2D*>::iterator go = minigameObjects.begin(); go != minigameObjects.end(); ++go)
+	{
+		m_renderList2D.push(*go);
+	}
+}
+
+void MVC_Model_Spectre::initPlayer(void)
 {
 	m__player = Player::GetInstance();
 	m__player->Init(GetMeshResource("Player_ANIMATION"));
@@ -547,293 +831,19 @@ void MVC_Model_Spectre::InitPlayer(void)
 void MVC_Model_Spectre::Update(double dt)
 {
 	MVC_Model::Update(dt);
-	if (m_hackMode)
+
+	switch (m_appState)
 	{
-		m_hackingGame.Update(dt);
-
-		if (m_hackingGame.IsVictory())
+		case AS_MAIN_GAME:
 		{
-			m_hackMode = false;
-			m__player->SetState(Player::PS_IDLE_DOWN);
-			// Deactivate camera from camera list and tilemap
-			for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
-			{
-				SecurityCamera* _camera = *it;
-				Vector2 cameraTilePos = _camera->GetMapTilePos();
-				Vector2 playerTilePos = m__player->GetMapTilePos();
-				Vector2 playerFrontTilePos = playerTilePos + m__player->GetLookDir();
-				if (cameraTilePos == playerTilePos || cameraTilePos == playerFrontTilePos) // Found camera
-				{
-					_camera->DestroyViewBox(m__currentLevel->GetTileMap());
-					_camera->SetState(false);
-					// Change mesh for camera and tile obj
-					if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_UP])
-					{
-						_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
-						// Force set tilemap
-						if (cameraTilePos == playerTilePos)
-						{
-							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
-							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
-							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_3);
-						}
-						else if (cameraTilePos == playerFrontTilePos)
-						{
-							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
-							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_UP]);
-							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_3);
-						}
-					}
-					else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_DOWN])
-					{
-						_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
-						// Force set tilemap
-						if (cameraTilePos == playerTilePos)
-						{
-							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
-							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
-							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_1);
-						}
-						else if (cameraTilePos == playerFrontTilePos)
-						{
-							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
-							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_DOWN]);
-							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_1);
-						}
-					}
-					else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_LEFT])
-					{
-						_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
-						// Force set tilemap
-						if (cameraTilePos == playerTilePos)
-						{
-							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
-							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
-							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_2);
-						}
-						else if (cameraTilePos == playerFrontTilePos)
-						{
-							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
-							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_LEFT]);
-							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_2);
-						}
-					}
-					else if (_camera->GetDir() == Direction::DIRECTIONS[Direction::DIR_RIGHT])
-					{
-						_camera->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
-						// Force set tilemap
-						if (cameraTilePos == playerTilePos)
-						{
-							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
-							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
-							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_4);
-						}
-						else if (cameraTilePos == playerFrontTilePos)
-						{
-							Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize()));
-							_tile->SetMesh(SecurityCamera::s_camMeshList[SecurityCamera::CAM_OFF_RIGHT]);
-							_tile->SetType(Tile::TILE_OBJ_CAMERA_OFF_1_4);
-						}
-					}
-					break;
-				}
-			}
+			updateMainGame(dt);
+			break;
 		}
-		else if (m_hackingGame.IsLoss())
+		case AS_HACK_GAME:
 		{
-			m_hackMode = false;
-			m__player->SetState(Player::PS_IDLE_DOWN);
+			updateHackGame(dt);
+			break;
 		}
-
-		vector<GameObject2D*> minigameObjects = m_hackingGame.GetRenderObjects();
-		for (vector<GameObject2D*>::iterator go = minigameObjects.begin(); go != minigameObjects.end(); ++go)
-		{
-			m_renderList2D.push(*go);
-		}
-	}
-	//not in mini game - update normally
-	else
-	{	
-		// Updates player depending on actions queued.
-		m__player->Update(dt, m__currentLevel->GetTileMap());
-
-		// Update the messenger
-		m_messenger.Update(dt);
-
-		// Update camera list
-		updateCamera(dt);
-
-		// Player inside viewed tile
-		static const double S_ALERT_SPEED = 4.0; 
-		static const double S_ALERT_HOSTILE = 2.0f;
-		Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
-		if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
-		{
-			_tile->NotifyViewer(m__player->GetMapTilePos(), m_alertLevel, dt * S_ALERT_SPEED);
-		}
-
-		//update enemies
-		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
-		{
-			Enemy* _enemy = (*enemyIter);
-			_enemy->Update(dt, m__currentLevel->GetTileMap());
-			_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
-			_enemy->SetAlertLevel(m_alertLevel);
-			if(_enemy->GetAlertLevel() > S_ALERT_HOSTILE)
-			{
-				if((_enemy->GetMapTilePos() - _tile->GetMapTilePos()).LengthSquared() < (m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize()))
-				{
-					_enemy->AttackingInView(m__player);
-				}
-				else
-				{
-					_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
-				}
-			}
-			
-		}
-		if(m__player->GetHealth() <= 0)
-		{
-			std::cout << "K.O." << std::endl;
-		}
-		// Update Lighting
-		vector<Vector2> shadowCasters;
-		// Give enemies a shadow
-		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
-		{
-			shadowCasters.push_back((*enemyIter)->GetMapTilePos());
-		}
-		//shadowCasters.push_back(m__player->GetMapTilePos());
-		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
-
-		// Update alert system
-		updateHUD(dt);
-
-
-		// Rendering
-		tileMapToRender(m__currentLevel->GetTileMap());
-		
-		// -- Render Player
-		m_renderList2D.push(m__player);
-
-		// Render Enemies
-		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
-		{
-			m_renderList2D.push((*enemyIter));
-		}
-
-		// Render HUD
-		// Alert
-		m_renderList2D.push(m__alert);
-		m_renderList2D.push(m__alert->GetDisplayCover());
-		// Dive skill
-		m_renderList2D.push(m__spectreDive);
-		m_renderList2D.push(m__spectreDive->GetDisplayCover());
-		// Jump skill
-		m_renderList2D.push(m__spectreJump);
-		m_renderList2D.push(m__spectreJump->GetDisplayCover());
-		// Host skill
-		m_renderList2D.push(m__spectreHost);
-		m_renderList2D.push(m__spectreHost->GetDisplayCover());
-		// Action prompts
-		float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
-		Tile* _tileOnPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
-		Tile::E_TILE_TYPE tileTypeOnPlayer = _tileOnPlayer->GetType();
-		Vector2 frontTilePos = m__player->GetMapPos() + (m__player->GetLookDir() * tileSize);
-		frontTilePos.x = floor(frontTilePos.x / tileSize);
-		frontTilePos.y = floor(frontTilePos.y / tileSize);
-		Tile* _tileInFrontPlayer = NULL;
-		Tile::E_TILE_TYPE tileTypeInFrontPlayer;
-		if (frontTilePos.x >= 0 && frontTilePos.x < m__currentLevel->GetTileMap()->GetNumScreenTile().x && frontTilePos.y >= 0 && frontTilePos.y < m__currentLevel->GetTileMap()->GetNumScreenTile().y)
-		{
-			_tileInFrontPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos() + (m__player->GetLookDir() * tileSize));
-			tileTypeInFrontPlayer = _tileInFrontPlayer->GetType();
-		}
-		Vector2 playerDir = m__player->GetLookDir();
-		Vector2 spawnDir;
-		const Vector2 S_ACTION_HUD_OFFSET(tileSize * 0.25f, tileSize * 0.25f);
-		if (tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_1
-			|| 
-			tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_2
-			||
-			tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_3
-			||
-			tileTypeOnPlayer == Tile::TILE_OBJ_CAMERA_ON_1_4
-			||
-			(_tileInFrontPlayer && (tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_1
-			|| 
-			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_2
-			||
-			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_3
-			||
-			tileTypeInFrontPlayer == Tile::TILE_OBJ_CAMERA_ON_1_4))) // Spawn K key if camera
-		{
-			// Spawn hud key to the right of where player is
-			if (playerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// If facing up, set spawn direction to right
-			{
-				spawnDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
-			}
-			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])	// If facing right, set spawn direction to down
-			{
-				spawnDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
-			}
-			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_DOWN])	// If facing down, set spawn direction to left
-			{
-				spawnDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
-			}
-			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_LEFT])	// If facing left, set spawn direction to up
-			{
-				spawnDir = Direction::DIRECTIONS[Direction::DIR_UP];
-			}
-			m__kKey->SetActive(true);
-			m__kKey->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
-			m_renderList2D.push(m__kKey);
-		}
-		else if (tileTypeOnPlayer == Tile::TILE_BOMB
-				||
-				tileTypeOnPlayer == Tile::TILE_DOCUMENT
-				||
-				tileTypeOnPlayer == Tile::TILE_SETBOMBAREA
-				||
-				tileTypeOnPlayer == Tile::TILE_EXTRACTION
-				||
-				(_tileInFrontPlayer && (tileTypeInFrontPlayer == Tile::TILE_BOMB
-				||
-				tileTypeInFrontPlayer == Tile::TILE_DOCUMENT
-				||
-				tileTypeInFrontPlayer == Tile::TILE_SETBOMBAREA))) // Spawn F if interactions
-		{
-			// Spawn hud key to the right of where player is
-			if (playerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// If facing up, set spawn direction to right
-			{
-				spawnDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
-			}
-			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])	// If facing right, set spawn direction to down
-			{
-				spawnDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
-			}
-			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_DOWN])	// If facing down, set spawn direction to left
-			{
-				spawnDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
-			}
-			else if (playerDir == Direction::DIRECTIONS[Direction::DIR_LEFT])	// If facing left, set spawn direction to up
-			{
-				spawnDir = Direction::DIRECTIONS[Direction::DIR_UP];
-			}
-			m__fKey->SetActive(true);
-			m__fKey->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
-			m_renderList2D.push(m__fKey);
-		}
-		else
-		{
-			m__fKey->SetActive(false);
-			m__kKey->SetActive(false);
-		}
-
-		// Render Messages
-		pushMessageToRender();
-
-		m_renderList2D.push(m_fpsCount);
 	}
 }
 void MVC_Model_Spectre::Exit(void)

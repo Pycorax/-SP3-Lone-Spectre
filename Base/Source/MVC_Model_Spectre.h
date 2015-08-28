@@ -26,10 +26,10 @@ private:
 public:
 	enum E_APP_STATE
 	{
-		APP_MENU_MAIN,
-		APP_MENU_LEVEL_SELECT,
-		APP_GAME_MAIN,
-		APP_GAME_HACK,
+		AS_MAIN,
+		AS_MAIN_GAME,
+		AS_HACK_GAME,
+		NUM_APP_STATE
 	};
 
 private:	// Static Constant
@@ -39,6 +39,9 @@ public:		// Static Constant
 	static const float S_M_MAX_ALERT;
 
 private:	// Variables
+	// Application/Game Life Cycle
+	E_APP_STATE m_appState;
+
 	// Levels
 	Level* m__currentLevel;
 	int m_currentLevelID;
@@ -79,7 +82,6 @@ private:	// Variables
 	vector<Collider2D *> m__colliderList;
 
 	// Spectral HexText MiniGame 
-	bool m_hackMode;					// Controls whether hack mode is enabled
 	SpectreHexGame m_hackingGame;		// Controls the hacking mini-game for the spectre hex-tech skill
 
 	// Other/Debug
@@ -96,8 +98,10 @@ public:
 	virtual void Exit();
 
 protected:
+	void updateMainGame(double dt);
+	void updateHackGame(double dt);
 	//init player and animations
-	void InitPlayer(void);
+	void initPlayer(void);
 
 	// HUD
 	void initHUD(void);
@@ -127,7 +131,6 @@ protected:
 	GameObject2D* fetchTileMarker(TILE_MARKER_TYPE type);
 
 	// Hack Mode (Spectre HexTech MiniGame)
-	void updateHackMode(const double DT);
 	void startHackMode(void);
 
 	// Tile-map rendering
