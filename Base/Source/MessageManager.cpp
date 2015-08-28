@@ -155,6 +155,7 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	}
 	else
 	{
+		goList.clear();
 		return goList;
 	}
 
