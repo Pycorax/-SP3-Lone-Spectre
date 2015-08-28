@@ -144,6 +144,7 @@
 		[FilePath] Image//extraction_point.tga
 	}
 	
+	# HUD
 	{
 		[Name] AlertBar
 		[FilePath] Image//HUD//alert_bar.tga
@@ -152,5 +153,25 @@
 	{
 		[Name] AlertCover
 		[FilePath] Image//HUD//alert_cover.tga
+	}
+	
+	{
+		[Name] Skill_DiveIcon
+		[FilePath] Image//HUD//skill_dive_icon.tga
+	}
+	
+	{
+		[Name] Skill_JumpIcon
+		[FilePath] Image//HUD//skill_jump_icon.tga
+	}
+		
+	{
+		[Name] Skill_HostIcon
+		[FilePath] Image//HUD//skill_host_icon.tga
+	}
+	
+	{
+		[Name] Skill_Cover
+		[FilePath] Image//HUD//skill_cover.tga
 	}
 }

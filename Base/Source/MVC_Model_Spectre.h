@@ -12,6 +12,7 @@
 #include "MessageManager.h"
 #include "Objective.h"
 #include "ObjectiveCollect.h"
+#include "HUD_Cooldown.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -49,10 +50,18 @@ private:	// Variables
 	MessageManager m_messenger;
 	vector<GameObject2D*> m_messageObjects;
 
-	// Alert
+	/*
+	 * HUD
+	 */
+	// ALert
 	float m_alertLevel;
-	GameObject2D* m__alertBar;
-	GameObject2D* m__alertCover;
+	HUD_Cooldown* m__alert;
+
+	// Skills
+	HUD_Cooldown* m__spectreDive;
+	HUD_Cooldown* m__spectreJump;
+	HUD_Cooldown* m__spectreHost;
+
 
 	// Cameras
 	vector<SecurityCamera*> m_cameraList;
@@ -81,9 +90,9 @@ protected:
 	//init player and animations
 	void InitPlayer(void);
 
-	// Init alert bar and cover
-	void initAlert(void);
-	void updateAlert(double dt);
+	// HUD
+	void initHUD(void);
+	void updateHUD(double dt);
 
 	// Load entities to lists
 	void loadToList(TileMap* _map);

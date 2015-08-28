@@ -23,6 +23,8 @@
     <ClCompile Include="Source\GoodieObject.cpp" />
     <ClCompile Include="Source\GoodieObjectFactory.cpp" />
     <ClCompile Include="Source\HealthGoodie.cpp" />
+    <ClCompile Include="Source\HUD.cpp" />
+    <ClCompile Include="Source\HUD_Cooldown.cpp" />
     <ClCompile Include="Source\Level.cpp" />
     <ClCompile Include="Source\LoadHmap.cpp" />
     <ClCompile Include="Source\LoadResource.cpp" />
@@ -87,6 +89,8 @@
     <ClInclude Include="Source\GoodieObject.h" />
     <ClInclude Include="Source\GoodieObjectFactory.h" />
     <ClInclude Include="Source\HealthGoodie.h" />
+    <ClInclude Include="Source\HUD.h" />
+    <ClInclude Include="Source\HUD_Cooldown.h" />
     <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\LoadHmap.h" />
     <ClInclude Include="Source\LoadResource.h" />

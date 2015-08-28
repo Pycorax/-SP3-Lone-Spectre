@@ -9,8 +9,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__player(NULL)
 	, m_enableShadow(true)
 	, m_alertLevel(0.f)
-	, m__alertBar(NULL)
-	, m__alertCover(NULL)
+	, m__alert(NULL)
 	, m_objective(NULL)
 {
 }
@@ -196,7 +195,10 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 
 	// Initialize the player
 	int tileSize = m__currentLevel->GetTileMap()->GetTileSize();
-	m__player->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0, 0), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
+	Vector2 playerSpawnPos = m__currentLevel->GetTileMap()->GetPlayerSpawnPos();
+	Vector2 spawnScrollOffset = playerSpawnPos - m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f;
+	m__currentLevel->GetTileMap()->SetScrollOffset(spawnScrollOffset);
+	m__player->SetMapPosition(playerSpawnPos, spawnScrollOffset, m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
 	// Initialize the enemies
@@ -302,7 +304,7 @@ void MVC_Model_Spectre::Init(void)
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
 
 	// Load alert
-	initAlert();
+	initHUD();
 
 	// Load the player
 	InitPlayer();
@@ -345,20 +347,36 @@ void MVC_Model_Spectre::Init(void)
 	//_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
 	m_enemyList.push_back(_enemy);
 
-ObjectiveCollect;
+	//ObjectiveCollect;
 }
 
-void MVC_Model_Spectre::initAlert(void)
+void MVC_Model_Spectre::initHUD(void)
 {
-	m__alertBar = new GameObject2D();
-	m__alertBar->SetMesh(GetMeshResource("AlertBar"));
-	m__alertBar->SetScale(Vector2(static_cast<float>(m_viewWidth) * 0.2f, static_cast<float>(m_viewHeight) * 0.1));
-	m__alertBar->SetPos(Vector2(static_cast<float>(m_viewWidth) - m__alertBar->GetTransform().Scale.x, static_cast<float>(m_viewHeight) - m__alertBar->GetTransform().Scale.y));
+	int hudCount = 0;
+	const float HUD_OFFSET = static_cast<float>(m_viewWidth) * 0.08f;
+	m__alert = new HUD_Cooldown();
+	const Vector2 ALERT_SCALE(static_cast<float>(m_viewWidth) * 0.2f, static_cast<float>(m_viewHeight) * 0.1f);
+	const Vector2 ALERT_POS(static_cast<float>(m_viewWidth) - ALERT_SCALE.x, static_cast<float>(m_viewHeight) - ALERT_SCALE.y - (hudCount * HUD_OFFSET));
+	m__alert->Init(GetMeshResource("AlertBar"), ALERT_POS, ALERT_SCALE, GetMeshResource("AlertCover"), ALERT_POS, ALERT_SCALE, true, false);
+	++hudCount;
 
-	m__alertCover = new GameObject2D();
-	m__alertCover->SetMesh(GetMeshResource("AlertCover"));
-	m__alertCover->SetScale(Vector2(static_cast<float>(m_viewWidth) * 0.2f, static_cast<float>(m_viewHeight) * 0.1));
-	m__alertCover->SetPos(Vector2(static_cast<float>(m_viewWidth) - m__alertCover->GetTransform().Scale.x, static_cast<float>(m_viewHeight) - m__alertCover->GetTransform().Scale.y));
+	m__spectreDive = new HUD_Cooldown();
+	const Vector2 DIVE_SCALE(static_cast<float>(m_viewWidth) * 0.05f, static_cast<float>(m_viewWidth) * 0.05f);
+	const Vector2 DIVE_POS(static_cast<float>(m_viewWidth) - DIVE_SCALE.x, static_cast<float>(m_viewHeight) - DIVE_SCALE.y - (hudCount * HUD_OFFSET));
+	m__spectreDive->Init(GetMeshResource("Skill_DiveIcon"), DIVE_POS, DIVE_SCALE, GetMeshResource("Skill_Cover"), DIVE_POS, DIVE_SCALE, false, true);
+	++hudCount;
+
+	m__spectreJump = new HUD_Cooldown();
+	const Vector2 JUMP_SCALE(static_cast<float>(m_viewWidth) * 0.05f, static_cast<float>(m_viewWidth) * 0.05f);
+	const Vector2 JUMP_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
+	m__spectreJump->Init(GetMeshResource("Skill_JumpIcon"), JUMP_POS, JUMP_SCALE, GetMeshResource("Skill_Cover"), JUMP_POS, JUMP_SCALE, false, true);
+	++hudCount;
+
+	m__spectreHost = new HUD_Cooldown();
+	const Vector2 HOST_SCALE(static_cast<float>(m_viewWidth) * 0.05f, static_cast<float>(m_viewWidth) * 0.05f);
+	const Vector2 HOST_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
+	m__spectreHost->Init(GetMeshResource("Skill_HostIcon"), HOST_POS, HOST_SCALE, GetMeshResource("Skill_Cover"), HOST_POS, HOST_SCALE, false, true);
+	++hudCount;
 }
 
 void MVC_Model_Spectre::InitPlayer(void)
@@ -594,7 +612,7 @@ void MVC_Model_Spectre::Update(double dt)
 		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
 
 		// Update alert system
-		updateAlert(dt);
+		updateHUD(dt);
 
 
 		// Rendering
@@ -609,9 +627,19 @@ void MVC_Model_Spectre::Update(double dt)
 			m_renderList2D.push((*enemyIter));
 		}
 
-		// Render alert bar and cover
-		m_renderList2D.push(m__alertBar);
-		m_renderList2D.push(m__alertCover);
+		// Render HUD
+		// Alert
+		m_renderList2D.push(m__alert);
+		m_renderList2D.push(m__alert->GetDisplayCover());
+		// Dive skill
+		m_renderList2D.push(m__spectreDive);
+		m_renderList2D.push(m__spectreDive->GetDisplayCover());
+		// Jump skill
+		m_renderList2D.push(m__spectreJump);
+		m_renderList2D.push(m__spectreJump->GetDisplayCover());
+		// Host skill
+		m_renderList2D.push(m__spectreHost);
+		m_renderList2D.push(m__spectreHost->GetDisplayCover());
 
 		// Render Messages
 		pushMessageToRender();
@@ -655,15 +683,11 @@ void MVC_Model_Spectre::Exit(void)
 	}
 
 	// Clear alert hud
-	if (m__alertBar)
+	if (m__alert)
 	{
-		delete m__alertBar;
-		m__alertBar = NULL;
-	}
-	if (m__alertCover)
-	{
-		delete m__alertCover;
-		m__alertCover = NULL;
+		m__alert->Clear();
+		delete m__alert;
+		m__alert = NULL;
 	}
 	
 	MVC_Model::Exit();
@@ -773,7 +797,7 @@ void MVC_Model_Spectre::resizeTileMap(int oldViewWidth)
 	}
 }
 
-void MVC_Model_Spectre::updateAlert(double dt)
+void MVC_Model_Spectre::updateHUD(double dt)
 {
 	if (m_alertLevel > S_M_MAX_ALERT)
 	{
@@ -787,9 +811,17 @@ void MVC_Model_Spectre::updateAlert(double dt)
 			m_alertLevel = 0.f;
 		}
 	}
-	static const float alertPerValue = (static_cast<float>(m_viewWidth) * 0.2f) / S_M_MAX_ALERT;
-	m__alertCover->SetScale(Vector2((static_cast<float>(m_viewWidth) * 0.2f) - (alertPerValue * m_alertLevel), static_cast<float>(m_viewHeight) * 0.1f));
-	m__alertCover->SetPos(Vector2(static_cast<float>(m_viewWidth) - m__alertCover->GetTransform().Scale.x, static_cast<float>(m_viewHeight) - m__alertCover->GetTransform().Scale.y));
+	m__alert->Update(dt, m_alertLevel, S_M_MAX_ALERT);
+	m__spectreDive->Update(dt, Player::S_SPECTRE_DIVE_COOLDOWN - m__player->GetDiveTimer(), Player::S_SPECTRE_DIVE_COOLDOWN);
+	m__spectreJump->Update(dt, Player::S_SPECTRE_JUMP_COOLDOWN - m__player->GetJumpTimer(), Player::S_SPECTRE_JUMP_COOLDOWN);
+	if (!m__player->GetInShadow())
+	{
+		m__spectreHost->Update(dt, Player::S_SPECTRE_DIVE_COOLDOWN - m__player->GetDiveTimer(), Player::S_SPECTRE_DIVE_COOLDOWN);
+	}
+	else
+	{
+		m__spectreHost->Update(dt, 0.f, Player::S_SPECTRE_DIVE_COOLDOWN);
+	}
 }
 
 void MVC_Model_Spectre::updateCamera(double dt)

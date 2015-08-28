@@ -430,6 +430,42 @@
 		[Texture] AlertCover
 	}
 	
+	{
+		[Name] Skill_DiveIcon
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] Skill_DiveIcon
+	}
+	
+	{
+		[Name] Skill_JumpIcon
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] Skill_JumpIcon
+	}
+	
+	{
+		[Name] Skill_HostIcon
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] Skill_HostIcon
+	}
+	
+	{
+		[Name] Skill_Cover
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] Skill_Cover
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad

@@ -150,7 +150,11 @@ class Player : public Character
 		void SetInShadow(bool inShadow);
 		bool GetInShadow();
 
-		//getters
+		/*
+		 * Getters
+		 */
+		float GetDiveTimer();
+		float GetJumpTimer();
 		bool GetHosting(void)const;
 	private:
 		void forceSetMove(Vector2 dir);

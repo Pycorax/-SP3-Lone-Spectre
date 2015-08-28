@@ -88,7 +88,6 @@ Vector2 SecurityCamera::viewer_GetDirection(void)
 void SecurityCamera::SpottedTarget(Vector2 targetTilePos, float &alertLevel, double dt)
 {
 	alertLevel += dt;
-	cout << "Spotted" << endl;
 }
 
 void SecurityCamera::updateScreenPos(Vector2 pos)

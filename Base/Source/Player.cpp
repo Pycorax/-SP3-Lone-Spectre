@@ -235,6 +235,30 @@ void Player::Update(double dt, TileMap* _map)
 		m_jumpTimer -= dt;
 	}
 
+	// Force player to leave shadow when they land in a bright tile
+	if (m_inShadow && _map->GetTileAt(GetMapPos())->GetLightLevel() > S_SPECTRE_DIVE_LIGHT_LIMIT && !m_jumping && !m_hosting)
+	{
+		m_inShadow = false;
+		m_spectreMode = false;
+		// Check where it player is facing when kicked out of shadow
+		if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
+		{
+			m_currentState = PS_IDLE_UP;
+		}
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
+		{
+			m_currentState = PS_IDLE_DOWN;
+		}
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
+		{
+			m_currentState = PS_IDLE_LEFT;
+		}
+		else if(m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
+		{
+			m_currentState = PS_IDLE_RIGHT; 
+		}
+	}
+
 	if (m_currentState != PS_SPECTRAL_HAX)
 	{
 		if (m_moving)
@@ -321,7 +345,6 @@ void Player::Update(double dt, TileMap* _map)
 			_sa->m_anim = m__animationList[m_currentState];
 			_sa->Update(dt);
 		}
-
 	}
 
 }
@@ -688,4 +711,14 @@ void Player::forceSetMove(Vector2 dir)
 	{
 		m_moving = false;
 	}
+}
+
+float Player::GetDiveTimer()
+{
+	return m_diveTimer;
+}
+
+float Player::GetJumpTimer()
+{
+	return m_jumpTimer;
 }
