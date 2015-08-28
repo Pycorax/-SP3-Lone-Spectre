@@ -7,6 +7,7 @@ const Vector2 MessageManager::TEXT_POS_OFFSET(50.0f, 90.0f);
 const string MessageManager::NO_MESSAGE_TIMER_TITLE("NO_MESSAGE");
 
 MessageManager::MessageManager()
+	: m_newMessage(true)
 {
 }
 
@@ -48,6 +49,7 @@ void MessageManager::Update(double dt)
 		{
 			m_timer = 0.0;
 			m_messages.pop();
+			m_newMessage = true;
 		}
 	}
 }
@@ -131,7 +133,7 @@ Vector2 MessageManager::GetMessageBGScale(void)
 
 vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewHeight)
 {
-	vector<GameObject2D*> goList;			// The list of gameobjects to render regarding this message
+	static vector<GameObject2D*> goList;			// The list of gameobjects to render regarding this message
 
 	// Retrieve a message
 	Message message;
@@ -142,6 +144,10 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 
 		// If message is meant as a timer, then don't render anything
 		if (message.m_messageTitle == NO_MESSAGE_TIMER_TITLE)
+		{
+			return goList;
+		}
+		else if (!m_newMessage)
 		{
 			return goList;
 		}
@@ -234,6 +240,8 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	// Prepare the Background
 	m_messageBG->SetPos(messagePos);
 
+	// Ensure the list is clear
+	goList.clear();
 	// Render the background
 	goList.push_back(m_messageBG);
 	// Render the message on top of the background
@@ -246,6 +254,8 @@ vector<GameObject2D*> MessageManager::GetMessageObjects(int viewWidth, int viewH
 	}	
 	// Render the title on top of the background
 	goList.push_back(m_messageTitle);
+
+	m_newMessage = false;
 
 	return goList;
 }

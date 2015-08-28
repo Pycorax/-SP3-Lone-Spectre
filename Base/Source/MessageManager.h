@@ -68,6 +68,9 @@ private:	// Variables
 	// Message Timer
 	double m_timer;						// Timer for the messages
 
+	// Optimization
+	bool m_newMessage;					// Indicates whether the current messge is a new message
+
 public:		// Functions
 	MessageManager();
 	~MessageManager();
