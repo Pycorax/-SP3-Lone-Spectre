@@ -8,6 +8,7 @@ const string MessageManager::NO_MESSAGE_TIMER_TITLE("NO_MESSAGE");
 
 MessageManager::MessageManager()
 	: m_newMessage(true)
+	, m_timer(0.0)
 {
 }
 

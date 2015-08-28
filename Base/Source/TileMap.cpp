@@ -33,7 +33,6 @@ void TileMap::UpdateLighting(vector<Vector2> shadowCasters)
 	{
 		for (vector<Tile*>::iterator col = (*row)->begin(); col != (*row)->end(); ++col, ++countX)
 		{
-			// Make it bright
 			Tile* _tile = GetTileAt(countX, countY);
 
 			if (_tile != NULL)
