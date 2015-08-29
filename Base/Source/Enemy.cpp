@@ -4,7 +4,7 @@
 
 Enemy::Enemy(void)
 	:m_alertLevel(0)
-	, m_enemyState(ES_CHASE)
+	, m_enemyState(ES_PATROL)
 	, m_bReachPos(false)
 	, m_pathPointCounter(0)
 	, m_bPossesion(false)

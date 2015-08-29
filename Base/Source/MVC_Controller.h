@@ -29,6 +29,9 @@ class MVC_Controller
 	int m_window_height;
 	const static int m_window_deadzone = 100;
 
+	/*
+	 * Input::KB + Mouse
+	 */
 	// Keyboard Input
 	enum INPUT_DEBUG_KEY_TYPE
 	{
@@ -45,6 +48,13 @@ class MVC_Controller
 
 	// Mouse Input
 	double mouse_last_x, mouse_last_y, mouse_current_x, mouse_current_y, mouse_diff_x, mouse_diff_y;
+	
+	
+	/*
+	 * Input::XInput Controllers
+	 */
+	unsigned short inputXInputKey[MVC_Model::NUM_KEY_ACTION];	// The button virtual key codes for the controller buttons
+	
 	// Camera target control variables
 	double camera_yaw, camera_pitch, camera_spin;
 
@@ -77,19 +87,28 @@ class MVC_Controller
 		// -- Windows Update from Model
 		void checkForResResize(void);
 
-		// Input - Mouse
+		/*
+		 * Input Init
+		 */
+		// -- Mouse
 		void initInputMouse(void);
-
-		// Input - Keys
+		// -- Keyboard
 		void initInputKeys(void);
 		void initInputDelayController(void);
-		bool isKeyPressed(unsigned short key, bool delay = false);
+		// -- XInput
+		void initInputXInput(void);
 
-		// Input Update
+		/*
+		 * Input Update
+		 */
 		void inputUpdate(double dt);
+		// -- KB + Mouse
+		bool isKeyPressed(unsigned short key, bool delay = false);
 		void inputMouseUpdate(void);
 		void inputViewUpdate(void);
 		void inputKeyUpdate(void);
+		// -- XInput Controllers
+		void inputXInputUpdate(void);
 };
 
 #endif

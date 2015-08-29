@@ -6,7 +6,7 @@ const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m_appState(AS_MAIN_GAME)
-	, m_currentLevelID(1)
+	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
 	, m_enableShadow(true)

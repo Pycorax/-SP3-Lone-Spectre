@@ -4,6 +4,7 @@
 #include "Camera3.h"
 #include "SONIO.h"
 #include "MVC_Model_3D.h"
+#include <Xinput.h>
 
 namespace GLFW
 {
@@ -108,6 +109,7 @@ void MVC_Controller::Init(int fps/* = 60*/)
 	SetFrameRate(fps);
 	initInputKeys();
 	initInputMouse();
+	initInputXInput();
 
 	// Unhide window now that loading is doen
 	showWindow();
@@ -312,7 +314,7 @@ void MVC_Controller::initInputKeys(void)
 	inputKey[MVC_Model::GAME_EXIT_KEY] = VK_ESCAPE;
 	inputKey[MVC_Model::GAME_ACCEPT_KEY] = VK_RETURN;
 	inputKey[MVC_Model::GAME_CANCEL_KEY] = VK_BACK;
-	inputKey[MVC_Model::GAME_DEBUG_KEY] = VK_OEM_3; // `~
+	inputKey[MVC_Model::GAME_DEBUG_KEY] = VK_OEM_3;
 
 	// Camera
 	inputKey[MVC_Model::CAMERA_FP_KEY] = VK_F5;
@@ -339,6 +341,57 @@ void MVC_Controller::initInputDelayController(void)
 	}
 }
 
+void MVC_Controller::initInputXInput(void)
+{
+	// Movement
+	inputXInputKey[MVC_Model::MOVE_FORWARD_KEY] = NULL;
+	inputXInputKey[MVC_Model::MOVE_BACKWARD_KEY] = NULL;
+	inputXInputKey[MVC_Model::MOVE_LEFT_KEY] = NULL;
+	inputXInputKey[MVC_Model::MOVE_RIGHT_KEY] = NULL;
+	inputXInputKey[MVC_Model::MOVE_JUMP_KEY] = XINPUT_GAMEPAD_A;
+	inputXInputKey[MVC_Model::MOVE_CROUCH_KEY] = XINPUT_GAMEPAD_B;
+	inputXInputKey[MVC_Model::MOVE_PRONE_KEY] = XINPUT_GAMEPAD_B;
+	inputXInputKey[MVC_Model::MOVE_SPRINT_KEY] = XINPUT_GAMEPAD_LEFT_THUMB;
+
+	// Look
+	inputXInputKey[MVC_Model::LOOK_UP_KEY] = NULL;
+	inputXInputKey[MVC_Model::LOOK_DOWN_KEY] = NULL;
+	inputXInputKey[MVC_Model::LOOK_LEFT_KEY] = NULL;
+	inputXInputKey[MVC_Model::LOOK_RIGHT_KEY] = NULL;
+
+	// Interact
+	inputXInputKey[MVC_Model::INTERACT_ATTACK_1_KEY] = NULL;
+	inputXInputKey[MVC_Model::INTERACT_ATTACK_2_KEY] = NULL;
+	inputXInputKey[MVC_Model::INTERACT_RELOAD_KEY] = XINPUT_GAMEPAD_Y;
+	inputXInputKey[MVC_Model::INTERACT_PREV_KEY] = XINPUT_GAMEPAD_LEFT_SHOULDER;
+	inputXInputKey[MVC_Model::INTERACT_NEXT_KEY] = XINPUT_GAMEPAD_RIGHT_SHOULDER;
+	inputXInputKey[MVC_Model::INTERACT_GENERIC_KEY] = XINPUT_GAMEPAD_X;
+	inputXInputKey[MVC_Model::INTERACT_SKILL_1_KEY] = XINPUT_GAMEPAD_B;
+	inputXInputKey[MVC_Model::INTERACT_SKILL_2_KEY] = XINPUT_GAMEPAD_A;
+
+	// Game
+	inputXInputKey[MVC_Model::GAME_EXIT_KEY] = XINPUT_GAMEPAD_BACK;
+	inputXInputKey[MVC_Model::GAME_ACCEPT_KEY] = XINPUT_GAMEPAD_A;
+	inputXInputKey[MVC_Model::GAME_CANCEL_KEY] = XINPUT_GAMEPAD_B;
+	inputXInputKey[MVC_Model::GAME_DEBUG_KEY] = XINPUT_GAMEPAD_START;
+
+	// Camera
+	inputXInputKey[MVC_Model::CAMERA_FP_KEY] = XINPUT_GAMEPAD_DPAD_UP;
+	inputXInputKey[MVC_Model::CAMERA_FP_NOCLIP_KEY] = XINPUT_GAMEPAD_DPAD_DOWN;
+
+	// Misc
+	inputXInputKey[MVC_Model::MISC_0_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_1_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_2_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_3_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_4_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_5_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_6_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_7_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_8_KEY] = NULL;
+	inputXInputKey[MVC_Model::MISC_9_KEY] = NULL;
+}
+
 bool MVC_Controller::isKeyPressed(unsigned short key, bool delay)
 {
 	if (delay && !m_inputDelayController[key].hasTimePassed(INPUT_DELAY))
@@ -357,6 +410,7 @@ void MVC_Controller::inputUpdate(double dt)
 
 	inputViewUpdate();
 	inputKeyUpdate();
+	inputXInputUpdate();
 
 	Camera3* cam3 = dynamic_cast<Camera3*>(m_model->GetCamera());
 
@@ -450,6 +504,53 @@ void MVC_Controller::inputKeyUpdate(void)
 		if (isKeyPressed(inputKey[i]))
 		{
 			m_model->ActivateKey(static_cast<MVC_Model::KEY_ACTION_TYPE>(i));
+		}
+	}
+}
+
+void MVC_Controller::inputXInputUpdate(void)
+{
+	XINPUT_STATE gamepadState;
+	ZeroMemory(&gamepadState, sizeof(XINPUT_STATE));
+
+	// Get gamepad state from XInput and store the error in error
+	DWORD error = XInputGetState(0, &gamepadState);
+
+	// If a gamepad is connected
+	if (error == ERROR_SUCCESS)
+	{
+		/*
+		 * Buttons
+		 */
+		for (size_t button = 0; button < MVC_Model::NUM_KEY_ACTION; ++button)
+		{
+			if (gamepadState.Gamepad.wButtons & inputXInputKey[button])
+			{
+				m_model->ActivateKey(static_cast<MVC_Model::KEY_ACTION_TYPE>(button));
+			}
+		}
+
+		/*
+		 * Analog Inputs
+		 */
+		// Left Thumb Stick
+		// -- Checking for dead zone
+		if (gamepadState.Gamepad.sThumbLX > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)			// Positive X
+		{
+			m_model->ActivateKey(MVC_Model::MOVE_RIGHT_KEY);
+		}
+		else if (gamepadState.Gamepad.sThumbLX < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)	// Negative X
+		{
+			m_model->ActivateKey(MVC_Model::MOVE_LEFT_KEY);
+		}
+
+		if (gamepadState.Gamepad.sThumbLY > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)			// Positive Y
+		{
+			m_model->ActivateKey(MVC_Model::MOVE_FORWARD_KEY);
+		}
+		else if (gamepadState.Gamepad.sThumbLY < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)	// Negative Y
+		{
+			m_model->ActivateKey(MVC_Model::MOVE_BACKWARD_KEY);
 		}
 	}
 }
