@@ -95,8 +95,8 @@ public:
 	//if given location is in view, use this to attack
 	bool AttackingInView(Character* _go);
 protected:
-	// Function to get the player's current position
-	virtual Vector2 pathFinder_getTilePosition(void);
+	// Function to allow PathFinder to obtain the tile position of the child via reference
+	virtual void pathFinder_getTilePosition(unsigned& tileXPos, unsigned& tileYPos) const;
 	// Function to allow the viewer to get the child class's transform details
 	virtual Vector2 viewer_GetTilePos(void);
 	// Function to allow the viewer to get the child class's facing direction

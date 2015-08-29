@@ -381,7 +381,29 @@ Vector2 TileMap::posRoundingForLight(Vector2 pos, Vector2 dir)
 	return pos;
 }
 
-Tile* TileMap::GetTileAt(int xPos, int yPos)
+bool TileMap::mapGrid2D_TileIsBlocked(int xPos, int yPos) const
+{
+	Tile* _tile = GetTileAt(xPos, yPos);
+
+	if (_tile == NULL)
+	{
+		// Can't do anything if this tile doesn't exist
+		return false;
+	}
+	else
+	{
+		// Check if the tile is blocked
+		return Tile::S_IS_TILE_SOLID[_tile->GetType()];
+	}
+}
+
+void TileMap::mapGrid2D_GetMapSize(unsigned & width, unsigned & height) const
+{
+	width = m_map.at(0)->size();
+	height = m_map.size();
+}
+
+Tile* TileMap::GetTileAt(int xPos, int yPos) const
 {
 	if (xPos < 0 || yPos < 0 || yPos >= m_map.size() || xPos >= m_map.at(yPos)->size())
 	{
@@ -394,7 +416,7 @@ Tile* TileMap::GetTileAt(int xPos, int yPos)
 	}
 }
 
-Tile* TileMap::GetTileAt(Vector2 pos)
+Tile* TileMap::GetTileAt(Vector2 pos) const
 {
 	Vector2 tilePos(floor(pos.x / m_tileSize), floor(pos.y / m_tileSize)); // Round down decimal number to get tile position
 	if (tilePos.x < 0 || tilePos.x >= m_numMapTile.x || tilePos.y < 0 || tilePos.y >= m_numMapTile.y)

@@ -16,8 +16,8 @@ public:		// Functions
 	// Use this function with MapEntities to set the position on the map and automatically update the screen position.
 	void SetMapPosition(Vector2 pos, Vector2 scrollOffset, float tileSize);
 	void SetMapTilePosition(Vector2 tilePos, Vector2 scrollOffset, float tileSize);
-	Vector2 GetMapPos();
-	Vector2 GetMapTilePos();
+	Vector2 GetMapPos() const;
+	Vector2 GetMapTilePos() const;
 
 protected:
 	// Returns the screen pos in relation to m_tilePos. Use this function in updateScreenPos() to set the screen pos.

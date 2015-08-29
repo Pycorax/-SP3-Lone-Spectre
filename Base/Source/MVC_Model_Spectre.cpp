@@ -6,7 +6,7 @@ const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m_appState(AS_MAIN_GAME)
-	, m_currentLevelID(0)
+	, m_currentLevelID(1)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
 	, m_enableShadow(true)
@@ -256,8 +256,9 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	{
 		Enemy* _enemy = new Enemy(**enemyIT);
 
-		_enemy->initPathFinder(m__currentLevel->GetTileMap());
-		_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
+		_enemy->InitPathFinder(m__currentLevel->GetTileMap());
+		Vector2 mapPos = m__player->GetMapTilePos();
+		_enemy->SetTarget(mapPos.x, mapPos.y);
 
 		m_enemyList.push_back(_enemy);
 	}
@@ -478,7 +479,8 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	{
 		Enemy* _enemy = (*enemyIter);
 		_enemy->Update(dt, m__currentLevel->GetTileMap());
-		_enemy->SetTarget(m__player->GetMapPos(), m__currentLevel->GetTileMap()->GetTileSize());
+		Vector2 mapPos = m__player->GetMapPos();
+		_enemy->SetTarget(mapPos.x, mapPos.y);
 		_enemy->SetAlertLevel(m_alertLevel);
 		if (_enemy->GetAlertLevel() > S_ALERT_HOSTILE)
 		{

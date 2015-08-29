@@ -1,14 +1,21 @@
 #ifndef TILE_MAP_H
 #define TILE_MAP_H
 
-#include "Tile.h"
-#include "Vector2.h"
+// STL Includes
 #include <vector>
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
+// Inheritance Includes
+#include "MapGrid2D.h"
+
+// Other Includes
+#include "Tile.h"
+#include "Vector2.h"
+
+// Using Directives
 using std::vector;
 using std::string;
 using std::getline;
@@ -17,7 +24,7 @@ using std::istringstream;
 using std::cout;
 using std::endl;
 
-class TileMap
+class TileMap : public MapGrid2D
 {
 public:
 	static const int S_LIGHT_RANGE = 5;
@@ -27,7 +34,7 @@ private:
 	static const float S_LIGHT_ACCURACY;
 	static const int S_PLAYER_SPAWN_MARKER = -1;
 
-private:
+private:	// Variables
 	vector<vector<Tile*>*> m_map;			// Tile data for map
 	float m_tileSize;						// Size of a tile in pixel
 
@@ -39,15 +46,15 @@ private:
 	// Map Markers
 	Vector2 m_playerSpawnPos;				// Stores the position of the player's spawn as defined by the tilemap
 
-public:
+public:		// Functions
 	TileMap(Vector2 numMapTile, Vector2 numScreenTile, float tileSize);
 	~TileMap(void);
 
 	void LoadTileMap(const string &filePath, const vector<Mesh*>& meshList);
 	void UpdateLighting(vector<Vector2> shadowCasters);
 
-	Tile* GetTileAt(int xPos, int yPos);		// Get tile info based on index location
-	Tile* GetTileAt(Vector2 pos);				// Get tile info based on actual map pos
+	Tile* GetTileAt(int xPos, int yPos) const;		// Get tile info based on index location
+	Tile* GetTileAt(Vector2 pos) const;				// Get tile info based on actual map pos
 	bool CheckCollision(Vector2 pos);			// Check position with tile map for collision
 	Tile::E_TILE_TYPE GetTileType(Vector2 pos);	// Get the tile type for a position
 	void Clear(void);
@@ -81,6 +88,12 @@ private:
 	bool loadFile(const string &filePath, const vector<Mesh*>& meshList);
 	void calcLighting(int x, int y, vector<Vector2> shadowCasters);
 	Vector2 posRoundingForLight(Vector2 pos, Vector2 dir);				// Adds the dir to the pos and rounds up/down to the int based on positive or negative dir
+
+public:		// Abstract Functions
+	// Function to allow AINodeGrid to find out if the tile at the position provided can be passed through
+	virtual bool mapGrid2D_TileIsBlocked(int xPos, int yPos) const;
+	// Function to allow AINodeGrid to obtain the tile size of the grid map via reference
+	virtual void mapGrid2D_GetMapSize(unsigned& width, unsigned& height) const;
 };
 
 #endif

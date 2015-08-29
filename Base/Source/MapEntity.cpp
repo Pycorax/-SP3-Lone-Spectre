@@ -25,12 +25,12 @@ void MapEntity::SetMapTilePosition(Vector2 tilePos, Vector2 scrollOffset, float 
 	updateScreenPos(calcScreenPos(scrollOffset));
 }
 
-Vector2 MapEntity::GetMapPos()
+Vector2 MapEntity::GetMapPos() const
 {
 	return m_mapPos;
 }
 
-Vector2 MapEntity::GetMapTilePos()
+Vector2 MapEntity::GetMapTilePos() const
 {
 	return m_mapTilePos;
 }

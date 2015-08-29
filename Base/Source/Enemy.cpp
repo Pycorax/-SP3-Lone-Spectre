@@ -4,7 +4,7 @@
 
 Enemy::Enemy(void)
 	:m_alertLevel(0)
-	, m_enemyState(ES_PATROL)
+	, m_enemyState(ES_CHASE)
 	, m_bReachPos(false)
 	, m_pathPointCounter(0)
 	, m_bPossesion(false)
@@ -155,7 +155,7 @@ void Enemy::Update(double dt, TileMap* _map)
 			//	}
 			//}
 			
-			UpdatePath(_map->GetTileSize());
+			UpdatePath();
 
 			vector<AINode*> chasePath = GetPath();
 
@@ -362,9 +362,12 @@ void Enemy::SpottedTarget(Vector2 pos, float &alertLevel, double dt)
 	alertLevel += dt;
 }
 
-Vector2 Enemy::pathFinder_getTilePosition(void)
+void Enemy::pathFinder_getTilePosition(unsigned& tileXPos, unsigned& tileYPos) const
 {
-	return GetMapTilePos();
+	Vector2 mapTilePos = GetMapTilePos();
+
+	tileXPos = mapTilePos.x;
+	tileYPos = mapTilePos.y;
 }
 
 Vector2 Enemy::viewer_GetTilePos(void)

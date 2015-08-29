@@ -5,7 +5,6 @@
 #include <vector>
 
 // Other Includes
-#include "TileMap.h"
 #include "AINodeGrid.h"
 
 // Using Directives
@@ -14,9 +13,6 @@ using std::vector;
 class PathFinder
 {
 private:
-	static const int ADJ_TILE_DIST = 10;
-	static const int DIAG_TILE_DIST = 14;
-
 	AINodeGrid m_nodeGrid;
 	AINode* m__target;								// The position in tile space of the target
 	vector<AINode*> m_resultPath;
@@ -26,11 +22,11 @@ public:
 	virtual ~PathFinder(void);
 
 	// Function to build the node grid
-	void initPathFinder(TileMap* _tileMap);	
-	void UpdatePath(int tileSize);
+	void InitPathFinder(MapGrid2D* _tileMap);	
+	void UpdatePath(void);
 
 	// Setters
-	void SetTarget(Vector2 pos, int tileSize);
+	void SetTarget(unsigned tileXPos, unsigned tileYPos);
 
 	// Getters
 	vector<AINode*> GetPath(void);
@@ -38,15 +34,14 @@ public:
 private:
 	// Function to retrace from the endNode to the starting node
 	void retracePath(AINode* startNode, AINode* endNode);
-	int getDistance(AINode* nodeA, AINode* nodeB);
 
 protected:
 	/*
 	*	Abstract Functions
 	*	These functions need to be defined in child classes and serves as the interface between child classes and this class.
 	*/
-	// Function to get the player's current position
-	virtual Vector2 pathFinder_getTilePosition(void) = 0;
+	// Function to allow PathFinder to obtain the tile position of the child via reference
+	virtual void pathFinder_getTilePosition(unsigned& tileXPos, unsigned& tileYPos) const = 0;
 };
 
 #endif

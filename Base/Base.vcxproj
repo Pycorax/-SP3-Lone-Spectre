@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\AINodeGrid.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
@@ -43,7 +42,6 @@
     <ClCompile Include="Source\ObjectiveDefuse.cpp" />
     <ClCompile Include="Source\ObjectiveSetBomb.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
-    <ClCompile Include="Source\PathFinder.cpp" />
     <ClCompile Include="Source\Pathway.cpp" />
     <ClCompile Include="Source\Physics2D.cpp" />
     <ClCompile Include="Source\Player.cpp" />
@@ -75,7 +73,6 @@
     <ClCompile Include="Source\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\AINodeGrid.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
@@ -110,7 +107,6 @@
     <ClInclude Include="Source\ObjectiveDefuse.h" />
     <ClInclude Include="Source\ObjectiveSetBomb.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
-    <ClInclude Include="Source\PathFinder.h" />
     <ClInclude Include="Source\PathPoint.h" />
     <ClInclude Include="Source\Pathway.h" />
     <ClInclude Include="Source\Physics2D.h" />
@@ -198,13 +194,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_VARIADIC_MAX=10;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Sound/Source;$(SolutionDir)/Sound/Source;$(SolutionDir)/Irrklang/lib;$(SolutionDir)/Irrklang/include;$(SolutionDir)/SONIO/Source;$(SolutionDir)/Common/Source;$(SolutionDir)/glew/include;$(SolutionDir)/glfw/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/A-Star Path Finding/Source;$(SolutionDir)/Sound/Source;$(SolutionDir)/Sound/Source;$(SolutionDir)/Irrklang/lib;$(SolutionDir)/Irrklang/include;$(SolutionDir)/SONIO/Source;$(SolutionDir)/Common/Source;$(SolutionDir)/glew/include;$(SolutionDir)/glfw/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)/Irrklang/lib/Win32-visualStudio;$(SolutionDir)$(Configuration);$(SolutionDir)/glfw/lib-msvc100;$(SolutionDir)/glew/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Sound.lib;SONIO.lib;Common.lib;winmm.lib;opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>A-Star Path Finding.lib;Sound.lib;SONIO.lib;Common.lib;winmm.lib;opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -216,7 +212,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_VARIADIC_MAX=10;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Sound/Source;$(SolutionDir)/Irrklang/lib;$(SolutionDir)/Irrklang/include;$(SolutionDir)/SONIO/Source;$(SolutionDir)/Common/Source;$(SolutionDir)/glew/include;$(SolutionDir)/glfw/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/A-Star Path Finding/Source;$(SolutionDir)/Sound/Source;$(SolutionDir)/Irrklang/lib;$(SolutionDir)/Irrklang/include;$(SolutionDir)/SONIO/Source;$(SolutionDir)/Common/Source;$(SolutionDir)/glew/include;$(SolutionDir)/glfw/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -224,7 +220,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)/Irrklang/lib/Win32-visualStudio;$(SolutionDir)$(Configuration);$(SolutionDir)/glfw/lib-msvc100;$(SolutionDir)/glew/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Sound.lib;SONIO.lib;Common.lib;winmm.lib;opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>A-Star Path Finding.lib;Sound.lib;SONIO.lib;Common.lib;winmm.lib;opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
