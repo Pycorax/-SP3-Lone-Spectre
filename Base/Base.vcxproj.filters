@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Characters">
       <UniqueIdentifier>{0b3a2ab4-9f7f-43d2-b345-f8ae534b8249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Menu">
+      <UniqueIdentifier>{0a0e3646-3c81-4624-9ecb-efbccad379ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu">
+      <UniqueIdentifier>{7897a99a-1cca-434d-8200-6b7c4d22f9e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -153,9 +159,6 @@
     <ClCompile Include="Source\TreasureGoodie.cpp">
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UIButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -210,9 +213,6 @@
     <ClCompile Include="Source\Pathway.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ViewerUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -242,6 +242,18 @@
     </ClCompile>
     <ClCompile Include="Source\HUD_Cooldown.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Menu.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MenuManager_Spectre.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MenuManager.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UIButton.cpp">
+      <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -347,9 +359,6 @@
     <ClInclude Include="Source\Strategy.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UIButton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -410,9 +419,6 @@
     <ClInclude Include="Source\Pathway.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ViewerUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -445,6 +451,18 @@
     </ClInclude>
     <ClInclude Include="Source\HUD_Cooldown.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MenuManager.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Menu.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UIButton.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MenuManager_Spectre.h">
+      <Filter>Header Files\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

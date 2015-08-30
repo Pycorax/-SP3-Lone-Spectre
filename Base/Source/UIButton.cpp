@@ -1,8 +1,6 @@
 #include "UIButton.h"
 
-UIButton::UIButton()
-	: m_mesh(NULL)
-	, m_state(UP_STATE)
+UIButton::UIButton() : m_state(UP_STATE)
 {
 }
 
@@ -11,18 +9,18 @@ UIButton::~UIButton()
 {
 }
 
-void UIButton::Init(Mesh * mesh, Vector3 pos, Vector3 scale)
+void UIButton::Init(Mesh * _mesh, Vector2 pos, Vector2 scale)
 {
-	m_mesh = mesh;
-	m_pos = pos;
+	m__mesh = _mesh;
+	m_transforms.Translation = pos;
+	m_transforms.Scale = scale;
 	m_state = UP_STATE;
-	m_scale = scale;
 }
 
 void UIButton::UpdateState(bool pressed, float mouseX, float mouseY)
 {
 	// Checking if cursor is on the button
-	if (
+	/*if (
 		mouseX >= m_pos.x && mouseX <= m_pos.x + m_scale.x
 		&&
 		mouseY >= m_pos.y && mouseY <= m_pos.y + m_scale.y
@@ -40,25 +38,16 @@ void UIButton::UpdateState(bool pressed, float mouseX, float mouseY)
 	else	// Cursor not on mouse
 	{
 		m_state = UP_STATE;
-	}
+	}*/
 }
 
-void UIButton::SetMesh(Mesh * mesh)
-{
-	m_mesh = mesh;
-}
-
-Mesh * UIButton::GetMesh(void)
-{
-	return m_mesh;
-}
-
-Vector3 UIButton::GetPosition(void)
-{
-	return m_pos;
-}
-
-UIButton::BUTTON_STATE_TYPE UIButton::GetState(void)
+UIButton::E_BUTTON_STATE_TYPE UIButton::GetState(void)
 {
 	return m_state;
+}
+
+
+UIButton::E_BUTTON_TYPE UIButton::GetType(void)
+{
+	return m_type;
 }

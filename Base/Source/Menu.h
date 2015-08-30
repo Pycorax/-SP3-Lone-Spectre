@@ -1,13 +1,15 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include <vector>
 #include "UIButton.h"
-#include "MVC_Model.h"
+
+using std::vector;
 
 class Menu 
 {
-private:	//Game States
-	enum E_MENU_STATE
+public:	//Game States
+	/*enum E_MENU_STATE
 	{
 		//main menu states
 		MENU_NULL = 0,
@@ -48,21 +50,37 @@ private:	//Game States
 		MENU_LOSE_SCREEN_BACK,
 
 		NUM_MENU,
+	};*/
+	enum E_MENU_TYPE
+	{
+		MENU_NONE = 0,
+		MENU_MAIN,
+		MENU_LEVEL_SELECT,
+		MENU_OPTIONS,
+		MENU_HIGHSCORE,
+		MENU_EXIT,
+		NUM_MENU,
 	};
 
-private:	// Variables
+protected:	// Variables
+	vector<UIButton*> m_buttonList;
+	E_MENU_TYPE m_type;
 
 public:		// Functions
 	Menu();
-	~Menu();
+	virtual ~Menu();
 
-	void Init();
-	void Update();
+	virtual void Init() = 0;
+	virtual void Update(double dt) = 0;
+	void Clear();
 
-	UIButton* m_UIButton;
+	bool AddButton(UIButton* _button);
 
-protected:
-	E_MENU_STATE m_menuState;
+	/*
+	 * Getters
+	 */
+	vector<UIButton*>& GetButtonList();
+	E_MENU_TYPE GetType();
 };
 
 #endif
