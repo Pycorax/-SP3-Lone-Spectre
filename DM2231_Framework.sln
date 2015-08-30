@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sound", "Sound\Sound.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "A-Star Path Finding", "A-Star Path Finding\A-Star Path Finding.vcxproj", "{E53812A3-7D7C-4000-A709-16BB85AEA8E7}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{274D8CB2-BAB4-4604-B67D-663702413739}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -43,6 +45,8 @@ Global
 		{E53812A3-7D7C-4000-A709-16BB85AEA8E7}.Debug|Win32.Build.0 = Debug|Win32
 		{E53812A3-7D7C-4000-A709-16BB85AEA8E7}.Release|Win32.ActiveCfg = Release|Win32
 		{E53812A3-7D7C-4000-A709-16BB85AEA8E7}.Release|Win32.Build.0 = Release|Win32
+		{274D8CB2-BAB4-4604-B67D-663702413739}.Debug|Win32.ActiveCfg = Debug
+		{274D8CB2-BAB4-4604-B67D-663702413739}.Release|Win32.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

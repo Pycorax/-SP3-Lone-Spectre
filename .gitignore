@@ -52,3 +52,6 @@ Release/Sound.lib
 A-Star Path Finding/Debug/
 Debug/A-Star Path Finding.lib
 A-Star Path Finding/Release/
+Installer/Debug/
+Installer/Release/
+Release/A-Star Path Finding.lib
