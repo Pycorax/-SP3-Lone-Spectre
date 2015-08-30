@@ -83,7 +83,7 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	Tile::E_TILE_TYPE tileTypeOnPlayer = _tileOnPlayer->GetType();
 
 	// Spectral Dive
-	if (interact == INTERACT_DIVE && m_diveTimer <= 0.f && !m_moving) // Light level is low enough and dive key is pressed, do Spectre Dive
+	if (interact == INTERACT_DIVE && m_diveTimer <= 0.f) // Light level is low enough and dive key is pressed, do Spectre Dive
 	{
 		if (_tileOnPlayer->GetLightLevel() <= S_SPECTRE_DIVE_LIGHT_LIMIT || (_tileInFrontOfPlayer && _tileInFrontOfPlayer->GetLightLevel() <= S_SPECTRE_DIVE_LIGHT_LIMIT && !_map->CheckCollision(tilePos)))
 		{
@@ -92,7 +92,7 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	}
 
 	// Spectral Jump
-	if (interact == INTERACT_JUMP && m_inShadow && !m_moving && m_jumpTimer <= 0.f && (_tileInFrontOfPlayer && _tileInFrontOfPlayer->GetLightLevel() > S_SPECTRE_DIVE_LIGHT_LIMIT && !_map->CheckCollision(tilePos))) // Jump across lighted area
+	if (interact == INTERACT_JUMP && m_inShadow && m_jumpTimer <= 0.f && (_tileInFrontOfPlayer && _tileInFrontOfPlayer->GetLightLevel() > S_SPECTRE_DIVE_LIGHT_LIMIT && !_map->CheckCollision(tilePos))) // Jump across lighted area
 	{
 		for (int tile = 1; tile < S_MAX_JUMP_RANGE; ++tile)
 		{
