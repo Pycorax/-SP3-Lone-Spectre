@@ -3,7 +3,7 @@
 
 #include "GameObject2D.h"
 
-class UIButton : GameObject2D
+class UIButton : public GameObject2D
 {
 	public:
 		enum E_BUTTON_STATE_TYPE
@@ -26,11 +26,16 @@ class UIButton : GameObject2D
 		E_BUTTON_TYPE m_type;
 
 	public:
-		UIButton();
+		UIButton(E_BUTTON_TYPE type = BUTTON_NONE, Mesh* _mesh = NULL, Vector2 pos = Vector2::ZERO_VECTOR, Vector2 scale = Vector2(1,1));
 		~UIButton();
 	
-		void Init(Mesh* _mesh, Vector2 pos, Vector2 scale);
+		void Init(E_BUTTON_TYPE type, Mesh* _mesh, Vector2 pos, Vector2 scale);
 		void UpdateState(bool pressed, float mouseX, float mouseY);
+
+		/*
+		 * Setters
+		 */
+		void SetState(E_BUTTON_STATE_TYPE type);
 
 		/*
 		 * Getters

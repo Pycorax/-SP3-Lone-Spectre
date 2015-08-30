@@ -8,7 +8,7 @@ using std::vector;
 
 class Menu 
 {
-public:	//Game States
+public:
 	/*enum E_MENU_STATE
 	{
 		//main menu states
@@ -65,13 +65,14 @@ public:	//Game States
 protected:	// Variables
 	vector<UIButton*> m_buttonList;
 	E_MENU_TYPE m_type;
+	GameObject2D* m__background;
 
 public:		// Functions
 	Menu();
 	virtual ~Menu();
 
-	virtual void Init() = 0;
-	virtual void Update(double dt) = 0;
+	virtual void Init(E_MENU_TYPE type, Mesh* _bgMesh = NULL, Vector2 bgPos = Vector2::ZERO_VECTOR, Vector2 bgScale = Vector2(1,1));
+	virtual void Update(double dt);
 	void Clear();
 
 	bool AddButton(UIButton* _button);
@@ -81,6 +82,7 @@ public:		// Functions
 	 */
 	vector<UIButton*>& GetButtonList();
 	E_MENU_TYPE GetType();
+	GameObject2D* GetBackground();
 };
 
 #endif

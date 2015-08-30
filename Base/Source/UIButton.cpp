@@ -1,7 +1,10 @@
 #include "UIButton.h"
 
-UIButton::UIButton() : m_state(UP_STATE)
+UIButton::UIButton(E_BUTTON_TYPE type, Mesh* _mesh, Vector2 pos, Vector2 scale) : m_type(type), m_state(UP_STATE)
 {
+	m__mesh = _mesh;
+	m_transforms.Translation = pos;
+	m_transforms.Scale = scale;
 }
 
 
@@ -9,12 +12,13 @@ UIButton::~UIButton()
 {
 }
 
-void UIButton::Init(Mesh * _mesh, Vector2 pos, Vector2 scale)
+void UIButton::Init(E_BUTTON_TYPE type, Mesh * _mesh, Vector2 pos, Vector2 scale)
 {
 	m__mesh = _mesh;
 	m_transforms.Translation = pos;
 	m_transforms.Scale = scale;
 	m_state = UP_STATE;
+	m_type = type;
 }
 
 void UIButton::UpdateState(bool pressed, float mouseX, float mouseY)
@@ -39,6 +43,11 @@ void UIButton::UpdateState(bool pressed, float mouseX, float mouseY)
 	{
 		m_state = UP_STATE;
 	}*/
+}
+
+void UIButton::SetState(E_BUTTON_STATE_TYPE type)
+{
+	this->m_state = type;
 }
 
 UIButton::E_BUTTON_STATE_TYPE UIButton::GetState(void)
