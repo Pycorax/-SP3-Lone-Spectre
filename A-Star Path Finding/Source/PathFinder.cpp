@@ -72,8 +72,8 @@ void PathFinder::UpdatePath(void)
 			}
 
 			// Recalculate the costs of the neighbour
-			int costToMoveTo = m_nodeGrid.GetDistance(_current, _neighbour);
-			int totalMoveCost = _neighbour->m_GCost + costToMoveTo;
+			int costToMoveTo = m_nodeGrid.GetDistance(_current, _neighbour);			// Calculate the cost to go from current node to the neighbour
+			int totalMoveCost = _current->m_GCost + costToMoveTo;						// Calculate the total cost to move from the start (stored in current is from start to current) to this neighbour
 
 			// If the move cost by moving to this tile in this path is shorter OR is not open
 			if ((totalMoveCost < _neighbour->m_GCost || _neighbour->m_state != AINode::ANS_OPENED))
