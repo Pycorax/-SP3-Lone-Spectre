@@ -34,6 +34,7 @@ public:
 
 private:	// Static Constant
 	static const Vector2 S_M_MESSAGE_OFFSET;
+	static const double S_M_LIGHTING_UPDATE_FREQUENCY;
 
 public:		// Static Constant
 	static const float S_M_MAX_ALERT;
@@ -47,7 +48,7 @@ private:	// Variables
 	int m_currentLevelID;
 	vector<string> m_levelFiles;
 
-	//TileMap/Over-world
+	// TileMap/Over-world
 	vector<GameObject2D*> m__tileMarkers;					// A vector of lights that can be used to render a "lighted" effect
 	Mesh* m__tileMarkerMesh[NUM_TILE_MARKER];									// The meshes used for marking areas (shadows, areas being viewed)
 
@@ -134,6 +135,7 @@ protected:
 	void startHackMode(void);
 
 	// Tile-map rendering
+	void updateLighting(double dt);
 	void tileMapToRender(TileMap* _ToRender);
 
 	// Screen resizing code

@@ -2,6 +2,7 @@
 #include "SoundEngine.h"
 
 const Vector2 MVC_Model_Spectre::S_M_MESSAGE_OFFSET(20.0f, 20.0f);
+const double MVC_Model_Spectre::S_M_LIGHTING_UPDATE_FREQUENCY = 0.5;
 const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
@@ -500,14 +501,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		std::cout << "K.O." << std::endl;
 	}
 	// Update Lighting
-	vector<Vector2> shadowCasters;
-	// Give enemies a shadow
-	for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
-	{
-		shadowCasters.push_back((*enemyIter)->GetMapTilePos());
-	}
-	//shadowCasters.push_back(m__player->GetMapTilePos());
-	m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
+	updateLighting(dt);
 
 	// Update alert system
 	updateHUD(dt);
@@ -932,6 +926,26 @@ void MVC_Model_Spectre::Exit(void)
 	}
 	
 	MVC_Model::Exit();
+}
+
+void MVC_Model_Spectre::updateLighting(double dt)
+{
+	static double s_updateTimer = 0.0;
+	s_updateTimer += dt;
+
+	if (s_updateTimer > S_M_LIGHTING_UPDATE_FREQUENCY)
+	{
+		vector<Vector2> shadowCasters;
+		// Give enemies a shadow
+		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+		{
+			shadowCasters.push_back((*enemyIter)->GetMapTilePos());
+		}
+		//shadowCasters.push_back(m__player->GetMapTilePos());
+		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
+
+		s_updateTimer = 0.0;
+	}
 }
 
 void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
