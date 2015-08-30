@@ -100,10 +100,16 @@ protected:
 	Vector3 m_worldSize;
 
 	// Input
+	// -- Keyboard and Mouse
 	bool m_bFreeMouse;
 	bool m_bKeyPressed[NUM_KEY_ACTION];
 	int m_mousePosX;
 	int m_mousePosY;
+	// -- XInput Analog							
+	Vector2 m_leftThumbStick;			// Stores the displacement from the original state. Ranges from -1.0 to 1.0
+	Vector2 m_rightThumbStick;			// Stores the displacement from the original state. Ranges from -1.0 to 1.0
+	float m_leftTrigger;				// Stores the displacement from the original state. Ranges from 0.0 to 1.0
+	float m_rightTrigger;				// Stores the displacement from the original state. Ranges from 0.0 to 1.0
 
 	// Statistics
 	float m_fps;
@@ -180,6 +186,7 @@ public:
 	bool IsMouseFree(void);
 	void ActivateKey(KEY_ACTION_TYPE keyAction);
 	void UpdateMouseInfo(double x, double y);
+	void UpdateXInput(float lX, float lY, float rX, float rY, float lT, float rT);
 
 	// Statistics
 	float GetFrameRate(void);

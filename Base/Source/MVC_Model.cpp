@@ -239,6 +239,14 @@ void MVC_Model::UpdateMouseInfo(double x, double y)
 	m_mousePosY = y;
 }
 
+void MVC_Model::UpdateXInput(float lX, float lY, float rX, float rY, float lT, float rT)
+{
+	m_leftThumbStick.Set(lX, lY);
+	m_rightThumbStick.Set(rX, rY);
+	m_leftTrigger = lT;
+	m_rightTrigger = rT;
+}
+
 float MVC_Model::GetFrameRate(void)
 {
 	return m_fps;

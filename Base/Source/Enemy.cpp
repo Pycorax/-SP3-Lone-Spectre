@@ -82,13 +82,14 @@ void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();	
 	
-	//update view distance
+	// Update view distance
 	InitViewer(1, m_alertLevel + 2);
 	
 	// Update FOV
 	ClearViewBox(this, _map);
 	CreateViewBox(this, _map);
 
+	// Possession
 	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
 	{
 		if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
@@ -110,7 +111,7 @@ void Enemy::Update(double dt, TileMap* _map)
 	{
 		case ES_PATROL:
 		{
-			//** NOTE: array store the tile position not map position **
+			//** NOTE: array stores the tile position not map position **
 			if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
 			{
 				if (m_pathPointCounter < m_pathWay.size() - 1)

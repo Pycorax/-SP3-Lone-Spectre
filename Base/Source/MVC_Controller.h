@@ -10,6 +10,39 @@
 
 class MVC_Controller
 {
+	enum E_XINPUT_VIRTUAL_KEY
+	{
+		XVK_BUTTON_A,
+		XVK_BUTTON_B,
+		XVK_BUTTON_X,
+		XVK_BUTTON_Y,
+		XVK_DPAD_UP,
+		XVK_DPAD_DOWN,
+		XVK_DPAD_LEFT,
+		XVK_DPAD_RIGHT,
+		XVK_LEFT_SHOULDER,
+		XVK_RIGHT_SHOULDER,
+		XVK_BUTTON_LEFT_THUMB,
+		XVK_BUTTON_RIGHT_THUMB,
+		XVK_BUTTON_START,
+		XVK_BUTTON_BACK,
+		// End of Analog
+		XVK_ANALOG_MARKER,
+		// Start of Analog
+		XVK_LEFT_THUMB_UP,
+		XVK_LEFT_THUMB_DOWN,
+		XVK_LEFT_THUMB_LEFT,
+		XVK_LEFT_THUMB_RIGHT,
+		XVK_RIGHT_THUMB_UP,
+		XVK_RIGHT_THUMB_DOWN,
+		XVK_RIGHT_THUMB_LEFT,
+		XVK_RIGHT_THUMB_RIGHT,
+		XVK_LEFT_TRIGGER,
+		XVK_RIGHT_TRIGGER,
+		// For indicating no key as well
+		NUM_XINPUT_VIRTUAL_KEYS
+	};
+
 	static MVC_Controller* s_instance;
 
 	// Config File
@@ -53,8 +86,10 @@ class MVC_Controller
 	/*
 	 * Input::XInput Controllers
 	 */
-	unsigned short inputXInputKey[MVC_Model::NUM_KEY_ACTION];	// The button virtual key codes for the controller buttons
-	
+	E_XINPUT_VIRTUAL_KEY inputXInputKey[MVC_Model::NUM_KEY_ACTION];		// The button virtual key codes for the controller buttons
+	bool xInputKeyPressed[NUM_XINPUT_VIRTUAL_KEYS];						// Updated every frame first, will determine if a button is pressed
+	float lX, lY, rX, rY, lT, rT;										// Stores the analog values from the analog XInput controls
+
 	// Camera target control variables
 	double camera_yaw, camera_pitch, camera_spin;
 
@@ -108,7 +143,9 @@ class MVC_Controller
 		void inputViewUpdate(void);
 		void inputKeyUpdate(void);
 		// -- XInput Controllers
-		void inputXInputUpdate(void);
+		void inputXInputUpdateKeyPressed(void);					// Will update all the keys fro isXInputKeyPressed to check
+		bool isXInputKeyPressed(E_XINPUT_VIRTUAL_KEY key);		// Will control the updates
+		void inputXInputUpdate(void);							// Processes XInput control data to MVC_Model
 };
 
 #endif

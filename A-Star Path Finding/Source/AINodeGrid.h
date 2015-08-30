@@ -23,7 +23,7 @@ using std::vector;
 class AINodeGrid
 {
 	static const int ADJ_TILE_DIST = 10;
-	static const int DIAG_TILE_DIST = 14;
+	static const int DIAG_TILE_DIST = 30;
 
 	vector<vector<AINode*>> m_grid;					// A grid of Nodes for A* Path Finding
 
