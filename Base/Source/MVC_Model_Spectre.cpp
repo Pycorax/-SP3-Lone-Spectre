@@ -930,10 +930,10 @@ void MVC_Model_Spectre::Exit(void)
 
 void MVC_Model_Spectre::updateLighting(double dt)
 {
-	static double s_updateTimer = 0.0;
+	static double s_updateTimer = S_M_LIGHTING_UPDATE_FREQUENCY;
 	s_updateTimer += dt;
 
-	if (s_updateTimer > S_M_LIGHTING_UPDATE_FREQUENCY)
+	if (s_updateTimer >= S_M_LIGHTING_UPDATE_FREQUENCY)
 	{
 		vector<Vector2> shadowCasters;
 		// Give enemies a shadow
