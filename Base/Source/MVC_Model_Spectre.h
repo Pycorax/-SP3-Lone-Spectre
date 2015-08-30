@@ -44,6 +44,7 @@ public:
 private:	// Static Constant
 	static const Vector2 S_M_MESSAGE_OFFSET;
 	static const double S_M_LIGHTING_UPDATE_FREQUENCY;
+	static const float S_M_BGM_VOLUME;
 
 public:		// Static Constant
 	static const float S_M_MAX_ALERT;
@@ -56,6 +57,7 @@ private:	// Variables
 	Level* m__currentLevel;
 	int m_currentLevelID;
 	vector<string> m_levelFiles;
+	SoundPlayer2D* m__bgm;
 
 	// TileMap/Over-world
 	vector<GameObject2D*> m__tileMarkers;					// A vector of lights that can be used to render a "lighted" effect

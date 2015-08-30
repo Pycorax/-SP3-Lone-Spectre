@@ -41,6 +41,8 @@ public:		// Functions
 	void Play(bool loop);
 	void Stop(void);
 	void Pause(void);
+	
+	void SetVolume(float vol);		// Sets the volume of the sound. Ranges from 0.0f - 1.0f
 
 protected:	// Functions
 	SoundPlayer2D(void);

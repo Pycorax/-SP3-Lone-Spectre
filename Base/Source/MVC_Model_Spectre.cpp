@@ -4,6 +4,7 @@
 
 const Vector2 MVC_Model_Spectre::S_M_MESSAGE_OFFSET(20.0f, 20.0f);
 const double MVC_Model_Spectre::S_M_LIGHTING_UPDATE_FREQUENCY = 0.5;
+const float MVC_Model_Spectre::S_M_BGM_VOLUME = 0.5f;
 const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
@@ -20,6 +21,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__fKey(NULL)
 	, m__kKey(NULL)
 	, m_objective(NULL)
+	, m__bgm(NULL)
 {
 }
 
@@ -287,6 +289,24 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	m_messenger.ClearMessages();
 	// -- Load the messages for this map
 	m_messenger.AddMessages(m__currentLevel->GetMessagesFile());
+
+	// Initialize the BGM
+	// -- Stop previous BGM
+	if (m__bgm != NULL)
+	{
+		m__bgm->Stop();
+		m__bgm = NULL;
+	}
+	// -- Load the BGM
+	int bgm = GetSoundResource(m__currentLevel->GetBGMName());
+
+	// If the sound was found
+	if (bgm >= 0)
+	{
+		m__bgm = SoundEngine::CreateSound2D(bgm);
+		m__bgm->Play(true);
+		m__bgm->SetVolume(S_M_BGM_VOLUME);
+	}
 }
 
 void MVC_Model_Spectre::nextLevel(void)

@@ -21,6 +21,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		A_MAX_TIMER,
 		A_MISSION_TYPE,
 		A_MESSAGES_FILE_PATH,
+		A_BGM_NAME,
 		// -- For Enemies
 		A_MESH,
 		A_SPAWN_POSITION,
@@ -41,6 +42,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		"MaxTimer",
 		"MissionType",
 		"MessagesFilePath",
+		"BackgroundMusic",
 		// -- For Enemies
 		"Mesh",
 		"SpawnPosition",
@@ -129,6 +131,10 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 			else if (attrib.name == ATTRIBUTE_NAMES[A_MESSAGES_FILE_PATH])
 			{
 				m_messagesFile = attrib.value;
+			}
+			else if (attrib.name == ATTRIBUTE_NAMES[A_BGM_NAME])
+			{
+				m_bgmName = attrib.value;
 			}
 		}
 
@@ -255,6 +261,11 @@ bool Level::GetActiveObjective()const
 string Level::GetMessagesFile(void) const
 {
 	return m_messagesFile;
+}
+
+string Level::GetBGMName(void) const
+{
+	return m_bgmName;
 }
 
 void Level::Clear(void)

@@ -204,8 +204,8 @@ protected:
 	//void InitVisualObjects();		 // TODO: Reimplement when 3D is required
 
 	Mesh* GetMeshResource(string name);			// Returns a pointer to a copy of the resource
-	unsigned GetTextureResource(string name) const;
-	unsigned GetSoundResource(string name) const;
+	int GetTextureResource(string name) const;
+	int GetSoundResource(string name) const;
 
 	// Input
 	virtual void processKeyAction(double dt) = 0;

@@ -28,6 +28,22 @@ void SoundPlayer2D::Pause(void)
 	m__musicController->setIsPaused(true);
 }
 
+void SoundPlayer2D::SetVolume(float vol)
+{
+	// Clamp the vol provided
+	if (vol < 0.0f)
+	{
+		vol = 0.0f;
+	}
+	else if (vol > 1.0f)
+	{
+		vol = 1.0f;
+	}
+
+	// Set the volume
+	m__musicController->setVolume(vol);
+}
+
 SoundPlayer2D::SoundPlayer2D(void) : m__musicController(NULL)
 {
 

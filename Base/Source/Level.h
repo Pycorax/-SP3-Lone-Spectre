@@ -27,6 +27,9 @@ private:
 	// Messages
 	string m_messagesFile;				// A string that contains the file path to a message file with messages to load into a MessageManager
 
+	// Sound
+	string m_bgmName;					// Stores an ID to the background music
+
 	// Level Timer
 	double m_levelTimer;				// A timer for the level
 	double m_levelMaxTime;				// The max time for this level
@@ -61,6 +64,7 @@ public:
 	bool GetObjectiveComplete(void) const;
 	bool GetActiveObjective(void) const;
 	string GetMessagesFile(void) const;
+	string GetBGMName(void) const;
 
 	TileMap* GetTileMap();
 	vector<Enemy*> GetEnemyList(void);

@@ -608,7 +608,7 @@ Mesh * MVC_Model::GetMeshResource(string name)
 	return NULL;
 }
 
-unsigned MVC_Model::GetTextureResource(string name) const
+int MVC_Model::GetTextureResource(string name) const
 {
 	// Search for texture with the specified name
 	// Find Texture from the textList and return the Texture ID
@@ -627,7 +627,7 @@ unsigned MVC_Model::GetTextureResource(string name) const
 	}
 }
 
-unsigned MVC_Model::GetSoundResource(string name) const
+int MVC_Model::GetSoundResource(string name) const
 {
 	// Search for sound with the specified name
 	// Find Sound from the soundList and assign the sound ID

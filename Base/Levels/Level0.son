@@ -13,6 +13,8 @@
 	[MaxTimer] 999.0f
 	[MissionType] LM_COLLECT
 	[MessagesFilePath] Messages//Level0_Messages.son
+	[BackgroundMusic] Level0BGM
+	
 	{
 		#[Name] EnemyContainer
 		#

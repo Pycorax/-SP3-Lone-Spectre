@@ -13,4 +13,8 @@
 		[Name] ExitDive
 		[FilePath] Sounds//exit_spectre_dive.ogg
 	}
+	{
+		[Name] Level0BGM
+		[FilePath] Sounds//creepy_bgm.ogg
+	}
 }
