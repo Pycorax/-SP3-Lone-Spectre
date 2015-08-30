@@ -44,7 +44,7 @@ void PathFinder::UpdatePath(void)
 	// Increment openNodes
 	++openNodes;
 
-	while (openNodes > 0 && !found)
+	while (openNodes > 0 && !found)	
 	{
 		if (_endNode == _current)
 		{
@@ -59,19 +59,24 @@ void PathFinder::UpdatePath(void)
 
 #pragma region // Calculate their costs of these neighbours and get the cheapest
 		// Use the first as a comparison
-		AINode* _cheapest = neighbourNodes.front();
+		AINode* _cheapest = NULL;
 
 		// Search through all neighbours for the cheapest
 		for (vector<AINode*>::iterator nodeIter = neighbourNodes.begin(); nodeIter != neighbourNodes.end(); ++nodeIter)
 		{
 			AINode* _neighbour = *nodeIter;
 
+			if (_neighbour->m_isWall)
+			{
+				continue;
+			}
+
 			// Recalculate the costs of the neighbour
 			int costToMoveTo = m_nodeGrid.GetDistance(_current, _neighbour);
 			int totalMoveCost = _neighbour->m_GCost + costToMoveTo;
 
 			// If the move cost by moving to this tile in this path is shorter OR is not open
-			if (totalMoveCost < _neighbour->m_GCost || _neighbour->m_state != AINode::ANS_OPENED)
+			if ((totalMoveCost < _neighbour->m_GCost || _neighbour->m_state != AINode::ANS_OPENED))
 			{
 				// Recalculate the cost
 				_neighbour->m_GCost = totalMoveCost;
@@ -85,7 +90,7 @@ void PathFinder::UpdatePath(void)
 			}
 
 			// If FCost is Lower, this is cheaper
-			if (_neighbour->GetFCost() < _cheapest->GetFCost())
+			if (_cheapest == NULL || _neighbour->GetFCost() < _cheapest->GetFCost())
 			{
 				_cheapest = _neighbour;
 			}
@@ -109,6 +114,35 @@ void PathFinder::UpdatePath(void)
 		_cheapest->m__parentNode = _current;
 		// Set the current node to the cheapest node above
 		_current = _cheapest;
+		/*
+		* Debug Prints
+
+		system("cls");
+
+		vector<vector<AINode*>> grid = m_nodeGrid.GetGrid();
+		for (vector<vector<AINode*>>::iterator rowIter = grid.begin(); rowIter != grid.end(); ++rowIter)
+		{
+			vector<AINode*> row = *rowIter;
+
+			for (vector<AINode*>::iterator colIter = row.begin(); colIter != row.end(); ++colIter)
+			{
+				AINode* col = *colIter;
+
+				if (col->m_isWall && col->m_state == AINode::ANS_UNTOUCHED)
+				{
+					std::cout << static_cast<unsigned char>(178);
+				}
+				else
+				{
+					std::cout << static_cast<int>(col->m_state);
+				}
+			}
+
+			std::cout << std::endl;
+		}
+
+		system("pause");
+		*/
 	}
 
 	if (found)
@@ -136,13 +170,29 @@ void PathFinder::UpdatePath(void)
 			{
 				AINode* col = *colIter;
 
-				std::cout << static_cast<int>(col->m_state);
+				if (col == _startNode)
+				{
+					std::cout << static_cast<unsigned char>(248);
+				}
+				else if (col == _endNode)
+				{
+					std::cout << static_cast<unsigned char>(254);
+				}
+				else if (col->m_isWall && col->m_state == AINode::ANS_UNTOUCHED)
+				{
+					std::cout << static_cast<unsigned char>(178);
+				}
+				else
+				{
+					std::cout << static_cast<int>(col->m_state);
+				}
 			}
 
 			std::cout << std::endl;
 		}
 
 		system("pause");*/
+		
 	}
 	else
 	{

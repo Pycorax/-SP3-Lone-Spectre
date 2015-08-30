@@ -8,7 +8,7 @@
 	
 	[TileMapFilePath] TileMap//Level1.csv
 	[TileSize] 64
-	[NumMapTile] 64.0f, 50.0f
+	[NumMapTile] 64.0f, 20.0f
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_DEFUSE_BOMB
