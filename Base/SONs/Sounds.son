@@ -26,6 +26,14 @@
 		[FilePath] Sounds//spectral_jump.ogg
 	}
 	{
+		[Name] PossessEnemy
+		[FilePath] Sounds//possess_enemy.ogg
+	}
+	{
+		[Name] UnpossessEnemy
+		[FilePath] Sounds//unpossess_enemy.ogg
+	}
+	{
 		[Name] Level0BGM
 		[FilePath] Sounds//creepy_bgm.ogg
 	}

@@ -145,7 +145,14 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					|| 
 					m__player->GetState() == Player::PS_SPECTRAL_DIVE_RIGHT)
 				{
+					// If this is pressed while player is diving, means he is exiting
 					m__soundPlayer[SP_SKILL_DIVE_EXIT]->Play(false);
+
+					// If was hosting, pressing again means player is exiting
+					if (m__player->GetHosting())
+					{
+						m__soundPlayer[SP_SKILL_SPECTRAL_HOST_EXIT]->Play(false);
+					}
 				}
 				else
 				{
@@ -164,6 +171,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						if ((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize())
 						{
 							m__player->SetHostPTR(_enemy);
+							m__soundPlayer[SP_SKILL_SPECTRAL_HOST_ENTER]->Play(false);
 							break;
 						}
 					}
@@ -456,6 +464,8 @@ void MVC_Model_Spectre::Init(void)
 	m__soundPlayer[SP_SKILL_HACK_START] = SoundEngine::CreateSound2D(GetSoundResource("StartHack"));
 	m__soundPlayer[SP_SKILL_HACK_STOP] = SoundEngine::CreateSound2D(GetSoundResource("StopHack"));
 	m__soundPlayer[SP_SKILL_SPECTRAL_JUMP] = SoundEngine::CreateSound2D(GetSoundResource("SpectralJump"));
+	m__soundPlayer[SP_SKILL_SPECTRAL_HOST_ENTER] = SoundEngine::CreateSound2D(GetSoundResource("PossessEnemy"));
+	m__soundPlayer[SP_SKILL_SPECTRAL_HOST_EXIT] = SoundEngine::CreateSound2D(GetSoundResource("UnpossessEnemy"));
 
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
