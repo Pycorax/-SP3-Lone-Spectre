@@ -14,6 +14,14 @@
 		[FilePath] Sounds//exit_spectre_dive.ogg
 	}
 	{
+		[Name] StartHack
+		[FilePath] Sounds//start_hack.ogg
+	}
+	{
+		[Name] StopHack
+		[FilePath] Sounds//stop_hack.ogg
+	}
+	{
 		[Name] Level0BGM
 		[FilePath] Sounds//creepy_bgm.ogg
 	}

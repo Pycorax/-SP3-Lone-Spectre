@@ -374,6 +374,7 @@ void MVC_Model_Spectre::startHackMode(void)
 {
 	m_appState = AS_HACK_GAME;
 	m_hackingGame.Reset(m_viewWidth, m_viewHeight);
+	m__soundPlayer[SP_SKILL_HACK_START]->Play(false);
 }
 
 void MVC_Model_Spectre::Init(void)
@@ -383,6 +384,8 @@ void MVC_Model_Spectre::Init(void)
 	// Init Sounds
 	m__soundPlayer[SP_SKILL_DIVE_ENTER] = SoundEngine::CreateSound2D(GetSoundResource("EnterDive"));
 	m__soundPlayer[SP_SKILL_DIVE_EXIT] = SoundEngine::CreateSound2D(GetSoundResource("ExitDive"));
+	m__soundPlayer[SP_SKILL_HACK_START] = SoundEngine::CreateSound2D(GetSoundResource("StartHack"));
+	m__soundPlayer[SP_SKILL_HACK_STOP] = SoundEngine::CreateSound2D(GetSoundResource("StopHack"));
 
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
@@ -677,8 +680,6 @@ void MVC_Model_Spectre::updateHackGame(double dt)
 
 	if (m_hackingGame.IsVictory())
 	{
-		m_appState = AS_MAIN_GAME;
-		m__player->SetState(Player::PS_IDLE_DOWN);
 		// Deactivate camera from camera list and tilemap
 		for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
 		{
@@ -762,11 +763,19 @@ void MVC_Model_Spectre::updateHackGame(double dt)
 				break;
 			}
 		}
+
+		m_appState = AS_MAIN_GAME;
 	}
 	else if (m_hackingGame.IsLoss())
 	{
 		m_appState = AS_MAIN_GAME;
+	}
+
+	// If end the hacking game
+	if (m_appState == AS_MAIN_GAME)
+	{
 		m__player->SetState(Player::PS_IDLE_DOWN);
+		m__soundPlayer[SP_SKILL_HACK_STOP]->Play(false);
 	}
 
 	vector<GameObject2D*> minigameObjects = m_hackingGame.GetRenderObjects();
