@@ -82,7 +82,7 @@ void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();	
 	
-	// Update view distance
+	//update view distance according to alert level
 	InitViewer(1, m_alertLevel + 2);
 	
 	// Update FOV
@@ -157,13 +157,16 @@ void Enemy::Update(double dt, TileMap* _map)
 			//}
 			
 			UpdatePath();
-
 			vector<AINode*> chasePath = GetPath();
 
 			if (chasePath.size() > 0)
 			{
 				Vector2 targetPos(chasePath.front()->m_gridPosX, chasePath.front()->m_gridPosY);
-				MoveTo(targetPos, _map, dt);
+				if(MoveTo(targetPos, _map, dt) )
+				{
+					//TODO: update the next point along the path here?
+
+				}
 			}
 		}
 	case ES_ATTACK:
@@ -213,7 +216,7 @@ void Enemy::Update(double dt, TileMap* _map)
 			if( m_checkAround > 4)
 			{
 				m_checkAround = 0;
-				m_enemyState = ES_PATROL;
+				m_enemyState = ES_SCAN;
 			}
 		}
 	}
@@ -299,52 +302,80 @@ void Enemy::AddPatrolPoint(Vector2 pos)
 	m_pathWay.push_back(pos);
 }
 
+static bool s_LeftRightMove = false; // if going diagonal direction, move left/right then move up/down
 //return true if reached 
 bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
 	static const float S_MOVE_SPEED = 60.0f;
 
-	if(EndPos == GetMapTilePos())
+	//if standing on the tile
+	if(EndPos == GetMapTilePos() )
 	{
 		return true;
 	}
 
 	//set look direction towards next target location base off current tile location on map
 	m_lookDir = (EndPos - GetMapTilePos()).Normalized();
+
+	//diagonal movement move left right first 
+	if(m_lookDir.x != 0 )
+	{
+		// set direction to either facing left or right
+		if(m_lookDir.x < 0)
+		{
+			m_lookDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
+		}
+		else
+		{
+			m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
+		}
+	}
+	//then move up down after moving left right
+	else if (m_lookDir.y != 0 )
+	{
+		// set direction to either facing up or down
+		if(m_lookDir.y < 0)
+		{
+			m_lookDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
+		}
+		else
+		{
+			m_lookDir = Direction::DIRECTIONS[Direction::DIR_UP];
+		}
+	}
+
+	//checking if tile reached 
+	//checking left
+	if(m_lookDir.x < 0 && EndPos == GetMapTilePos() + Vector2(1,0) )
+	{
+		return true;
+	}
+	//checking right
+	else if(m_lookDir.x > 0 && EndPos == GetMapTilePos() - Vector2(1,0))
+	{
+		return true;
+	}
+	//check down
+	else if(m_lookDir.y < 0 && EndPos == GetMapTilePos() + Vector2(0,1))
+	{
+		s_LeftRightMove = true;
+		return true;
+	}
+	//checking up
+	else if(m_lookDir.y > 0 && EndPos == GetMapTilePos() - Vector2(0,1))
+	{
+		s_LeftRightMove = true;
+		return true;
+	}
 	//converting the end pos from tile pos to map pos
 	Vector2 TargetmapPos = Vector2(EndPos.x * _map->GetTileSize(), EndPos.y * _map->GetTileSize());
-	//next location adding using tile 
+	//next location by map pos
 	Vector2 newMapPos = GetMapPos() + m_lookDir * S_MOVE_SPEED * dt;
 
-	//if (_map->CheckCollision(newMapPos)) // check collision at next pos
-	//{
-	//	// swap pos - patrolPointB - target location
-	//	return true; // reached a dead end
-	//}
-	//else
-	//{
-	if (m_lookDir.x > 0 && newMapPos.x > TargetmapPos.x + _map->GetTileSize()) //traveling along x axis -> moving right
-	{
-		return true; // reached target
-	}
-	else if (m_lookDir.x < 0 && newMapPos.x < TargetmapPos.x - _map->GetTileSize()) // -> moving left
-	{
-		return true; // reached target
-	}
-	if (m_lookDir.y > 0 && newMapPos.y > TargetmapPos.y + _map->GetTileSize()) //traveling along y axis -> moving up
-	{
-		return true; // reached target
-	}
-	else if (m_lookDir.y < 0 && newMapPos.y < TargetmapPos.y - _map->GetTileSize()) // -> moving down
-	{
-		return true; // reached target
-	}
-
+	//go to next position
 	SetMapPosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
-
-	//}
-		return false;
-	}
+	return false;
+}
 
 
 void Enemy::SetAlertLevel(int alertlevel)

@@ -516,7 +516,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 
 	// Player inside viewed tile
 	static const double S_ALERT_SPEED = 4.0;
-	static const double S_ALERT_HOSTILE = 2.0f;
+	static const double S_ALERT_HOSTILE = 4.0f;
 	Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
 	if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
 	{
@@ -528,21 +528,42 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	{
 		Enemy* _enemy = (*enemyIter);
 		_enemy->Update(dt, m__currentLevel->GetTileMap());
+		
 		Vector2 mapPos = m__player->GetMapPos();
 		_enemy->SetTarget(mapPos.x, mapPos.y);
 		_enemy->SetAlertLevel(m_alertLevel);
-		if (_enemy->GetAlertLevel() > S_ALERT_HOSTILE)
-		{
-			if ((_enemy->GetMapTilePos() - _tile->GetMapTilePos()).LengthSquared() < (m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize()))
-			{
-				_enemy->AttackingInView(m__player);
-			}
-			else
-			{
-				_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
-			}
-		}
 
+		_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
+
+		//TODO: =========== REVAMP THE ENEMY ALGORYTHM ==============
+
+		////if alert level increase and within the last seen range
+		//if(_enemy->GetAlertLevel() >= 1 && 
+		//	(_enemy->GetMapTilePos() - _tile->GetMapTilePos()).LengthSquared() < (m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize() )* 2 )
+		//{
+		//	//go to the last seen location
+		//	if(_tile->IsViewed() )
+		//	{
+		//	}
+		//	//if player still sceen
+		//	if(_tile->IsViewed())
+		//	{
+		//		//if close enough
+		//		if ((_enemy->GetMapTilePos() - _tile->GetMapTilePos()).LengthSquared() < (m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize()))
+		//		{
+		//			//update enemy to attack player if alert level reach 4
+		//			if (_enemy->GetAlertLevel() >= S_ALERT_HOSTILE)
+		//			{
+		//				_enemy->AttackingInView(m__player);
+		//			}
+		//		}
+		//	}
+		//	else // if cannot find player - go to scan mode : check surroundings
+		//	{
+		//		_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
+		//	}
+
+		//}
 	}
 	if (m__player->GetHealth() <= 0)
 	{
