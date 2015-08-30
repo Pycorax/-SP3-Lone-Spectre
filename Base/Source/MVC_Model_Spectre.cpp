@@ -170,6 +170,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			if (m_bKeyPressed[MOVE_JUMP_KEY] && m__player->Interact(Player::INTERACT_JUMP, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_JUMP) // Spectral Jump
 			{
 				m__player->SetJump();
+				m__soundPlayer[SP_SKILL_SPECTRAL_JUMP]->Play(false);
 			}
 			break;
 		}
@@ -393,6 +394,7 @@ void MVC_Model_Spectre::Init(void)
 	m__soundPlayer[SP_SKILL_DIVE_EXIT] = SoundEngine::CreateSound2D(GetSoundResource("ExitDive"));
 	m__soundPlayer[SP_SKILL_HACK_START] = SoundEngine::CreateSound2D(GetSoundResource("StartHack"));
 	m__soundPlayer[SP_SKILL_HACK_STOP] = SoundEngine::CreateSound2D(GetSoundResource("StopHack"));
+	m__soundPlayer[SP_SKILL_SPECTRAL_JUMP] = SoundEngine::CreateSound2D(GetSoundResource("SpectralJump"));
 
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");

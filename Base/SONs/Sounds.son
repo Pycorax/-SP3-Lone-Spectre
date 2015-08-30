@@ -22,6 +22,10 @@
 		[FilePath] Sounds//stop_hack.ogg
 	}
 	{
+		[Name] SpectralJump
+		[FilePath] Sounds//spectral_jump.ogg
+	}
+	{
 		[Name] Level0BGM
 		[FilePath] Sounds//creepy_bgm.ogg
 	}
