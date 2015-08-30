@@ -46,6 +46,12 @@ void PathFinder::UpdatePath(void)
 
 	while (openNodes > 0 && !found)
 	{
+		if (_endNode == _current)
+		{
+			found = true;
+			break;
+		}
+
 		// Open up the neighbouring nodes		
 		vector<AINode*> neighbourNodes = m_nodeGrid.GetNeighboursOf(_current);
 		// Increment openNodes
@@ -70,9 +76,6 @@ void PathFinder::UpdatePath(void)
 				// Recalculate the cost
 				_neighbour->m_GCost = totalMoveCost;
 				_neighbour->m_HCost = m_nodeGrid.GetDistance(_neighbour, _endNode);
-
-				// Update the new parent
-				_neighbour->m__parentNode = _neighbour;
 
 				if (_neighbour->m_state == AINode::ANS_UNTOUCHED)
 				{
@@ -106,11 +109,6 @@ void PathFinder::UpdatePath(void)
 		_cheapest->m__parentNode = _current;
 		// Set the current node to the cheapest node above
 		_current = _cheapest;
-
-		if (_endNode == _current)
-		{
-			found = true;
-		}
 	}
 
 	if (found)
@@ -149,6 +147,7 @@ void PathFinder::UpdatePath(void)
 	else
 	{
 		// Set a not found path flag
+		m_resultPath.clear();
 	}
 
 	// After we're done with everything, reset the states of the nodes back to their original untouched states for the next time this is run

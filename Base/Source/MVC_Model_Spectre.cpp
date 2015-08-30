@@ -9,7 +9,7 @@ const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m_appState(AS_MAIN_GAME)
-	, m_currentLevelID(0)
+	, m_currentLevelID(1)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
 	, m_enableShadow(true)
@@ -531,8 +531,8 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		Enemy* _enemy = (*enemyIter);
 		_enemy->Update(dt, m__currentLevel->GetTileMap());
 		
-		Vector2 mapPos = m__player->GetMapPos();
-		_enemy->SetTarget(mapPos.x, mapPos.y);
+		Vector2 mapTilePos = m__player->GetMapTilePos();
+		_enemy->SetTarget(mapTilePos.x, mapTilePos.y);
 		_enemy->SetAlertLevel(m_alertLevel);
 
 		_enemy->ForceSetEnemyState(Enemy::ES_CHASE);

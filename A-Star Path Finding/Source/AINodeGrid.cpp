@@ -73,6 +73,9 @@ void AINodeGrid::ResetNodeStates(void)
 			AINode* col = *colIter;
 
 			col->m_state = AINode::ANS_UNTOUCHED;
+			col->m_GCost = 0;
+			col->m_HCost = 0;
+			col->m__parentNode = NULL;
 		}
 	}
 }
@@ -112,7 +115,6 @@ vector<AINode*> AINodeGrid::GetNeighboursOf(AINode * _node)
 			{
 				continue;
 			}
-				
 
 			int tileX = _node->m_gridPosX + x;
 			int tileY = _node->m_gridPosY + y;

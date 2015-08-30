@@ -155,7 +155,6 @@ void Enemy::Update(double dt, TileMap* _map)
 			//		m_alertLevel += dt;
 			//	}
 			//}
-			
 			UpdatePath();
 			vector<AINode*> chasePath = GetPath();
 
