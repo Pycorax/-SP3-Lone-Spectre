@@ -291,21 +291,28 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	m_messenger.AddMessages(m__currentLevel->GetMessagesFile());
 
 	// Initialize the BGM
-	// -- Stop previous BGM
-	if (m__bgm != NULL)
-	{
-		m__bgm->Stop();
-		m__bgm = NULL;
-	}
-	// -- Load the BGM
+	// -- Find the BGM
+	static int prevBGM = -1;
 	int bgm = GetSoundResource(m__currentLevel->GetBGMName());
-
-	// If the sound was found
-	if (bgm >= 0)
+	
+	// -- if the previous BGM is not the same, then init the new sound
+	if (bgm != prevBGM)
 	{
-		m__bgm = SoundEngine::CreateSound2D(bgm);
-		m__bgm->Play(true);
-		m__bgm->SetVolume(S_M_BGM_VOLUME);
+		// -- Stop previous BGM
+		if (m__bgm != NULL)
+		{
+			m__bgm->Stop();
+			m__bgm = NULL;
+		}
+
+		// If the sound was found
+		if (bgm >= 0)
+		{
+			m__bgm = SoundEngine::CreateSound2D(bgm);
+			m__bgm->Play(true);
+			m__bgm->SetVolume(S_M_BGM_VOLUME);
+			prevBGM = bgm;
+		}
 	}
 }
 

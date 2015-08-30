@@ -12,6 +12,7 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_DEFUSE_BOMB
+	[BackgroundMusic] Level0BGM
 	
 	{			
 		[Name] EnemyContainer
