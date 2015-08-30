@@ -45,6 +45,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_158D691F231340D8B91F9B1078A9D8B4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1774322533A54D2087520F315B090148"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -225,12 +231,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_53C0AB3834B93D63967427EAA9D60221"
-        "OwnerKey" = "8:_798115E083EB4B28B4BFB11CE210DB52"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_53E7F9AAFE3D43EBB0BDACD2B289DF91"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -291,19 +291,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6EBD67320BD3E6432D16FC3A72535323"
-        "OwnerKey" = "8:_798115E083EB4B28B4BFB11CE210DB52"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_77CC747C32144AB9898A77ECC4438B31"
+        "MsmKey" = "8:_725F28D4EFD14C588B4127F3F6E078D5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_798115E083EB4B28B4BFB11CE210DB52"
+        "MsmKey" = "8:_77CC747C32144AB9898A77ECC4438B31"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -621,12 +615,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D8E97D9ED596A9C8C3205CC104B443EB"
-        "OwnerKey" = "8:_798115E083EB4B28B4BFB11CE210DB52"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_DACAB333092647DAA09D87356ABF717B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -681,12 +669,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F6987654451D1BC2B8A381BA13D98500"
-        "OwnerKey" = "8:_798115E083EB4B28B4BFB11CE210DB52"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F6C44790950C4D298E5E81551A88A361"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -695,12 +677,6 @@
         {
         "MsmKey" = "8:_F7A4448BCA104AEAB7763EC2A882A735"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F7C4B55EB64040BCAA8D390713CA37E5"
-        "OwnerKey" = "8:_798115E083EB4B28B4BFB11CE210DB52"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -723,6 +699,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_FD73E52643BB48758EE1253959BA5CD3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FDA5B2C3B16648F8B4EDCE5D7BB71E3B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -733,12 +715,6 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_798115E083EB4B28B4BFB11CE210DB52"
-        "MsmSig" = "8:_UNDEFINED"
-        }
     }
     "Configurations"
     {
@@ -747,7 +723,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\Installer.msi"
+        "OutputFilename" = "8:Debug\\LoneSpectre_0.3.1_setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -779,7 +755,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Installer.msi"
+        "OutputFilename" = "8:Release\\LoneSpectre_0.3.1_setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -791,23 +767,13 @@
         "InstallerBootstrapper" = "3:2"
             "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
             {
-            "Enabled" = "11:TRUE"
+            "Enabled" = "11:FALSE"
             "PromptEnabled" = "11:TRUE"
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
-                    {
-                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
-                    }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
-                    {
-                    "Name" = "8:Windows Installer 3.1"
-                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
-                    }
                 }
             }
         }
@@ -925,6 +891,26 @@
             "TargetName" = "8:Quit_On.tga"
             "Tag" = "8:"
             "Folder" = "8:_5FE49B4D174249CDB9D7EAE0E35BC987"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_158D691F231340D8B91F9B1078A9D8B4"
+            {
+            "SourcePath" = "8:..\\Release\\glew32.dll"
+            "TargetName" = "8:glew32.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_FE20922FD60C4CA39FDA13E14546BC6E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1539,26 +1525,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_53C0AB3834B93D63967427EAA9D60221"
-            {
-            "SourcePath" = "8:OPENGL32.dll"
-            "TargetName" = "8:OPENGL32.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_FE20922FD60C4CA39FDA13E14546BC6E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_53E7F9AAFE3D43EBB0BDACD2B289DF91"
             {
             "SourcePath" = "8:..\\Base\\SONs\\Sounds.son"
@@ -1759,9 +1725,9 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6EBD67320BD3E6432D16FC3A72535323"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_725F28D4EFD14C588B4127F3F6E078D5"
             {
-            "SourcePath" = "8:irrKlang.dll"
+            "SourcePath" = "8:..\\Release\\irrKlang.dll"
             "TargetName" = "8:irrKlang.dll"
             "Tag" = "8:"
             "Folder" = "8:_FE20922FD60C4CA39FDA13E14546BC6E"
@@ -1776,7 +1742,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_77CC747C32144AB9898A77ECC4438B31"
@@ -2839,26 +2805,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D8E97D9ED596A9C8C3205CC104B443EB"
-            {
-            "SourcePath" = "8:XINPUT9_1_0.dll"
-            "TargetName" = "8:XINPUT9_1_0.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_FE20922FD60C4CA39FDA13E14546BC6E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DACAB333092647DAA09D87356ABF717B"
             {
             "SourcePath" = "8:..\\Base\\Image\\Menu\\StartGame_On.tga"
@@ -3037,26 +2983,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F6987654451D1BC2B8A381BA13D98500"
-            {
-            "SourcePath" = "8:glew32.dll"
-            "TargetName" = "8:glew32.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_FE20922FD60C4CA39FDA13E14546BC6E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F6C44790950C4D298E5E81551A88A361"
@@ -3399,7 +3325,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Lone Spectre Pre-Alpha Version 0.3.1"
         "ProductCode" = "8:{A2C95EC5-250A-49F0-8268-9516BE9C94AF}"
-        "PackageCode" = "8:{53AA2604-3741-47CA-A283-BA25C3B35973}"
+        "PackageCode" = "8:{6A37A8FA-5C0D-4827-9EE6-BBD1469DBA49}"
         "UpgradeCode" = "8:{29788055-3DAA-43DA-B36E-DDB3E9D1E998}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3915,24 +3841,10 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_F7C4B55EB64040BCAA8D390713CA37E5"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC100_CRT_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_798115E083EB4B28B4BFB11CE210DB52"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FD73E52643BB48758EE1253959BA5CD3"
             {
             "SourcePath" = "8:..\\Release\\Base.exe"
             "TargetName" = "8:"
