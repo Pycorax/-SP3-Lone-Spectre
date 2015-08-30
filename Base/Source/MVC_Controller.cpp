@@ -508,7 +508,7 @@ void MVC_Controller::inputKeyUpdate(void)
 	}
 }
 
-void MVC_Controller::inputXInputUpdateKeyPressed(void)
+bool MVC_Controller::inputXInputUpdateKeyPressed(void)
 {
 	XINPUT_STATE gamepadState;
 	ZeroMemory(&gamepadState, sizeof(XINPUT_STATE));
@@ -611,6 +611,12 @@ void MVC_Controller::inputXInputUpdateKeyPressed(void)
 				xInputKeyPressed[button] = false;
 			}
 		}
+
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -687,16 +693,18 @@ bool MVC_Controller::isXInputKeyPressed(E_XINPUT_VIRTUAL_KEY key)
 
 void MVC_Controller::inputXInputUpdate(void)
 {
-	inputXInputUpdateKeyPressed();
-
-	/*
-	* Buttons
-	*/
-	for (size_t button = 0; button < MVC_Model::NUM_KEY_ACTION; ++button)
+	// Check if the controller is plugged in
+	if (inputXInputUpdateKeyPressed())
 	{
-		if (isXInputKeyPressed(inputXInputKey[button]))
+		/*
+		* Buttons
+		*/
+		for (size_t button = 0; button < MVC_Model::NUM_KEY_ACTION; ++button)
 		{
-			m_model->ActivateKey(static_cast<MVC_Model::KEY_ACTION_TYPE>(button));
+			if (isXInputKeyPressed(inputXInputKey[button]))
+			{
+				m_model->ActivateKey(static_cast<MVC_Model::KEY_ACTION_TYPE>(button));
+			}
 		}
 	}
 

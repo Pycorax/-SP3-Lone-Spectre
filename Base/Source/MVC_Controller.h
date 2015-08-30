@@ -143,7 +143,7 @@ class MVC_Controller
 		void inputViewUpdate(void);
 		void inputKeyUpdate(void);
 		// -- XInput Controllers
-		void inputXInputUpdateKeyPressed(void);					// Will update all the keys fro isXInputKeyPressed to check
+		bool inputXInputUpdateKeyPressed(void);					// Will update all the keys fro isXInputKeyPressed to check
 		bool isXInputKeyPressed(E_XINPUT_VIRTUAL_KEY key);		// Will control the updates
 		void inputXInputUpdate(void);							// Processes XInput control data to MVC_Model
 };
