@@ -10,29 +10,28 @@ MenuManager_Spectre::~MenuManager_Spectre(void)
 {
 }
 
-void MenuManager_Spectre::Update(double dt, int mouseX, int mouseY, bool clickState)
+MenuManager::E_RETURN_STATE MenuManager_Spectre::Response(UIButton::E_BUTTON_TYPE type)
 {
-	vector<UIButton*> buttonList = m__currentMenu->GetButtonList();
-	// Update button states and current button
-	for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+	switch (type)
 	{
-		UIButton* _button = *buttonIter;
-		if (OnMouseCollision(mouseX, mouseY, _button))
+	case UIButton::BUTTON_START: // Set current to nothing as game is not menu
 		{
-			_button->SetState(UIButton::HOVER_STATE);
-			m__currentButton = _button;
+			m__currentMenu = NULL;
+			m__currentButton = NULL;
+			m_currentButton = -1;
+			return RS_GAME;
 		}
-		else
+		break;
+	case UIButton::BUTTON_INSTRUCTIONS:
 		{
-			_button->SetState(UIButton::UP_STATE);
+			AssignCurrent(Menu::MENU_INSTRUCTIONS);
+			return RS_MENU;
 		}
-	}
-
-	if (clickState) // Mouse clicked
-	{
-		switch (m__currentButton->GetType())
+		break;
+	case UIButton::BUTTON_EXIT:
 		{
-			// Insert cases for each button states
+			return RS_EXIT;
 		}
+		break;
 	}
 }

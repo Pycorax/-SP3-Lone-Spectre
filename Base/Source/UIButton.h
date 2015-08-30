@@ -2,6 +2,9 @@
 #define UIBUTTON_H
 
 #include "GameObject2D.h"
+#include <vector>
+
+using std::vector;
 
 class UIButton : public GameObject2D
 {
@@ -18,8 +21,11 @@ class UIButton : public GameObject2D
 			BUTTON_NONE = 0,
 			BUTTON_START,
 			BUTTON_INSTRUCTIONS,
+			BUTTON_EXIT,
 			NUM_BUTTONS,
 		};
+		static Mesh* s_m_offMeshList[NUM_BUTTONS];	// Not hover
+		static Mesh* s_m_onMeshList[NUM_BUTTONS];		// Hover
 
 	private:
 		E_BUTTON_STATE_TYPE m_state;
@@ -28,6 +34,8 @@ class UIButton : public GameObject2D
 	public:
 		UIButton(E_BUTTON_TYPE type = BUTTON_NONE, Mesh* _mesh = NULL, Vector2 pos = Vector2::ZERO_VECTOR, Vector2 scale = Vector2(1,1));
 		~UIButton();
+
+		static void InitMeshLists(vector<Mesh*> meshList);
 	
 		void Init(E_BUTTON_TYPE type, Mesh* _mesh, Vector2 pos, Vector2 scale);
 		void UpdateState(bool pressed, float mouseX, float mouseY);

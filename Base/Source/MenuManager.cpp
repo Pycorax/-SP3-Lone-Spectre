@@ -1,6 +1,6 @@
 #include "MenuManager.h"
 
-MenuManager::MenuManager(void) : m_menuList(NULL), m__currentButton(NULL), m__currentMenu(NULL)
+MenuManager::MenuManager(void) : m_menuList(NULL), m__currentButton(NULL), m__currentMenu(NULL), m_currentButton(-1)
 {
 }
 
@@ -8,6 +8,53 @@ MenuManager::MenuManager(void) : m_menuList(NULL), m__currentButton(NULL), m__cu
 MenuManager::~MenuManager(void)
 {
 	Clear();
+}
+
+void MenuManager::MouseUpdate(double dt, int mouseX, int mouseY)
+{
+	vector<UIButton*> buttonList = m__currentMenu->GetButtonList();
+	// Update button states and current button
+	int buttonPlacement = 0;
+	for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+	{
+		UIButton* _button = *buttonIter;
+		if (OnMouseCollision(mouseX, mouseY, _button))
+		{
+			_button->SetState(UIButton::HOVER_STATE);
+			m__currentButton = _button;
+			m_currentButton = buttonPlacement;
+		}
+		else
+		{
+			if (_button != m__currentMenu->GetButtonList()[m_currentButton])
+			{
+				_button->SetState(UIButton::UP_STATE);
+			}
+		}
+		++buttonPlacement;
+	}
+}
+
+void MenuManager::KeysUpdate(double dt, bool dir)
+{
+	if (dir) // Down key pressed
+	{
+		--m_currentButton;
+		if (m_currentButton < 0)
+		{
+			m_currentButton = m__currentMenu->GetButtonList().size() - 1;
+		}
+	}
+	else // Up key pressed
+	{
+		++m_currentButton;
+		if (m_currentButton >= m__currentMenu->GetButtonList().size())
+		{
+			m_currentButton = 0;
+		}
+	}
+	m__currentButton = m__currentMenu->GetButtonList()[m_currentButton]; // Assign current button pointer to new current button
+	m__currentButton->SetState(UIButton::HOVER_STATE);
 }
 
 void MenuManager::Clear()
@@ -54,17 +101,51 @@ void MenuManager::AssignCurrent(Menu::E_MENU_TYPE menuType, UIButton::E_BUTTON_T
 		{
 			m__currentMenu = _menu;
 			vector<UIButton*> buttonList= _menu->GetButtonList();
-			for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+			if (buttonType != -1)
 			{
-				UIButton* _button = *buttonIter;
-				if (_button && _button->GetType() == buttonType) // Found button
+				int buttonPlacement = 0;
+				for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
 				{
-					m__currentButton = _button;
-					return;
+					UIButton* _button = *buttonIter;
+					if (_button && _button->GetType() == buttonType) // Found button
+					{
+						m__currentButton = _button;
+						m_currentButton = buttonPlacement;
+						m__currentButton->SetState(UIButton::HOVER_STATE);
+						return;
+					}
+					++buttonPlacement;
+				}
+			}
+			else
+			{
+				if (buttonList.size() > 0)
+				{
+					m__currentButton = buttonList.front();
+					m_currentButton = 0;
+					m__currentButton->SetState(UIButton::HOVER_STATE);
+				}
+				else
+				{
+					m__currentButton = NULL;
+					m_currentButton = -1;
 				}
 			}
 		}
 	}
+}
+
+MenuManager::E_RETURN_STATE MenuManager::OnClick(int mouseX, int mouseY)
+{
+	if (OnMouseCollision(mouseX, mouseY, m__currentButton))
+	{
+		return Response(m__currentButton->GetType());
+	}
+}
+
+MenuManager::E_RETURN_STATE MenuManager::OnEnter()
+{
+	return Response(m__currentButton->GetType());
 }
 
 vector<Menu*>& MenuManager::GetMenuList()
@@ -85,10 +166,10 @@ UIButton* MenuManager::GetCurrentButton()
 bool MenuManager::OnMouseCollision(int mouseX, int mouseY, UIButton* _button)
 {
 	const Transform transform = _button->GetTransform();
-	const Vector2 buttonMaxBound(transform.Translation + (transform.Scale * 0.5f));
-	const Vector2 buttonMinBound(transform.Translation - (transform.Scale * 0.5f));
+	const Vector2 buttonMaxBound(transform.Translation + (transform.Scale * 1.f));
+	const Vector2 buttonMinBound(transform.Translation - (transform.Scale * 0.f));
 	
-	if (mouseX < buttonMinBound.x || mouseX > buttonMaxBound.x || mouseY < buttonMinBound.y || mouseY > buttonMinBound.y)
+	if (mouseX < buttonMinBound.x || mouseX > buttonMaxBound.x || mouseY < buttonMinBound.y || mouseY > buttonMaxBound.y)
 	{
 		return false;
 	}

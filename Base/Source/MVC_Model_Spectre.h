@@ -14,6 +14,7 @@
 #include "ObjectiveCollect.h"
 #include "HUD_Cooldown.h"
 #include "SoundPlayer2D.h"
+#include "MenuManager_Spectre.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -38,7 +39,7 @@ private:
 public:
 	enum E_APP_STATE
 	{
-		AS_MAIN,
+		AS_MENU,
 		AS_MAIN_GAME,
 		AS_HACK_GAME,
 		NUM_APP_STATE
@@ -48,6 +49,7 @@ private:	// Static Constant
 	static const Vector2 S_M_MESSAGE_OFFSET;
 	static const double S_M_LIGHTING_UPDATE_FREQUENCY;
 	static const float S_M_BGM_VOLUME;
+	static const float S_M_MENU_KEYS_INPUT_DELAY;
 
 public:		// Static Constant
 	static const float S_M_MAX_ALERT;
@@ -55,6 +57,10 @@ public:		// Static Constant
 private:	// Variables
 	// Application/Game Life Cycle
 	E_APP_STATE m_appState;
+
+	// Menu
+	MenuManager_Spectre* m__menu;
+	float m_menuKeysInputTimer;
 
 	// Levels
 	Level* m__currentLevel;
@@ -120,6 +126,10 @@ protected:
 	void updateHackGame(double dt);
 	//init player and animations
 	void initPlayer(void);
+
+	// Menu
+	void initMenu(void);
+	void updateMenu(double dt);
 
 	// HUD
 	void initHUD(void);

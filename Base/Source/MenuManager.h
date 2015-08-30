@@ -5,16 +5,27 @@
 
 class MenuManager
 {
+public:
+	enum E_RETURN_STATE
+	{
+		RS_MENU = 0,
+		RS_GAME,
+		RS_EXIT,
+		NUM_RS,
+	};
+
 protected:
 	vector<Menu*> m_menuList;
 	Menu* m__currentMenu;
 	UIButton* m__currentButton;
+	int m_currentButton; // For controller
 
 public:
 	MenuManager(void);
 	~MenuManager(void);
 
-	virtual void Update(double dt, int mouseX, int mouseY, bool clickState) = 0;
+	void MouseUpdate(double dt, int mouseX, int mouseY);	// Update every frame
+	void KeysUpdate(double dt, bool dir);					// Update on input (Dir false = Up | Dir true = Down
 	void Clear();
 
 	// Addition of button or screen
@@ -22,7 +33,12 @@ public:
 	bool AddMenu(Menu* _menu); // Creation on the outside
 
 	// Assign current menu and button for init only
-	void AssignCurrent(Menu::E_MENU_TYPE menuType, UIButton::E_BUTTON_TYPE buttonType);
+	void AssignCurrent(Menu::E_MENU_TYPE menuType, UIButton::E_BUTTON_TYPE buttonType = static_cast<UIButton::E_BUTTON_TYPE>(-1));
+
+	// Response on click or enter
+	E_RETURN_STATE OnClick(int mouseX, int mouseY); // Mouse
+	E_RETURN_STATE OnEnter(); // Controller
+	virtual E_RETURN_STATE Response(UIButton::E_BUTTON_TYPE type) = 0;
 
 	/*
 	 * Getters

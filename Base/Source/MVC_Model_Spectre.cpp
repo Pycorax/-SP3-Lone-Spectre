@@ -6,9 +6,10 @@ const Vector2 MVC_Model_Spectre::S_M_MESSAGE_OFFSET(20.0f, 20.0f);
 const double MVC_Model_Spectre::S_M_LIGHTING_UPDATE_FREQUENCY = 0.5;
 const float MVC_Model_Spectre::S_M_BGM_VOLUME = 0.5f;
 const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
+const float MVC_Model_Spectre::S_M_MENU_KEYS_INPUT_DELAY = 0.2f;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
-	, m_appState(AS_MAIN_GAME)
+	, m_appState(AS_MENU)
 	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
@@ -22,6 +23,8 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__kKey(NULL)
 	, m_objective(NULL)
 	, m__bgm(NULL)
+	, m__menu(NULL)
+	, m_menuKeysInputTimer(0.f)
 {
 }
 
@@ -181,6 +184,64 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			break;
 		}
 		
+		// Menu
+		case AS_MENU:
+		{
+			if (m_bKeyPressed[LOOK_UP_KEY] && m_menuKeysInputTimer <= 0.f)
+			{
+				m__menu->KeysUpdate(dt, false);
+				m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
+			}
+			if (m_bKeyPressed[LOOK_DOWN_KEY] && m_menuKeysInputTimer <= 0.f)
+			{
+				m__menu->KeysUpdate(dt, true);
+				m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
+			}
+			if (m_bKeyPressed[INTERACT_ATTACK_1_KEY]) // Left mouse click
+			{
+				switch (m__menu->OnClick(m_mousePosX, m_viewHeight - m_mousePosY))
+				{
+				case MenuManager::RS_MENU:
+					{
+						m_appState = AS_MENU;
+					}
+					break;
+				case MenuManager::RS_GAME:
+					{
+						m_appState = AS_MAIN_GAME;
+					}
+					break;
+				case MenuManager::RS_EXIT:
+					{
+						m_running = false;
+					}
+					break;
+				}
+			}
+			if (m_bKeyPressed[GAME_ACCEPT_KEY]) // Enter press
+			{
+				switch (m__menu->OnEnter())
+				{
+				case MenuManager::RS_MENU:
+					{
+						m_appState = AS_MENU;
+					}
+					break;
+				case MenuManager::RS_GAME:
+					{
+						m_appState = AS_MAIN_GAME;
+					}
+					break;
+				case MenuManager::RS_EXIT:
+					{
+						m_running = false;
+					}
+					break;
+				}
+			}
+
+			break;
+		}
 	}
 
 	// Quitting the game
@@ -422,6 +483,9 @@ void MVC_Model_Spectre::Init(void)
 	// Load HUD
 	initHUD();
 
+	// Load menu
+	initMenu();
+
 	// Init the MessageManager
 	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x, 200.0f), S_M_MESSAGE_OFFSET);
 	m_messenger.AddMessages("Messages//Level1_Message.son");
@@ -445,6 +509,23 @@ void MVC_Model_Spectre::Init(void)
 	//m_enemyList.push_back(_enemy);
 
 	//ObjectiveCollect;
+}
+
+void MVC_Model_Spectre::initMenu(void)
+{
+	UIButton::InitMeshLists(meshList);
+	if (m__menu == NULL)
+	{
+		m__menu = new MenuManager_Spectre();
+	}
+	Menu* _newMenu = new Menu();
+	_newMenu->Init(Menu::MENU_MAIN); // Menu with no bg
+	_newMenu->AddButton(new UIButton(UIButton::BUTTON_START, GetMeshResource("BUTTON_START_OFF"), Vector2(m_viewWidth * 0.5f, m_viewHeight * 0.5f), Vector2(285, 60)));
+	_newMenu->AddButton(new UIButton(UIButton::BUTTON_EXIT, GetMeshResource("BUTTON_EXIT_OFF"), Vector2(m_viewWidth * 0.5f, m_viewHeight * 0.3f), Vector2(285, 60)));
+	m__menu->AddMenu(_newMenu);
+
+	// Must assign at least the starting menu if not menu will crash
+	m__menu->AssignCurrent(Menu::MENU_MAIN);
 }
 
 void MVC_Model_Spectre::initHUD(void)
@@ -917,8 +998,14 @@ void MVC_Model_Spectre::Update(double dt)
 			updateHackGame(dt);
 			break;
 		}
+		case AS_MENU:
+		{
+			updateMenu(dt);
+			break;
+		}
 	}
 }
+
 void MVC_Model_Spectre::Exit(void)
 {
 	clearCameraList();
@@ -1003,6 +1090,30 @@ void MVC_Model_Spectre::Exit(void)
 	}
 	
 	MVC_Model::Exit();
+}
+
+void MVC_Model_Spectre::updateMenu(double dt)
+{
+	if (m_menuKeysInputTimer > 0.f)
+	{
+		m_menuKeysInputTimer -= dt;
+	}
+	m__menu->MouseUpdate(dt, m_mousePosX, m_viewHeight - m_mousePosY);
+
+	// Add menu background for render
+	if (m__menu->GetCurrentMenu()->GetBackground() != NULL) // Background exists
+	{
+		m_renderList2D.push(m__menu->GetCurrentMenu()->GetBackground());
+	}
+	vector<UIButton*> buttonList = m__menu->GetCurrentMenu()->GetButtonList();
+	for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+	{
+		UIButton* _button = *buttonIter;
+		if (_button)
+		{
+			m_renderList2D.push(_button);
+		}
+	}
 }
 
 void MVC_Model_Spectre::updateLighting(double dt)

@@ -511,6 +511,43 @@
 		[Texture] K_Key
 	}
 	
+	# Menu buttons
+	{
+		[Name] BUTTON_START_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_START_ON
+	}
+	
+	{
+		[Name] BUTTON_START_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_START_OFF
+	}
+	
+	{
+		[Name] BUTTON_EXIT_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_EXIT_ON
+	}
+	
+	{
+		[Name] BUTTON_EXIT_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_EXIT_OFF
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad

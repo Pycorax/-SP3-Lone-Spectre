@@ -184,4 +184,25 @@
 		[Name] K_Key
 		[FilePath] Image//HUD//k_key.tga
 	}
+	
+	# Buttons
+	{
+		[Name] BUTTON_START_ON
+		[FilePath] Image//Menu//StartGame_On.tga
+	}
+	
+	{
+		[Name] BUTTON_START_OFF
+		[FilePath] Image//Menu//StartGame_Off.tga
+	}
+	
+	{
+		[Name] BUTTON_EXIT_ON
+		[FilePath] Image//Menu//Exit_On.tga
+	}
+	
+	{
+		[Name] BUTTON_EXIT_OFF
+		[FilePath] Image//Menu//Exit_Off.tga
+	}
 }

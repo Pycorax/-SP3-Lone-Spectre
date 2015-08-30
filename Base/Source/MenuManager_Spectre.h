@@ -9,7 +9,8 @@ public:
 	MenuManager_Spectre(void);
 	virtual ~MenuManager_Spectre(void);
 
-	virtual void Update(double dt, int mouseX, int mouseY, bool clickState);
+	// Response
+	virtual E_RETURN_STATE Response(UIButton::E_BUTTON_TYPE type);
 };
 
 #endif

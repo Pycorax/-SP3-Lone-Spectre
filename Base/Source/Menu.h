@@ -1,10 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <vector>
 #include "UIButton.h"
-
-using std::vector;
 
 class Menu 
 {
@@ -56,6 +53,7 @@ public:
 		MENU_NONE = 0,
 		MENU_MAIN,
 		MENU_LEVEL_SELECT,
+		MENU_INSTRUCTIONS,
 		MENU_OPTIONS,
 		MENU_HIGHSCORE,
 		MENU_EXIT,
