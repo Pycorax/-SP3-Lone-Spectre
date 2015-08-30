@@ -34,6 +34,8 @@ class SoundPlayer2D
 
 protected:	// Variables
 	ISound* m__musicController;
+	ISoundSource* m__soundSource;
+	ISoundEngine* m__parentEngine;
 
 public:		// Functions
 	void Play(bool loop);

@@ -6,7 +6,11 @@
 	[Name] SoundContainer
 	
 	{
-		[Name] BufferSound
-		[FilePath] Sounds//buffer_sound.mp3
+		[Name] EnterDive
+		[FilePath] Sounds//enter_spectre_dive.ogg
+	}
+	{
+		[Name] ExitDive
+		[FilePath] Sounds//exit_spectre_dive.ogg
 	}
 }

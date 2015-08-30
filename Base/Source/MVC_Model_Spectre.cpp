@@ -1,4 +1,5 @@
 #include "MVC_Model_Spectre.h"
+
 #include "SoundEngine.h"
 
 const Vector2 MVC_Model_Spectre::S_M_MESSAGE_OFFSET(20.0f, 20.0f);
@@ -128,9 +129,26 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				}
 			}
 
+			// Spectral Dive
 			if (m_bKeyPressed[INTERACT_SKILL_1_KEY] && m__player->Interact(Player::INTERACT_DIVE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DIVE) // Spectral Dive
 			{
+				if (m__player->GetState() == Player::PS_SPECTRAL_DIVE_UP 
+					|| 
+					m__player->GetState() == Player::PS_SPECTRAL_DIVE_DOWN 
+					|| 
+					m__player->GetState() == Player::PS_SPECTRAL_DIVE_LEFT 
+					|| 
+					m__player->GetState() == Player::PS_SPECTRAL_DIVE_RIGHT)
+				{
+					m__soundPlayer[SP_SKILL_DIVE_EXIT]->Play(false);
+				}
+				else
+				{
+					m__soundPlayer[SP_SKILL_DIVE_ENTER]->Play(false);
+				}
+
 				m__player->SetDive();
+
 				//if player currently not hosting
 				if (m__player->GetHosting() == false)
 				{
@@ -342,6 +360,10 @@ void MVC_Model_Spectre::Init(void)
 {
 	MVC_Model::Init();
 
+	// Init Sounds
+	m__soundPlayer[SP_SKILL_DIVE_ENTER] = SoundEngine::CreateSound2D(GetSoundResource("EnterDive"));
+	m__soundPlayer[SP_SKILL_DIVE_EXIT] = SoundEngine::CreateSound2D(GetSoundResource("ExitDive"));
+
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
@@ -391,10 +413,6 @@ void MVC_Model_Spectre::Init(void)
 	//m_enemyList.push_back(_enemy);
 
 	//ObjectiveCollect;
-
-	// TODO: Remove this. This is preventing a crash of sound engine
-	SoundPlayer2D* _snd = SoundEngine::CreateSound2D(0);
-	_snd->Play(true);
 }
 
 void MVC_Model_Spectre::initHUD(void)

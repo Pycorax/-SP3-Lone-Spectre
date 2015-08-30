@@ -13,6 +13,7 @@
 #include "Objective.h"
 #include "ObjectiveCollect.h"
 #include "HUD_Cooldown.h"
+#include "SoundPlayer2D.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -23,6 +24,14 @@ private:
 		TM_VIEWED,
 		NUM_TILE_MARKER
 	};
+
+	enum SOUND_PLAYER_TYPE
+	{
+		SP_SKILL_DIVE_ENTER,
+		SP_SKILL_DIVE_EXIT,
+		NUM_SOUND_PLAYER
+	};
+
 public:
 	enum E_APP_STATE
 	{
@@ -59,6 +68,9 @@ private:	// Variables
 	// Messaging System
 	MessageManager m_messenger;
 	vector<GameObject2D*> m_messageObjects;
+
+	// Sound System
+	SoundPlayer2D* m__soundPlayer[NUM_SOUND_PLAYER];			// Stores handles to sound players
 
 	/*
 	 * HUD
