@@ -187,12 +187,12 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		// Menu
 		case AS_MENU:
 		{
-			if (m_bKeyPressed[LOOK_UP_KEY] && m_menuKeysInputTimer <= 0.f)
+			if (m_bKeyPressed[MOVE_FORWARD_KEY] && m_menuKeysInputTimer <= 0.f)
 			{
 				m__menu->KeysUpdate(dt, false);
 				m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
 			}
-			if (m_bKeyPressed[LOOK_DOWN_KEY] && m_menuKeysInputTimer <= 0.f)
+			if (m_bKeyPressed[MOVE_BACKWARD_KEY] && m_menuKeysInputTimer <= 0.f)
 			{
 				m__menu->KeysUpdate(dt, true);
 				m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
