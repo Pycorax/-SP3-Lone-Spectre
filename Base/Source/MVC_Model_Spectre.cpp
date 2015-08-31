@@ -548,6 +548,8 @@ void MVC_Model_Spectre::Init(void)
 	m__soundPlayer[SP_OBJ_COMPLETE] = SoundEngine::CreateSound2D(GetSoundResource("Objective_Complete"));
 	m__soundPlayer[SP_OBJ_BOMB_PLANTING] = SoundEngine::CreateSound2D(GetSoundResource("Objective_BombPlant"));
 	m__soundPlayer[SP_OBJ_BOMB_DEFUSING] = SoundEngine::CreateSound2D(GetSoundResource("Objective_BombDefuse"));
+	m__soundPlayer[SP_OBJ_ASSASSINATE] = SoundEngine::CreateSound2D(GetSoundResource("Objective_Assassinate"));
+	m__soundPlayer[SP_DEATH] = SoundEngine::CreateSound2D(GetSoundResource("Death"));
 
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
@@ -789,6 +791,8 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		{
 			m_appState = AS_MENU;
 			m__menu->AssignCurrent(Menu::MENU_LOSE_LEVEL);
+			m__soundPlayer[SP_DEATH]->Play(false);
+			break;
 		}
 		
 		Vector2 mapTilePos = m__player->GetMapTilePos();

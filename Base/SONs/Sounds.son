@@ -45,7 +45,14 @@
 		[Name] Objective_BombPlant
 		[FilePath] Sounds//objective_bomb_plant.ogg
 	}
-	
+	{
+		[Name] Objective_Assassinate
+		[FilePath] Sounds//objective_assasinate.ogg
+	}
+	{
+		[Name] Death
+		[FilePath] Sounds//death.ogg
+	}
 	# BGM
 	{
 		[Name] Level0BGM
