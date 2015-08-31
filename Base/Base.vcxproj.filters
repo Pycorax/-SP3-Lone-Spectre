@@ -198,9 +198,6 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Enemy.cpp">
-      <Filter>Source Files\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SpectreHexGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -403,9 +400,6 @@
     </ClInclude>
     <ClInclude Include="Source\TreasureGoodie.h">
       <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Enemy.h">
-      <Filter>Header Files\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Source\SpectreHexGame.h">
       <Filter>Header Files</Filter>

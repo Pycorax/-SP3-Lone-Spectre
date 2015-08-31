@@ -381,28 +381,6 @@ Vector2 TileMap::posRoundingForLight(Vector2 pos, Vector2 dir)
 	return pos;
 }
 
-bool TileMap::mapGrid2D_TileIsBlocked(int xPos, int yPos) const
-{
-	Tile* _tile = GetTileAt(xPos, yPos);
-
-	if (_tile == NULL)
-	{
-		// Can't do anything if this tile doesn't exist
-		return false;
-	}
-	else
-	{
-		// Check if the tile is blocked
-		return Tile::S_IS_TILE_SOLID[_tile->GetType()];
-	}
-}
-
-void TileMap::mapGrid2D_GetMapSize(unsigned & width, unsigned & height) const
-{
-	width = m_map.at(0)->size();
-	height = m_map.size();
-}
-
 Tile* TileMap::GetTileAt(int xPos, int yPos) const
 {
 	if (xPos < 0 || yPos < 0 || yPos >= m_map.size() || xPos >= m_map.at(yPos)->size())

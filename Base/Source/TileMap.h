@@ -24,7 +24,7 @@ using std::istringstream;
 using std::cout;
 using std::endl;
 
-class TileMap : public MapGrid2D
+class TileMap
 {
 public:
 	static const int S_LIGHT_RANGE = 5;
@@ -88,12 +88,6 @@ private:
 	bool loadFile(const string &filePath, const vector<Mesh*>& meshList);
 	void calcLighting(int x, int y, vector<Vector2> shadowCasters);
 	Vector2 posRoundingForLight(Vector2 pos, Vector2 dir);				// Adds the dir to the pos and rounds up/down to the int based on positive or negative dir
-
-public:		// Abstract Functions
-	// Function to allow AINodeGrid to find out if the tile at the position provided can be passed through
-	virtual bool mapGrid2D_TileIsBlocked(int xPos, int yPos) const;
-	// Function to allow AINodeGrid to obtain the tile size of the grid map via reference
-	virtual void mapGrid2D_GetMapSize(unsigned& width, unsigned& height) const;
 };
 
 #endif

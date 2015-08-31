@@ -73,7 +73,7 @@ private:	// Variables
 	float m_pauseTimer;
 	
 	// Light timer
-	double lightUpdateTimer;
+	double m_lightUpdateTimer;
 
 	// Levels
 	Level* m__currentLevel;

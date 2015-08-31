@@ -29,7 +29,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_menuKeysInputTimer(0.f)
 	, m_pauseTimer(0.f)
 	, m_shadowMode(false)
-	, lightUpdateTimer(S_M_LIGHTING_UPDATE_FREQUENCY)
+	, m_lightUpdateTimer(S_M_LIGHTING_UPDATE_FREQUENCY)
 {
 }
 
@@ -394,6 +394,9 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	SecurityCamera::InitCamMeshList(meshList);
 	clearCameraList();
 	loadToList(m__currentLevel->GetTileMap());
+
+	// Ensure that lighting is updated in the first frame of the level
+	m_lightUpdateTimer = S_M_LIGHTING_UPDATE_FREQUENCY;
 	
 	// Setup camera view
 	for (vector<SecurityCamera*>::iterator it = m_cameraList.begin(); it != m_cameraList.end(); ++it)
@@ -1292,9 +1295,9 @@ void MVC_Model_Spectre::updateMenu(double dt)
 
 void MVC_Model_Spectre::updateLighting(double dt)
 {
-	lightUpdateTimer += dt;
+	m_lightUpdateTimer += dt;
 
-	if (lightUpdateTimer >= S_M_LIGHTING_UPDATE_FREQUENCY)
+	if (m_lightUpdateTimer >= S_M_LIGHTING_UPDATE_FREQUENCY)
 	{
 		vector<Vector2> shadowCasters;
 		// Give enemies a shadow
@@ -1305,7 +1308,7 @@ void MVC_Model_Spectre::updateLighting(double dt)
 		//shadowCasters.push_back(m__player->GetMapTilePos());
 		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
 
-		lightUpdateTimer = 0.0;
+		m_lightUpdateTimer = 0.0;
 	}
 }
 
