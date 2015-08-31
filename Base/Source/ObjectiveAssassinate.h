@@ -7,7 +7,8 @@
 class ObjectiveAssassinate : public Objective
 {
 private: //Variables
-	bool assassinated;
+	bool m_tryingToAssassinate;			//to see if key is pressed
+	bool m_assassinated;					// if the guy died
 
 	//NPC Pointer
 	NPC* m__target;
@@ -16,12 +17,14 @@ public: //Functions
 	ObjectiveAssassinate();
 	virtual ~ObjectiveAssassinate();
 
-	void Init();
+	void Init(NPC* _target);
 	void Update(double dt);
 	void Activate();
 	bool Active();
 	void Reset();
 	bool IsCompleted();
+
+	NPC* GetTarget(void)const;
 };
 
 #endif

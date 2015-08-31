@@ -1,7 +1,8 @@
 #include "ObjectiveAssassinate.h"
 
 ObjectiveAssassinate::ObjectiveAssassinate(void) :
-assassinated(false)
+m_assassinated(false),
+m_tryingToAssassinate(false)
 {
 
 }
@@ -11,32 +12,40 @@ ObjectiveAssassinate::~ObjectiveAssassinate(void)
 
 }
 
-void ObjectiveAssassinate::Init()
+void ObjectiveAssassinate::Init(NPC* _target)
 {
-
+	m__target = _target;
 }
 
 void ObjectiveAssassinate::Update(double dt)
 {
-
+	if (m_tryingToAssassinate)
+	{
+		m_assassinated = true;
+	}
 }
 
 bool ObjectiveAssassinate::IsCompleted()
 {
-	return assassinated;
+	return m_assassinated;
 }
 
 void ObjectiveAssassinate::Activate() //If the target has been killed
 {
-	assassinated = true;
+	m_tryingToAssassinate = true;
 }
 
 void ObjectiveAssassinate::Reset()
 {
-	assassinated = false;
+	m_assassinated = false;
 }
 
 bool ObjectiveAssassinate::Active()
 {
-	return assassinated;
+	return m_tryingToAssassinate;
+}
+
+NPC* ObjectiveAssassinate::GetTarget(void)const
+{
+	return m__target;
 }

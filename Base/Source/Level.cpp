@@ -224,6 +224,10 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 									{
 										dynamic_cast<ObjectiveHostage* >(m__objective)->Init(_enemy);
 									}
+									else if (enemyType == NPC::NT_TARGET)
+									{
+										dynamic_cast<ObjectiveAssassinate* >(m__objective)->Init(_enemy);
+									}
 									else
 									{
 										_enemy->SetNPCType(static_cast<NPC::E_NPC_TYPE>(enemyType));
