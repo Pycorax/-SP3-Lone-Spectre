@@ -216,4 +216,15 @@
 		[Name] BUTTON_EXIT_OFF
 		[FilePath] Image//Menu//Exit_Off.tga
 	}
+	
+	# Menu Backgrounds
+	{
+		[Name] MainMenuBG
+		[FilePath] Image//Menu//main_menu_bg.tga
+	}
+	
+	{
+		[Name] GenericMenuBG
+		[FilePath] Image//Menu//generic_menu_bg.tga
+	}
 }

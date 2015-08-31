@@ -566,6 +566,24 @@
 		[Texture] BUTTON_EXIT_OFF
 	}
 	
+	# Menu Backgrounds
+	{
+		[Name] MainMenuBG
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] MainMenuBG
+	}
+	{
+		[Name] GenericMenuBG
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] GenericMenuBG
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad
