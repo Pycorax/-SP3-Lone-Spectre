@@ -63,6 +63,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 
 			if (m_bKeyPressed[INTERACT_GENERIC_KEY] && m_shadowMode == false)
 			{
+				//This is to go to the next level
 				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE
 					&& m__currentLevel->GetObjectiveComplete() == true)
 				{
@@ -72,8 +73,9 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					m__menu->AssignCurrent(Menu::MENU_WIN_LEVEL);
 					
 				}
-				if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE)
-					|| (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
+
+				//This is to trigger the activate objective
+				if ((m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
 					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
 					|| (m__player->Interact(Player::INTERACT_HOSTAGE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HOSTAGE))
@@ -82,17 +84,17 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					{
 						m__currentLevel->ActivateObjective();
 					}
-
 				}
 				//when setting / defusing the bomb
+
+				//This is to check the if the player holds the key down for the action to continue
 				if ((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
 					//GetActiveObjective - means objective is updating
 					if (m__currentLevel->GetActiveObjective())
 					{
-						m__currentLevel->UpdateObjective(dt);
-						
+						m__currentLevel->UpdateObjective(dt);		
 					}
 				}
 				
@@ -838,7 +840,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		m_renderList2D.push(m__defuseBomb);
 		m_renderList2D.push(m__defuseBomb->GetDisplayCover());
 	}
-	if (m_bKeyPressed[INTERACT_GENERIC_KEY] && m_shadowMode == false && (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+	if (m_shadowMode == false && (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 	{
 		// Plant Bomb
 		m_renderList2D.push(m__plantBomb);

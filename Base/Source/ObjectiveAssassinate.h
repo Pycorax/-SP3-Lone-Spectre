@@ -2,11 +2,16 @@
 #define OBJECTIVE_ASSASSINATE_H
 
 #include "Objective.h"
+#include "NPC.h"
 
 class ObjectiveAssassinate : public Objective
 {
 private: //Variables
 	bool assassinated;
+
+	//NPC Pointer
+	NPC* m__target;
+
 public: //Functions
 	ObjectiveAssassinate();
 	virtual ~ObjectiveAssassinate();

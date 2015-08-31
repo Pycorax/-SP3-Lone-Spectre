@@ -12,6 +12,7 @@
 #include "MessageManager.h"
 #include "Objective.h"
 #include "ObjectiveCollect.h"
+#include "ObjectiveAssassinate.h"
 #include "ObjectiveDefuse.h"
 #include "ObjectiveSetBomb.h"
 #include "ObjectiveHostage.h"
