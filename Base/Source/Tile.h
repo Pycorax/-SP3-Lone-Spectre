@@ -58,7 +58,6 @@ public:
 	~Tile(void);
 
 	void AddViewer(Viewer* _viewer);
-	void AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles);
 	void RemoveViewer(Viewer* _viewer);
 	void ResetViewers(void);
 	bool IsViewed(void);

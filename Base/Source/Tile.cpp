@@ -70,28 +70,6 @@ void Tile::AddViewer(Viewer * _viewer)
 	m__viewerList.push_back(_viewer);
 }
 
-void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
-{
-	Viewer* _view;
-	float distViewY = 1;
-	float distViewX = 1;
-	// set the maximum of the horizontal view
-	if(LookDir.x != 0)
-	{
-		distViewY += (ViewDist_NumOfTiles * 2); 
-		distViewX = ViewDist_NumOfTiles;
-	}
-	else if(LookDir.y != 0)
-	{
-		distViewX += (ViewDist_NumOfTiles * 2);
-		distViewY = ViewDist_NumOfTiles;
-	}
-	//set the direction and view distance of viewer's View
-	_view->InitViewer(distViewX ,distViewY);
-	//add into list
-	m__viewerList.push_back(_view);
-}
-
 void Tile::RemoveViewer(Viewer* _viewer)
 {
 	for (std::vector<Viewer*>::iterator it = m__viewerList.begin(); it != m__viewerList.end(); ++it)
