@@ -67,6 +67,7 @@ private:
 	Animation* m__animationList[NUM_ENEMY_ACTION];
 	float m_animTime;
 
+	Character* _player;
 public:
 	Enemy(void);
 	virtual ~Enemy(void);
@@ -93,6 +94,7 @@ public:
 	void ChangeAnimation(double dt);
 
 	//if given location is in view, use this to attack
+	void SetPlayerPtr(Character* _player);
 	bool AttackingInView(Character* _go);
 protected:
 	// Function to allow PathFinder to obtain the tile position of the child via reference

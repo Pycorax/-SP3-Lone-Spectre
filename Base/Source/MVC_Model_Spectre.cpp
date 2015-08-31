@@ -350,7 +350,7 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 		_enemy->InitPathFinder(m__currentLevel->GetTileMap());
 		Vector2 mapPos = m__player->GetMapTilePos();
 		_enemy->SetTarget(mapPos.x, mapPos.y);
-
+		_enemy->SetPlayerPtr(m__player);
 		m_enemyList.push_back(_enemy);
 	}
 
@@ -500,24 +500,6 @@ void MVC_Model_Spectre::Init(void)
 	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x, 200.0f), S_M_MESSAGE_OFFSET);
 	m_messenger.AddMessages("Messages//Level1_Message.son");
 
-	////Enemy
-	//Enemy* _enemy = new Enemy;
-	////_enemy->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, m__currentLevel->GetTileMap()->GetScrollOffset(),tileSize);
-	//_enemy->SetMapTilePosition(Vector2(4,5),Vector2(0, 32), tileSize);
-	//_enemy->Init(_enemy->GetMapPos() , GetMeshResource("Enemy_ANIMATION"));
-	//_enemy->SetScale(Vector2(tileSize, tileSize));
-	//_enemy->initPathFinder(m__currentLevel->GetTileMap());
-	//_enemy->SetTarget(m__player->GetMapPos(), tileSize);
-	////patrol points per enemy
-	//_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0, -5));
-	//_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(0,  2));
-	//_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7,  2));
-	//_enemy->AddPatrolPoint(_enemy->GetMapTilePos() + Vector2(7, -5));
-	//// Set up enemy's view
-	//_enemy->InitViewer(1, 2);
-	////_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
-	//m_enemyList.push_back(_enemy);
-
 	//ObjectiveCollect;
 }
 
@@ -609,7 +591,6 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 
 	// Player inside viewed tile
 	static const double S_ALERT_SPEED = 4.0;
-	static const double S_ALERT_HOSTILE = 4.0f;
 	Tile* _tile = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
 	if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
 	{
@@ -625,38 +606,32 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		Vector2 mapTilePos = m__player->GetMapTilePos();
 		_enemy->SetTarget(mapTilePos.x, mapTilePos.y);
 		_enemy->SetAlertLevel(m_alertLevel);
-
-		_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
-
+		if(_enemy->GetAlertLevel() >= 1)
+		{
+			//if player is within enemy distance
+			if( (_enemy->GetMapTilePos() - _tile->GetMapPos()).LengthSquared() >= m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize() * 3)
+			{
+				_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
+			}
+			else
+			{
+				_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
+			}
+		}
+		//_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
+		
 		//TODO: =========== REVAMP THE ENEMY ALGORYTHM ==============
-
-		////if alert level increase and within the last seen range
-		//if(_enemy->GetAlertLevel() >= 1 && 
-		//	(_enemy->GetMapTilePos() - _tile->GetMapTilePos()).LengthSquared() < (m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize() )* 2 )
-		//{
-		//	//go to the last seen location
-		//	if(_tile->IsViewed() )
-		//	{
-		//	}
-		//	//if player still sceen
-		//	if(_tile->IsViewed())
-		//	{
-		//		//if close enough
-		//		if ((_enemy->GetMapTilePos() - _tile->GetMapTilePos()).LengthSquared() < (m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize()))
-		//		{
-		//			//update enemy to attack player if alert level reach 4
-		//			if (_enemy->GetAlertLevel() >= S_ALERT_HOSTILE)
-		//			{
-		//				_enemy->AttackingInView(m__player);
-		//			}
-		//		}
-		//	}
-		//	else // if cannot find player - go to scan mode : check surroundings
-		//	{
-		//		_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
-		//	}
-
-		//}
+		/*
+		*	check if enemy has view of player 
+		*			if alerted 
+		*				if(alert level above 4)
+		*					TRUE : Attack player
+		*			else if
+		*				Within alerted range [a certain distance where player triggered the alert]
+		*				Enemy - CHASE MODE
+		*			if cannot find 
+		*						Enemy - SCAN MODE [ will auto go back patrol after]
+		*/
 	}
 	if (m__player->GetHealth() <= 0)
 	{

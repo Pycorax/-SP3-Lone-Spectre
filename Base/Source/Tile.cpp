@@ -85,14 +85,6 @@ void Tile::AddViewer(Vector2 LookDir, int ViewDist_NumOfTiles)
 	{
 		distViewX += (ViewDist_NumOfTiles * 2);
 		distViewY = ViewDist_NumOfTiles;
-		/*		**NOTE: if facing up [m_lookDir == (0,1) ]**
-		*
-		*		| | | | |  < distViewX
-		*		  | | |
-		*			|
-		*			^
-		*		distViewY
-		*/
 	}
 	//set the direction and view distance of viewer's View
 	_view->InitViewer(distViewX ,distViewY);

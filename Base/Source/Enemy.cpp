@@ -128,33 +128,6 @@ void Enemy::Update(double dt, TileMap* _map)
 		case ES_CHASE:
 		{
 			////Make enemy chase after the hero's current position with path-finding
-			//m_bAlerted = true;
-			//Vector2 nextTarget;
-			//UpdatePath(_map->GetTileSize());
-			//vector<AINode*> path = GetPath();
-			//if (path.size() > 0)
-			//{
-			//	nextTarget.x = path[m_pathPointCounter]->m_gridPosX;
-			//	nextTarget.y = path[m_pathPointCounter]->m_gridPosY;
-			//}
-			//if (MoveTo(nextTarget, _map, dt));
-			//{
-			//	if (path.size() == m_pathPointCounter) // if patrol counter reached the last one
-			//	{
-			//		m_pathPointCounter = 0; // reset back to 0
-			//	}
-			//	else
-			//	{
-			//		m_pathPointCounter += 1; // move on to next point
-			//	}
-			//}
-			//if (m_bAlerted)
-			//{
-			//	if (m_alertLevel < 3)
-			//	{
-			//		m_alertLevel += dt;
-			//	}
-			//}
 			UpdatePath();
 			vector<AINode*> chasePath = GetPath();
 
@@ -167,9 +140,14 @@ void Enemy::Update(double dt, TileMap* _map)
 
 				}
 			}
+			else
+			{
+				m_enemyState = ES_SCAN;
+			}
 		}
 	case ES_ATTACK:
 		{
+			AttackingInView(_player);
 			//if alert level go below 2 , go back to patroling
 			if(m_alertLevel < 2)
 			{
@@ -308,7 +286,7 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 	static const float S_MOVE_SPEED = 60.0f;
 
 	//if standing on the tile
-	if(EndPos == GetMapTilePos() )
+	if(EndPos == GetMapTilePos())
 	{
 		return true;
 	}
@@ -344,24 +322,24 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 	}
 
 	//checking if tile reached 
-	//checking left
-	if(m_lookDir.x < 0 && EndPos == GetMapTilePos() + Vector2(1,0) )
+	//checking left				if reached tile										if collided
+	if(m_lookDir.x < 0 && (EndPos == GetMapTilePos() + Vector2(1,0) || _map->CheckCollision(GetMapTilePos() + Vector2(1,0))) )
 	{
 		return true;
 	}
-	//checking right
-	else if(m_lookDir.x > 0 && EndPos == GetMapTilePos() - Vector2(1,0))
+	//checking right				if reached tile										if collided
+	else if(m_lookDir.x > 0 && (EndPos == GetMapTilePos() - Vector2(1,0) || _map->CheckCollision(GetMapTilePos() - Vector2(1,0))) )
 	{
 		return true;
 	}
-	//check down
-	else if(m_lookDir.y < 0 && EndPos == GetMapTilePos() + Vector2(0,1))
+	//check down				if reached tile										if collided
+	else if(m_lookDir.y < 0 && (EndPos == GetMapTilePos() + Vector2(0,1) || _map->CheckCollision(GetMapTilePos() + Vector2(0,1))) )
 	{
 		s_LeftRightMove = true;
 		return true;
 	}
-	//checking up
-	else if(m_lookDir.y > 0 && EndPos == GetMapTilePos() - Vector2(0,1))
+	//checking up				if reached tile										if collided
+	else if(m_lookDir.y > 0 && (EndPos == GetMapTilePos() - Vector2(0,1) || _map->CheckCollision(GetMapTilePos() - Vector2(0,1))) )
 	{
 		s_LeftRightMove = true;
 		return true;
@@ -389,8 +367,18 @@ int Enemy::GetAlertLevel(void)
 
 void Enemy::SpottedTarget(Vector2 pos, float &alertLevel, double dt)
 {
-	m_bAlerted = true;
-	alertLevel += dt;
+	if(m_enemyState != ES_KNOCKOUT)
+	{
+		static const double S_ALERT_HOSTILE = 4.0f;
+		m_bAlerted = true;
+		alertLevel += dt;
+
+		//if alert level is high enough
+		if(m_alertLevel >= S_ALERT_HOSTILE)
+		{
+			m_enemyState = ES_ATTACK;
+		}
+	}
 }
 
 void Enemy::pathFinder_getTilePosition(unsigned& tileXPos, unsigned& tileYPos) const
