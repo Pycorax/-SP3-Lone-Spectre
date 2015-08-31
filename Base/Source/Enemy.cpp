@@ -11,7 +11,6 @@ Enemy::Enemy(void)
 	, m_moveTime(0)
 	, m_checkAround(0)
 	, m_AttackCountdown(0)
-	, m_needRetrace(false)
 	, m_ViewingTimer(0)
 	
 {
@@ -97,8 +96,8 @@ void Enemy::Update(double dt, TileMap* _map)
 	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
 	{
 		m_enemyState = ES_KNOCKOUT;
-		m_needRetrace = true;
 	}
+
 	switch (m_enemyState)
 	{
 		case ES_PATROL: //TL;DR : Walking to specified points
@@ -131,12 +130,42 @@ void Enemy::Update(double dt, TileMap* _map)
 		}
 	case ES_GOSTAN:
 		{
-			//TODO: the reverse code here
+			// If stack is empty, means we finally reached back
+			if (m_possessedTourStops.size() == 0)
+			{
+				// Reached back the hijacked position
+				m_enemyState = ES_PATROL;
+
+				// Recovered from the previous possession by gostaning
+				m_wasPossessed = false;
+			}
+			else
+			{
+				// Check if finished moving to the top position
+				if (MoveTo(m_possessedTourStops.top(), _map, dt))
+				{
+					std::cout << m_possessedTourStops.top() << std::endl;
+					// If reached, then remove the top so that the next time it checks the top to move to, it is the next position
+					m_possessedTourStops.pop();
+
+				}
+			}
 			break;
 		}
 	case ES_POSSESED:
 		{
-			//cant do anything cause possessed...
+			// Remember that I was possesed so that I can know to gostan later 
+			m_wasPossessed = true;
+
+			// Store the tour route
+			// -- Calculate the current tile position
+			Vector2 tilePos = GetMapTilePos();
+
+			// Only store this tile position if the previous was not the same or if there was no previous
+			if ((m_possessedTourStops.size() > 0 && m_possessedTourStops.top() != tilePos) || m_possessedTourStops.size() == 0)
+			{
+				m_possessedTourStops.push(tilePos);
+			}
 			break;
 		}
 	case ES_SCAN:
@@ -161,18 +190,16 @@ void Enemy::Update(double dt, TileMap* _map)
 			}
 			else //timing is over
 			{
-				if(!m_needRetrace) // if no need to trace back
+				if(m_wasPossessed) // if no need to trace back
+				{
+					//retracing steps back
+					m_enemyState = ES_GOSTAN;
+				}
+				else
 				{
 					// contnue back to patrol
 					m_checkAround = 0;
 					m_enemyState = ES_PATROL;
-					m_needRetrace = true;
-				}
-				else
-				{
-					//retracing steps back
-					m_needRetrace = false;
-					m_enemyState = ES_GOSTAN;
 				}
 			}
 			m_checkAround += dt;

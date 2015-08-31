@@ -1,13 +1,18 @@
 #ifndef ENEMY_CLASS_H
 #define ENEMY_CLASS_H
 
+// STL Includes
+#include <stack>
+
+// Other Includes
 #include "NPC.h"
-#include <vector>
 #include "TileMap.h"
 #include "Viewer.h"
 #include "PathFinder.h"
 #include "SpriteAnimation.h"
 #include "MVC_Model.h"
+
+using std::stack;
 
 class Enemy : public Character, public Viewer
 {
@@ -50,7 +55,6 @@ private:
 	Vector2 m_oldPos;
 
 	int m_alertLevel;
-	bool m_needRetrace;
 	bool m_bPossesion;
 	bool m_bMoving;
 
@@ -75,6 +79,10 @@ private:
 	//sprite animation vector
 	Animation* m__animationList[NUM_ENEMY_ACTION];
 	float m_animTime;
+
+	// For Gostan Mode
+	bool m_wasPossessed;					// Stores if this enemy had been possessed. To be toggled false after gostan finished
+	stack<Vector2> m_possessedTourStops;	// vector of tile positions that the enemy has went to while being possessed
 
 	Character* _player;
 public:
