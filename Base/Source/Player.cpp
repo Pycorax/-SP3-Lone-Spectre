@@ -349,11 +349,11 @@ void Player::Update(double dt, TileMap* _map)
 
 }
 
-void Player::SetHostPTR(Enemy* _enemy)
+void Player::SetHostPTR(NPC* _enemy)
 {
 	m_hosting = true;
 	//set enemy ptr to being possed
-	_enemy->ForceSetEnemyState(Enemy::ES_POSSESED);
+	_enemy->ForceSetEnemyState(NPC::ES_POSSESED);
 	//give player ptr to become that
 	m__host = _enemy;
 	//set the host to be being possed

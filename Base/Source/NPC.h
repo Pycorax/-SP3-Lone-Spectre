@@ -15,7 +15,7 @@
 
 using std::stack;
 
-class Enemy : public Character, public Viewer
+class NPC : public Character, public Viewer
 {
 public:
 	enum E_NPC_TYPE
@@ -90,8 +90,8 @@ private:
 
 	Character* _player;
 public:
-	Enemy(void);
-	virtual ~Enemy(void);
+	NPC(void);
+	virtual ~NPC(void);
 	void Init(Vector2 pos, Mesh* _mesh);
 	void Update(double dt, TileMap* _map);
 	

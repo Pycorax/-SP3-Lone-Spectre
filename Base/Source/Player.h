@@ -4,7 +4,7 @@
 #include "CChar.h"
 #include "TileMap.h"
 #include "GameObject2D.h"
-#include "Enemy.h"
+#include "NPC.h"
 #include "Tile.h"
 #include "SpriteAnimation.h"
 
@@ -116,7 +116,7 @@ class Player : public Character
 		//spectral host
 		bool m_hosting;
 		float m_hostingTimeLimit;
-		Enemy* m__host;
+		NPC* m__host;
 
 		Tile* m__tile;
 		
@@ -135,7 +135,7 @@ class Player : public Character
 		void AddAnimation(Animation* _anim, E_PLAYER_STATE playerState);
 		void Update(double dt, TileMap* _map);
 
-		void SetHostPTR(Enemy* _enemy);
+		void SetHostPTR(NPC* _enemy);
 		void SetMove(Vector2 dir);
 		void SetDive(void);
 		void SetJump(void);

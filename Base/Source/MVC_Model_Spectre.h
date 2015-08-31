@@ -7,7 +7,7 @@
 #include "Collider2D.h"
 #include "SpectreHexGame.h"
 #include "PhysicalObject.h"
-#include "Enemy.h"
+#include "NPC.h"
 #include "SecurityCamera.h"
 #include "MessageManager.h"
 #include "Objective.h"
@@ -78,7 +78,7 @@ private:	// Variables
 
 	// Characters
 	Player* m__player;
-	vector<Enemy*> m_enemyList;
+	vector<NPC*> m_enemyList;
 	bool m_shadowMode;
 
 	// Messaging System

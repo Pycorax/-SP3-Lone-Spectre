@@ -2,7 +2,7 @@
 #define LEVEL_H
 
 #include "TileMap.h"
-#include "Enemy.h"
+#include "NPC.h"
 #include "ObjectiveAssassinate.h"
 #include "ObjectiveCollect.h"
 #include "ObjectiveDefuse.h"
@@ -39,7 +39,7 @@ private:
 	LEVEL_MISSION_TYPE m_missionType;	// Stores the type of mission that this level will have
 
 	// List of enemies
-	vector<Enemy*> m_enemyList;			// A list of enemy templates for this level
+	vector<NPC*> m_enemyList;			// A list of enemy templates for this level
 
 	// Level Score
 	int m_score;						// Stores the score of this level
@@ -69,7 +69,7 @@ public:
 	string GetBGMName(void) const;
 
 	TileMap* GetTileMap();
-	vector<Enemy*> GetEnemyList(void);
+	vector<NPC*> GetEnemyList(void);
 };
 
 #endif

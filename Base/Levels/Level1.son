@@ -20,6 +20,7 @@
 		{
 			[Name] Enemy1
 			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
 			# based on tile position
 			[SpawnTilePosition] 2.0f, 2.0f
 			[ViewRange] 1.0f, 2.0f

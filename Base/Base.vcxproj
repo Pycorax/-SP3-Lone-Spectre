@@ -17,7 +17,7 @@
     <ClCompile Include="Source\CChar.cpp" />
     <ClCompile Include="Source\Collider2D.cpp" />
     <ClCompile Include="Source\DepthFBO.cpp" />
-    <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\GameObject2D.cpp" />
     <ClCompile Include="Source\GoodieObject.cpp" />
     <ClCompile Include="Source\GoodieObjectFactory.cpp" />
@@ -37,7 +37,6 @@
     <ClCompile Include="Source\MVC_Controller.cpp" />
     <ClCompile Include="Source\MVC_Model_3D.cpp" />
     <ClCompile Include="Source\MVC_Model_Spectre.cpp" />
-    <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\Objective.cpp" />
     <ClCompile Include="Source\ObjectiveAssassinate.cpp" />
     <ClCompile Include="Source\ObjectiveCollect.cpp" />
@@ -82,7 +81,7 @@
     <ClInclude Include="Source\Collider2D.h" />
     <ClInclude Include="Source\DepthFBO.h" />
     <ClInclude Include="Source\Direction.h" />
-    <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\Fog.h" />
     <ClInclude Include="Source\GameObject2D.h" />
     <ClInclude Include="Source\GoodieObject.h" />
@@ -104,7 +103,6 @@
     <ClInclude Include="Source\MVC_Controller.h" />
     <ClInclude Include="Source\MVC_Model_3D.h" />
     <ClInclude Include="Source\MVC_Model_Spectre.h" />
-    <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\Objective.h" />
     <ClInclude Include="Source\ObjectiveAssassinate.h" />
     <ClInclude Include="Source\ObjectiveCollect.h" />

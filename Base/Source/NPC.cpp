@@ -1,9 +1,10 @@
-#include "Enemy.h"
+#include "NPC.h"
 #include "Direction.h"
 #include "ViewerUpdater.h"
 
-Enemy::Enemy(void)
-	:m_alertLevel(0)
+NPC::NPC(void)
+	: m_npcType(NT_ENEMY)
+	, m_alertLevel(0)
 	, m_enemyState(ES_PATROL)
 	, m_bReachPos(false)
 	, m_pathPointCounter(0)
@@ -20,11 +21,11 @@ Enemy::Enemy(void)
 	}
 }
 
-Enemy::~Enemy(void)
+NPC::~NPC(void)
 {
 }
 
-void Enemy::Init(Vector2 pos, Mesh* _mesh)
+void NPC::Init(Vector2 pos, Mesh* _mesh)
 {
 	m_oldPos = pos;
 	SetMesh(_mesh );
@@ -37,56 +38,58 @@ void Enemy::Init(Vector2 pos, Mesh* _mesh)
 	//Idle South
 	_a = new Animation();
 	_a->Set(1, 1, 0, 0.f);
-	AddAnimation(_a, Enemy::EA_IDLE_DOWN);
+	AddAnimation(_a, NPC::EA_IDLE_DOWN);
 
 	//Idle East
 	_a = new Animation();
 	_a->Set(4, 4, 0, 0.f);
-	AddAnimation(_a, Enemy::EA_IDLE_RIGHT);
+	AddAnimation(_a, NPC::EA_IDLE_RIGHT);
 
 	//Idle East
 	_a = new Animation();
 	_a->Set(7, 7, 0, 0.f);
-	AddAnimation(_a, Enemy::EA_IDLE_LEFT);
+	AddAnimation(_a, NPC::EA_IDLE_LEFT);
 
 	//Idle North
 	_a = new Animation();
 	_a->Set(10, 10, 0, 0.f);
-	AddAnimation(_a, Enemy::EA_IDLE_UP);
+	AddAnimation(_a, NPC::EA_IDLE_UP);
 
 	//Walk South
 	_a = new Animation();
 	_a->Set(0, 2, 0, 0.4f);
-	AddAnimation(_a, Enemy::EA_WALK_DOWN);
+	AddAnimation(_a, NPC::EA_WALK_DOWN);
 
 	//Walk East
 	_a = new Animation();
 	_a->Set(3, 5, 0, 0.4f);
-	AddAnimation(_a, Enemy::EA_WALK_RIGHT);
+	AddAnimation(_a, NPC::EA_WALK_RIGHT);
 
 	//Walk East
 	_a = new Animation();
 	_a->Set(6, 8, 0, 0.4f);
-	AddAnimation(_a, Enemy::EA_WALK_LEFT);
+	AddAnimation(_a, NPC::EA_WALK_LEFT);
 
 	//Walk North
 	_a = new Animation();
 	_a->Set(9, 11, 0, 0.4f);
-	AddAnimation(_a, Enemy::EA_WALK_UP);
+	AddAnimation(_a, NPC::EA_WALK_UP);
 }
 
-void Enemy::SetPossesion(bool state)
+void NPC::SetPossesion(bool state)
 {
 	m_bPossesion = state;
 }
 
 static const double S_ALERT_HOSTILE = 4.0f;
-void Enemy::Update(double dt, TileMap* _map)
+void NPC::Update(double dt, TileMap* _map)
 {
+	static const int S_MIN_VIEW_DISTANCE = 1;
+
 	Character::Update();	
 	
 	//update view distance according to alert level
-	InitViewer(1, m_alertLevel + 1);
+	InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + S_MIN_VIEW_DISTANCE);
 	
 	// Update FOV
 	ClearViewBox(this, _map);
@@ -233,7 +236,7 @@ void Enemy::Update(double dt, TileMap* _map)
 	SetMapPosition(GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
 }
 
-bool Enemy::AttackingInView(Character* _go)
+bool NPC::AttackingInView(Character* _go)
 {
 	//attacked player - target character
 	if(_go->GetHealth() > 0 )
@@ -244,17 +247,27 @@ bool Enemy::AttackingInView(Character* _go)
 	return false;
 }
 
-void Enemy::SetPlayerPtr(Character* _ptr)
+void NPC::SetNPCType(E_NPC_TYPE type)
+{
+	m_npcType = type;
+}
+
+NPC::E_NPC_TYPE NPC::GetNPCType(void)
+{
+	return m_npcType;
+}
+
+void NPC::SetPlayerPtr(Character* _ptr)
 {
 	_player = _ptr;
 }
 
-void Enemy::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
+void NPC::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
 {
 	m__animationList[enemyState] = _anim;
 }
 
-void Enemy::ChangeAnimation(double dt)
+void NPC::ChangeAnimation(double dt)
 {
 	//idle animation
 	if (m_enemyState == ES_POSSESED || m_enemyState == ES_SCAN || m_enemyState == ES_SPOTTED 
@@ -305,19 +318,19 @@ void Enemy::ChangeAnimation(double dt)
 		_sa->Update(dt);
 	}
 }
-void Enemy::ForceSetEnemyState(E_ENEMY_STATE enemyState)
+void NPC::ForceSetEnemyState(E_ENEMY_STATE enemyState)
 {
 	m_enemyState = enemyState;
 }
 
-void Enemy::AddPatrolPoint(Vector2 pos)
+void NPC::AddPatrolPoint(Vector2 pos)
 {
 	m_pathWay.push_back(pos);
 }
 
 static bool s_LeftRightMove = false; // if going diagonal direction, move left/right then move up/down
 //return true if reached 
-bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
+bool NPC::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
 	static const float S_MOVE_SPEED = 60.0f;
 
@@ -391,18 +404,18 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 }
 
 
-void Enemy::SetAlertLevel(int alertlevel)
+void NPC::SetAlertLevel(int alertlevel)
 {
 	this->m_alertLevel = alertlevel;
 }
 
-int Enemy::GetAlertLevel(void)
+int NPC::GetAlertLevel(void)
 {
 	return this->m_alertLevel;
 }
 
 //if player is in view
-void Enemy::SpottedTarget(Vector2 pos, float &alertLevel, double dt)
+void NPC::SpottedTarget(Vector2 pos, float &alertLevel, double dt)
 {
 	//if current enemy is has not been possessed recently
 	if(m_enemyState != ES_KNOCKOUT)
@@ -425,12 +438,12 @@ void Enemy::SpottedTarget(Vector2 pos, float &alertLevel, double dt)
 	}
 }
 
-Vector2 Enemy::viewer_GetTilePos(void)
+Vector2 NPC::viewer_GetTilePos(void)
 {
 	return GetMapTilePos();		
 }
 
-Vector2 Enemy::viewer_GetDirection(void)
+Vector2 NPC::viewer_GetDirection(void)
 {
 	return m_lookDir;
 }

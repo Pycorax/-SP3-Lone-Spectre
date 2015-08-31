@@ -173,9 +173,9 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				//if player currently not hosting
 				if (m__player->GetHosting() == false)
 				{
-					for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+					for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 					{
-						Enemy* _enemy = *enemyIter;
+						NPC* _enemy = *enemyIter;
 						//if player dives within a tile distance from player
 						if ((m__player->GetMapPos() - _enemy->GetMapPos()).LengthSquared() <= m__currentLevel->GetTileMap()->GetTileSize() *  m__currentLevel->GetTileMap()->GetTileSize())
 						{
@@ -354,10 +354,10 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
 	// Initialize the enemies
-	vector<Enemy*> enemies = m__currentLevel->GetEnemyList();
-	for (vector<Enemy*>::iterator enemyIT = enemies.begin(); enemyIT != enemies.end(); ++enemyIT)
+	vector<NPC*> enemies = m__currentLevel->GetEnemyList();
+	for (vector<NPC*>::iterator enemyIT = enemies.begin(); enemyIT != enemies.end(); ++enemyIT)
 	{
-		Enemy* _enemy = new Enemy(**enemyIT);
+		NPC* _enemy = new NPC(**enemyIT);
 
 		Vector2 mapPos = m__player->GetMapTilePos();
 		_enemy->SetPlayerPtr(m__player);
@@ -681,9 +681,9 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	}
 
 	//update enemies
-	for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+	for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 	{
-		Enemy* _enemy = (*enemyIter);
+		NPC* _enemy = (*enemyIter);
 		_enemy->Update(dt, m__currentLevel->GetTileMap());
 		
 		Vector2 mapTilePos = m__player->GetMapTilePos();
@@ -707,7 +707,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	m_renderList2D.push(m__player);
 
 	// Render Enemies
-	for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+	for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 	{
 		m_renderList2D.push((*enemyIter));
 	}
@@ -1173,7 +1173,7 @@ void MVC_Model_Spectre::updateLighting(double dt)
 	{
 		vector<Vector2> shadowCasters;
 		// Give enemies a shadow
-		for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+		for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 		{
 			shadowCasters.push_back((*enemyIter)->GetMapTilePos());
 		}
@@ -1272,9 +1272,9 @@ void MVC_Model_Spectre::onResolutionChanged(int oldViewWidth, int oldViewHeight)
 	initHUD();
 
 	// Update enemy position
-	for (vector<Enemy*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+	for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 	{
-		Enemy* _enemy = *enemyIter;
+		NPC* _enemy = *enemyIter;
 		if (_enemy)
 		{
 			Vector2 enemyTilePos(floor(_enemy->GetMapPos().x / oldTileSize), floor(_enemy->GetMapPos().y / oldTileSize));

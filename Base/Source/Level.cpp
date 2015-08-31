@@ -63,7 +63,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		"LM_PLANT_BOMB"
 	};
 
-	const string NPC_TYPE_NAMES[Enemy::NUM_NPC_TYPE] =
+	const string NPC_TYPE_NAMES[NPC::NUM_NPC_TYPE] =
 	{
 		"NT_ENEMY",
 		"NT_HOSTAGE",
@@ -168,7 +168,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 				{
 					Branch enemyBranch = *enemyBranchIT;
 					
-					Enemy* _enemy = new Enemy;
+					NPC* _enemy = new NPC;
 					_enemy->Init(_enemy->GetMapPos(), NULL);
 					_enemy->SetScale(Vector2(tileSize, tileSize));
 					
@@ -210,11 +210,11 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 						}
 						else if (attrib.name == ATTRIBUTE_NAMES[A_NPC_TYPE])
 						{
-							for (size_t enemyType = 0; enemyType < Enemy::NUM_NPC_TYPE; ++enemyType)
+							for (size_t enemyType = 0; enemyType < NPC::NUM_NPC_TYPE; ++enemyType)
 							{
 								if (attrib.value == NPC_TYPE_NAMES[enemyType])
 								{
-									_enemy->SetNPCType(static_cast<Enemy::E_NPC_TYPE>(enemyType));
+									_enemy->SetNPCType(static_cast<NPC::E_NPC_TYPE>(enemyType));
 									break;
 								}
 							}
@@ -324,7 +324,7 @@ TileMap* Level::GetTileMap()
 	return m__map;
 }
 
-vector<Enemy*> Level::GetEnemyList(void)
+vector<NPC*> Level::GetEnemyList(void)
 {
 	return m_enemyList;
 }
