@@ -110,13 +110,19 @@ void PathFinder::UpdatePath(void)
 		// Decrement openNodes
 		--openNodes;
 
+		// If we cannot find any possible path, then we can't do anything
+		if (_cheapest == NULL)
+		{
+			break;
+		}
+
 		// Set the cheapest node above's parent to the current node
 		_cheapest->m__parentNode = _current;
 		// Set the current node to the cheapest node above
 		_current = _cheapest;
 		/*
 		* Debug Prints
-
+		*
 		system("cls");
 
 		vector<vector<AINode*>> grid = m_nodeGrid.GetGrid();
@@ -128,7 +134,15 @@ void PathFinder::UpdatePath(void)
 			{
 				AINode* col = *colIter;
 
-				if (col->m_isWall && col->m_state == AINode::ANS_UNTOUCHED)
+				if (col == _startNode)
+				{
+					std::cout << static_cast<unsigned char>(248);
+				}
+				else if (col == _endNode)
+				{
+					std::cout << static_cast<unsigned char>(254);
+				}
+				else if (col->m_isWall && col->m_state == AINode::ANS_UNTOUCHED)
 				{
 					std::cout << static_cast<unsigned char>(178);
 				}
@@ -142,7 +156,7 @@ void PathFinder::UpdatePath(void)
 		}
 
 		system("pause");
-		*/
+		**/
 	}
 
 	if (found)
