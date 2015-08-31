@@ -80,6 +80,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					}
 
 				}
+
 				if ((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
@@ -90,6 +91,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						
 					}
 				}
+				
 				if (m__currentLevel->GetObjectiveComplete() == true)
 				{
 					if ((m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
@@ -120,6 +122,8 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 							_tileInFrontPlayer->SetMesh(GetMeshResource("TILE_BOMB"));
 							_tileInFrontPlayer->SetType(Tile::TILE_BOMB);
 						}
+
+						m__soundPlayer[SP_OBJ_COMPLETE]->Play(false);
 					}
 				}
 			}
@@ -479,6 +483,9 @@ void MVC_Model_Spectre::Init(void)
 	m__soundPlayer[SP_SKILL_SPECTRAL_JUMP] = SoundEngine::CreateSound2D(GetSoundResource("SpectralJump"));
 	m__soundPlayer[SP_SKILL_SPECTRAL_HOST_ENTER] = SoundEngine::CreateSound2D(GetSoundResource("PossessEnemy"));
 	m__soundPlayer[SP_SKILL_SPECTRAL_HOST_EXIT] = SoundEngine::CreateSound2D(GetSoundResource("UnpossessEnemy"));
+	m__soundPlayer[SP_OBJ_COMPLETE] = SoundEngine::CreateSound2D(GetSoundResource("Objective_Complete"));
+	m__soundPlayer[SP_OBJ_BOMB_PLANTING] = SoundEngine::CreateSound2D(GetSoundResource("Objective_BombPlant"));
+	m__soundPlayer[SP_OBJ_BOMB_DEFUSING] = SoundEngine::CreateSound2D(GetSoundResource("Objective_BombDefuse"));
 
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
@@ -512,8 +519,6 @@ void MVC_Model_Spectre::Init(void)
 	// Init the MessageManager
 	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x, 200.0f), S_M_MESSAGE_OFFSET);
 	m_messenger.AddMessages("Messages//Level1_Message.son");
-
-	//ObjectiveCollect;
 }
 
 void MVC_Model_Spectre::initMenu(void)

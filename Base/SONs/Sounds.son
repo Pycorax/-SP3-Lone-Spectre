@@ -34,6 +34,20 @@
 		[FilePath] Sounds//unpossess_enemy.ogg
 	}
 	{
+		[Name] Objective_Complete
+		[FilePath] Sounds//objective_complete.ogg
+	}
+	{
+		[Name] Objective_BombDefuse
+		[FilePath] Sounds//objective_bomb_defuse.ogg
+	}
+	{
+		[Name] Objective_BombPlant
+		[FilePath] Sounds//objective_bomb_plant.ogg
+	}
+	
+	# BGM
+	{
 		[Name] Level0BGM
 		[FilePath] Sounds//creepy_bgm.ogg
 	}
