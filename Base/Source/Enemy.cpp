@@ -10,6 +10,9 @@ Enemy::Enemy(void)
 	, m_bPossesion(false)
 	, m_moveTime(0)
 	, m_checkAround(0)
+	, m_AttackCountdown(0)
+	, m_needRetrace(false)
+	, m_ViewingTimer(0)
 	
 {
 	for (size_t anim = 0; anim < NUM_ENEMY_ACTION; ++anim)
@@ -78,12 +81,13 @@ void Enemy::SetPossesion(bool state)
 	m_bPossesion = state;
 }
 
+static const double S_ALERT_HOSTILE = 4.0f;
 void Enemy::Update(double dt, TileMap* _map)
 {
 	Character::Update();	
 	
 	//update view distance according to alert level
-	InitViewer(1, m_alertLevel + 2);
+	InitViewer(1, m_alertLevel + 1);
 	
 	// Update FOV
 	ClearViewBox(this, _map);
@@ -93,12 +97,12 @@ void Enemy::Update(double dt, TileMap* _map)
 	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
 	{
 		m_enemyState = ES_KNOCKOUT;
+		m_needRetrace = true;
 	}
 	switch (m_enemyState)
 	{
-		case ES_PATROL:
+		case ES_PATROL: //TL;DR : Walking to specified points
 		{
-			//** NOTE: array stores the tile position not map position **
 			if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
 			{
 				if (m_pathPointCounter < m_pathWay.size() - 1)
@@ -112,18 +116,14 @@ void Enemy::Update(double dt, TileMap* _map)
 			}
 			break;
 		}
-	case ES_SPOTTED:
+	case ES_SPOTTED: //TL;DR : If player walked into current enemy view
 		{
+			//code is mainly in spottedtarget : when player is in enemy view
 			break;
 		}
 	case ES_ATTACK:
 		{
-			if((GetMapTilePos() - _player->GetMapTilePos() ).LengthSquared() <= (_map->GetTileSize() * _map->GetTileSize() )* 2)
-			{
-				AttackingInView(_player);
-			}
-			//if alert level go below 2 , go back to patroling
-			if(m_alertLevel < 2)
+			if(!AttackingInView(_player) )
 			{
 				m_enemyState = ES_SCAN;
 			}
@@ -131,10 +131,12 @@ void Enemy::Update(double dt, TileMap* _map)
 		}
 	case ES_GOSTAN:
 		{
+			//TODO: the reverse code here
 			break;
 		}
 	case ES_POSSESED:
 		{
+			//cant do anything cause possessed...
 			break;
 		}
 	case ES_SCAN:
@@ -159,14 +161,27 @@ void Enemy::Update(double dt, TileMap* _map)
 			}
 			else //timing is over
 			{
-				m_checkAround = 0;
-				m_enemyState = ES_PATROL;
+				if(!m_needRetrace) // if no need to trace back
+				{
+					// contnue back to patrol
+					m_checkAround = 0;
+					m_enemyState = ES_PATROL;
+					m_needRetrace = true;
+				}
+				else
+				{
+					//retracing steps back
+					m_needRetrace = false;
+					m_enemyState = ES_GOSTAN;
+				}
 			}
 			m_checkAround += dt;
+
 			break;
 		}
-	case ES_KNOCKOUT:
+	case ES_KNOCKOUT: //TL;DR: enemy not alert, no reaction if player walk infront
 		{
+			//just reusing variable - original use is for SCANING
 			m_checkAround += dt;
 			if( m_checkAround > 4)
 			{
@@ -175,9 +190,17 @@ void Enemy::Update(double dt, TileMap* _map)
 			}
 		}
 	}
-	if (m_alertLevel >= 3 )
+	//if have seen player 
+	if(m_AttackCountdown > 0)
 	{
-		m_enemyState = ES_ATTACK;
+		//reset[last seen] timer starts
+		m_ViewingTimer += dt;
+		//if not in view and reset timer hits
+		if(m_ViewingTimer >= 2)
+		{
+			m_enemyState = ES_SCAN;
+			m_AttackCountdown = 0;
+		}
 	}
 	ChangeAnimation(dt);
 	SetMapPosition(GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
@@ -351,28 +374,28 @@ int Enemy::GetAlertLevel(void)
 	return this->m_alertLevel;
 }
 
+//if player is in view
 void Enemy::SpottedTarget(Vector2 pos, float &alertLevel, double dt)
 {
+	//if current enemy is has not been possessed recently
 	if(m_enemyState != ES_KNOCKOUT)
 	{
-		static const double S_ALERT_HOSTILE = 4.0f;
-		m_bAlerted = true;
+		//increase alert level
 		alertLevel += dt;
-
-		//if alert level is high enough
-		if(m_alertLevel >= S_ALERT_HOSTILE)
+		//if havent attack yet
+		if(m_AttackCountdown <= 2)
+		{
+			//go to spotting mode
+			m_enemyState = ES_SPOTTED;
+		}
+		//if looking at enemy
+		m_AttackCountdown += dt;
+		//if reached time limit	  and			alert level reached
+		if(m_AttackCountdown >= 2 && m_alertLevel >= S_ALERT_HOSTILE)
 		{
 			m_enemyState = ES_ATTACK;
 		}
 	}
-}
-
-void Enemy::pathFinder_getTilePosition(unsigned& tileXPos, unsigned& tileYPos) const
-{
-	Vector2 mapTilePos = GetMapTilePos();
-
-	tileXPos = mapTilePos.x;
-	tileYPos = mapTilePos.y;
 }
 
 Vector2 Enemy::viewer_GetTilePos(void)

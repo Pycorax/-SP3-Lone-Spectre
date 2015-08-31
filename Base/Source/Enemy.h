@@ -9,7 +9,7 @@
 #include "SpriteAnimation.h"
 #include "MVC_Model.h"
 
-class Enemy : public Character, public Viewer, public PathFinder
+class Enemy : public Character, public Viewer
 {
 public:
 	enum E_NPC_TYPE
@@ -50,18 +50,13 @@ private:
 	Vector2 m_oldPos;
 
 	int m_alertLevel;
-	bool m_bAlerted;
-	bool m_bChasing;
-	bool m_bAttacking;
-	bool m_bScanning;
+	bool m_needRetrace;
 	bool m_bPossesion;
 	bool m_bMoving;
 
 	//Scan the area around the enemy, to see if the Spectre is still there
 	float m_checkAround; 
 
-	//m_patrolPointA -> the old target location, m_patrolPointB -> the target location
-	Vector2 m_patrolPointA, m_patrolPointB; 
 	//stores target location;
 	vector<Vector2> m_pathWay;
 	//time need before next move
@@ -71,6 +66,11 @@ private:
 	int m_pathPointCounter;
 	//use to check if mode start patrolling
 	bool m_bReachPos;
+
+	//timer before enemy attacks player
+	double m_AttackCountdown;
+	//timer to assume that the player is within view - will limit with the time needed for enemy to attack
+	double m_ViewingTimer; 
 
 	//sprite animation vector
 	Animation* m__animationList[NUM_ENEMY_ACTION];
@@ -106,8 +106,6 @@ public:
 	void SetPlayerPtr(Character* _player);
 	bool AttackingInView(Character* _go);
 protected:
-	// Function to allow PathFinder to obtain the tile position of the child via reference
-	virtual void pathFinder_getTilePosition(unsigned& tileXPos, unsigned& tileYPos) const;
 	// Function to allow the viewer to get the child class's transform details
 	virtual Vector2 viewer_GetTilePos(void);
 	// Function to allow the viewer to get the child class's facing direction
