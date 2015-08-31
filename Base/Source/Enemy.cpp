@@ -92,20 +92,7 @@ void Enemy::Update(double dt, TileMap* _map)
 	// Possession
 	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
 	{
-		if (MoveTo(m_pathWay[m_pathPointCounter], _map, dt))
-		{
-			if (m_pathPointCounter < m_pathWay.size() - 1)
-			{
-				m_pathPointCounter++;
-				m_enemyState = ES_KNOCKOUT;
-			}
-			else
-			{
-				m_pathPointCounter = 0;
-				m_enemyState = ES_KNOCKOUT;
-			}
-		}
-
+		m_enemyState = ES_KNOCKOUT;
 	}
 	switch (m_enemyState)
 	{
@@ -125,34 +112,25 @@ void Enemy::Update(double dt, TileMap* _map)
 			}
 			break;
 		}
-		case ES_CHASE:
+	case ES_SPOTTED:
 		{
-			////Make enemy chase after the hero's current position with path-finding
-			UpdatePath();
-			vector<AINode*> chasePath = GetPath();
-
-			if (chasePath.size() > 0)
-			{
-				Vector2 targetPos(chasePath.front()->m_gridPosX, chasePath.front()->m_gridPosY);
-				if(MoveTo(targetPos, _map, dt) )
-				{
-					//TODO: update the next point along the path here?
-
-				}
-			}
-			else
-			{
-				m_enemyState = ES_SCAN;
-			}
+			break;
 		}
 	case ES_ATTACK:
 		{
-			AttackingInView(_player);
+			if((GetMapTilePos() - _player->GetMapTilePos() ).LengthSquared() <= (_map->GetTileSize() * _map->GetTileSize() )* 2)
+			{
+				AttackingInView(_player);
+			}
 			//if alert level go below 2 , go back to patroling
 			if(m_alertLevel < 2)
 			{
 				m_enemyState = ES_SCAN;
 			}
+			break;
+		}
+	case ES_GOSTAN:
+		{
 			break;
 		}
 	case ES_POSSESED:
@@ -228,7 +206,9 @@ void Enemy::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
 
 void Enemy::ChangeAnimation(double dt)
 {
-	if (m_enemyState == ES_POSSESED || m_enemyState == ES_SCAN ||m_enemyState == ES_ATTACK )
+	//idle animation
+	if (m_enemyState == ES_POSSESED || m_enemyState == ES_SCAN || m_enemyState == ES_SPOTTED 
+		|| m_enemyState == ES_ATTACK ||m_enemyState == ES_KNOCKOUT)
 	{
 		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 		{
@@ -247,7 +227,8 @@ void Enemy::ChangeAnimation(double dt)
 			m_enemyAction = EA_IDLE_RIGHT;
 		}
 	}
-	else if (m_enemyState == ES_POSSESED  || m_enemyState == ES_CHASE || m_enemyState == ES_PATROL )
+	//walking animation
+	else if (m_enemyState == ES_POSSESED  ||  m_enemyState == ES_PATROL ||m_enemyState == ES_GOSTAN)
 	{
 		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 		{

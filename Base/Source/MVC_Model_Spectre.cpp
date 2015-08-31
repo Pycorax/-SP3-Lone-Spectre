@@ -606,23 +606,8 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		Vector2 mapTilePos = m__player->GetMapTilePos();
 		_enemy->SetTarget(mapTilePos.x, mapTilePos.y);
 		_enemy->SetAlertLevel(m_alertLevel);
-		if(_enemy->GetAlertLevel() >= 1)
-		{
-			//if player is within enemy distance
-			if( (_enemy->GetMapTilePos() - _tile->GetMapPos()).LengthSquared() >= m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize() * 3)
-			{
-				_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
-			}
-			else
-			{
-				_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
-			}
-		}
-		//_enemy->ForceSetEnemyState(Enemy::ES_CHASE);
 		
-		//TODO: =========== REVAMP THE ENEMY ALGORYTHM ==============
 		/*
-		*	check if enemy has view of player 
 		*			if alerted 
 		*				if(alert level above 4)
 		*					TRUE : Attack player
@@ -632,6 +617,18 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		*			if cannot find 
 		*						Enemy - SCAN MODE [ will auto go back patrol after]
 		*/
+		if(_enemy->GetAlertLevel() >= 1)
+		{
+			//if player is within enemy distance
+			if( (_enemy->GetMapTilePos() - _tile->GetMapPos()).LengthSquared() >= m__currentLevel->GetTileMap()->GetTileSize() * m__currentLevel->GetTileMap()->GetTileSize() * 3)
+			{
+				_enemy->ForceSetEnemyState(Enemy::ES_SPOTTED);
+			}
+			else
+			{
+				_enemy->ForceSetEnemyState(Enemy::ES_SCAN);
+			}
+		}
 	}
 	if (m__player->GetHealth() <= 0)
 	{
