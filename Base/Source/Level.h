@@ -61,6 +61,7 @@ public:
 	/*
 	 * Getter Functions
 	 */
+	Objective* GetObjective(void) const;
 	bool GetObjectiveComplete(void) const;
 	bool GetActiveObjective(void) const;
 	string GetMessagesFile(void) const;

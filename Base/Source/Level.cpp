@@ -248,6 +248,11 @@ void Level::ActivateObjective(void)
 	m__objective->Activate();
 }
 
+Objective* Level::GetObjective(void) const
+{
+	return m__objective;
+}
+
 bool Level::GetObjectiveComplete(void) const
 {
 	return m__objective->IsCompleted();

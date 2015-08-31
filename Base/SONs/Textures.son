@@ -186,12 +186,12 @@
 	}
 
 	{
-		[Name] Defuse_Timer
+		[Name] Defuse_Bomb
 		[FilePath] Image//HUD//Defuse_Bomb.tga
 	}
 
 	{
-		[Name] Plant_Timer
+		[Name] Plant_Bomb
 		[FilePath] Image//HUD//Plant_Bomb.tga
 	}
 

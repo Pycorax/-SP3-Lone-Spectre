@@ -84,6 +84,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					if (m__currentLevel->GetActiveObjective())
 					{
 						m__currentLevel->UpdateObjective(dt);
+						
 					}
 				}
 				if (m__currentLevel->GetObjectiveComplete() == true)
@@ -360,6 +361,9 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 		m_enemyList.push_back(_enemy);
 	}
 
+	// Get a reference to the objective
+	m_objective = m__currentLevel->GetObjective();
+
 	// Initialize the messages
 	// -- Clear any previous messages from any previous levels
 	m_messenger.ClearMessages();
@@ -571,16 +575,16 @@ void MVC_Model_Spectre::initHUD(void)
 	{
 		m__defuseBomb = new HUD_Cooldown();
 	}
-	const Vector2 DEFUSE_SCALE(static_cast<float>(m_viewHeight)* 0.2f, static_cast<float>(m_viewHeight)* 0.1f);
-	const Vector2 DEFUSE_POS(static_cast<float>(m_viewWidth)*0.5f - (DEFUSE_SCALE.x *0.5f), static_cast<float>(m_viewHeight)*0.25f - (DEFUSE_SCALE.y*0.5f));
+	const Vector2 DEFUSE_SCALE(static_cast<float>(m_viewHeight)* 0.6f, static_cast<float>(m_viewHeight)* 0.15f);
+	const Vector2 DEFUSE_POS(static_cast<float>(m_viewWidth)*0.5f - (DEFUSE_SCALE.x *0.5f), static_cast<float>(m_viewHeight)*0.25f - (DEFUSE_SCALE.y * 0.5f));
 	m__defuseBomb->Init(GetMeshResource("Defuse_Bomb"), DEFUSE_POS, DEFUSE_SCALE, GetMeshResource("Skill_Cover"), DEFUSE_POS, DEFUSE_SCALE, true, false);
 
 	if (m__plantBomb == NULL)
 	{
 		m__plantBomb = new HUD_Cooldown();
 	}
-	const Vector2 PLANT_SCALE(static_cast<float>(m_viewHeight)* 0.2f, static_cast<float>(m_viewHeight)* 0.1f);
-	const Vector2 PLANT_POS(static_cast<float>(m_viewWidth)*0.5f - (PLANT_SCALE.x *0.5f), static_cast<float>(m_viewHeight)*0.25f - (PLANT_SCALE.y*0.5f));;
+	const Vector2 PLANT_SCALE(static_cast<float>(m_viewHeight)* 0.6f, static_cast<float>(m_viewHeight)* 0.15f);
+	const Vector2 PLANT_POS(static_cast<float>(m_viewWidth)*0.5f - (PLANT_SCALE.x *0.5f), static_cast<float>(m_viewHeight)*0.25f - (PLANT_SCALE.y*0.5f));
 	m__plantBomb->Init(GetMeshResource("Plant_Bomb"), PLANT_POS, PLANT_SCALE, GetMeshResource("Skill_Cover"), PLANT_POS, PLANT_SCALE, true, false);
 
 	// Action prompt HUD
@@ -689,6 +693,18 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	// Host skill
 	m_renderList2D.push(m__spectreHost);
 	m_renderList2D.push(m__spectreHost->GetDisplayCover());
+	if (m_shadowMode == false && (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE))
+	{
+		// Defuse Bomb
+		m_renderList2D.push(m__defuseBomb);
+		m_renderList2D.push(m__defuseBomb->GetDisplayCover());
+	}
+	if (m_bKeyPressed[INTERACT_GENERIC_KEY] && m_shadowMode == false && (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+	{
+		// Plant Bomb
+		m_renderList2D.push(m__plantBomb);
+		m_renderList2D.push(m__plantBomb->GetDisplayCover());
+	}
 	// Action prompts
 	float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
 	Tile* _tileOnPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
@@ -1040,11 +1056,6 @@ void MVC_Model_Spectre::Exit(void)
 		m_enemyList.pop_back();
 	}
 
-	if (m_objective != NULL)
-	{
-		delete m_objective;
-	}
-
 	// Clear the level
 	if (m__currentLevel != NULL)
 	{
@@ -1293,13 +1304,13 @@ void MVC_Model_Spectre::updateHUD(double dt)
 	ObjectiveDefuse* temp_defuse = dynamic_cast<ObjectiveDefuse*>(m_objective);
 	if (temp_defuse)
 	{
-		m__defuseBomb->Update(dt, temp_defuse->GetTimer(), ObjectiveDefuse::S_M_MAX_DEFUSE_TIME);
+		m__defuseBomb->Update(dt, ObjectiveDefuse::S_M_MAX_DEFUSE_TIME - temp_defuse->GetTimer(), ObjectiveDefuse::S_M_MAX_DEFUSE_TIME);
 	}
 
 	ObjectiveSetBomb* temp_plant = dynamic_cast<ObjectiveSetBomb*>(m_objective);
 	if (temp_plant)
 	{
-		m__plantBomb->Update(dt, temp_plant->GetTimer(), ObjectiveSetBomb::S_M_MAX_PLANT_TIME);
+		m__plantBomb->Update(dt, ObjectiveSetBomb::S_M_MAX_PLANT_TIME - temp_plant->GetTimer(), ObjectiveSetBomb::S_M_MAX_PLANT_TIME);
 	}
 
 	m__spectreDive->Update(dt, Player::S_SPECTRE_DIVE_COOLDOWN - m__player->GetDiveTimer(), Player::S_SPECTRE_DIVE_COOLDOWN);
