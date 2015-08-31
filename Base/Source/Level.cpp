@@ -26,6 +26,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		A_BGM_NAME,
 		// -- For Enemies
 		A_MESH,
+		A_NPC_TYPE,
 		A_SPAWN_POSITION,
 		A_VIEW_RANGE,
 		A_SPAWN_TILE_POSITION,
@@ -47,6 +48,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		"BackgroundMusic",
 		// -- For Enemies
 		"Mesh",
+		"NPCType",
 		"SpawnPosition",
 		"ViewRange",
 		"SpawnTilePosition",
@@ -59,6 +61,13 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		"LM_ASSASSINATE",
 		"LM_DEFUSE_BOMB",
 		"LM_PLANT_BOMB"
+	};
+
+	const string NPC_TYPE_NAMES[Enemy::NUM_NPC_TYPE] =
+	{
+		"NT_ENEMY",
+		"NT_HOSTAGE",
+		"NT_TARGET"
 	};
 
 	// Variables for Initialization
@@ -195,6 +204,17 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 								if (mesh->name == attrib.value)
 								{
 									_enemy->SetMesh(mesh);
+									break;
+								}
+							}
+						}
+						else if (attrib.name == ATTRIBUTE_NAMES[A_NPC_TYPE])
+						{
+							for (size_t enemyType = 0; enemyType < Enemy::NUM_NPC_TYPE; ++enemyType)
+							{
+								if (attrib.value == NPC_TYPE_NAMES[enemyType])
+								{
+									_enemy->SetNPCType(static_cast<Enemy::E_NPC_TYPE>(enemyType));
 									break;
 								}
 							}

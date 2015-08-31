@@ -4,13 +4,14 @@
 // STL Includes
 #include <stack>
 
+// Inheritance Include
+#include "CChar.h"
+
 // Other Includes
-#include "NPC.h"
 #include "TileMap.h"
 #include "Viewer.h"
 #include "PathFinder.h"
 #include "SpriteAnimation.h"
-#include "MVC_Model.h"
 
 using std::stack;
 
@@ -51,6 +52,9 @@ public:
 	};
 
 private:
+	// NPC Type
+	E_NPC_TYPE m_npcType;
+
 	//spawn position
 	Vector2 m_oldPos;
 
@@ -113,6 +117,9 @@ public:
 	//if given location is in view, use this to attack
 	void SetPlayerPtr(Character* _player);
 	bool AttackingInView(Character* _go);
+
+	void SetNPCType(E_NPC_TYPE type);
+	E_NPC_TYPE GetNPCType(void);
 protected:
 	// Function to allow the viewer to get the child class's transform details
 	virtual Vector2 viewer_GetTilePos(void);
