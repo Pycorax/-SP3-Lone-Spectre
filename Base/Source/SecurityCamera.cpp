@@ -1,6 +1,6 @@
 #include "SecurityCamera.h"
 
-const float SecurityCamera::S_M_CAMERA_MAX_TIMER = 5.f;
+const float SecurityCamera::S_M_CAMERA_MAX_TIMER = 30.f;
 Mesh* SecurityCamera::s_camMeshList[NUM_CAM_MESH];
 
 void SecurityCamera::InitCamMeshList(const vector<Mesh*>& meshList)

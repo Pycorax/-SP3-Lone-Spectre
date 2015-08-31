@@ -14,7 +14,7 @@ MenuManager::E_RETURN_STATE MenuManager_Spectre::Response(UIButton::E_BUTTON_TYP
 {
 	switch (type)
 	{
-	case UIButton::BUTTON_START: // Set current to nothing as game is not menu
+	case UIButton::BUTTON_NEW_GAME: // Set current to nothing as game is not menu
 		{
 			m__currentMenu = NULL;
 			m__currentButton = NULL;
@@ -31,6 +31,12 @@ MenuManager::E_RETURN_STATE MenuManager_Spectre::Response(UIButton::E_BUTTON_TYP
 	case UIButton::BUTTON_EXIT:
 		{
 			return RS_EXIT;
+		}
+		break;
+	case UIButton::BUTTON_RETURN_TO_MAIN_MENU:
+		{
+			AssignCurrent(Menu::MENU_MAIN);
+			return RS_MENU;
 		}
 		break;
 	}

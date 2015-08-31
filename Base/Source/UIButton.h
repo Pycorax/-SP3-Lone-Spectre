@@ -19,9 +19,24 @@ class UIButton : public GameObject2D
 		enum E_BUTTON_TYPE
 		{
 			BUTTON_NONE = 0,
-			BUTTON_START,
+			// Universal buttons
+			BUTTON_RETURN_TO_MAIN_MENU,
+
+			// Main menu buttons
+			BUTTON_NEW_GAME, // New game
+			BUTTON_CONTINUE, // Continue game
 			BUTTON_INSTRUCTIONS,
+			BUTTON_CREDITS,
 			BUTTON_EXIT,
+
+			// Lose level menu buttons
+			BUTTON_RETRY,
+
+			// Win level menu buttons
+			BUTTON_NEXT_STAGE,
+
+			// Level select menu buttons
+			BUTTON_START,
 			NUM_BUTTONS,
 		};
 		static Mesh* s_m_offMeshList[NUM_BUTTONS];	// Not hover

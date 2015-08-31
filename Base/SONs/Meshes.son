@@ -529,25 +529,104 @@
 		[Texture] Plant_Bomb
 	}
 	
-	# Menu buttons
+	# Menu buttons #
+	
+	# Return to main menu
 	{
-		[Name] BUTTON_START_ON
+		[Name] BUTTON_RETURN_TO_MAIN_MENU_ON
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f
 		[Width] 1.0f
 		[Height] 1.0f
-		[Texture] BUTTON_START_ON
+		[Texture] BUTTON_RETURN_TO_MAIN_MENU_ON
 	}
 	
 	{
-		[Name] BUTTON_START_OFF
+		[Name] BUTTON_RETURN_TO_MAIN_MENU_OFF
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f
 		[Width] 1.0f
 		[Height] 1.0f
-		[Texture] BUTTON_START_OFF
+		[Texture] BUTTON_RETURN_TO_MAIN_MENU_OFF
 	}
 	
+	#New game
+	{
+		[Name] BUTTON_NEW_GAME_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_NEW_GAME_ON
+	}
+	
+	{
+		[Name] BUTTON_NEW_GAME_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_NEW_GAME_OFF
+	}
+	
+	# Continue
+	{
+		[Name] BUTTON_CONTINUE_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_CONTINUE_ON
+	}
+	
+	{
+		[Name] BUTTON_CONTINUE_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_CONTINUE_OFF
+	}
+	
+	# Instructions
+	{
+		[Name] BUTTON_INSTRUCTIONS_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_INSTRUCTIONS_ON
+	}
+	
+	{
+		[Name] BUTTON_INSTRUCTIONS_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_INSTRUCTIONS_OFF
+	}
+	
+	# Credits
+	{
+		[Name] BUTTON_CREDITS_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_CREDITS_ON
+	}
+	
+	{
+		[Name] BUTTON_CREDITS_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_CREDITS_OFF
+	}
+	
+	#Exit
 	{
 		[Name] BUTTON_EXIT_ON
 		[Type] 2D
@@ -566,22 +645,78 @@
 		[Texture] BUTTON_EXIT_OFF
 	}
 	
+<<<<<<< Updated upstream
 	# Menu Backgrounds
 	{
 		[Name] MainMenuBG
+=======
+	# Retry
+	{
+		[Name] BUTTON_RETRY_ON
+>>>>>>> Stashed changes
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f
 		[Width] 1.0f
 		[Height] 1.0f
+<<<<<<< Updated upstream
 		[Texture] MainMenuBG
 	}
 	{
 		[Name] GenericMenuBG
+=======
+		[Texture] BUTTON_RETRY_ON
+	}
+	
+	{
+		[Name] BUTTON_RETRY_OFF
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f
 		[Width] 1.0f
 		[Height] 1.0f
+		[Texture] BUTTON_RETRY_OFF
+	}
+	
+	# Next stage
+	{
+		[Name] BUTTON_NEXT_STAGE_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_NEXT_STAGE_ON
+	}
+	
+	{
+		[Name] BUTTON_NEXT_STAGE_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_NEXT_STAGE_OFF
+	}
+	
+	# Start level
+	{
+		[Name] BUTTON_START_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_START_ON
+	}
+	
+	{
+		[Name] BUTTON_START_OFF
+>>>>>>> Stashed changes
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+<<<<<<< Updated upstream
 		[Texture] GenericMenuBG
+=======
+		[Texture] BUTTON_START_OFF
+>>>>>>> Stashed changes
 	}
 	
 #	{

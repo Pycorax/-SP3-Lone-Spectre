@@ -196,17 +196,64 @@
 	}
 
 	
-	# Buttons
+	# Buttons #
+	
+	# Return to main menu
 	{
-		[Name] BUTTON_START_ON
-		[FilePath] Image//Menu//StartGame_On.tga
+		[Name] BUTTON_RETURN_TO_MAIN_MENU_ON
+		[FilePath] Image//Menu//BackToMainMenu_On.tga
 	}
 	
 	{
-		[Name] BUTTON_START_OFF
-		[FilePath] Image//Menu//StartGame_Off.tga
+		[Name] BUTTON_RETURN_TO_MAIN_MENU_OFF
+		[FilePath] Image//Menu//BackToMainMenu_Off.tga
 	}
 	
+	# New game
+	{
+		[Name] BUTTON_NEW_GAME_ON
+		[FilePath] Image//Menu//NewGame_On.tga
+	}
+	
+	{
+		[Name] BUTTON_NEW_GAME_OFF
+		[FilePath] Image//Menu//NewGame_Off.tga
+	}
+	
+	# Continue
+	{
+		[Name] BUTTON_CONTINUE_ON
+		[FilePath] Image//Menu//Continue_On.tga
+	}
+	
+	{
+		[Name] BUTTON_CONTINUE_OFF
+		[FilePath] Image//Menu//Continue_Off.tga
+	}
+	
+	# Instructions
+	{
+		[Name] BUTTON_INSTRUCTIONS_ON
+		[FilePath] Image//Menu//Instructions_On.tga
+	}
+	
+	{
+		[Name] BUTTON_INSTRUCTIONS_OFF
+		[FilePath] Image//Menu//Instructions_Off.tga
+	}
+	
+	# Credits
+	{
+		[Name] BUTTON_CREDITS_ON
+		[FilePath] Image//Menu//Credits_On.tga
+	}
+	
+	{
+		[Name] BUTTON_CREDITS_OFF
+		[FilePath] Image//Menu//Credits_Off.tga
+	}
+	
+	# Exit
 	{
 		[Name] BUTTON_EXIT_ON
 		[FilePath] Image//Menu//Exit_On.tga
@@ -215,6 +262,39 @@
 	{
 		[Name] BUTTON_EXIT_OFF
 		[FilePath] Image//Menu//Exit_Off.tga
+	}
+	
+	# Retry
+	{
+		[Name] BUTTON_RETRY_ON
+		[FilePath] Image//Menu//Retry_On.tga
+	}
+	
+	{
+		[Name] BUTTON_RETRY_OFF
+		[FilePath] Image//Menu//Retry_Off.tga
+	}
+	
+	# Next stage
+	{
+		[Name] BUTTON_NEXT_STAGE_ON
+		[FilePath] Image//Menu//Next_On.tga
+	}
+	
+	{
+		[Name] BUTTON_NEXT_STAGE_OFF
+		[FilePath] Image//Menu//Next_Off.tga
+	}
+	
+	#Start level
+	{
+		[Name] BUTTON_START_ON
+		[FilePath] Image//Menu//StartGame_On.tga
+	}
+	
+	{
+		[Name] BUTTON_START_OFF
+		[FilePath] Image//Menu//StartGame_Off.tga
 	}
 	
 	# Menu Backgrounds

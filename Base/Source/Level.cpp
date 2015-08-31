@@ -3,6 +3,8 @@
 #include "SONIO.h"
 #include "LoadResource.h"
 
+const Vector2 Level::S_M_SCREEN_SIZE(20, 12);
+
 Level::Level(void) : m__map(NULL)
 {
 }
@@ -139,11 +141,11 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		}
 
 		// Load the TileMap
-		if (numScreenTile == Vector2::ZERO_VECTOR)
+		/*if (numScreenTile == Vector2::ZERO_VECTOR)
 		{
 			numScreenTile = Vector2(viewWidth / tileSize, viewHeight / tileSize);
-		}
-		InitMap(numMapTile, viewWidth, viewHeight, tileSize, tileMapFilePath, meshList, numScreenTile);
+		}*/
+		InitMap(numMapTile, viewWidth, viewHeight, tileSize, tileMapFilePath, meshList, S_M_SCREEN_SIZE);
 
 		// For Each Branch
 		for (vector<Branch>::iterator branchIT = level.childBranches.begin(); branchIT != level.childBranches.end(); ++branchIT)

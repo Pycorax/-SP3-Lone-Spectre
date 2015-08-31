@@ -19,6 +19,7 @@ public:
 		LM_PLANT_BOMB,					// Plant a bomb mission
 		NUM_LEVEL_MISSIONS
 	};
+	static const Vector2 S_M_SCREEN_SIZE;
 
 private:
 	// TileMap

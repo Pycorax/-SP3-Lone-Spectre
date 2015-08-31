@@ -12,14 +12,34 @@ void UIButton::InitMeshLists(vector<Mesh*> meshList)
 	for (vector<Mesh*>::iterator meshIter = meshList.begin(); meshIter != meshList.end(); ++meshIter)
 	{
 		Mesh* _mesh = *meshIter;
-		if (_mesh->name == "BUTTON_START_ON")
+		// Return to main menu
+		if (_mesh->name == "BUTTON_RETURN_TO_MAIN_MENU_ON")
 		{
-			s_m_onMeshList[BUTTON_START] = _mesh;
+			s_m_onMeshList[BUTTON_RETURN_TO_MAIN_MENU] = _mesh;
 		}
-		else if (_mesh->name == "BUTTON_START_OFF")
+		else if (_mesh->name == "BUTTON_RETURN_TO_MAIN_MENU_OFF")
 		{
-			s_m_offMeshList[BUTTON_START] = _mesh;
+			s_m_offMeshList[BUTTON_RETURN_TO_MAIN_MENU] = _mesh;
 		}
+		// New game
+		else if (_mesh->name == "BUTTON_NEW_GAME_ON")
+		{
+			s_m_onMeshList[BUTTON_NEW_GAME] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_NEW_GAME_OFF")
+		{
+			s_m_offMeshList[BUTTON_NEW_GAME] = _mesh;
+		}
+		// Continue
+		else if (_mesh->name == "BUTTON_CONTINUE_ON")
+		{
+			s_m_onMeshList[BUTTON_CONTINUE] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_CONTINUE_OFF")
+		{
+			s_m_offMeshList[BUTTON_CONTINUE] = _mesh;
+		}
+		// Instructions
 		else if (_mesh->name == "BUTTON_INSTRUCTIONS_ON")
 		{
 			s_m_onMeshList[BUTTON_INSTRUCTIONS] = _mesh;
@@ -28,6 +48,16 @@ void UIButton::InitMeshLists(vector<Mesh*> meshList)
 		{
 			s_m_offMeshList[BUTTON_INSTRUCTIONS] = _mesh;
 		}
+		// Credits
+		else if (_mesh->name == "BUTTON_CREDITS_ON")
+		{
+			s_m_onMeshList[BUTTON_CREDITS] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_CREDITS_OFF")
+		{
+			s_m_offMeshList[BUTTON_CREDITS] = _mesh;
+		}
+		// Exit
 		else if (_mesh->name == "BUTTON_EXIT_ON")
 		{
 			s_m_onMeshList[BUTTON_EXIT] = _mesh;
@@ -35,6 +65,33 @@ void UIButton::InitMeshLists(vector<Mesh*> meshList)
 		else if (_mesh->name == "BUTTON_EXIT_OFF")
 		{
 			s_m_offMeshList[BUTTON_EXIT] = _mesh;
+		}
+		// Retry
+		else if (_mesh->name == "BUTTON_RETRY_ON")
+		{
+			s_m_onMeshList[BUTTON_RETRY] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_RETRY_OFF")
+		{
+			s_m_offMeshList[BUTTON_RETRY] = _mesh;
+		}
+		// Next stage
+		else if (_mesh->name == "BUTTON_NEXT_STAGE_ON")
+		{
+			s_m_onMeshList[BUTTON_NEXT_STAGE] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_NEXT_STAGE_OFF")
+		{
+			s_m_offMeshList[BUTTON_NEXT_STAGE] = _mesh;
+		}
+		// Start level
+		else if (_mesh->name == "BUTTON_START_ON")
+		{
+			s_m_onMeshList[BUTTON_START] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_START_OFF")
+		{
+			s_m_offMeshList[BUTTON_START] = _mesh;
 		}
 	}
 }
