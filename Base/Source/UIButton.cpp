@@ -93,6 +93,15 @@ void UIButton::InitMeshLists(vector<Mesh*> meshList)
 		{
 			s_m_offMeshList[BUTTON_START] = _mesh;
 		}
+		// Resume level
+		else if (_mesh->name == "BUTTON_RESUME_ON")
+		{
+			s_m_onMeshList[BUTTON_RESUME] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_RESUME_OFF")
+		{
+			s_m_offMeshList[BUTTON_RESUME] = _mesh;
+		}
 	}
 }
 

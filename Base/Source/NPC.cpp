@@ -82,7 +82,7 @@ void NPC::SetPossesion(bool state)
 }
 
 static const double S_ALERT_HOSTILE = 4.0f;
-void NPC::Update(double dt, TileMap* _map)
+bool NPC::Update(double dt, TileMap* _map)
 {
 	static const int S_MIN_VIEW_DISTANCE = 1;
 
@@ -128,6 +128,10 @@ void NPC::Update(double dt, TileMap* _map)
 			if(!AttackingInView(_player) )
 			{
 				m_enemyState = ES_SCAN;
+			}
+			else // Killed player
+			{
+				return true;
 			}
 			break;
 		}
@@ -234,6 +238,7 @@ void NPC::Update(double dt, TileMap* _map)
 	}
 	ChangeAnimation(dt);
 	SetMapPosition(GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+	return false;
 }
 
 bool NPC::AttackingInView(Character* _go)

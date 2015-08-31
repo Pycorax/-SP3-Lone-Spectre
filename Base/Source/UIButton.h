@@ -37,6 +37,10 @@ class UIButton : public GameObject2D
 
 			// Level select menu buttons
 			BUTTON_START,
+
+			// Pause
+			BUTTON_RESUME,
+
 			NUM_BUTTONS,
 		};
 		static Mesh* s_m_offMeshList[NUM_BUTTONS];	// Not hover

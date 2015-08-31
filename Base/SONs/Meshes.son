@@ -645,25 +645,32 @@
 		[Texture] BUTTON_EXIT_OFF
 	}
 	
-<<<<<<< Updated upstream
 	# Menu Backgrounds
 	{
 		[Name] MainMenuBG
-=======
-	# Retry
-	{
-		[Name] BUTTON_RETRY_ON
->>>>>>> Stashed changes
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f
 		[Width] 1.0f
 		[Height] 1.0f
-<<<<<<< Updated upstream
 		[Texture] MainMenuBG
 	}
+	
 	{
 		[Name] GenericMenuBG
-=======
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] GenericMenuBG
+	}
+	
+	# Retry
+	{
+		[Name] BUTTON_RETRY_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
 		[Texture] BUTTON_RETRY_ON
 	}
 	
@@ -707,16 +714,30 @@
 	
 	{
 		[Name] BUTTON_START_OFF
->>>>>>> Stashed changes
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f
 		[Width] 1.0f
 		[Height] 1.0f
-<<<<<<< Updated upstream
-		[Texture] GenericMenuBG
-=======
 		[Texture] BUTTON_START_OFF
->>>>>>> Stashed changes
+	}
+	
+	# Resume
+	{
+		[Name] BUTTON_RESUME_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_RESUME_ON
+	}
+	
+	{
+		[Name] BUTTON_RESUME_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_RESUME_OFF
 	}
 	
 #	{

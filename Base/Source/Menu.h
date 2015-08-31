@@ -16,6 +16,7 @@ public:
 		MENU_EXIT,
 		MENU_WIN_LEVEL,
 		MENU_LOSE_LEVEL,
+		MENU_PAUSE,
 		NUM_MENU,
 	};
 

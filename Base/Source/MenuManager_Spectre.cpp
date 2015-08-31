@@ -16,15 +16,19 @@ MenuManager::E_RETURN_STATE MenuManager_Spectre::Response(UIButton::E_BUTTON_TYP
 	{
 	case UIButton::BUTTON_NEW_GAME: // Set current to nothing as game is not menu
 		{
-			m__currentMenu = NULL;
-			m__currentButton = NULL;
-			m_currentButton = -1;
-			return RS_GAME;
+			setNoCurrent();
+			return RS_NEW_GAME;
 		}
 		break;
 	case UIButton::BUTTON_INSTRUCTIONS:
 		{
 			AssignCurrent(Menu::MENU_INSTRUCTIONS);
+			return RS_MENU;
+		}
+		break;
+	case UIButton::BUTTON_CREDITS:
+		{
+			AssignCurrent(Menu::MENU_CREDITS);
 			return RS_MENU;
 		}
 		break;
@@ -37,6 +41,24 @@ MenuManager::E_RETURN_STATE MenuManager_Spectre::Response(UIButton::E_BUTTON_TYP
 		{
 			AssignCurrent(Menu::MENU_MAIN);
 			return RS_MENU;
+		}
+		break;
+	case UIButton::BUTTON_RETRY:
+		{
+			setNoCurrent();
+			return RS_CURRENT_LEVEL;
+		}
+		break;
+	case UIButton::BUTTON_NEXT_STAGE:
+		{
+			setNoCurrent();
+			return RS_NEXT_LEVEL;
+		}
+		break;
+	case UIButton::BUTTON_RESUME:
+		{
+			setNoCurrent();
+			return RS_RESUME;
 		}
 		break;
 	}

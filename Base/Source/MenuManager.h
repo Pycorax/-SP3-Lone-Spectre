@@ -9,8 +9,11 @@ public:
 	enum E_RETURN_STATE
 	{
 		RS_MENU = 0,
-		RS_GAME,
+		RS_NEW_GAME,
 		RS_EXIT,
+		RS_CURRENT_LEVEL,
+		RS_NEXT_LEVEL,
+		RS_RESUME,
 		NUM_RS,
 	};
 
@@ -47,7 +50,8 @@ public:
 	Menu* GetCurrentMenu();
 	UIButton* GetCurrentButton();
 protected:
-	bool OnMouseCollision(int mouseX, int mouseY, UIButton* _button);
+	bool onMouseCollision(int mouseX, int mouseY, UIButton* _button);
+	void setNoCurrent();
 };
 
 #endif

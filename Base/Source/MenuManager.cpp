@@ -18,7 +18,7 @@ void MenuManager::MouseUpdate(double dt, int mouseX, int mouseY)
 	for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
 	{
 		UIButton* _button = *buttonIter;
-		if (OnMouseCollision(mouseX, mouseY, _button))
+		if (onMouseCollision(mouseX, mouseY, _button))
 		{
 			_button->SetState(UIButton::HOVER_STATE);
 			m__currentButton = _button;
@@ -137,7 +137,7 @@ void MenuManager::AssignCurrent(Menu::E_MENU_TYPE menuType, UIButton::E_BUTTON_T
 
 MenuManager::E_RETURN_STATE MenuManager::OnClick(int mouseX, int mouseY)
 {
-	if (OnMouseCollision(mouseX, mouseY, m__currentButton))
+	if (onMouseCollision(mouseX, mouseY, m__currentButton))
 	{
 		return Response(m__currentButton->GetType());
 	}
@@ -163,7 +163,7 @@ UIButton* MenuManager::GetCurrentButton()
 	return m__currentButton;
 }
 
-bool MenuManager::OnMouseCollision(int mouseX, int mouseY, UIButton* _button)
+bool MenuManager::onMouseCollision(int mouseX, int mouseY, UIButton* _button)
 {
 	const Transform transform = _button->GetTransform();
 	const Vector2 buttonMaxBound(transform.Translation + (transform.Scale * 1.f));
@@ -174,4 +174,11 @@ bool MenuManager::OnMouseCollision(int mouseX, int mouseY, UIButton* _button)
 		return false;
 	}
 	return true;
+}
+
+void MenuManager::setNoCurrent()
+{
+	m__currentMenu = NULL;
+	m__currentButton = NULL;
+	m_currentButton = -1;
 }

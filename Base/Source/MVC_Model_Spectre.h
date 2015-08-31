@@ -68,6 +68,10 @@ private:	// Variables
 	// Menu
 	MenuManager_Spectre* m__menu;
 	float m_menuKeysInputTimer;
+	float m_pauseTimer;
+	
+	// Light timer
+	double lightUpdateTimer;
 
 	// Levels
 	Level* m__currentLevel;
@@ -136,6 +140,9 @@ protected:
 	void updateHackGame(double dt);
 	//init player and animations
 	void initPlayer(void);
+
+	// Enemy
+	void clearEnemyList();
 
 	// Menu
 	void initMenu(void);

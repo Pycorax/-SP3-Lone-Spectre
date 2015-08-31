@@ -13,7 +13,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
-	, m_enableShadow(false)
+	, m_enableShadow(true)
 	, m_alertLevel(0.f)
 	, m__alert(NULL)
 	, m__spectreDive(NULL)
@@ -27,7 +27,9 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__bgm(NULL)
 	, m__menu(NULL)
 	, m_menuKeysInputTimer(0.f)
+	, m_pauseTimer(0.f)
 	, m_shadowMode(false)
+	, lightUpdateTimer(S_M_LIGHTING_UPDATE_FREQUENCY)
 {
 }
 
@@ -64,9 +66,10 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE
 					&& m__currentLevel->GetObjectiveComplete() == true)
 				{
-					nextLevel();
-					/*m_appState = AS_MENU;
-					m__menu->AssignCurrent(Menu::MENU_MAIN);*/
+					// Stage completed
+					//nextLevel();
+					m_appState = AS_MENU;
+					m__menu->AssignCurrent(Menu::MENU_WIN_LEVEL);
 					
 				}
 				if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE)
@@ -197,6 +200,14 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				m__player->SetJump();
 				m__soundPlayer[SP_SKILL_SPECTRAL_JUMP]->Play(false);
 			}
+			
+			// Pause game
+			if (m_bKeyPressed[GAME_EXIT_KEY] && m_pauseTimer <= 0.f)
+			{
+				m_appState = AS_MENU;
+				m__menu->AssignCurrent(Menu::MENU_PAUSE);
+				m_pauseTimer = S_M_MENU_KEYS_INPUT_DELAY;
+			}
 			break;
 		}
 
@@ -228,14 +239,33 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						m_appState = AS_MENU;
 					}
 					break;
-				case MenuManager::RS_GAME:
+				case MenuManager::RS_NEW_GAME:
 					{
 						m_appState = AS_MAIN_GAME;
+						m_currentLevelID = 0;
+						loadLevel(m_levelFiles[m_currentLevelID]);
 					}
 					break;
 				case MenuManager::RS_EXIT:
 					{
 						m_running = false;
+					}
+					break;
+				case MenuManager::RS_CURRENT_LEVEL:
+					{
+						m_appState = AS_MAIN_GAME;
+						loadLevel(m_levelFiles[m_currentLevelID]);
+					}
+					break;
+				case MenuManager::RS_NEXT_LEVEL:
+					{
+						m_appState = AS_MAIN_GAME;
+						nextLevel();
+					}
+					break;
+				case MenuManager::RS_RESUME:
+					{
+						m_appState = AS_MAIN_GAME;
 					}
 					break;
 				}
@@ -250,14 +280,33 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						m_appState = AS_MENU;
 					}
 					break;
-				case MenuManager::RS_GAME:
+				case MenuManager::RS_NEW_GAME:
 					{
 						m_appState = AS_MAIN_GAME;
+						m_currentLevelID = 0;
+						loadLevel(m_levelFiles[m_currentLevelID]);
 					}
 					break;
 				case MenuManager::RS_EXIT:
 					{
 						m_running = false;
+					}
+					break;
+				case MenuManager::RS_CURRENT_LEVEL:
+					{
+						m_appState = AS_MAIN_GAME;
+						loadLevel(m_levelFiles[m_currentLevelID]);
+					}
+					break;
+				case MenuManager::RS_NEXT_LEVEL:
+					{
+						m_appState = AS_MAIN_GAME;
+						nextLevel();
+					}
+					break;
+				case MenuManager::RS_RESUME:
+					{
+						m_appState = AS_MAIN_GAME;
 					}
 					break;
 				}
@@ -269,11 +318,11 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 	}
 
 	// Quitting the game
-	if (m_bKeyPressed[GAME_EXIT_KEY])
+	/*if (m_bKeyPressed[GAME_EXIT_KEY])
 	{
 		// TODO: Open a pause menu and then quit by that instead. Do actual pausing or return to menus
 		m_running = false;
-	}
+	}*/
 }
 
 int MVC_Model_Spectre::findLevelFiles(string folderPath)
@@ -320,6 +369,7 @@ int MVC_Model_Spectre::findLevelFiles(string folderPath)
 
 void MVC_Model_Spectre::loadLevel(string levelMapFile)
 {
+	m_alertLevel = 0.f;
 	Vector2 numScreenTile;
 	// Delete the previous level
 	if (m__currentLevel != NULL)
@@ -354,10 +404,12 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	Vector2 playerSpawnPos = m__currentLevel->GetTileMap()->GetPlayerSpawnPos();
 	Vector2 spawnScrollOffset = playerSpawnPos - m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f;
 	m__currentLevel->GetTileMap()->SetScrollOffset(spawnScrollOffset);
+	m__player->SetHealth(1);
 	m__player->SetMapPosition(playerSpawnPos, spawnScrollOffset, m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 
 	// Initialize the enemies
+	clearEnemyList();
 	vector<NPC*> enemies = m__currentLevel->GetEnemyList();
 	for (vector<NPC*>::iterator enemyIT = enemies.begin(); enemyIT != enemies.end(); ++enemyIT)
 	{
@@ -525,6 +577,7 @@ void MVC_Model_Spectre::initMenu(void)
 {
 	UIButton::InitMeshLists(meshList); // Generate static mesh list for buttons
 	int buttonCount; // Use this for alignment of buttons
+	Mesh* genericBG = GetMeshResource("GenericMenuBG");
 	const float HEIGHT_OFFSET = m_viewHeight * 0.1f;
 	const Vector2 BUTTON_SIZE(m_viewWidth * 0.25f, m_viewHeight * 0.08f);
 	Vector2 startPos; // Start position
@@ -539,7 +592,7 @@ void MVC_Model_Spectre::initMenu(void)
 	buttonCount = 0;
 	// Button creation
 	Menu* _newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_MAIN); // Menu with no bg
+	_newMenu->Init(Menu::MENU_MAIN, GetMeshResource("MainMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_NEW_GAME, GetMeshResource("BUTTON_NEW_GAME_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_INSTRUCTIONS, GetMeshResource("BUTTON_INSTRUCTIONS_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
@@ -552,10 +605,19 @@ void MVC_Model_Spectre::initMenu(void)
 
 	/* Instructions */
 	// Variables
-	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.05f) - (BUTTON_SIZE.y * 0.5f));
+	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_INSTRUCTIONS); // Menu with no bg
+	_newMenu->Init(Menu::MENU_INSTRUCTIONS, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
+	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
+	m__menu->AddMenu(_newMenu);
+
+	/* Credits */
+	// Variables
+	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
+	// Button creation
+	_newMenu = new Menu();
+	_newMenu->Init(Menu::MENU_CREDITS, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
 	m__menu->AddMenu(_newMenu);
 
@@ -565,7 +627,7 @@ void MVC_Model_Spectre::initMenu(void)
 	buttonCount = 0;
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_WIN_LEVEL); // Menu with no bg
+	_newMenu->Init(Menu::MENU_WIN_LEVEL, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_NEXT_STAGE, GetMeshResource("BUTTON_NEXT_STAGE_ON"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETRY, GetMeshResource("BUTTON_RETRY_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
@@ -580,8 +642,21 @@ void MVC_Model_Spectre::initMenu(void)
 	buttonCount = 0;
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_LOSE_LEVEL); // Menu with no bg
+	_newMenu->Init(Menu::MENU_LOSE_LEVEL, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETRY, GetMeshResource("BUTTON_RETRY_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
+	++buttonCount;
+	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
+	++buttonCount;
+	m__menu->AddMenu(_newMenu);
+
+	/* Pause */
+	// Variables
+	startPos = Vector2((m_viewWidth * 0.5f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.5f) - (BUTTON_SIZE.y * 0.5f));
+	buttonCount = 0;
+	// Button creation
+	_newMenu = new Menu();
+	_newMenu->Init(Menu::MENU_PAUSE, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
+	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RESUME, GetMeshResource("BUTTON_RESUME_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
@@ -668,6 +743,10 @@ void MVC_Model_Spectre::initHUD(void)
 
 void MVC_Model_Spectre::updateMainGame(double dt)
 {
+	if (m_pauseTimer > 0.f)
+	{
+		m_pauseTimer -= dt;
+	}
 	// Updates player depending on actions queued.
 	m__player->Update(dt, m__currentLevel->GetTileMap());
 
@@ -689,7 +768,11 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 	{
 		NPC* _enemy = (*enemyIter);
-		_enemy->Update(dt, m__currentLevel->GetTileMap());
+		if (_enemy->Update(dt, m__currentLevel->GetTileMap())) // Killed player
+		{
+			m_appState = AS_MENU;
+			m__menu->AssignCurrent(Menu::MENU_LOSE_LEVEL);
+		}
 		
 		Vector2 mapTilePos = m__player->GetMapTilePos();
 		_enemy->SetAlertLevel(m_alertLevel);
@@ -1171,10 +1254,9 @@ void MVC_Model_Spectre::updateMenu(double dt)
 
 void MVC_Model_Spectre::updateLighting(double dt)
 {
-	static double s_updateTimer = S_M_LIGHTING_UPDATE_FREQUENCY;
-	s_updateTimer += dt;
+	lightUpdateTimer += dt;
 
-	if (s_updateTimer >= S_M_LIGHTING_UPDATE_FREQUENCY)
+	if (lightUpdateTimer >= S_M_LIGHTING_UPDATE_FREQUENCY)
 	{
 		vector<Vector2> shadowCasters;
 		// Give enemies a shadow
@@ -1185,7 +1267,7 @@ void MVC_Model_Spectre::updateLighting(double dt)
 		//shadowCasters.push_back(m__player->GetMapTilePos());
 		m__currentLevel->GetTileMap()->UpdateLighting(shadowCasters);
 
-		s_updateTimer = 0.0;
+		lightUpdateTimer = 0.0;
 	}
 }
 
@@ -1383,8 +1465,21 @@ void MVC_Model_Spectre::clearCameraList()
 		if (_camera)
 		{
 			delete _camera;
-			m_cameraList.pop_back();
 		}
+		m_cameraList.pop_back();
+	}
+}
+
+void MVC_Model_Spectre::clearEnemyList()
+{
+	while (m_enemyList.size() > 0)
+	{
+		NPC* _enemy = m_enemyList.back();
+		if (_enemy)
+		{
+			delete _enemy;
+		}
+		m_enemyList.pop_back();
 	}
 }
 

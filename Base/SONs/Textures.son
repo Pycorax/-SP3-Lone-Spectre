@@ -297,6 +297,17 @@
 		[FilePath] Image//Menu//StartGame_Off.tga
 	}
 	
+	# Resume
+	{
+		[Name] BUTTON_RESUME_ON
+		[FilePath] Image//Menu//Resume_On.tga
+	}
+	
+	{
+		[Name] BUTTON_RESUME_OFF
+		[FilePath] Image//Menu//Resume_Off.tga
+	}
+	
 	# Menu Backgrounds
 	{
 		[Name] MainMenuBG

@@ -13,6 +13,7 @@
 #include "PathFinder.h"
 #include "SpriteAnimation.h"
 
+// Using Directives
 using std::stack;
 
 class NPC : public Character, public Viewer
@@ -93,7 +94,7 @@ public:
 	NPC(void);
 	virtual ~NPC(void);
 	void Init(Vector2 pos, Mesh* _mesh);
-	void Update(double dt, TileMap* _map);
+	bool Update(double dt, TileMap* _map);
 	
 	void AddPatrolPoint(Vector2 pos);
 	//moving to selected location - return true if reached
