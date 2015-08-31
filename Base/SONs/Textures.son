@@ -318,4 +318,19 @@
 		[Name] GenericMenuBG
 		[FilePath] Image//Menu//generic_menu_bg.tga
 	}
+	
+	{
+		[Name] PauseMenuBG
+		[FilePath] Image//Menu//pause_menu_bg.tga
+	}
+	
+	{
+		[Name] WinMenuBG
+		[FilePath] Image//Menu//win_menu_bg.tga
+	}
+	
+	{
+		[Name] LoseMenuBG
+		[FilePath] Image//Menu//lose_menu_bg.tga
+	}
 }

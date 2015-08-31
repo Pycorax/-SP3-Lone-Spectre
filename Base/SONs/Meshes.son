@@ -664,6 +664,33 @@
 		[Texture] GenericMenuBG
 	}
 	
+	{
+		[Name] PauseMenuBG
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] PauseMenuBG
+	}
+	
+	{
+		[Name] WinMenuBG
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] WinMenuBG
+	}
+	
+	{
+		[Name] LoseMenuBG
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] LoseMenuBG
+	}
+	
 	# Retry
 	{
 		[Name] BUTTON_RETRY_ON
