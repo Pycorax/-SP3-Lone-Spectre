@@ -54,3 +54,10 @@ float ObjectiveSetBomb::GetTimer()
 {
 	return m_setTime;
 }
+
+void ObjectiveSetBomb::Reset()
+{
+	m_setting = false;
+	m_setBomb = false;
+	m_setTime = S_M_MAX_PLANT_TIME;
+}

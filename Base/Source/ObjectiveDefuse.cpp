@@ -55,3 +55,10 @@ float ObjectiveDefuse::GetTimer()
 {
 	return m_defuseTime;
 }
+
+void ObjectiveDefuse::Reset()
+{
+	m_defusing = false;
+	m_defused = false;
+	m_defuseTime = S_M_MAX_DEFUSE_TIME;
+}

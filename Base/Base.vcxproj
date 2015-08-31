@@ -41,6 +41,7 @@
     <ClCompile Include="Source\ObjectiveAssassinate.cpp" />
     <ClCompile Include="Source\ObjectiveCollect.cpp" />
     <ClCompile Include="Source\ObjectiveDefuse.cpp" />
+    <ClCompile Include="Source\ObjectiveHostage.cpp" />
     <ClCompile Include="Source\ObjectiveSetBomb.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Pathway.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Source\ObjectiveAssassinate.h" />
     <ClInclude Include="Source\ObjectiveCollect.h" />
     <ClInclude Include="Source\ObjectiveDefuse.h" />
+    <ClInclude Include="Source\ObjectiveHostage.h" />
     <ClInclude Include="Source\ObjectiveSetBomb.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\PathPoint.h" />

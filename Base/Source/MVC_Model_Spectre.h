@@ -14,6 +14,7 @@
 #include "ObjectiveCollect.h"
 #include "ObjectiveDefuse.h"
 #include "ObjectiveSetBomb.h"
+#include "ObjectiveHostage.h"
 #include "HUD_Cooldown.h"
 #include "SoundPlayer2D.h"
 #include "MenuManager_Spectre.h"

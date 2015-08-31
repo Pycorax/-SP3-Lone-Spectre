@@ -55,6 +55,7 @@ class Player : public Character
 			PS_SPECTRAL_COLLECT,
 			PS_SPECTRAL_DEFUSE,
 			PS_SPECTRAL_SETBOMB,
+			PS_SPECTRAL_HOSTAGE,
 
 			// Escape
 			PS_SPECTRAL_ESCAPE,
@@ -71,6 +72,7 @@ class Player : public Character
 
 			//Objective Interaction
 			INTERACT_ASSASSINATE,
+			INTERACT_HOSTAGE,
 			INTERACT_COLLECT,
 			INTERACT_DEFUSE,
 			INTERACT_SETBOMB,

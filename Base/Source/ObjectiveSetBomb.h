@@ -21,6 +21,7 @@ public: //Functions
 	void Activate();
 	bool Active();
 	bool IsCompleted();
+	void Reset();
 
 	float GetTimer();
 };

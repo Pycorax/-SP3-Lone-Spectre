@@ -75,7 +75,8 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				if ((m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE)
 					|| (m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
 					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
-					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
+					|| (m__player->Interact(Player::INTERACT_HOSTAGE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HOSTAGE))
 				{
 					if (m__currentLevel->GetObjectiveComplete() == false && m__currentLevel->GetActiveObjective() == false)
 					{
@@ -83,7 +84,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					}
 
 				}
-
+				//when setting / defusing the bomb
 				if ((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 				{
@@ -132,10 +133,11 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			}
 			else
 			{
+				//when key release - not setting or defusing bomb
 				//GetActiveObjective - means objective is updating
-				if (m__currentLevel->GetActiveObjective())
+				if (m__currentLevel->GetActiveObjective() && !m__currentLevel->GetObjectiveComplete())
 				{
-					m__currentLevel->UpdateObjective(dt);
+					m__currentLevel->ResetObjective();
 				}
 			}
 
@@ -763,6 +765,12 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	{
 		_tile->NotifyViewer(m__player->GetMapTilePos(), m_alertLevel, dt * S_ALERT_SPEED);
 	}
+	//if hostage inside tile being viewed
+	/*_tile = m__currentLevel->GetTileMap()->GetTileAt(m__currentLevel->GetTarget()->GetMapPos());
+	if(_tile->IsViewed() )
+	{
+		_tile->NotifyViewer(m__currentLevel->GetTarget()->GetMapTilePos() , m_alertLevel, dt * S_ALERT_SPEED);
+	}*/
 
 	//update enemies
 	for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
@@ -776,6 +784,17 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		
 		Vector2 mapTilePos = m__player->GetMapTilePos();
 		_enemy->SetAlertLevel(m_alertLevel);
+
+		//if current objective have a target and if current target is not the checking enemy
+		//if(m__currentLevel->GetTarget() != NULL && m__currentLevel->GetTarget() != _enemy)
+		//{
+		//	//updating enemy accordingt to hostage
+		//	_enemy->SetPlayerPtr(m__currentLevel->GetTarget());
+		//	_enemy->Update(dt, m__currentLevel->GetTileMap());
+
+		//	Vector2 mapTilePos = m__currentLevel->GetTarget()->GetMapTilePos();
+		//	_enemy->SetAlertLevel(m_alertLevel);
+		//}
 	}
 	if (m__player->GetHealth() <= 0)
 	{

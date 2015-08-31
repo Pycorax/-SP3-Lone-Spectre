@@ -192,7 +192,13 @@
     <ClCompile Include="Source\CChar.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="Source\NPC.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Player.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
     <ClCompile Include="Source\SpectreHexGame.cpp">
@@ -249,8 +255,8 @@
     <ClCompile Include="Source\UIButton.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Source\NPC.cpp">
-      <Filter>Source Files\Characters</Filter>
+    <ClCompile Include="Source\ObjectiveHostage.cpp">
+      <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -389,11 +395,17 @@
     <ClInclude Include="Source\CChar.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
+    <ClInclude Include="Source\NPC.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Player.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Source\TreasureGoodie.h">
       <Filter>Header Files\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>Header Files\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Source\SpectreHexGame.h">
       <Filter>Header Files</Filter>
@@ -455,8 +467,8 @@
     <ClInclude Include="Source\MenuManager_Spectre.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Source\NPC.h">
-      <Filter>Header Files\Characters</Filter>
+    <ClInclude Include="Source\ObjectiveHostage.h">
+      <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

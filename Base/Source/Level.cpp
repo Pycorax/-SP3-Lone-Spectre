@@ -60,7 +60,8 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		"LM_COLLECT",
 		"LM_ASSASSINATE",
 		"LM_DEFUSE_BOMB",
-		"LM_PLANT_BOMB"
+		"LM_PLANT_BOMB",
+		"LM_HOSTAGE"
 	};
 
 	const string NPC_TYPE_NAMES[NPC::NUM_NPC_TYPE] =
@@ -135,6 +136,11 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 					case LM_ASSASSINATE:
 						{
 							m__objective = new ObjectiveAssassinate;
+							break;
+						}
+					case LM_HOSTAGE:
+						{
+							m__objective = new ObjectiveHostage;
 							break;
 						}
 				}
@@ -214,7 +220,14 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 							{
 								if (attrib.value == NPC_TYPE_NAMES[enemyType])
 								{
-									_enemy->SetNPCType(static_cast<NPC::E_NPC_TYPE>(enemyType));
+									if(enemyType == NPC::NT_HOSTAGE)
+									{
+										dynamic_cast<ObjectiveHostage* >(m__objective)->Init(_enemy);
+									}
+									else
+									{
+										_enemy->SetNPCType(static_cast<NPC::E_NPC_TYPE>(enemyType));
+									}
 									break;
 								}
 							}
@@ -327,4 +340,10 @@ TileMap* Level::GetTileMap()
 vector<NPC*> Level::GetEnemyList(void)
 {
 	return m_enemyList;
+}
+
+void Level::ResetObjective()
+{
+	//reset the objective completed back to init
+	m__objective->Reset();
 }

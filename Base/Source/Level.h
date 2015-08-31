@@ -7,6 +7,7 @@
 #include "ObjectiveCollect.h"
 #include "ObjectiveDefuse.h"
 #include "ObjectiveSetBomb.h"
+#include "ObjectiveHostage.h"
 
 class Level
 {
@@ -17,6 +18,7 @@ public:
 		LM_ASSASSINATE,					// Assassinate a target mission
 		LM_DEFUSE_BOMB,					// Defuse a bomb mission
 		LM_PLANT_BOMB,					// Plant a bomb mission
+		LM_HOSTAGE,						// Save hostage mission
 		NUM_LEVEL_MISSIONS
 	};
 	static const Vector2 S_M_SCREEN_SIZE;
@@ -58,7 +60,7 @@ public:
 
 	void ActivateObjective(void);
 	void UpdateObjective(double dt);
-
+	void ResetObjective();
 	/*
 	 * Getter Functions
 	 */
