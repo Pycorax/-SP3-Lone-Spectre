@@ -328,23 +328,23 @@ bool Enemy::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 
 	//checking if tile reached 
 	//checking left				if reached tile										if collided
-	if(m_lookDir.x < 0 && (EndPos == GetMapTilePos() + Vector2(1,0) || _map->CheckCollision(GetMapTilePos() + Vector2(1,0))) )
+	if(m_lookDir.x < 0 && (EndPos - Vector2(1,0) == GetMapTilePos()|| _map->CheckCollision(GetMapPos())) )
 	{
 		return true;
 	}
 	//checking right				if reached tile										if collided
-	else if(m_lookDir.x > 0 && (EndPos == GetMapTilePos() - Vector2(1,0) || _map->CheckCollision(GetMapTilePos() - Vector2(1,0))) )
+	else if(m_lookDir.x > 0 && (EndPos == GetMapTilePos()|| _map->CheckCollision(GetMapPos())) )
 	{
 		return true;
 	}
 	//check down				if reached tile										if collided
-	else if(m_lookDir.y < 0 && (EndPos == GetMapTilePos() + Vector2(0,1) || _map->CheckCollision(GetMapTilePos() + Vector2(0,1))) )
+	else if(m_lookDir.y < 0 && (EndPos - Vector2(0,1) == GetMapTilePos() || _map->CheckCollision(GetMapPos())) )
 	{
 		s_LeftRightMove = true;
 		return true;
 	}
 	//checking up				if reached tile										if collided
-	else if(m_lookDir.y > 0 && (EndPos == GetMapTilePos() - Vector2(0,1) || _map->CheckCollision(GetMapTilePos() - Vector2(0,1))) )
+	else if(m_lookDir.y > 0 && (EndPos == GetMapTilePos() || _map->CheckCollision(GetMapPos())) )
 	{
 		s_LeftRightMove = true;
 		return true;
