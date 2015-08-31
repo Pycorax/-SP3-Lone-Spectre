@@ -216,6 +216,11 @@ bool Enemy::AttackingInView(Character* _go)
 	return false;
 }
 
+void Enemy::SetPlayerPtr(Character* _ptr)
+{
+	_player = _ptr;
+}
+
 void Enemy::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
 {
 	m__animationList[enemyState] = _anim;
