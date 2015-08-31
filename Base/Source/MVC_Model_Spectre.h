@@ -12,6 +12,8 @@
 #include "MessageManager.h"
 #include "Objective.h"
 #include "ObjectiveCollect.h"
+#include "ObjectiveDefuse.h"
+#include "ObjectiveSetBomb.h"
 #include "HUD_Cooldown.h"
 #include "SoundPlayer2D.h"
 #include "MenuManager_Spectre.h"
@@ -77,6 +79,7 @@ private:	// Variables
 	// Characters
 	Player* m__player;
 	vector<Enemy*> m_enemyList;
+	bool m_shadowMode;
 
 	// Messaging System
 	MessageManager m_messenger;
@@ -96,11 +99,13 @@ private:	// Variables
 	HUD_Cooldown* m__spectreDive;
 	HUD_Cooldown* m__spectreJump;
 	HUD_Cooldown* m__spectreHost;
+	HUD_Cooldown* m__defuseBomb;
+	HUD_Cooldown* m__plantBomb;
 
 	// Prompt action
 	HUD* m__fKey;
 	HUD* m__kKey;
-
+	
 	// Cameras
 	vector<SecurityCamera*> m_cameraList;
 

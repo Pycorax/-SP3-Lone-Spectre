@@ -12,6 +12,8 @@ private: //Variables
 	bool m_defusing;
 	//defuse timer
 	float m_defuseTime;
+public: //Variable
+	static const float S_M_MAX_DEFUSE_TIME;
 public: //Functions
 	ObjectiveDefuse();
 	virtual ~ObjectiveDefuse();
@@ -21,6 +23,8 @@ public: //Functions
 	void Activate();
 	bool Active();
 	bool IsCompleted();
+
+	float GetTimer();
 };
 
 #endif

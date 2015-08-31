@@ -21,10 +21,13 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__spectreJump(NULL)
 	, m__fKey(NULL)
 	, m__kKey(NULL)
+	, m__defuseBomb(NULL)
+	, m__plantBomb(NULL)
 	, m_objective(NULL)
 	, m__bgm(NULL)
 	, m__menu(NULL)
 	, m_menuKeysInputTimer(0.f)
+	, m_shadowMode(false)
 {
 }
 
@@ -56,7 +59,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				m__player->SetMove(Direction::DIRECTIONS[Direction::DIR_RIGHT]);
 			}
 
-			if (m_bKeyPressed[INTERACT_GENERIC_KEY])
+			if (m_bKeyPressed[INTERACT_GENERIC_KEY] && m_shadowMode == false)
 			{
 				if (m__player->Interact(Player::INTERACT_ESCAPE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ESCAPE
 					&& m__currentLevel->GetObjectiveComplete() == true)
@@ -125,7 +128,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				}
 			}
 
-			if (m_bKeyPressed[INTERACT_SKILL_2_KEY]) // Spectral Hax
+			if (m_bKeyPressed[INTERACT_SKILL_2_KEY] && m_shadowMode == false) // Spectral Hax
 			{
 				if (m__player->Interact(Player::INTERACT_HAX, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HAX)
 				{
@@ -153,10 +156,12 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					{
 						m__soundPlayer[SP_SKILL_SPECTRAL_HOST_EXIT]->Play(false);
 					}
+					m_shadowMode = false;
 				}
 				else
 				{
 					m__soundPlayer[SP_SKILL_DIVE_ENTER]->Play(false);
+					m_shadowMode = true;
 				}
 
 				m__player->SetDive();
@@ -172,6 +177,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						{
 							m__player->SetHostPTR(_enemy);
 							m__soundPlayer[SP_SKILL_SPECTRAL_HOST_ENTER]->Play(false);
+							m_shadowMode = true;
 							break;
 						}
 					}
@@ -559,6 +565,23 @@ void MVC_Model_Spectre::initHUD(void)
 	const Vector2 HOST_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
 	m__spectreHost->Init(GetMeshResource("Skill_HostIcon"), HOST_POS, HOST_SCALE, GetMeshResource("Skill_Cover"), HOST_POS, HOST_SCALE, false, true);
 	++hudCount;
+
+
+	if (m__defuseBomb == NULL)
+	{
+		m__defuseBomb = new HUD_Cooldown();
+	}
+	const Vector2 DEFUSE_SCALE(static_cast<float>(m_viewHeight)* 0.2f, static_cast<float>(m_viewHeight)* 0.1f);
+	const Vector2 DEFUSE_POS(static_cast<float>(m_viewWidth)*0.5f - (DEFUSE_SCALE.x *0.5f), static_cast<float>(m_viewHeight)*0.25f - (DEFUSE_SCALE.y*0.5f));
+	m__defuseBomb->Init(GetMeshResource("Defuse_Bomb"), DEFUSE_POS, DEFUSE_SCALE, GetMeshResource("Skill_Cover"), DEFUSE_POS, DEFUSE_SCALE, true, false);
+
+	if (m__plantBomb == NULL)
+	{
+		m__plantBomb = new HUD_Cooldown();
+	}
+	const Vector2 PLANT_SCALE(static_cast<float>(m_viewHeight)* 0.2f, static_cast<float>(m_viewHeight)* 0.1f);
+	const Vector2 PLANT_POS(static_cast<float>(m_viewWidth)*0.5f - (PLANT_SCALE.x *0.5f), static_cast<float>(m_viewHeight)*0.25f - (PLANT_SCALE.y*0.5f));;
+	m__plantBomb->Init(GetMeshResource("Plant_Bomb"), PLANT_POS, PLANT_SCALE, GetMeshResource("Skill_Cover"), PLANT_POS, PLANT_SCALE, true, false);
 
 	// Action prompt HUD
 	float actionKeySize = m__currentLevel->GetTileMap()->GetTileSize() * 0.5f;
@@ -1266,6 +1289,19 @@ void MVC_Model_Spectre::updateHUD(double dt)
 		}
 	}
 	m__alert->Update(dt, m_alertLevel, S_M_MAX_ALERT);
+
+	ObjectiveDefuse* temp_defuse = dynamic_cast<ObjectiveDefuse*>(m_objective);
+	if (temp_defuse)
+	{
+		m__defuseBomb->Update(dt, temp_defuse->GetTimer(), ObjectiveDefuse::S_M_MAX_DEFUSE_TIME);
+	}
+
+	ObjectiveSetBomb* temp_plant = dynamic_cast<ObjectiveSetBomb*>(m_objective);
+	if (temp_plant)
+	{
+		m__plantBomb->Update(dt, temp_plant->GetTimer(), ObjectiveSetBomb::S_M_MAX_PLANT_TIME);
+	}
+
 	m__spectreDive->Update(dt, Player::S_SPECTRE_DIVE_COOLDOWN - m__player->GetDiveTimer(), Player::S_SPECTRE_DIVE_COOLDOWN);
 	m__spectreJump->Update(dt, Player::S_SPECTRE_JUMP_COOLDOWN - m__player->GetJumpTimer(), Player::S_SPECTRE_JUMP_COOLDOWN);
 	if (!m__player->GetInShadow())

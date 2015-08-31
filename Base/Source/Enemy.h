@@ -12,6 +12,14 @@
 class Enemy : public Character, public Viewer, public PathFinder
 {
 public:
+	enum E_NPC_TYPE
+	{
+		NT_ENEMY = 0,
+		NT_HOSTAGE,
+		NT_TARGET,
+		NUM_NPC_TYPE,
+	};
+
 	enum E_ENEMY_STATE
 	{
 		ES_PATROL = 0,

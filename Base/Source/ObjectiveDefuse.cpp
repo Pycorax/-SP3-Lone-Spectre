@@ -1,9 +1,11 @@
 #include "ObjectiveDefuse.h"
 
+const float ObjectiveDefuse::S_M_MAX_DEFUSE_TIME = 5.f;
+
 ObjectiveDefuse::ObjectiveDefuse(void) :
 	m_defused(false),
 	m_defusing(false),
-	m_defuseTime(5.f)
+	m_defuseTime(S_M_MAX_DEFUSE_TIME)
 {
 
 }
@@ -41,10 +43,15 @@ void ObjectiveDefuse::Activate() //If the bomb has been defused
 {
 	m_defusing = true;
 	//reset defuse time needed for the bomb
-	m_defuseTime = 5.f;
+	m_defuseTime = S_M_MAX_DEFUSE_TIME;
 }
 
 bool ObjectiveDefuse::Active()
 {
 	return m_defusing;
+}
+
+float ObjectiveDefuse::GetTimer()
+{
+	return m_defuseTime;
 }
