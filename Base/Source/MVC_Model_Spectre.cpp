@@ -794,7 +794,9 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		Vector2 mapTilePos = m__player->GetMapTilePos();
 		_enemy->SetAlertLevel(m_alertLevel);
 		//if not alerted						 
-		if (_enemy->GetAlertLevel() == 0
+		if (_objectiveTarget != NULL
+			&&
+			_enemy->GetAlertLevel() == 0
 			&& _objectiveTarget->GetTarget()->GetNPCType() == _enemy->GetNPCType() //and of the pointer is the same as current enemy
 			&& _objectiveTarget->Active())			//and is active : right in front and press the key already
 		{
@@ -834,7 +836,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		//check if its the same enemy killed
 		NPC* _temp = *enemyIter;
 		//if NOT the target and objective is NOT 
-		if (!(_objectiveTarget->GetTarget()->GetNPCType() == _temp->GetNPCType() && _objectiveTarget->IsCompleted()))
+		if (_objectiveTarget!= NULL && !(_objectiveTarget->GetTarget()->GetNPCType() == _temp->GetNPCType() && _objectiveTarget->IsCompleted()))
 		{
 			m_renderList2D.push((*enemyIter));
 		}
