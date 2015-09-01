@@ -786,6 +786,24 @@
 		[Texture] BUTTON_LEVEL_SELECT_OFF
 	}
 	
+	{
+		[Name] BUTTON_LEVEL_OFF
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_LEVEL_OFF
+	}
+	
+	{
+		[Name] BUTTON_LEVEL_ON
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] BUTTON_LEVEL_ON
+	}
+	
 #	{
 #		[Name] Quad
 #		[Type] Quad

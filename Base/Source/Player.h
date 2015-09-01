@@ -144,6 +144,7 @@ class Player : public Character
 		void SetHost(void);
 
 		void SetState(E_PLAYER_STATE currentState);
+		void ForceSetAnimation(E_PLAYER_STATE currentState);
 		E_PLAYER_STATE GetState(void)const;
 
 		// Actions

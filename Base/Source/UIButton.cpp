@@ -111,6 +111,15 @@ void UIButton::InitMeshLists(vector<Mesh*> meshList)
 		{
 			s_m_offMeshList[BUTTON_LEVEL_SELECT] = _mesh;
 		}
+		// Level
+		else if (_mesh->name == "BUTTON_LEVEL_ON")
+		{
+			s_m_onMeshList[BUTTON_LEVEL] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_LEVEL_OFF")
+		{
+			s_m_offMeshList[BUTTON_LEVEL] = _mesh;
+		}
 	}
 }
 
@@ -140,6 +149,7 @@ void UIButton::InitLevel(int levelID, Mesh* _mesh, Vector2 pos, Vector2 scale, s
 	{
 		m__text = new TextObject(_mesh, text, Color(1,1,1));
 	}
+	m_levelID = levelID;
 	m__text->SetPos(pos);
 	m__text->SetScale(scale);
 }
@@ -193,4 +203,14 @@ UIButton::E_BUTTON_STATE_TYPE UIButton::GetState(void)
 UIButton::E_BUTTON_TYPE UIButton::GetType(void)
 {
 	return m_type;
+}
+
+TextObject* UIButton::GetTextObj()
+{
+	return m__text;
+}
+
+int UIButton::GetLevelID()
+{
+	return m_levelID;
 }

@@ -319,6 +319,16 @@
 		[FilePath] Image//Menu//LevelSelect_Off.tga
 	}
 	
+	{
+		[Name] BUTTON_LEVEL_OFF
+		[FilePath] Image//Menu//Border_Off.tga
+	}
+	
+	{
+		[Name] BUTTON_LEVEL_ON
+		[FilePath] Image//Menu//Border_On.tga
+	}
+	
 	# Menu Backgrounds
 	{
 		[Name] MainMenuBG

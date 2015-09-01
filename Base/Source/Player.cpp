@@ -394,6 +394,16 @@ void Player::SetState(Player::E_PLAYER_STATE currentState)
 	this->m_currentState = currentState;
 }
 
+void Player::ForceSetAnimation(E_PLAYER_STATE currentState)
+{
+	this->m_currentState = currentState;
+	SpriteAnimation* sa = dynamic_cast<SpriteAnimation*>(m__mesh);
+	if (sa)
+	{
+		sa->m_anim = m__animationList[m_currentState];
+	}
+}
+
 Player::E_PLAYER_STATE Player::GetState(void) const
 {
 	return this->m_currentState;
@@ -681,6 +691,7 @@ void Player::jump(double dt, TileMap* _map)
 void Player::SetInShadow(bool inShadow)
 {
 	this->m_inShadow = inShadow;
+	this->m_spectreMode = inShadow;
 }
 
 bool Player::GetInShadow()

@@ -67,5 +67,11 @@ MenuManager::E_RETURN_STATE MenuManager_Spectre::Response(UIButton::E_BUTTON_TYP
 			return RS_MENU;
 		}
 		break;
+	case UIButton::BUTTON_LEVEL:
+		{
+			//setNoCurrent();
+			return RS_LEVEL;
+		}
+		break;
 	}
 }

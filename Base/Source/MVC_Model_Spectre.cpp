@@ -271,34 +271,41 @@ void MVC_Model_Spectre::processMenuKeyAction(MenuManager::E_RETURN_STATE returnS
 		}
 		break;
 		case MenuManager::RS_NEW_GAME:
-		{
-			m_appState = AS_MAIN_GAME;
-			m_currentLevelID = 0;
-			loadLevel(m_levelFiles[m_currentLevelID]);
-		}
-		break;
+			{
+				m_appState = AS_MAIN_GAME;
+				m_currentLevelID = 0;
+				loadLevel(m_levelFiles[m_currentLevelID]);
+			}
+			break;
 		case MenuManager::RS_EXIT:
-		{
-			m_running = false;
-		}
-		break;
-		case MenuManager::RS_CURRENT_LEVEL:
-		{
-			m_appState = AS_MAIN_GAME;
-			loadLevel(m_levelFiles[m_currentLevelID]);
-		}
-		break;
+			{
+				m_running = false;
+			}
+			break;
+	case MenuManager::RS_CURRENT_LEVEL:
+			{
+				m_appState = AS_MAIN_GAME;
+				loadLevel(m_levelFiles[m_currentLevelID]);
+			}
+			break;
 		case MenuManager::RS_NEXT_LEVEL:
-		{
-			m_appState = AS_MAIN_GAME;
-			nextLevel();
-		}
-		break;
+			{
+				m_appState = AS_MAIN_GAME;
+				nextLevel();
+			}
+			break;
 		case MenuManager::RS_RESUME:
-		{
-			m_appState = AS_MAIN_GAME;
-		}
-		break;
+			{
+				m_appState = AS_MAIN_GAME;
+			}
+			break;
+		case MenuManager::RS_LEVEL:
+			{
+				m_appState = AS_MAIN_GAME;
+				m_currentLevelID = m__menu->GetCurrentButton()->GetLevelID();
+				loadLevel(m_levelFiles[m_currentLevelID]);
+			}
+			break;
 	}
 	m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
 }
@@ -389,6 +396,9 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	m__player->SetMapPosition(playerSpawnPos, spawnScrollOffset, m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
 	m__player->SetInShadow(false);
+	m__player->ForceSetAnimation(Player::PS_IDLE_UP);
+	m_shadowMode = false;
+	
 
 	// Initialize the enemies
 	clearEnemyList();
@@ -655,13 +665,29 @@ void MVC_Model_Spectre::initMenu(void)
 
 	/* Level select */
 	// Variables
-	startPos = Vector2((m_viewWidth * 0.5f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.5f) - (BUTTON_SIZE.y * 0.5f));
+	const float WIDTH_OFFSET = m_viewWidth * 0.3f;
+	const Vector2 LEVEL_BUTTON_SIZE(40,40);
+	startPos = Vector2((m_viewWidth * 0.2f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.8f) - (BUTTON_SIZE.y * 0.5f));
 	buttonCount = 0;
 	// Button creation
 	_newMenu = new Menu();
 	_newMenu->Init(Menu::MENU_LEVEL_SELECT, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
-	/*_newMenu->AddButton(new UIButton(UIButton::BUTTON_RESUME, GetMeshResource("BUTTON_RESUME_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
-	++buttonCount;*/
+
+	UIButton* _newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * (static_cast<int>(buttonCount / 3)), HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
+	_newButton->InitLevel(0, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (LEVEL_BUTTON_SIZE.x * 1.7f), (HEIGHT_OFFSET * buttonCount) - (LEVEL_BUTTON_SIZE.y * 0.25f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 00"); 
+	_newMenu->AddButton(_newButton);
+	++buttonCount;
+
+	_newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * (static_cast<int>(buttonCount / 3)), HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
+	_newButton->InitLevel(1, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (LEVEL_BUTTON_SIZE.x * 1.7f), (HEIGHT_OFFSET * buttonCount) - (LEVEL_BUTTON_SIZE.y * 0.25f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 01"); 
+	_newMenu->AddButton(_newButton);
+	++buttonCount;
+
+	_newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * (static_cast<int>(buttonCount / 3)), HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
+	_newButton->InitLevel(2, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (LEVEL_BUTTON_SIZE.x * 1.7f), (HEIGHT_OFFSET * buttonCount) - (LEVEL_BUTTON_SIZE.y * 0.25f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 02"); 
+	_newMenu->AddButton(_newButton);
+	++buttonCount;
+
 	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
 	m__menu->AddMenu(_newMenu);
@@ -1305,6 +1331,10 @@ void MVC_Model_Spectre::updateMenu(double dt)
 		if (_button)
 		{
 			m_renderList2D.push(_button);
+			if (_button->GetTextObj())
+			{
+				m_renderList2D.push(_button->GetTextObj());
+			}
 		}
 	}
 }

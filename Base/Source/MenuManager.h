@@ -14,6 +14,7 @@ public:
 		RS_CURRENT_LEVEL,
 		RS_NEXT_LEVEL,
 		RS_RESUME,
+		RS_LEVEL,
 		NUM_RS,
 	};
 

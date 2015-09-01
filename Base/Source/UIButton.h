@@ -38,6 +38,7 @@ class UIButton : public GameObject2D
 
 			// Level select menu buttons
 			BUTTON_START,
+			BUTTON_LEVEL,
 
 			// Pause
 			BUTTON_RESUME,
@@ -45,7 +46,7 @@ class UIButton : public GameObject2D
 			NUM_BUTTONS,
 		};
 		static Mesh* s_m_offMeshList[NUM_BUTTONS];	// Not hover
-		static Mesh* s_m_onMeshList[NUM_BUTTONS];		// Hover
+		static Mesh* s_m_onMeshList[NUM_BUTTONS];	// Hover
 
 	private:
 		E_BUTTON_STATE_TYPE m_state;
@@ -73,6 +74,8 @@ class UIButton : public GameObject2D
 		 */
 		E_BUTTON_STATE_TYPE GetState(void);
 		E_BUTTON_TYPE GetType(void);
+		TextObject* GetTextObj();
+		int GetLevelID();
 };
 
 #endif
