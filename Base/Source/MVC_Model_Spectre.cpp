@@ -31,6 +31,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_pauseTimer(0.f)
 	, m_shadowMode(false)
 	, m_lightUpdateTimer(S_M_LIGHTING_UPDATE_FREQUENCY)
+	, m__objectivesHUD(NULL)
 {
 }
 
@@ -677,6 +678,8 @@ void MVC_Model_Spectre::initMenu(void)
 	_newMenu->Init(Menu::MENU_PAUSE, GetMeshResource("PauseMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RESUME, GetMeshResource("BUTTON_RESUME_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
+	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETRY, GetMeshResource("BUTTON_RETRY_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
+	++buttonCount;
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
 	m__menu->AddMenu(_newMenu);
@@ -787,6 +790,13 @@ void MVC_Model_Spectre::initHUD(void)
 	}
 	m__kKey->Init(GetMeshResource("K_Key"), Vector2(0,0), ACTION_KEY_SCALE);
 	m__kKey->SetActive(false);
+
+	if (m__objectivesHUD == NULL)
+	{
+		m__objectivesHUD = new HUD_Objectives();
+	}
+	m__objectivesHUD->Init(NULL, Vector2(0, m_viewHeight * 0.8f), Vector2(1,1), m_defaultFont, "", Vector2(0, m_viewHeight * 0.8f) * 0.1, Vector2 (40,40) * 0.1);
+	m__objectivesHUD->Update(0.0, m_objective);
 }
 
 void MVC_Model_Spectre::updateMainGame(double dt)
@@ -795,6 +805,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	{
 		m_pauseTimer -= dt;
 	}
+	m__objectivesHUD->Update(dt, m_objective);
 	// Updates player depending on actions queued.
 	m__player->Update(dt, m__currentLevel->GetTileMap());
 
@@ -1001,6 +1012,12 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	{
 		m__fKey->SetActive(false);
 		m__kKey->SetActive(false);
+	}
+	// Objectives
+	m_renderList2D.push(m__objectivesHUD);
+	if (m__objectivesHUD->GetObjectiveText())
+	{
+		m_renderList2D.push(m__objectivesHUD->GetObjectiveText());
 	}
 
 	// Render Messages

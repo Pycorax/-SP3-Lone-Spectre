@@ -1,34 +1,50 @@
-#ifndef HUD_H
-#define HUD_H
+#ifndef HUD_OBJECTIVE_H
+#define HUD_OBJECTIVE_H
 
 #include "HUD.h"
+#include "TextObject.h"
+
+// Objective
+#include "ObjectiveAssassinate.h"
+#include "ObjectiveCollect.h"
+#include "ObjectiveDefuse.h"
+#include "ObjectiveHostage.h"
+#include "ObjectiveSetBomb.h"
 
 class HUD_Objectives : public HUD
 {
+public:
+	enum OBJECTIVE_TYPE
+	{
+		OBJECTIVE_ESCAPE = 0,
+		OBJECTIVE_ASSASSINATE,
+		OBJECTIVE_COLLECT,
+		OBJECTIVE_DEFUSE,
+		OBJECTIVE_HOSTAGE,
+		OBJECTIVE_SET_BOMB,
+		NUM_OBJECTIVE,
+	};
+	static const string S_M_OBJECTIVE_TEXTS[NUM_OBJECTIVE];
 protected:
-	GameObject2D* m__displayCover;
-	bool m_scrollX;
-	bool m_scrollY;
-	Vector2 m_initPos;
-	Vector2 m_initScale;
+	TextObject* m__objectiveText;
 public:
 	HUD_Objectives(void);
 	virtual ~HUD_Objectives(void);
 
 	virtual void Init(Mesh* _displayMesh, Vector2 displayPos, Vector2 displayScale,
-		Mesh* _coverMesh, Vector2 coverPos, Vector2 coverScale, bool scrollX, bool scrollY);
-	virtual void Update(double dt, float coverLevels, float coverLevelLimit);
+		Mesh* _objMesh, string text, Vector2 objPos, Vector2 objScale);
+	virtual void Update(double dt, Objective* _obj);
 	virtual void Clear();
 
 	/*
 	* Setters
 	*/
-	void SetDisplayCover(GameObject2D* _displayCover);
+	void SetObjectiveText(TextObject* _objectiveText);
 
 	/*
 	* Getters
 	*/
-	GameObject2D* GetDisplayCover();
+	GameObject2D* GetObjectiveText();
 };
 
 #endif

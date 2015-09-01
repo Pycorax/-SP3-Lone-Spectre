@@ -19,6 +19,7 @@
 #include "HUD_Cooldown.h"
 #include "SoundPlayer2D.h"
 #include "MenuManager_Spectre.h"
+#include "HUD_Objectives.h"
 
 class MVC_Model_Spectre : public MVC_Model
 {
@@ -118,6 +119,9 @@ private:	// Variables
 	// Prompt action
 	HUD* m__fKey;
 	HUD* m__kKey;
+
+	// Objectives
+	HUD_Objectives* m__objectivesHUD;
 	
 	// Cameras
 	vector<SecurityCamera*> m_cameraList;
