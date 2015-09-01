@@ -93,6 +93,8 @@ private:
 public:
 	NPC(void);
 	virtual ~NPC(void);
+	static NPC* CreateCopy(NPC npcToCopy);
+
 	void Init(Vector2 pos, Mesh* _mesh);
 	bool Update(double dt, TileMap* _map);
 	

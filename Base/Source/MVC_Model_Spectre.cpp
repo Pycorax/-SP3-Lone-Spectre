@@ -396,7 +396,7 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	vector<NPC*> enemies = m__currentLevel->GetEnemyList();
 	for (vector<NPC*>::iterator enemyIT = enemies.begin(); enemyIT != enemies.end(); ++enemyIT)
 	{
-		NPC* _enemy = new NPC(**enemyIT);
+		NPC* _enemy = NPC::CreateCopy(**enemyIT);
 
 		Vector2 mapPos = m__player->GetMapTilePos();
 		_enemy->SetPlayerPtr(m__player);

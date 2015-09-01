@@ -13,6 +13,8 @@ NPC::NPC(void)
 	, m_checkAround(0)
 	, m_AttackCountdown(0)
 	, m_ViewingTimer(0)
+	, m_wasPossessed(false)
+	, _player(NULL)
 	
 {
 	for (size_t anim = 0; anim < NUM_ENEMY_ACTION; ++anim)
@@ -23,6 +25,21 @@ NPC::NPC(void)
 
 NPC::~NPC(void)
 {
+}
+
+NPC * NPC::CreateCopy(NPC npcToCopy)
+{
+	NPC* newNPC = new NPC(npcToCopy);
+
+	for (size_t anim = 0; anim < NUM_ENEMY_ACTION; ++anim)
+	{
+		if (npcToCopy.m__animationList[anim] != NULL)
+		{
+			newNPC->m__animationList[anim] = new Animation(*npcToCopy.m__animationList[anim]);
+		}
+	}
+
+	return newNPC;
 }
 
 void NPC::Init(Vector2 pos, Mesh* _mesh)
@@ -234,6 +251,7 @@ bool NPC::Update(double dt, TileMap* _map)
 			}
 		}
 	}
+
 	//if have seen player 
 	if(m_AttackCountdown > 0)
 	{

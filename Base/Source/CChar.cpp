@@ -1,13 +1,13 @@
 #include "CChar.h"
 
 Character::Character(void)
-	:m_health(0)
+	: m_health(0)
 	, m_maxHealth(0)
-	,m_animMesh(NULL)
+	, m_animMesh(NULL)
 	, m_lookDir(Vector2::ZERO_VECTOR)
 	, m_active(false)
 	, m_moveSpeed(0)
-	,MapEntity( Vector2(0,0) )
+	, MapEntity( Vector2(0,0) )
 {
 }
 
