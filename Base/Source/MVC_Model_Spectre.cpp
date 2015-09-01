@@ -627,7 +627,7 @@ void MVC_Model_Spectre::initMenu(void)
 	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_INSTRUCTIONS, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
+	_newMenu->Init(Menu::MENU_INSTRUCTIONS, GetMeshResource("InstructionMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
 	m__menu->AddMenu(_newMenu);
 
@@ -636,7 +636,7 @@ void MVC_Model_Spectre::initMenu(void)
 	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_CREDITS, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
+	_newMenu->Init(Menu::MENU_CREDITS, GetMeshResource("CreditsMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
 	m__menu->AddMenu(_newMenu);
 
