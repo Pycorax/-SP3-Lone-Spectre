@@ -84,6 +84,15 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					if (m__currentLevel->GetObjectiveComplete() == false && m__currentLevel->GetActiveObjective() == false)
 					{
 						m__currentLevel->ActivateObjective();
+						
+						if (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
+						{
+							m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Play(true);
+						}
+						else if (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
+						{
+							m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Play(true);
+						}
 					}
 				}
 
@@ -103,21 +112,25 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						{
 							_tileOnPlayer->SetMesh(GetMeshResource("TILE_FLOOR"));
 							_tileOnPlayer->SetType(Tile::TILE_FLOOR);
+							m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
 						}
 						else if ((_tileInFrontPlayer->GetType() == Tile::TILE_BOMB || _tileInFrontPlayer->GetType() == Tile::TILE_DOCUMENT))
 						{
 							_tileInFrontPlayer->SetMesh(GetMeshResource("TILE_FLOOR"));
 							_tileInFrontPlayer->SetType(Tile::TILE_FLOOR);
+							m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
 						}
 						else if (_tileOnPlayer->GetType() == Tile::TILE_SETBOMBAREA)
 						{
 							_tileOnPlayer->SetMesh(GetMeshResource("TILE_BOMB"));
 							_tileOnPlayer->SetType(Tile::TILE_BOMB);
+							m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Pause();
 						}
 						else if (_tileInFrontPlayer->GetType() == Tile::TILE_SETBOMBAREA)
 						{
 							_tileInFrontPlayer->SetMesh(GetMeshResource("TILE_BOMB"));
 							_tileInFrontPlayer->SetType(Tile::TILE_BOMB);
+							m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Pause();
 						}
 
 						m__soundPlayer[SP_OBJ_COMPLETE]->Play(false);
@@ -131,6 +144,8 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				if (m__currentLevel->GetActiveObjective() && !m__currentLevel->GetObjectiveComplete())
 				{
 					m__currentLevel->ResetObjective();
+					m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
+					m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Pause();
 				}
 			}	
 
