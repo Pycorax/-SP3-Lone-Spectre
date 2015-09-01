@@ -338,26 +338,96 @@
 	# Menu Backgrounds
 	{
 		[Name] MainMenuBG
-		[FilePath] Image//Menu//main_menu_bg.tga
+		[FilePath] Image//Menu//MenuScreens//main_menu_bg.tga
 	}
 	
 	{
 		[Name] GenericMenuBG
-		[FilePath] Image//Menu//generic_menu_bg.tga
+		[FilePath] Image//Menu//MenuScreens//generic_menu_bg.tga
 	}
 	
 	{
 		[Name] PauseMenuBG
-		[FilePath] Image//Menu//pause_menu_bg.tga
+		[FilePath] Image//Menu//MenuScreens//pause_menu_bg.tga
 	}
 	
 	{
 		[Name] WinMenuBG
-		[FilePath] Image//Menu//win_menu_bg.tga
+		[FilePath] Image//Menu//MenuScreens//win_menu_bg.tga
 	}
 	
 	{
 		[Name] LoseMenuBG
-		[FilePath] Image//Menu//lose_menu_bg.tga
+		[FilePath] Image//Menu//MenuScreens//lose_menu_bg.tga
+	}
+	
+	{
+		[Name] InstructionMenuBG
+		[FilePath] Image//Menu//MenuScreens//instructions_menu_bg.tga
+	}
+	
+	{
+		[Name] CreditsMenuBG
+		[FilePath] Image//Menu//MenuScreens//credits_menu_bg.tga
+	}
+	
+	# Keys
+	# -- XInput
+	{
+		[Name] XInput_A_Key
+		[FilePath] Image//HUD//Buttons//XInput//a_xbox_key.tga
+	}
+	{
+		[Name] XInput_B_Key
+		[FilePath] Image//HUD//Buttons//XInput//b_xbox_key.tga
+	}
+	{
+		[Name] XInput_X_Key
+		[FilePath] Image//HUD//Buttons//XInput//x_xbox_key.tga
+	}
+	{
+		[Name] XInput_Y_Key
+		[FilePath] Image//HUD//Buttons//XInput//y_xbox_key.tga
+	}
+	{
+		[Name] XInput_LS_Key
+		[FilePath] Image//HUD//Buttons//XInput//ls_xbox_key.tga
+	}
+	{
+		[Name] XInput_RS_Key
+		[FilePath] Image//HUD//Buttons//XInput//rs_xbox_key.tga
+	}
+	# -- KBMouse
+	{
+		[Name] KBMouse_W_Key
+		[FilePath] Image//HUD//Buttons//KB_Mouse//w_key.tga
+	}
+	{
+		[Name] KBMouse_A_Key
+		[FilePath] Image//HUD//Buttons//KB_Mouse//a_key.tga
+	}
+	{
+		[Name] KBMouse_S_Key
+		[FilePath] Image//HUD//Buttons//KB_Mouse//s_key.tga
+	}
+	{
+		[Name] KBMouse_D_Key
+		[FilePath] Image//HUD//Buttons//KB_Mouse//d_key.tga
+	}
+	{
+		[Name] KBMouse_F_Key
+		[FilePath] Image//HUD//Buttons//KB_Mouse//f_key.tga
+	}
+	{
+		[Name] KBMouse_J_Key
+		[FilePath] Image//HUD//Buttons//KB_Mouse//j_key.tga
+	}
+	{
+		[Name] KBMouse_K_Key
+		[FilePath] Image//HUD//Buttons//KB_Mouse//k_key.tga
+	}
+	{
+		[Name] KBMouse_Space_Key
+		[FilePath] Image//HUD//Buttons//KB_Mouse//space_key.tga
 	}
 }

@@ -701,6 +701,24 @@
 		[Texture] LoseMenuBG
 	}
 	
+	{
+		[Name] InstructionMenuBG
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] InstructionMenuBG
+	}
+	
+	{
+		[Name] CreditsMenuBG
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] CreditsMenuBG
+	}
+	
 	# Retry
 	{
 		[Name] BUTTON_RETRY_ON
@@ -814,6 +832,121 @@
 		[Texture] BUTTON_LEVEL_ON
 	}
 	
+	# Keys
+	# -- Xinput
+	{
+		[Name] XInput_A_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] XInput_A_Key
+	}
+	{
+		[Name] XInput_B_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] XInput_B_Key
+	}
+	{
+		[Name] XInput_X_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] XInput_X_Key
+	}
+	{
+		[Name] XInput_Y_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] XInput_Y_Key
+	}
+	{
+		[Name] XInput_LS_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] XInput_LS_Key
+	}
+	{
+		[Name] XInput_RS_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] XInput_RS_Key
+	}
+	# -- KBMouse
+	{
+		[Name] KBMouse_W_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] KBMouse_W_Key
+	}
+	{
+		[Name] KBMouse_A_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] KBMouse_A_Key
+	}
+	{
+		[Name] KBMouse_S_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] KBMouse_S_Key
+	}
+	{
+		[Name] KBMouse_D_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] KBMouse_D_Key
+	}
+	{
+		[Name] KBMouse_F_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] KBMouse_F_Key
+	}
+	{
+		[Name] KBMouse_J_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] KBMouse_J_Key
+	}
+	{
+		[Name] KBMouse_K_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] KBMouse_K_Key
+	}
+	{
+		[Name] KBMouse_Space_Key
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] KBMouse_Space_Key
+	}
 #	{
 #		[Name] Quad
 #		[Type] Quad
