@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Menu">
       <UniqueIdentifier>{7897a99a-1cca-434d-8200-6b7c4d22f9e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\HUD">
+      <UniqueIdentifier>{e3f8de4f-f3f3-4f0e-b223-79e8b9efcb48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HUD">
+      <UniqueIdentifier>{5db677ca-5f32-46a3-b8ef-6642f7efa39e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -234,12 +240,6 @@
     <ClCompile Include="Source\ObjectiveSetBomb.cpp">
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="Source\HUD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\HUD_Cooldown.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Menu.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
@@ -255,8 +255,14 @@
     <ClCompile Include="Source\ObjectiveHostage.cpp">
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
+    <ClCompile Include="Source\HUD.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
     <ClCompile Include="Source\HUD_Objectives.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\HUD_Cooldown.cpp">
+      <Filter>Source Files\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,12 +452,6 @@
     <ClInclude Include="Source\ObjectiveSetBomb.h">
       <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
-    <ClInclude Include="Source\HUD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\HUD_Cooldown.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MenuManager.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
@@ -467,8 +467,14 @@
     <ClInclude Include="Source\ObjectiveHostage.h">
       <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
+    <ClInclude Include="Source\HUD.h">
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
     <ClInclude Include="Source\HUD_Objectives.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HUD_Cooldown.h">
+      <Filter>Header Files\HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

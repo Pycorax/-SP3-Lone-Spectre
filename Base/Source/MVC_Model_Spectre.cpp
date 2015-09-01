@@ -688,7 +688,7 @@ void MVC_Model_Spectre::initMenu(void)
 	/* Level select */
 	// Variables
 	const float WIDTH_OFFSET = m_viewWidth * 0.3f;
-	const Vector2 LEVEL_BUTTON_SIZE(40,40);
+	const Vector2 LEVEL_BUTTON_SIZE(m_viewWidth * 0.03125,m_viewHeight * 0.05555);
 	startPos = Vector2((m_viewWidth * 0.2f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.8f) - (BUTTON_SIZE.y * 0.5f));
 	buttonCount = 0;
 	// Button creation
@@ -696,17 +696,17 @@ void MVC_Model_Spectre::initMenu(void)
 	_newMenu->Init(Menu::MENU_LEVEL_SELECT, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 
 	UIButton* _newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * (static_cast<int>(buttonCount / 3)), HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
-	_newButton->InitLevel(0, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (LEVEL_BUTTON_SIZE.x * 1.7f), (HEIGHT_OFFSET * buttonCount) - (LEVEL_BUTTON_SIZE.y * 0.25f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 00"); 
+	_newButton->InitLevel(0, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (m_viewWidth * 0.05f), (HEIGHT_OFFSET * buttonCount) - (m_viewHeight * 0.015f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 00"); 
 	_newMenu->AddButton(_newButton);
 	++buttonCount;
 
 	_newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * (static_cast<int>(buttonCount / 3)), HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
-	_newButton->InitLevel(1, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (LEVEL_BUTTON_SIZE.x * 1.7f), (HEIGHT_OFFSET * buttonCount) - (LEVEL_BUTTON_SIZE.y * 0.25f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 01"); 
+	_newButton->InitLevel(1, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (m_viewWidth * 0.05f), (HEIGHT_OFFSET * buttonCount) - (m_viewHeight * 0.015f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 01"); 
 	_newMenu->AddButton(_newButton);
 	++buttonCount;
 
 	_newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * (static_cast<int>(buttonCount / 3)), HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
-	_newButton->InitLevel(2, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (LEVEL_BUTTON_SIZE.x * 1.7f), (HEIGHT_OFFSET * buttonCount) - (LEVEL_BUTTON_SIZE.y * 0.25f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 02"); 
+	_newButton->InitLevel(2, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * (static_cast<int>(buttonCount / 3))) - (m_viewWidth * 0.05f), (HEIGHT_OFFSET * buttonCount) - (m_viewHeight * 0.015f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 02"); 
 	_newMenu->AddButton(_newButton);
 	++buttonCount;
 
@@ -864,10 +864,10 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		}
 		
 	}
-	if (m__player->GetHealth() <= 0)
+	/*if (m__player->GetHealth() <= 0)
 	{
 		std::cout << "K.O." << std::endl;
-	}
+	}*/
 	// Update Lighting
 	updateLighting(dt);
 
@@ -1025,6 +1025,10 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	pushMessageToRender();
 
 	m_renderList2D.push(m_fpsCount);
+	if (m_fps < 55)
+	{
+		cout << m_fpsCount->GetText() << endl;
+	}
 }
 
 void MVC_Model_Spectre::updateHackGame(double dt)

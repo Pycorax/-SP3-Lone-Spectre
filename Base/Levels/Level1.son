@@ -11,7 +11,9 @@
 	[NumMapTile] 64.0f, 20.0f
 	
 	[MaxTimer] 999.0f
-	[MissionType] LM_ASSASSINATE
+	[MissionType] LM_DEFUSE_BOMB
+	[ObjectiveActiveTimer] 10
+	[BombTimer] 50
 	[BackgroundMusic] Level0BGM
 	
 	{			
