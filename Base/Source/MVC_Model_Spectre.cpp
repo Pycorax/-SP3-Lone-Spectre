@@ -429,6 +429,7 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 
 		Vector2 mapPos = m__player->GetMapTilePos();
 		_enemy->SetPlayerPtr(m__player);
+		_enemy->SetActive(true);
 		m_enemyList.push_back(_enemy);
 	}
 
@@ -887,7 +888,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		NPC* _temp = *enemyIter;
 		//if NOT the target and objective is NOT 
 		//if (_objectiveTarget!= NULL && !(_objectiveTarget->GetTarget()->GetNPCType() == _temp->GetNPCType() && _objectiveTarget->IsCompleted()))
-		if (_temp)
+		if (_temp && _temp->GetActive())
 		{
 			m_renderList2D.push((*enemyIter));
 		}

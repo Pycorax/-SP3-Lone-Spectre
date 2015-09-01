@@ -52,6 +52,7 @@ public:
 		NUM_ENEMY_ACTION,
 	};
 
+
 private:
 	// NPC Type
 	E_NPC_TYPE m_npcType;

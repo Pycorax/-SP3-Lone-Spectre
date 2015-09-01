@@ -69,6 +69,16 @@
 	}
 
 	{
+		[Name] Target_ANIMATION
+		[Type] SpriteAnimation2D
+		[SpriteAnimationRow] 4
+		[SpriteAnimationColumn] 3
+		[ScaleX] 1
+		[ScaleY] 1
+		[Texture] Target_ANIMATION
+	}
+
+	{
 		[Name] Player
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f

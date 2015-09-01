@@ -103,6 +103,11 @@ bool NPC::Update(double dt, TileMap* _map)
 {
 	static const int S_MIN_VIEW_DISTANCE = 1;
 
+	if (GetActive() == false)
+	{
+		return false;
+	}
+
 	Character::Update();	
 	
 	//update view distance according to alert level
@@ -198,6 +203,8 @@ bool NPC::Update(double dt, TileMap* _map)
 			else if (m_npcType == NT_TARGET)
 			{
 				SetActive(false);
+				ClearViewBox(this, _map);
+				return false;
 			}
 			
 			break;

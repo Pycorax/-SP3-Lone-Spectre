@@ -11,9 +11,7 @@
 	[NumMapTile] 64.0f, 20.0f
 	
 	[MaxTimer] 999.0f
-	[MissionType] LM_DEFUSE_BOMB
-	[ObjectiveActiveTimer] 10;
-	[BombTimer] 50;
+	[MissionType] LM_ASSASSINATE
 	[BackgroundMusic] Level0BGM
 	
 	{			
@@ -44,6 +42,17 @@
 			[PatrolPoint] 0.0f, 4.0f
 			[PatrolPoint] 3.0f, 4.0f
 			[PatrolPoint] 3.0f, 0.0f
+		}
+		{
+			[Name] Target1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_TARGET
+			# based on tile position
+			[SpawnTilePosition] 15.0f, 15.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord
+			[PatrolPoint] 0.0f, 0.0f
+			[PatrolPoint] 0.0f, 4.0f
 		}
 	}
 }

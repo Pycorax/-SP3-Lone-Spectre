@@ -32,6 +32,12 @@
 		[FilePath] Image//Enemy//Enemy.tga
 	}
 
+	#   TARGET TEXTURE
+	{
+		[Name] Target_ANIMATION
+		[FilePath] Image//Enemy//Target.tga
+	}
+
 
 	{
 		[Name] CircuitWall
