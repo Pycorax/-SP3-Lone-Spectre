@@ -165,15 +165,24 @@ bool NPC::Update(double dt, TileMap* _map)
 			// Remember that I was possesed so that I can know to gostan later 
 			m_wasPossessed = true;
 
-			// Store the tour route
-			// -- Calculate the current tile position
-			Vector2 tilePos = GetMapTilePos();
-
-			// Only store this tile position if the previous was not the same or if there was no previous
-			if ((m_possessedTourStops.size() > 0 && m_possessedTourStops.top() != tilePos) || m_possessedTourStops.size() == 0)
+			//Check who is being possessed and what they do
+			if (m_npcType == NT_ENEMY)
 			{
-				m_possessedTourStops.push(tilePos);
+				// Store the tour route
+				// -- Calculate the current tile position
+				Vector2 tilePos = GetMapTilePos();
+
+				// Only store this tile position if the previous was not the same or if there was no previous
+				if ((m_possessedTourStops.size() > 0 && m_possessedTourStops.top() != tilePos) || m_possessedTourStops.size() == 0)
+				{
+					m_possessedTourStops.push(tilePos);
+				}
 			}
+			else if (m_npcType == NT_TARGET)
+			{
+				SetActive(false);
+			}
+			
 			break;
 		}
 	case ES_SCAN:

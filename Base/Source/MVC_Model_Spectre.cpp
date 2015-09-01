@@ -79,8 +79,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				if ((m__player->Interact(Player::INTERACT_COLLECT, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_COLLECT)
 					|| (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
 					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
-					|| (m__player->Interact(Player::INTERACT_HOSTAGE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HOSTAGE)
-					|| (m__player->Interact(Player::INTERACT_ASSASSINATE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_ASSASSINATE))
+					|| (m__player->Interact(Player::INTERACT_HOSTAGE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_HOSTAGE))
 				{
 					if (m__currentLevel->GetObjectiveComplete() == false && m__currentLevel->GetActiveObjective() == false)
 					{
@@ -801,7 +800,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	}*/
 
 	//update enemies
-	ObjectiveAssassinate* _objectiveTarget = dynamic_cast<ObjectiveAssassinate*>(m__currentLevel->GetObjective());
+	/*ObjectiveAssassinate* _objectiveTarget = dynamic_cast<ObjectiveAssassinate*>(m__currentLevel->GetObjective());*/
 	for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 	{
 		NPC* _enemy = (*enemyIter);
@@ -813,17 +812,17 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 			break;
 		}
 		
-		Vector2 mapTilePos = m__player->GetMapTilePos();
-		_enemy->SetAlertLevel(m_alertLevel);
-		//if not alerted						 
-		if (_objectiveTarget != NULL
-			&&
-			_enemy->GetAlertLevel() == 0
-			&& _objectiveTarget->GetTarget()->GetNPCType() == _enemy->GetNPCType() //and of the pointer is the same as current enemy
-			&& _objectiveTarget->Active())			//and is active : right in front and press the key already
-		{
-			_objectiveTarget->Update(dt); // meaning assassinated
-		}
+		//Vector2 mapTilePos = m__player->GetMapTilePos();
+		//_enemy->SetAlertLevel(m_alertLevel);
+		////if not alerted						 
+		//if (_objectiveTarget != NULL
+		//	&&
+		//	_enemy->GetAlertLevel() == 0
+		//	&& _objectiveTarget->GetTarget()->GetNPCType() == _enemy->GetNPCType() //and of the pointer is the same as current enemy
+		//	&& _objectiveTarget->Active())			//and is active : right in front and press the key already
+		//{
+		//	_objectiveTarget->Update(dt); // meaning assassinated
+		//}
 		//if current objective have a target and if current target is not the checking enemy
 		//if(m__currentLevel->GetTarget() != NULL && m__currentLevel->GetTarget() != _enemy)
 		//{

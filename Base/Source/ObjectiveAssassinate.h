@@ -7,8 +7,7 @@
 class ObjectiveAssassinate : public Objective
 {
 private: //Variables
-	bool m_tryingToAssassinate;			//to see if key is pressed
-	bool m_assassinated;					// if the guy died
+	bool m_assassinated;	// if the guy died
 
 	//NPC Pointer
 	NPC* m__target;

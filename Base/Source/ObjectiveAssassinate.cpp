@@ -19,7 +19,7 @@ void ObjectiveAssassinate::Init(NPC* _target)
 
 void ObjectiveAssassinate::Update(double dt)
 {
-	if (m_tryingToAssassinate)
+	if (m__target->GetActive() == false)
 	{
 		m_assassinated = true;
 	}
@@ -30,9 +30,8 @@ bool ObjectiveAssassinate::IsCompleted()
 	return m_assassinated;
 }
 
-void ObjectiveAssassinate::Activate() //If the target has been killed
+void ObjectiveAssassinate::Activate()
 {
-	m_tryingToAssassinate = true;
 }
 
 void ObjectiveAssassinate::Reset()
@@ -42,7 +41,7 @@ void ObjectiveAssassinate::Reset()
 
 bool ObjectiveAssassinate::Active()
 {
-	return m_tryingToAssassinate;
+	return m_assassinated
 }
 
 NPC* ObjectiveAssassinate::GetTarget(void)const
