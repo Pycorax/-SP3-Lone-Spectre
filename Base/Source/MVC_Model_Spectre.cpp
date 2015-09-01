@@ -250,7 +250,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				m__menu->KeysUpdate(dt, true);
 				m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
 			}
-			if (m_bKeyPressed[INTERACT_ATTACK_1_KEY] && m_menuKeysInputTimer <= 0.f) // Left mouse click
+			if (m_lastInputDevice == ID_KB_MOUSE && m_bKeyPressed[INTERACT_ATTACK_1_KEY] && m_menuKeysInputTimer <= 0.f) // Left mouse click
 			{
 				processMenuKeyAction(m__menu->OnClick(m_mousePosX, m_viewHeight - m_mousePosY));
 			}
