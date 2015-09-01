@@ -84,6 +84,7 @@
     <ClInclude Include="Source\DepthFBO.h" />
     <ClInclude Include="Source\Direction.h" />
     <ClInclude Include="Source\HUD_Objectives.h" />
+    <ClInclude Include="Source\InputDevice.h" />
     <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\Fog.h" />
     <ClInclude Include="Source\GameObject2D.h" />

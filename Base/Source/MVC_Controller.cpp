@@ -5,6 +5,7 @@
 #include "SONIO.h"
 #include "MVC_Model_3D.h"
 #include <Xinput.h>
+#include "InputDevice.h"
 
 namespace GLFW
 {
@@ -367,7 +368,7 @@ void MVC_Controller::initInputXInput(void)
 	inputXInputKey[MVC_Model::INTERACT_NEXT_KEY] = XVK_RIGHT_SHOULDER;
 	inputXInputKey[MVC_Model::INTERACT_GENERIC_KEY] = XVK_BUTTON_X;
 	inputXInputKey[MVC_Model::INTERACT_SKILL_1_KEY] = XVK_BUTTON_B;
-	inputXInputKey[MVC_Model::INTERACT_SKILL_2_KEY] = XVK_BUTTON_A;
+	inputXInputKey[MVC_Model::INTERACT_SKILL_2_KEY] = XVK_BUTTON_Y;
 
 	// Game
 	inputXInputKey[MVC_Model::GAME_EXIT_KEY] = XVK_BUTTON_BACK;
@@ -488,6 +489,8 @@ void MVC_Controller::inputViewUpdate(void)
 
 void MVC_Controller::inputKeyUpdate(void)
 {
+	bool buttonPressed = false;
+
 	for (size_t i = 0; i < MVC_Model::NUM_KEY_ACTION; ++i)
 	{
 		if (i == MVC_Model::INTERACT_ATTACK_1_KEY)
@@ -495,6 +498,7 @@ void MVC_Controller::inputKeyUpdate(void)
 			if (glfwGetMouseButton(m_window, 0) != 0)
 			{
 				m_model->ActivateKey(static_cast<MVC_Model::KEY_ACTION_TYPE>(i));
+				buttonPressed = true;
 			}
 			continue;
 		}
@@ -504,7 +508,13 @@ void MVC_Controller::inputKeyUpdate(void)
 		if (isKeyPressed(inputKey[i]))
 		{
 			m_model->ActivateKey(static_cast<MVC_Model::KEY_ACTION_TYPE>(i));
+			buttonPressed = true;
 		}
+	}
+
+	if (buttonPressed)
+	{
+		m_model->UpdateLastInputDevice(ID_KB_MOUSE);
 	}
 }
 
@@ -693,6 +703,8 @@ bool MVC_Controller::isXInputKeyPressed(E_XINPUT_VIRTUAL_KEY key)
 
 void MVC_Controller::inputXInputUpdate(void)
 {
+	bool buttonPressed = false;
+
 	// Check if the controller is plugged in
 	if (inputXInputUpdateKeyPressed())
 	{
@@ -704,10 +716,16 @@ void MVC_Controller::inputXInputUpdate(void)
 			if (isXInputKeyPressed(inputXInputKey[button]))
 			{
 				m_model->ActivateKey(static_cast<MVC_Model::KEY_ACTION_TYPE>(button));
+				buttonPressed = true;
 			}
 		}
 	}
 
 	// Update the analog input in the model
 	m_model->UpdateXInput(lX, lY, rX, rY, lT, rT);
+
+	if (buttonPressed)
+	{
+		m_model->UpdateLastInputDevice(ID_XINPUT);
+	}
 }

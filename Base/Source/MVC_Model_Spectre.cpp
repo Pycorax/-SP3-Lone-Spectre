@@ -20,8 +20,6 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m__spectreDive(NULL)
 	, m__spectreHost(NULL)
 	, m__spectreJump(NULL)
-	, m__fKey(NULL)
-	, m__kKey(NULL)
 	, m__defuseBomb(NULL)
 	, m__plantBomb(NULL)
 	, m_objective(NULL)
@@ -33,6 +31,11 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_lightUpdateTimer(S_M_LIGHTING_UPDATE_FREQUENCY)
 	, m__objectivesHUD(NULL)
 {
+	for (size_t input = 0; input < NUM_INPUT_DEVICE; ++input)
+	{
+		m__fKey[input] =  NULL;
+		m__kKey[input] = NULL;
+	}
 }
 
 
@@ -779,19 +782,30 @@ void MVC_Model_Spectre::initHUD(void)
 	// Action prompt HUD
 	float actionKeySize = m__currentLevel->GetTileMap()->GetTileSize() * 0.5f;
 	const Vector2 ACTION_KEY_SCALE(actionKeySize, actionKeySize);
-	if (m__fKey == NULL)
+	for (size_t input = 0; input < NUM_INPUT_DEVICE; ++input)
 	{
-		m__fKey = new HUD();
+		if (m__fKey[input] == NULL)
+		{
+			m__fKey[input] = new HUD();
+		}
 	}
-	m__fKey->Init(GetMeshResource("F_Key"), Vector2(0,0), ACTION_KEY_SCALE);
-	m__fKey->SetActive(false);
 
-	if (m__kKey == NULL)
+	m__fKey[ID_KB_MOUSE]->Init(GetMeshResource("KBMouse_F_Key"), Vector2(0,0), ACTION_KEY_SCALE);
+	m__fKey[ID_KB_MOUSE]->SetActive(false);
+	m__fKey[ID_XINPUT]->Init(GetMeshResource("XInput_X_Key"), Vector2(0, 0), ACTION_KEY_SCALE);
+	m__fKey[ID_XINPUT]->SetActive(false);
+
+	for (size_t input = 0; input < NUM_INPUT_DEVICE; ++input)
 	{
-		m__kKey = new HUD();
+		if (m__kKey[input] == NULL)
+		{
+			m__kKey[input] = new HUD();
+		}
 	}
-	m__kKey->Init(GetMeshResource("K_Key"), Vector2(0,0), ACTION_KEY_SCALE);
-	m__kKey->SetActive(false);
+	m__kKey[ID_KB_MOUSE]->Init(GetMeshResource("KBMouse_K_Key"), Vector2(0, 0), ACTION_KEY_SCALE);
+	m__kKey[ID_KB_MOUSE]->SetActive(false);
+	m__kKey[ID_XINPUT]->Init(GetMeshResource("XInput_Y_Key"), Vector2(0, 0), ACTION_KEY_SCALE);
+	m__kKey[ID_XINPUT]->SetActive(false);
 
 	if (m__objectivesHUD == NULL)
 	{
@@ -970,9 +984,9 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		{
 			spawnDir = Direction::DIRECTIONS[Direction::DIR_UP];
 		}
-		m__kKey->SetActive(true);
-		m__kKey->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
-		m_renderList2D.push(m__kKey);
+		m__kKey[m_lastInputDevice]->SetActive(true);
+		m__kKey[m_lastInputDevice]->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
+		m_renderList2D.push(m__kKey[m_lastInputDevice]);
 	}
 	else if (tileTypeOnPlayer == Tile::TILE_BOMB
 		||
@@ -1005,14 +1019,16 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		{
 			spawnDir = Direction::DIRECTIONS[Direction::DIR_UP];
 		}
-		m__fKey->SetActive(true);
-		m__fKey->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
-		m_renderList2D.push(m__fKey);
+		m__fKey[m_lastInputDevice]->SetActive(true);
+		m__fKey[m_lastInputDevice]->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
+		m_renderList2D.push(m__fKey[m_lastInputDevice]);
 	}
 	else
 	{
-		m__fKey->SetActive(false);
-		m__kKey->SetActive(false);
+		m__fKey[ID_KB_MOUSE]->SetActive(false);
+		m__fKey[ID_XINPUT]->SetActive(false);
+		m__kKey[ID_KB_MOUSE]->SetActive(false);
+		m__kKey[ID_XINPUT]->SetActive(false);
 	}
 	// Objectives
 	m_renderList2D.push(m__objectivesHUD);

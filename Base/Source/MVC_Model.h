@@ -11,6 +11,7 @@
 #include "Fog.h"
 #include "GameObject2D.h"
 #include "TextObject.h"
+#include "InputDevice.h"
 
 using std::vector;
 using std::queue;
@@ -100,6 +101,7 @@ protected:
 	Vector3 m_worldSize;
 
 	// Input
+	E_INPUT_DEVICE_TYPE m_lastInputDevice;		// Stores the type of the last input device used
 	// -- Keyboard and Mouse
 	bool m_bFreeMouse;
 	bool m_bKeyPressed[NUM_KEY_ACTION];
@@ -160,6 +162,7 @@ public:
 		* These functions are to be called outside of the model to update the model about the environment
 		*/
 	void UpdateViewRes(int width, int height);
+	void UpdateLastInputDevice(E_INPUT_DEVICE_TYPE inputType);
 
 
 	virtual void Init(void);

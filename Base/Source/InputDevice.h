@@ -1,0 +1,11 @@
+#ifndef INPUT_DEVICE_H
+#define INPUT_DEVICE_H
+
+enum E_INPUT_DEVICE_TYPE
+{
+	ID_KB_MOUSE,
+	ID_XINPUT,
+	NUM_INPUT_DEVICE
+};
+
+#endif

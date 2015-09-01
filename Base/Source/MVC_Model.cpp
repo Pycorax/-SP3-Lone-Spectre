@@ -14,7 +14,10 @@
 
 using std::ostringstream;
 
-MVC_Model::MVC_Model(string configSONFile) : m_configSONFile(configSONFile), m_running(true)
+MVC_Model::MVC_Model(string configSONFile) 
+	: m_configSONFile(configSONFile)
+	, m_running(true)
+	, m_lastInputDevice(ID_KB_MOUSE)
 {
 	loadConfig();
 
@@ -60,6 +63,11 @@ void MVC_Model::UpdateViewRes(int width, int height)
 	m_viewHeight = height;
 
 	onResolutionChanged(oldWidth, oldHeight);
+}
+
+void MVC_Model::UpdateLastInputDevice(E_INPUT_DEVICE_TYPE inputType)
+{
+	m_lastInputDevice = inputType;
 }
 
 void MVC_Model::Init(void)

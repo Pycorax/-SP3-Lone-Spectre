@@ -118,8 +118,8 @@ private:	// Variables
 	HUD_Cooldown* m__plantBomb;
 
 	// Prompt action
-	HUD* m__fKey;
-	HUD* m__kKey;
+	HUD* m__fKey[NUM_INPUT_DEVICE];
+	HUD* m__kKey[NUM_INPUT_DEVICE];
 
 	// Objectives
 	HUD_Objectives* m__objectivesHUD;
