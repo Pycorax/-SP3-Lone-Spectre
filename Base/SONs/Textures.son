@@ -308,6 +308,17 @@
 		[FilePath] Image//Menu//Resume_Off.tga
 	}
 	
+	# Level select
+	{
+		[Name] BUTTON_LEVEL_SELECT_ON
+		[FilePath] Image//Menu//LevelSelect_On.tga
+	}
+	
+	{
+		[Name] BUTTON_LEVEL_SELECT_OFF
+		[FilePath] Image//Menu//LevelSelect_Off.tga
+	}
+	
 	# Menu Backgrounds
 	{
 		[Name] MainMenuBG

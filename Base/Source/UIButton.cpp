@@ -102,10 +102,19 @@ void UIButton::InitMeshLists(vector<Mesh*> meshList)
 		{
 			s_m_offMeshList[BUTTON_RESUME] = _mesh;
 		}
+		// Level select
+		else if (_mesh->name == "BUTTON_LEVEL_SELECT_ON")
+		{
+			s_m_onMeshList[BUTTON_LEVEL_SELECT] = _mesh;
+		}
+		else if (_mesh->name == "BUTTON_LEVEL_SELECT_OFF")
+		{
+			s_m_offMeshList[BUTTON_LEVEL_SELECT] = _mesh;
+		}
 	}
 }
 
-UIButton::UIButton(E_BUTTON_TYPE type, Mesh* _mesh, Vector2 pos, Vector2 scale) : m_type(type), m_state(UP_STATE)
+UIButton::UIButton(E_BUTTON_TYPE type, Mesh* _mesh, Vector2 pos, Vector2 scale) : m_type(type), m_state(UP_STATE), m__text(NULL), m_levelID(-1)
 {
 	m__mesh = _mesh;
 	m_transforms.Translation = pos;
@@ -123,6 +132,16 @@ void UIButton::Init(E_BUTTON_TYPE type, Mesh * _mesh, Vector2 pos, Vector2 scale
 	m_transforms.Scale = scale;
 	m_state = UP_STATE;
 	m_type = type;
+}
+
+void UIButton::InitLevel(int levelID, Mesh* _mesh, Vector2 pos, Vector2 scale, string text)
+{
+	if (m__text == NULL)
+	{
+		m__text = new TextObject(_mesh, text, Color(1,1,1));
+	}
+	m__text->SetPos(pos);
+	m__text->SetScale(scale);
 }
 
 void UIButton::UpdateState(bool pressed, float mouseX, float mouseY)

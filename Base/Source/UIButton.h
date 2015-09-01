@@ -1,7 +1,7 @@
 #ifndef UIBUTTON_H
 #define UIBUTTON_H
 
-#include "GameObject2D.h"
+#include "TextObject.h"
 #include <vector>
 
 using std::vector;
@@ -25,6 +25,7 @@ class UIButton : public GameObject2D
 			// Main menu buttons
 			BUTTON_NEW_GAME, // New game
 			BUTTON_CONTINUE, // Continue game
+			BUTTON_LEVEL_SELECT,
 			BUTTON_INSTRUCTIONS,
 			BUTTON_CREDITS,
 			BUTTON_EXIT,
@@ -49,6 +50,8 @@ class UIButton : public GameObject2D
 	private:
 		E_BUTTON_STATE_TYPE m_state;
 		E_BUTTON_TYPE m_type;
+		TextObject* m__text;
+		int m_levelID;
 
 	public:
 		UIButton(E_BUTTON_TYPE type = BUTTON_NONE, Mesh* _mesh = NULL, Vector2 pos = Vector2::ZERO_VECTOR, Vector2 scale = Vector2(1,1));
@@ -57,6 +60,7 @@ class UIButton : public GameObject2D
 		static void InitMeshLists(vector<Mesh*> meshList);
 	
 		void Init(E_BUTTON_TYPE type, Mesh* _mesh, Vector2 pos, Vector2 scale);
+		void InitLevel(int levelID, Mesh* _mesh, Vector2 pos, Vector2 scale, string text);
 		void UpdateState(bool pressed, float mouseX, float mouseY);
 
 		/*

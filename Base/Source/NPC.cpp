@@ -131,6 +131,7 @@ bool NPC::Update(double dt, TileMap* _map)
 			}
 			else // Killed player
 			{
+				m_AttackCountdown = 0;
 				return true;
 			}
 			break;
@@ -233,7 +234,6 @@ bool NPC::Update(double dt, TileMap* _map)
 		if(m_ViewingTimer >= 2)
 		{
 			m_enemyState = ES_SCAN;
-			m_AttackCountdown = 0;
 		}
 	}
 	ChangeAnimation(dt);

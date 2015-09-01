@@ -418,6 +418,7 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	m__player->SetHealth(1);
 	m__player->SetMapPosition(playerSpawnPos, spawnScrollOffset, m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
 	m__player->SetScale(Vector3(tileSize, tileSize));
+	m__player->SetInShadow(false);
 
 	// Initialize the enemies
 	clearEnemyList();
@@ -606,8 +607,10 @@ void MVC_Model_Spectre::initMenu(void)
 	buttonCount = 0;
 	// Button creation
 	Menu* _newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_MAIN, GetMeshResource("MainMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
+	_newMenu->Init(Menu::MENU_MAIN, GetMeshResource("MainMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_NEW_GAME, GetMeshResource("BUTTON_NEW_GAME_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
+	++buttonCount;
+	_newMenu->AddButton(new UIButton(UIButton::BUTTON_LEVEL_SELECT, GetMeshResource("BUTTON_LEVEL_SELECT_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_INSTRUCTIONS, GetMeshResource("BUTTON_INSTRUCTIONS_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
@@ -622,7 +625,7 @@ void MVC_Model_Spectre::initMenu(void)
 	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_INSTRUCTIONS, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
+	_newMenu->Init(Menu::MENU_INSTRUCTIONS, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
 	m__menu->AddMenu(_newMenu);
 
@@ -631,7 +634,7 @@ void MVC_Model_Spectre::initMenu(void)
 	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_CREDITS, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
+	_newMenu->Init(Menu::MENU_CREDITS, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
 	m__menu->AddMenu(_newMenu);
 
@@ -641,7 +644,7 @@ void MVC_Model_Spectre::initMenu(void)
 	buttonCount = 0;
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_WIN_LEVEL, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
+	_newMenu->Init(Menu::MENU_WIN_LEVEL, GetMeshResource("WinMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_NEXT_STAGE, GetMeshResource("BUTTON_NEXT_STAGE_ON"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETRY, GetMeshResource("BUTTON_RETRY_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
@@ -656,7 +659,7 @@ void MVC_Model_Spectre::initMenu(void)
 	buttonCount = 0;
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_LOSE_LEVEL, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
+	_newMenu->Init(Menu::MENU_LOSE_LEVEL, GetMeshResource("LoseMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETRY, GetMeshResource("BUTTON_RETRY_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
@@ -669,11 +672,24 @@ void MVC_Model_Spectre::initMenu(void)
 	buttonCount = 0;
 	// Button creation
 	_newMenu = new Menu();
-	_newMenu->Init(Menu::MENU_PAUSE, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight)); // Menu with no bg
+	_newMenu->Init(Menu::MENU_PAUSE, GetMeshResource("PauseMenuBG"), Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RESUME, GetMeshResource("BUTTON_RESUME_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
 	++buttonCount;
+	m__menu->AddMenu(_newMenu);
+
+	/* Level select */
+	// Variables
+	startPos = Vector2((m_viewWidth * 0.5f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.5f) - (BUTTON_SIZE.y * 0.5f));
+	buttonCount = 0;
+	// Button creation
+	_newMenu = new Menu();
+	_newMenu->Init(Menu::MENU_LEVEL_SELECT, genericBG, Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
+	/*_newMenu->AddButton(new UIButton(UIButton::BUTTON_RESUME, GetMeshResource("BUTTON_RESUME_OFF"), startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE));
+	++buttonCount;*/
+	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
+	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
 	m__menu->AddMenu(_newMenu);
 
 	// Must assign at least the starting menu if not menu will crash
