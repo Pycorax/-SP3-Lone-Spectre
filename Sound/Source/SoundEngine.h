@@ -33,6 +33,7 @@ public:		// Functions
 	// Sound Library
 	static unsigned AddSoundSource(string filePath);
 	static void ClearSoundLibrary(void);
+	static void ClearSoundSources(void);
 		
 	// Sound Players
 	static SoundPlayer2D* CreateSound2D(unsigned soundID);

@@ -18,6 +18,7 @@ void SoundEngine::StopSoundEngine()
 {
 	StopAll();
 	ClearSoundLibrary();
+	ClearSoundSources();
 
 	if (s__engine != NULL)
 	{
@@ -37,12 +38,20 @@ void SoundEngine::ClearSoundLibrary(void)
 {
 	while (s_soundLibrary.size() > 0)
 	{
-		if (s_soundLibrary.back() != NULL)
+		s_soundLibrary.pop_back();
+	}
+}
+
+void SoundEngine::ClearSoundSources(void)
+{
+	while (s_soundPlayers.size() > 0)
+	{
+		if (s_soundPlayers.back() != NULL)
 		{
-			s_soundLibrary.back()->drop();
+			delete s_soundPlayers.back();
 		}
 
-		s_soundLibrary.pop_back();
+		s_soundPlayers.pop_back();
 	}
 }
 
@@ -55,6 +64,7 @@ SoundPlayer2D * SoundEngine::CreateSound2D(unsigned soundID)
 
 	SoundPlayer2D* _sndPlayer = new SoundPlayer2D();
 	_sndPlayer->init(s__engine, s_soundLibrary.at(soundID));
+	s_soundPlayers.push_back(_sndPlayer);
 
 	return _sndPlayer;
 }
@@ -68,6 +78,7 @@ SoundPlayer3D * SoundEngine::CreateSound3D(unsigned soundID, Vector3 pos)
 
 	SoundPlayer3D* _sndPlayer = new SoundPlayer3D();
 	_sndPlayer->init(s__engine, s_soundLibrary.at(soundID), pos);
+	s_soundPlayers.push_back(_sndPlayer);
 
 	return _sndPlayer;
 }
