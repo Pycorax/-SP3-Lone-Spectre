@@ -1,5 +1,7 @@
 #include "Tile.h"
 
+#include "NPC.h"
+
 const bool Tile::S_IS_TILE_SOLID[NUM_TILE] =
 {
 	false,
@@ -91,6 +93,28 @@ void Tile::ResetViewers(void)
 bool Tile::IsViewed(void)
 {
 	return m__viewerList.size() > 0;
+}
+
+bool Tile::IsViewedByNPC(void)
+{
+	if (IsViewed())
+	{
+		for (vector<Viewer*>::iterator it = m__viewerList.begin(); it != m__viewerList.end(); ++it)
+		{
+			Viewer* _viewer = (Viewer*)*it;
+			NPC* _npc = dynamic_cast<NPC*>(_viewer);
+			if (_npc != NULL)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void Tile::NotifyViewer(Vector2 targetTilePos, float &alertLevel, double dt)

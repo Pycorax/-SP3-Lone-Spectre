@@ -28,6 +28,7 @@ private:
 	{
 		TM_SHADOW,
 		TM_VIEWED,
+		TM_CAMERA,
 		NUM_TILE_MARKER
 	};
 

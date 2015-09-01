@@ -61,6 +61,7 @@ public:
 	void RemoveViewer(Viewer* _viewer);
 	void ResetViewers(void);
 	bool IsViewed(void);
+	bool IsViewedByNPC(void);
 	void NotifyViewer(Vector2 targetTilePos, float &alertLevel, double dt);
 
 	void AddLight(int lightValue);

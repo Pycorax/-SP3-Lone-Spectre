@@ -567,6 +567,7 @@ void MVC_Model_Spectre::Init(void)
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
+	m__tileMarkerMesh[TM_CAMERA] = GetMeshResource("CameraOverlay");
 
 	// Load the player
 	initPlayer();
@@ -1451,7 +1452,17 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 				if (_tile->IsViewed())
 				{
 					Transform tileT = _tile->GetTransform();
-					GameObject2D* light = fetchTileMarker(TM_VIEWED);
+					GameObject2D* light;
+
+					if (_tile->IsViewedByNPC())
+					{
+						light = fetchTileMarker(TM_VIEWED);
+					}
+					else
+					{
+						light = fetchTileMarker(TM_CAMERA);
+					}
+				
 					light->SetPos(tileT.Translation);
 					light->SetScale(tileT.Scale);
 					m_renderList2D.push(light);

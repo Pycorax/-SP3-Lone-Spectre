@@ -141,6 +141,11 @@
 	}
 	
 	{
+		[Name] CameraOverlay
+		[FilePath] Image//Lab_Tiles//camera_overlay.tga
+	}
+	
+	{
 		[Name] MessageBG
 		[FilePath] Image//message_box.tga
 	}
