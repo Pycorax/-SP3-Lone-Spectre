@@ -153,7 +153,7 @@
 		[Type] MeshSheet
 		[SpriteAnimationRow] 2
 		[SpriteAnimationColumn] 4
-		[FrameRow] 0
+		[FrameRow] 1
 		[FrameCol] 0
 		[PosX] 0
 		[PosY] 0
@@ -165,7 +165,7 @@
 		[Type] MeshSheet
 		[SpriteAnimationRow] 2
 		[SpriteAnimationColumn] 4
-		[FrameRow] 0
+		[FrameRow] 1
 		[FrameCol] 1
 		[PosX] 0
 		[PosY] 0
@@ -177,7 +177,7 @@
 		[Type] MeshSheet
 		[SpriteAnimationRow] 2
 		[SpriteAnimationColumn] 4
-		[FrameRow] 0
+		[FrameRow] 1
 		[FrameCol] 2
 		[PosX] 0
 		[PosY] 0
@@ -189,7 +189,7 @@
 		[Type] MeshSheet
 		[SpriteAnimationRow] 2
 		[SpriteAnimationColumn] 4
-		[FrameRow] 0
+		[FrameRow] 1
 		[FrameCol] 3
 		[PosX] 0
 		[PosY] 0
@@ -201,7 +201,7 @@
 		[Type] MeshSheet
 		[SpriteAnimationRow] 2
 		[SpriteAnimationColumn] 4
-		[FrameRow] 1
+		[FrameRow] 0
 		[FrameCol] 0
 		[PosX] 0
 		[PosY] 0
@@ -213,7 +213,7 @@
 		[Type] MeshSheet
 		[SpriteAnimationRow] 2
 		[SpriteAnimationColumn] 4
-		[FrameRow] 1
+		[FrameRow] 0
 		[FrameCol] 1
 		[PosX] 0
 		[PosY] 0
@@ -225,7 +225,7 @@
 		[Type] MeshSheet
 		[SpriteAnimationRow] 2
 		[SpriteAnimationColumn] 4
-		[FrameRow] 1
+		[FrameRow] 0
 		[FrameCol] 2
 		[PosX] 0
 		[PosY] 0
@@ -237,7 +237,7 @@
 		[Type] MeshSheet
 		[SpriteAnimationRow] 2
 		[SpriteAnimationColumn] 4
-		[FrameRow] 1
+		[FrameRow] 0
 		[FrameCol] 3
 		[PosX] 0
 		[PosY] 0
