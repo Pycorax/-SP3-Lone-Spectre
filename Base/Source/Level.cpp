@@ -269,7 +269,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 							if (values.size() >= 2)			// If the size of the vector is greater or equal to 2 for the 2 values for positioning
 							{
 								// Multiply by tile size to convert from tile coord to map coord in funct
-								_enemy->AddPatrolPoint(Vector2(values[0], values[1]));
+								_enemy->AddPatrolPoint( _enemy->GetMapTilePos() + Vector2(values[0], values[1]));
 							}							
 						}
 						else if (attrib.name == ATTRIBUTE_NAMES[A_VIEW_RANGE])
