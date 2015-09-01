@@ -155,6 +155,11 @@
 		[FilePath] Image//extraction_point.tga
 	}
 	
+	{
+		[Name] TILE_NO_EXTRACTION
+		[FilePath] Image//locked_extraction_point.tga
+	}
+	
 	# HUD
 	{
 		[Name] AlertBar

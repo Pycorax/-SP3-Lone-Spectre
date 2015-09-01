@@ -90,7 +90,9 @@ private:	// Variables
 
 	// TileMap/Over-world
 	vector<GameObject2D*> m__tileMarkers;					// A vector of lights that can be used to render a "lighted" effect
-	Mesh* m__tileMarkerMesh[NUM_TILE_MARKER];									// The meshes used for marking areas (shadows, areas being viewed)
+	Mesh* m__tileMarkerMesh[NUM_TILE_MARKER];				// The meshes used for marking areas (shadows, areas being viewed)
+	Mesh* m__extractGoodMesh;								// Stores the mesh of the exit-able extraction zone
+	Mesh* m__extractNoGoodMesh;								// Stores the mesh of the unexit-able extraction zone
 
 	// Characters
 	Player* m__player;

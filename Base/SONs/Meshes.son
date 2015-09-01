@@ -422,6 +422,15 @@
 	}
 	
 	{
+		[Name] TILE_NO_EXTRACTION
+		[Type] 2D
+		[Color] 1.0f, 1.0f, 1.0f
+		[Width] 1.0f
+		[Height] 1.0f
+		[Texture] TILE_NO_EXTRACTION
+	}
+	
+	{
 		[Name] LightOverlay
 		[Type] 2D
 		[Color] 1.0f, 1.0f, 1.0f

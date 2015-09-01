@@ -557,10 +557,14 @@ void MVC_Model_Spectre::Init(void)
 	m__soundPlayer[SP_DEATH] = SoundEngine::CreateSound2D(GetSoundResource("Death"));
 	m__soundPlayer[SP_EXPLOSIVE_DEATH] = SoundEngine::CreateSound2D(GetSoundResource("Explosion"));
 
-	// -- Load Shadow GameObject
+	// -- Load Time Marker Meshes
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
 	m__tileMarkerMesh[TM_VIEWED] = GetMeshResource("LightOverlay");
 	m__tileMarkerMesh[TM_CAMERA] = GetMeshResource("CameraOverlay");
+
+	// -- Load Extraction Meshes
+	m__extractGoodMesh = GetMeshResource("TILE_EXTRACTION");
+	m__extractNoGoodMesh = GetMeshResource("TILE_NO_EXTRACTION");
 
 	// Load the player
 	initPlayer();
@@ -1424,6 +1428,20 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 			else
 			{
 				_tile->SetMapPosition(_tile->GetMapPos(), _ToRender->GetScrollOffset(), m__currentLevel->GetTileMap()->GetTileSize()); // Calculate screen position based on map position for rendering
+
+				// I know this is ugly but this is last minute rush work
+				if (_tile->GetType() == Tile::TILE_EXTRACTION)
+				{
+					if (m__currentLevel->GetObjectiveComplete())
+					{
+						_tile->SetMesh(m__extractGoodMesh);
+					}
+					else
+					{
+						_tile->SetMesh(m__extractNoGoodMesh);
+					}
+				}
+
 				m_renderList2D.push(_tile); // Add to queue for rendering
 
 				/*
