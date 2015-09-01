@@ -1,8 +1,7 @@
 #include "ObjectiveAssassinate.h"
 
 ObjectiveAssassinate::ObjectiveAssassinate(void) :
-m_assassinated(false),
-m_tryingToAssassinate(false)
+m_assassinated(false)
 {
 
 }
@@ -41,7 +40,7 @@ void ObjectiveAssassinate::Reset()
 
 bool ObjectiveAssassinate::Active()
 {
-	return m_assassinated
+	return m_assassinated;
 }
 
 NPC* ObjectiveAssassinate::GetTarget(void)const
