@@ -73,6 +73,12 @@
     <Filter Include="Source Files\HUD">
       <UniqueIdentifier>{5db677ca-5f32-46a3-b8ef-6642f7efa39e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GamePlay\Objective">
+      <UniqueIdentifier>{b066a437-e2ee-469b-8182-774ab4a5aeed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GamePlay\Objectives">
+      <UniqueIdentifier>{d222af89-9e53-4a24-9f81-29d70407c89a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -144,27 +150,6 @@
     <ClCompile Include="Source\Strategy_Safe.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DepthFBO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\HealthGoodie.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GoodieObject.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GoodieObjectFactory.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Weapon.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RangedWeapon.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\TreasureGoodie.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -225,21 +210,6 @@
     <ClCompile Include="Source\MessageManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Objective.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ObjectiveCollect.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ObjectiveAssassinate.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ObjectiveDefuse.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ObjectiveSetBomb.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Menu.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
@@ -252,9 +222,6 @@
     <ClCompile Include="Source\UIButton.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ObjectiveHostage.cpp">
-      <Filter>Source Files\GamePlay</Filter>
-    </ClCompile>
     <ClCompile Include="Source\HUD.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
@@ -263,6 +230,30 @@
     </ClCompile>
     <ClCompile Include="Source\HUD_Cooldown.cpp">
       <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Objective.cpp">
+      <Filter>Source Files\GamePlay\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectiveAssassinate.cpp">
+      <Filter>Source Files\GamePlay\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectiveCollect.cpp">
+      <Filter>Source Files\GamePlay\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectiveDefuse.cpp">
+      <Filter>Source Files\GamePlay\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectiveHostage.cpp">
+      <Filter>Source Files\GamePlay\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectiveSetBomb.cpp">
+      <Filter>Source Files\GamePlay\Objectives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DepthFBO.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectiveEscape.cpp">
+      <Filter>Source Files\GamePlay\Objectives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,9 +326,6 @@
     <ClInclude Include="Source\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DepthFBO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MapLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -349,21 +337,6 @@
     </ClInclude>
     <ClInclude Include="Source\Strategy_Safe.h">
       <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Weapon.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RangedWeapon.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GoodieObject.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GoodieObjectFactory.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\HealthGoodie.h">
-      <Filter>Header Files\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="Source\Strategy.h">
       <Filter>Header Files\AI</Filter>
@@ -407,9 +380,6 @@
     <ClInclude Include="Source\Player.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TreasureGoodie.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SpectreHexGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -437,21 +407,6 @@
     <ClInclude Include="Source\MessageManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Objective.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ObjectiveCollect.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ObjectiveAssassinate.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ObjectiveDefuse.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ObjectiveSetBomb.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MenuManager.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
@@ -464,9 +419,6 @@
     <ClInclude Include="Source\MenuManager_Spectre.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ObjectiveHostage.h">
-      <Filter>Header Files\GamePlay</Filter>
-    </ClInclude>
     <ClInclude Include="Source\HUD.h">
       <Filter>Header Files\HUD</Filter>
     </ClInclude>
@@ -478,6 +430,30 @@
     </ClInclude>
     <ClInclude Include="Source\InputDevice.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Objective.h">
+      <Filter>Header Files\GamePlay\Objective</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectiveAssassinate.h">
+      <Filter>Header Files\GamePlay\Objective</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectiveCollect.h">
+      <Filter>Header Files\GamePlay\Objective</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectiveDefuse.h">
+      <Filter>Header Files\GamePlay\Objective</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectiveHostage.h">
+      <Filter>Header Files\GamePlay\Objective</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectiveSetBomb.h">
+      <Filter>Header Files\GamePlay\Objective</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DepthFBO.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectiveEscape.h">
+      <Filter>Header Files\GamePlay\Objective</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

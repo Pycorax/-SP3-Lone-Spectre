@@ -3,17 +3,14 @@
 
 #include "TileMap.h"
 #include "NPC.h"
-#include "ObjectiveAssassinate.h"
-#include "ObjectiveCollect.h"
-#include "ObjectiveDefuse.h"
-#include "ObjectiveSetBomb.h"
-#include "ObjectiveHostage.h"
+#include "Objective.h"
 
 class Level
 {
 public:
 	enum LEVEL_MISSION_TYPE				// Enum stating the different types of missions
 	{
+		LM_ESCAPE,						// Simply escape the level
 		LM_COLLECT,						// Collect a package mission
 		LM_ASSASSINATE,					// Assassinate a target mission
 		LM_DEFUSE_BOMB,					// Defuse a bomb mission

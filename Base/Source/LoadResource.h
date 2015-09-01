@@ -8,7 +8,6 @@
 #include <map>
 #include <string>
 #include "GameObject2D.h"
-#include "Weapon.h"
 
 using std::vector;
 using std::map;
@@ -20,7 +19,6 @@ vector<Color>			LoadColor(string filename, vector<string> &colListMap);
 vector<Light>			LoadLight(string filename);
 vector<GameObject2D*>		LoadGameObject(string filename, const vector<Mesh*>& meshList);
 vector<GameObject2D*>		LoadVisualObject(string filename, const vector<Mesh*>& meshList);
-vector<Weapon*>			LoadWeapon(string filename, const vector<Mesh*> &meshList);
 map<string, unsigned>	LoadSounds(string filename);
 
 // Helper Functions

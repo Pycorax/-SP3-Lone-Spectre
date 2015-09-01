@@ -3,6 +3,13 @@
 #include "SONIO.h"
 #include "LoadResource.h"
 
+#include "ObjectiveAssassinate.h"
+#include "ObjectiveCollect.h"
+#include "ObjectiveDefuse.h"
+#include "ObjectiveSetBomb.h"
+#include "ObjectiveHostage.h"
+#include "ObjectiveEscape.h"
+
 const Vector2 Level::S_M_SCREEN_SIZE(20, 12);
 
 Level::Level(void) : m__map(NULL)
@@ -61,6 +68,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 
 	const string MISSION_NAMES[NUM_LEVEL_MISSIONS] =
 	{
+		"LM_ESCAPE",
 		"LM_COLLECT",
 		"LM_ASSASSINATE",
 		"LM_DEFUSE_BOMB",
@@ -123,6 +131,11 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 				//setting the objective ptr to the correct objective type
 				switch (m_missionType)
 				{
+					case LM_ESCAPE:
+						{
+							m__objective = new ObjectiveEscape;
+							break;
+						}
 					case LM_COLLECT:
 						{
 							m__objective = new ObjectiveCollect;

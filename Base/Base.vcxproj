@@ -20,9 +20,6 @@
     <ClCompile Include="Source\HUD_Objectives.cpp" />
     <ClCompile Include="Source\NPC.cpp" />
     <ClCompile Include="Source\GameObject2D.cpp" />
-    <ClCompile Include="Source\GoodieObject.cpp" />
-    <ClCompile Include="Source\GoodieObjectFactory.cpp" />
-    <ClCompile Include="Source\HealthGoodie.cpp" />
     <ClCompile Include="Source\HUD.cpp" />
     <ClCompile Include="Source\HUD_Cooldown.cpp" />
     <ClCompile Include="Source\Level.cpp" />
@@ -42,13 +39,13 @@
     <ClCompile Include="Source\ObjectiveAssassinate.cpp" />
     <ClCompile Include="Source\ObjectiveCollect.cpp" />
     <ClCompile Include="Source\ObjectiveDefuse.cpp" />
+    <ClCompile Include="Source\ObjectiveEscape.cpp" />
     <ClCompile Include="Source\ObjectiveHostage.cpp" />
     <ClCompile Include="Source\ObjectiveSetBomb.cpp" />
     <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Pathway.cpp" />
     <ClCompile Include="Source\Physics2D.cpp" />
     <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Source\RangedWeapon.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -67,13 +64,11 @@
     <ClCompile Include="Source\Tile.cpp" />
     <ClCompile Include="Source\TileMap.cpp" />
     <ClCompile Include="Source\MapEntity.cpp" />
-    <ClCompile Include="Source\TreasureGoodie.cpp" />
     <ClCompile Include="Source\UIButton.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\MVC_View.cpp" />
     <ClCompile Include="Source\Viewer.cpp" />
     <ClCompile Include="Source\ViewerUpdater.cpp" />
-    <ClCompile Include="Source\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h" />
@@ -88,9 +83,6 @@
     <ClInclude Include="Source\NPC.h" />
     <ClInclude Include="Source\Fog.h" />
     <ClInclude Include="Source\GameObject2D.h" />
-    <ClInclude Include="Source\GoodieObject.h" />
-    <ClInclude Include="Source\GoodieObjectFactory.h" />
-    <ClInclude Include="Source\HealthGoodie.h" />
     <ClInclude Include="Source\HUD.h" />
     <ClInclude Include="Source\HUD_Cooldown.h" />
     <ClInclude Include="Source\Level.h" />
@@ -111,6 +103,7 @@
     <ClInclude Include="Source\ObjectiveAssassinate.h" />
     <ClInclude Include="Source\ObjectiveCollect.h" />
     <ClInclude Include="Source\ObjectiveDefuse.h" />
+    <ClInclude Include="Source\ObjectiveEscape.h" />
     <ClInclude Include="Source\ObjectiveHostage.h" />
     <ClInclude Include="Source\ObjectiveSetBomb.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
@@ -118,7 +111,6 @@
     <ClInclude Include="Source\Pathway.h" />
     <ClInclude Include="Source\Physics2D.h" />
     <ClInclude Include="Source\Player.h" />
-    <ClInclude Include="Source\RangedWeapon.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
@@ -138,14 +130,12 @@
     <ClInclude Include="Source\Tile.h" />
     <ClInclude Include="Source\TileMap.h" />
     <ClInclude Include="Source\MapEntity.h" />
-    <ClInclude Include="Source\TreasureGoodie.h" />
     <ClInclude Include="Source\UIButton.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\MVC_View.h" />
     <ClInclude Include="Source\Viewer.h" />
     <ClInclude Include="Source\ViewerUpdater.h" />
-    <ClInclude Include="Source\Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\comg.fragmentshader" />
