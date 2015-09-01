@@ -840,7 +840,8 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		//check if its the same enemy killed
 		NPC* _temp = *enemyIter;
 		//if NOT the target and objective is NOT 
-		if (_objectiveTarget!= NULL && !(_objectiveTarget->GetTarget()->GetNPCType() == _temp->GetNPCType() && _objectiveTarget->IsCompleted()))
+		//if (_objectiveTarget!= NULL && !(_objectiveTarget->GetTarget()->GetNPCType() == _temp->GetNPCType() && _objectiveTarget->IsCompleted()))
+		if (_temp)
 		{
 			m_renderList2D.push((*enemyIter));
 		}
