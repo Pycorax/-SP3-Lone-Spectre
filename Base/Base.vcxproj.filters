@@ -255,6 +255,9 @@
     <ClCompile Include="Source\ObjectiveHostage.cpp">
       <Filter>Source Files\GamePlay</Filter>
     </ClCompile>
+    <ClCompile Include="Source\HUD_Objectives.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Utility.h">
@@ -463,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="Source\ObjectiveHostage.h">
       <Filter>Header Files\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HUD_Objectives.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

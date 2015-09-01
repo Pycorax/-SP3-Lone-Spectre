@@ -1,7 +1,16 @@
 #include "HUD_Objectives.h"
 
+const string HUD_Objectives::S_M_OBJECTIVE_TEXTS[NUM_OBJECTIVE] = 
+{
+	"Escape!",
+	"Find and assassinate the target!",
+	"Find and collect the documents!",
+	"Find and defuse the bomb!",
+	"Find and resuce the hostage!",
+	"Find the bomb site and plant the bomb"
+};
 
-HUD_Objectives::HUD_Objectives(void) : m__displayCover(NULL)
+HUD_Objectives::HUD_Objectives(void) : m__objectiveText(NULL)
 {
 }
 
@@ -11,54 +20,100 @@ HUD_Objectives::~HUD_Objectives(void)
 	Clear();
 }
 
-void HUD_Objectives::Init(Mesh* _displayMesh, Vector2 displayPos, Vector2 displayScale, Mesh* _coverMesh, Vector2 coverPos, Vector2 coverScale, bool scrollX, bool scrollY)
+void HUD_Objectives::Init(Mesh* _displayMesh, Vector2 displayPos, Vector2 displayScale, Mesh* _objMesh, string text, Vector2 objPos, Vector2 objScale)
 {
 	HUD::Init(_displayMesh, displayPos, displayScale);
-	if (!m__displayCover)
+	if (m__objectiveText == NULL)
 	{
-		m__displayCover = new GameObject2D();
+		m__objectiveText = new TextObject(_objMesh, text, Color(1,0,0));
 	}
-	m__displayCover->SetMesh(_coverMesh);
-	m__displayCover->SetScale(coverScale);
-	m__displayCover->SetPos(coverPos);
-	m_initPos = coverPos;
-	m_initScale = coverScale;
-	m_scrollX = scrollX;
-	m_scrollY = scrollY;
+	m__objectiveText->SetPos(objPos);
+	m__objectiveText->SetScale(objScale);
 }
 
-void HUD_Objectives::Update(double dt, float coverLevel, float coverLevelLimit)
+void HUD_Objectives::Update(double dt, Objective* _obj)
 {
-	const Vector2 S_VALUE_PER_UNIT = m_initScale * (1.f / coverLevelLimit);
-	// Setting scale based on level
-	if (m_scrollX)
+	if (_obj)
 	{
-		m__displayCover->SetScale(Vector2(m_initScale.x - (S_VALUE_PER_UNIT.x * coverLevel), m__displayCover->GetTransform().Scale.y));
+		ObjectiveAssassinate* _objAss = dynamic_cast<ObjectiveAssassinate*>(_obj);
+		ObjectiveCollect* _objCol = dynamic_cast<ObjectiveCollect*>(_obj);
+		ObjectiveDefuse* _objDef = dynamic_cast<ObjectiveDefuse*>(_obj);
+		ObjectiveHostage* _objHos = dynamic_cast<ObjectiveHostage*>(_obj);
+		ObjectiveSetBomb* _objSet = dynamic_cast<ObjectiveSetBomb*>(_obj);
+		if (_objAss)
+		{
+			if (_objAss->IsCompleted())
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_ESCAPE]);
+			}
+			else
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_ASSASSINATE]);
+			}
+		}
+		else if (_objCol)
+		{
+			if (_objCol->IsCompleted())
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_ESCAPE]);
+			}
+			else
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_COLLECT]);
+			}
+		}
+		else if (_objDef)
+		{
+			if (_objDef->IsCompleted())
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_ESCAPE]);
+			}
+			else
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_DEFUSE]);
+			}
+		}
+		else if (_objHos)
+		{
+			if (_objHos->IsCompleted())
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_ESCAPE]);
+			}
+			else
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_HOSTAGE]);
+			}
+		}
+		else if (_objSet)
+		{
+			if (_objSet->IsCompleted())
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_ESCAPE]);
+			}
+			else
+			{
+				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_SET_BOMB]);
+			}
+		}
 	}
-	if (m_scrollY)
-	{
-		m__displayCover->SetScale(Vector2(m__displayCover->GetTransform().Scale.x, m_initScale.y - (S_VALUE_PER_UNIT.y * coverLevel)));
-	}
-	// Arranging cover position (Up or Right)
-	m__displayCover->SetPos((m_initPos + m_initScale) - m__displayCover->GetTransform().Scale); // Using screen size and scale to find new position
 }
 
 void HUD_Objectives::Clear()
 {
-	if (m__displayCover)
+	if (m__objectiveText)
 	{
-		delete m__displayCover;
-		m__displayCover = NULL;
+		delete m__objectiveText;
+		m__objectiveText = NULL;
 	}
 	HUD::Clear();
 }
 
-void HUD_Objectives::SetDisplayCover(GameObject2D* _displayCover)
+void HUD_Objectives::SetObjectiveText(TextObject* _objectiveText)
 {
-	m__displayCover = _displayCover;
+	m__objectiveText = _objectiveText;
 }
 
-GameObject2D* HUD_Objectives::GetDisplayCover()
+GameObject2D* HUD_Objectives::GetObjectiveText()
 {
-	return m__displayCover;
+	return m__objectiveText;
 }
