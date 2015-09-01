@@ -1,11 +1,12 @@
 #include "ObjectiveDefuse.h"
 
-const float ObjectiveDefuse::S_M_MAX_DEFUSE_TIME = 5.f;
 
 ObjectiveDefuse::ObjectiveDefuse(void) :
 	m_defused(false),
 	m_defusing(false),
-	m_defuseTime(S_M_MAX_DEFUSE_TIME)
+	m_defuseTime(0),
+	m_TimeNeeded(0),
+	m_TimeLeftOnBomb(0)
 {
 
 }
@@ -15,9 +16,10 @@ ObjectiveDefuse::~ObjectiveDefuse(void)
 
 }
 
-void ObjectiveDefuse::Init()
+void ObjectiveDefuse::Init(float defuseTime, float TimeTillBOOM)
 {
-
+	m_defuseTime = m_TimeNeeded = defuseTime;
+	m_TimeLeftOnBomb = m_TimeLeft = TimeTillBOOM;
 }
 
 void ObjectiveDefuse::Update(double dt)
@@ -31,6 +33,7 @@ void ObjectiveDefuse::Update(double dt)
 			m_defused = true;
 		}
 	}
+	m_TimeLeftOnBomb -= dt;
 }
 
 //if complete return true;
@@ -43,7 +46,7 @@ void ObjectiveDefuse::Activate() //If the bomb has been defused
 {
 	m_defusing = true;
 	//reset defuse time needed for the bomb
-	m_defuseTime = S_M_MAX_DEFUSE_TIME;
+	m_defuseTime = m_TimeNeeded;
 }
 
 bool ObjectiveDefuse::Active()
@@ -60,5 +63,19 @@ void ObjectiveDefuse::Reset()
 {
 	m_defusing = false;
 	m_defused = false;
-	m_defuseTime = S_M_MAX_DEFUSE_TIME;
+	m_defuseTime = m_TimeNeeded;
+}
+float ObjectiveDefuse::GetMexTime(void)const
+{
+	return m_TimeNeeded;
+}
+
+float ObjectiveDefuse::GetTimeTillBOOM(void)const
+{
+	return m_TimeLeftOnBomb;
+}
+
+void ObjectiveDefuse::ResetBombTimer(void)
+{
+	m_TimeLeftOnBomb = m_TimeLeft;
 }

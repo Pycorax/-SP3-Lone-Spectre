@@ -87,18 +87,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					}
 				}
 
-				//when setting / defusing the bomb
-
-				//This is to check the if the player holds the key down for the action to continue
-				if ((m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
-					|| (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
-				{
-					//GetActiveObjective - means objective is updating
-					if (m__currentLevel->GetActiveObjective())
-					{
-						m__currentLevel->UpdateObjective(dt);		
-					}
-				}
+				
 				
 				if (m__currentLevel->GetObjectiveComplete() == true)
 				{
@@ -143,7 +132,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				{
 					m__currentLevel->ResetObjective();
 				}
-			}
+			}	
 
 			if (m_bKeyPressed[INTERACT_SKILL_2_KEY] && m_shadowMode == false) // Spectral Hax
 			{
@@ -200,6 +189,9 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					}
 				}
 			}
+
+			//if  objective hsve anyhting to update
+			m__currentLevel->UpdateObjective(dt);
 
 			if (m_bKeyPressed[MOVE_JUMP_KEY] && m__player->Interact(Player::INTERACT_JUMP, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_JUMP) // Spectral Jump
 			{
@@ -791,6 +783,25 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	if (_tile->IsViewed() && !m__player->GetInShadow()) // Player is viewed by some
 	{
 		_tile->NotifyViewer(m__player->GetMapTilePos(), m_alertLevel, dt * S_ALERT_SPEED);
+	}
+
+	//updating bomb if BOOM : not defused in time
+	ObjectiveDefuse* _tempDefuseObjective = dynamic_cast<ObjectiveDefuse* >(m__currentLevel->GetObjective());	
+
+	//if not completed
+	if(!m__currentLevel->GetObjectiveComplete());
+	{
+		if(_tempDefuseObjective)
+		{
+			if(_tempDefuseObjective->GetTimeTillBOOM() <= 0)
+			{
+				m_appState = AS_MENU;
+				m__menu->AssignCurrent(Menu::MENU_LOSE_LEVEL);
+				m__soundPlayer[SP_DEATH]->Play(false);
+				_tempDefuseObjective->ResetBombTimer();
+			}
+			std::cout << _tempDefuseObjective->GetTimeTillBOOM() << std::endl;
+		}
 	}
 	//if hostage inside tile being viewed
 	/*_tile = m__currentLevel->GetTileMap()->GetTileAt(m__currentLevel->GetTarget()->GetMapPos());
@@ -1486,7 +1497,9 @@ void MVC_Model_Spectre::updateHUD(double dt)
 	ObjectiveDefuse* temp_defuse = dynamic_cast<ObjectiveDefuse*>(m_objective);
 	if (temp_defuse)
 	{
-		m__defuseBomb->Update(dt, ObjectiveDefuse::S_M_MAX_DEFUSE_TIME - temp_defuse->GetTimer(), ObjectiveDefuse::S_M_MAX_DEFUSE_TIME);
+		//defusing bomb time;
+		static const double S_M_MAX_DEFUSE_TIME = temp_defuse->GetMexTime();
+		m__defuseBomb->Update(dt, S_M_MAX_DEFUSE_TIME - temp_defuse->GetTimer(), S_M_MAX_DEFUSE_TIME);
 	}
 
 	ObjectiveSetBomb* temp_plant = dynamic_cast<ObjectiveSetBomb*>(m_objective);

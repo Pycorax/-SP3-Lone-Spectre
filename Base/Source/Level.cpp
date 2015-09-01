@@ -22,6 +22,8 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		A_NUM_MAP_TILE,
 		A_MAX_TIMER,
 		A_MISSION_TYPE,
+		A_OBJECTIVE_ACTIVE_TIMER,
+		A_BOMB_TIMER,
 		A_MESSAGES_FILE_PATH,
 		A_BGM_NAME,
 		// -- For Enemies
@@ -44,6 +46,8 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		"NumMapTile",
 		"MaxTimer",
 		"MissionType",
+		"ObjectiveActiveTimer",
+		"BombTimer",
 		"MessagesFilePath",
 		"BackgroundMusic",
 		// -- For Enemies
@@ -75,7 +79,8 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 	string tileMapFilePath;
 	int tileSize;
 	Vector2 numMapTile;
-	
+	double m_defuseTime = 0;
+	double m_BombTime = 0;
 	Branch level = SONIO::LoadSON(levelFilePath);
 
 	if (level.name == ROOT_NAME)
@@ -152,6 +157,15 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 			else if (attrib.name == ATTRIBUTE_NAMES[A_BGM_NAME])
 			{
 				m_bgmName = attrib.value;
+			}
+			else if(attrib.name == ATTRIBUTE_NAMES[A_OBJECTIVE_ACTIVE_TIMER])
+			{
+				m_defuseTime = stod(attrib.value);
+			}
+			else if(attrib.name == ATTRIBUTE_NAMES[A_BOMB_TIMER])
+			{
+				m_BombTime = stod(attrib.value);
+				dynamic_cast<ObjectiveDefuse* >(m__objective)->Init(m_defuseTime , m_BombTime);
 			}
 		}
 

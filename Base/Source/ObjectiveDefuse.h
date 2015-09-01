@@ -12,13 +12,17 @@ private: //Variables
 	bool m_defusing;
 	//defuse timer
 	float m_defuseTime;
-public: //Variable
-	static const float S_M_MAX_DEFUSE_TIME;
+	//maximum time
+	float m_TimeNeeded;
+	//Time left
+	float m_TimeLeftOnBomb;
+	//Original Time Left
+	float m_TimeLeft;
 public: //Functions
 	ObjectiveDefuse();
 	virtual ~ObjectiveDefuse();
 
-	void Init();
+	void Init(float defuseTime, float TimeTillBOOM);
 	void Update(double dt);
 	void Activate();
 	bool Active();
@@ -26,6 +30,9 @@ public: //Functions
 	void Reset();
 
 	float GetTimer();
+	float GetMexTime(void)const;
+	float GetTimeTillBOOM(void) const;
+	void ResetBombTimer(void);
 };
 
 #endif
