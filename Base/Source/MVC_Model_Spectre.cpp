@@ -7,6 +7,7 @@ const double MVC_Model_Spectre::S_M_LIGHTING_UPDATE_FREQUENCY = 0.5;
 const float MVC_Model_Spectre::S_M_BGM_VOLUME = 0.5f;
 const float MVC_Model_Spectre::S_M_MAX_ALERT = 5.f;
 const float MVC_Model_Spectre::S_M_MENU_KEYS_INPUT_DELAY = 0.2f;
+const int MVC_Model_Spectre::S_M_PLAYER_MAX_HP = 1;
 
 MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSONFile)
 	, m_appState(AS_MENU)
@@ -1166,10 +1167,8 @@ void MVC_Model_Spectre::initPlayer(void)
 	m__player->AddAnimation(_a , Player::PS_SPECTRAL_DIVE_RIGHT);
 
 	//set player health
-	m__player->SetMaxHealth(1);
-	m__player->SetHealth(1);
-	//m__player->SetMapPosition(m__currentLevel->GetTileMap()->GetScreenSize() * 0.5f, Vector2(0,0), m__currentLevel->GetTileMap()->GetTileSize()); // Start at center with no scroll offset
-	//m__player->SetScale(Vector3(m__currentLevel->GetTileMap()->GetTileSize(), m__currentLevel->GetTileMap()->GetTileSize()));
+	m__player->SetMaxHealth(S_M_PLAYER_MAX_HP);
+	m__player->SetHealth(m__player->GetMaxHealth());
 }
 
 void MVC_Model_Spectre::Update(double dt)

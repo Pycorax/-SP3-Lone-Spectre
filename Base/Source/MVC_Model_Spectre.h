@@ -61,6 +61,7 @@ private:	// Static Constant
 	static const double S_M_LIGHTING_UPDATE_FREQUENCY;
 	static const float S_M_BGM_VOLUME;
 	static const float S_M_MENU_KEYS_INPUT_DELAY;
+	static const int S_M_PLAYER_MAX_HP;
 
 public:		// Static Constant
 	static const float S_M_MAX_ALERT;

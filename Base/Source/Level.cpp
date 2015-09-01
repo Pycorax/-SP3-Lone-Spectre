@@ -220,18 +220,30 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 							{
 								if (attrib.value == NPC_TYPE_NAMES[enemyType])
 								{
+									// Initialize special NPCs to the objective
 									if(enemyType == NPC::NT_HOSTAGE)
 									{
-										dynamic_cast<ObjectiveHostage* >(m__objective)->Init(_enemy);
+										ObjectiveHostage* _objHost = dynamic_cast<ObjectiveHostage*>(m__objective);
+
+										// Only assign if the objective is a hostage objective
+										if (_objHost != NULL)
+										{
+											_objHost->Init(_enemy);
+										}
 									}
 									else if (enemyType == NPC::NT_TARGET)
 									{
-										dynamic_cast<ObjectiveAssassinate* >(m__objective)->Init(_enemy);
+										ObjectiveAssassinate* _objAss = dynamic_cast<ObjectiveAssassinate*>(m__objective);
+										
+										// Only assign if the objective is an assassination objective
+										if (_objAss != NULL)
+										{
+											_objAss->Init(_enemy);
+										}
 									}
-									else
-									{
-										_enemy->SetNPCType(static_cast<NPC::E_NPC_TYPE>(enemyType));
-									}
+
+									_enemy->SetNPCType(static_cast<NPC::E_NPC_TYPE>(enemyType));
+
 									break;
 								}
 							}
