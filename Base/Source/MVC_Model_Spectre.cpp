@@ -206,7 +206,10 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			}
 
 			//if  objective hsve anyhting to update
-			m__currentLevel->UpdateObjective(dt);
+			if(!m__currentLevel->GetObjectiveComplete() )
+			{
+				m__currentLevel->UpdateObjective(dt);
+			}
 
 			if (m_bKeyPressed[MOVE_JUMP_KEY] && m__player->Interact(Player::INTERACT_JUMP, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_JUMP) // Spectral Jump
 			{
@@ -821,10 +824,10 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 			{
 				m_appState = AS_MENU;
 				m__menu->AssignCurrent(Menu::MENU_LOSE_LEVEL);
+				//TODO: replace sound with explosion sound
 				m__soundPlayer[SP_DEATH]->Play(false);
 				_tempDefuseObjective->ResetBombTimer();
 			}
-			std::cout << _tempDefuseObjective->GetTimeTillBOOM() << std::endl;
 		}
 	}
 	//if hostage inside tile being viewed
@@ -839,6 +842,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
 	{
 		NPC* _enemy = (*enemyIter);
+		_enemy->SetAlertLevel(m_alertLevel);
 		if (_enemy->Update(dt, m__currentLevel->GetTileMap())) // Killed player
 		{
 			m_appState = AS_MENU;
@@ -847,27 +851,6 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 			break;
 		}
 		
-		//Vector2 mapTilePos = m__player->GetMapTilePos();
-		//_enemy->SetAlertLevel(m_alertLevel);
-		////if not alerted						 
-		//if (_objectiveTarget != NULL
-		//	&&
-		//	_enemy->GetAlertLevel() == 0
-		//	&& _objectiveTarget->GetTarget()->GetNPCType() == _enemy->GetNPCType() //and of the pointer is the same as current enemy
-		//	&& _objectiveTarget->Active())			//and is active : right in front and press the key already
-		//{
-		//	_objectiveTarget->Update(dt); // meaning assassinated
-		//}
-		//if current objective have a target and if current target is not the checking enemy
-		//if(m__currentLevel->GetTarget() != NULL && m__currentLevel->GetTarget() != _enemy)
-		//{
-		//	//updating enemy accordingt to hostage
-		//	_enemy->SetPlayerPtr(m__currentLevel->GetTarget());
-		//	_enemy->Update(dt, m__currentLevel->GetTileMap());
-
-		//	Vector2 mapTilePos = m__currentLevel->GetTarget()->GetMapTilePos();
-		//	_enemy->SetAlertLevel(m_alertLevel);
-		//}
 	}
 	if (m__player->GetHealth() <= 0)
 	{
