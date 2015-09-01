@@ -283,6 +283,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				{
 				case MenuManager::RS_MENU:
 					{
+					    m_shadowMode = false;
 						m_appState = AS_MENU;
 					}
 					break;
