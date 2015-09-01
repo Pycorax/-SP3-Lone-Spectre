@@ -32,6 +32,7 @@ private:
 
 	enum SOUND_PLAYER_TYPE
 	{
+		SP_MAIN_MENU,
 		SP_SKILL_DIVE_ENTER,
 		SP_SKILL_DIVE_EXIT,
 		SP_SKILL_HACK_START,
@@ -162,6 +163,7 @@ protected:
 
 	// Process Key Action Abstract Function
 	void processKeyAction(double dt);
+	void processMenuKeyAction(MenuManager::E_RETURN_STATE returnState);
 
 	// Levels
 	int findLevelFiles(string folderPath);

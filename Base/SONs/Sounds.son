@@ -58,4 +58,8 @@
 		[Name] Level0BGM
 		[FilePath] Sounds//creepy_bgm.ogg
 	}
+	{
+		[Name] MenuBGM
+		[FilePath] Sounds//menu_bgm.ogg
+	}
 }

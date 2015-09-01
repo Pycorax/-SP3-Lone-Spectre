@@ -230,88 +230,12 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			}
 			if (m_bKeyPressed[INTERACT_ATTACK_1_KEY] && m_menuKeysInputTimer <= 0.f) // Left mouse click
 			{
-				switch (m__menu->OnClick(m_mousePosX, m_viewHeight - m_mousePosY))
-				{
-				case MenuManager::RS_MENU:
-					{
-						m_appState = AS_MENU;
-					}
-					break;
-				case MenuManager::RS_NEW_GAME:
-					{
-						m_appState = AS_MAIN_GAME;
-						m_currentLevelID = 0;
-						loadLevel(m_levelFiles[m_currentLevelID]);
-					}
-					break;
-				case MenuManager::RS_EXIT:
-					{
-						m_running = false;
-					}
-					break;
-				case MenuManager::RS_CURRENT_LEVEL:
-					{
-						m_appState = AS_MAIN_GAME;
-						loadLevel(m_levelFiles[m_currentLevelID]);
-					}
-					break;
-				case MenuManager::RS_NEXT_LEVEL:
-					{
-						m_appState = AS_MAIN_GAME;
-						nextLevel();
-					}
-					break;
-				case MenuManager::RS_RESUME:
-					{
-						m_appState = AS_MAIN_GAME;
-					}
-					break;
-				}
-				m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
+				processMenuKeyAction(m__menu->OnClick(m_mousePosX, m_viewHeight - m_mousePosY));
 			}
 			if (m_bKeyPressed[GAME_ACCEPT_KEY] && m_menuKeysInputTimer <= 0.f) // Enter press
 			{
-				switch (m__menu->OnEnter())
-				{
-				case MenuManager::RS_MENU:
-					{
-					    m_shadowMode = false;
-						m_appState = AS_MENU;
-					}
-					break;
-				case MenuManager::RS_NEW_GAME:
-					{
-						m_appState = AS_MAIN_GAME;
-						m_currentLevelID = 0;
-						loadLevel(m_levelFiles[m_currentLevelID]);
-					}
-					break;
-				case MenuManager::RS_EXIT:
-					{
-						m_running = false;
-					}
-					break;
-				case MenuManager::RS_CURRENT_LEVEL:
-					{
-						m_appState = AS_MAIN_GAME;
-						loadLevel(m_levelFiles[m_currentLevelID]);
-					}
-					break;
-				case MenuManager::RS_NEXT_LEVEL:
-					{
-						m_appState = AS_MAIN_GAME;
-						nextLevel();
-					}
-					break;
-				case MenuManager::RS_RESUME:
-					{
-						m_appState = AS_MAIN_GAME;
-					}
-					break;
-				}
-				m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
+				processMenuKeyAction(m__menu->OnEnter());
 			}
-
 			break;
 		}
 	}
@@ -322,6 +246,61 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 		// TODO: Open a pause menu and then quit by that instead. Do actual pausing or return to menus
 		m_running = false;
 	}*/
+}
+
+void MVC_Model_Spectre::processMenuKeyAction(MenuManager::E_RETURN_STATE returnState)
+{
+	switch (returnState)
+	{
+		case MenuManager::RS_MENU:
+		{
+			m_appState = AS_MENU;
+
+			if (m__menu->GetCurrentMenu()->GetType() == Menu::MENU_MAIN)
+			{
+				// If there is bgm playing, stop it
+				if (m__bgm != NULL)
+				{
+					m__bgm->Stop();
+					m__bgm = NULL;
+				}
+
+				// Play menu music
+				m__soundPlayer[SP_MAIN_MENU]->Play(true);
+			}
+		}
+		break;
+		case MenuManager::RS_NEW_GAME:
+		{
+			m_appState = AS_MAIN_GAME;
+			m_currentLevelID = 0;
+			loadLevel(m_levelFiles[m_currentLevelID]);
+		}
+		break;
+		case MenuManager::RS_EXIT:
+		{
+			m_running = false;
+		}
+		break;
+		case MenuManager::RS_CURRENT_LEVEL:
+		{
+			m_appState = AS_MAIN_GAME;
+			loadLevel(m_levelFiles[m_currentLevelID]);
+		}
+		break;
+		case MenuManager::RS_NEXT_LEVEL:
+		{
+			m_appState = AS_MAIN_GAME;
+			nextLevel();
+		}
+		break;
+		case MenuManager::RS_RESUME:
+		{
+			m_appState = AS_MAIN_GAME;
+		}
+		break;
+	}
+	m_menuKeysInputTimer = S_M_MENU_KEYS_INPUT_DELAY;
 }
 
 int MVC_Model_Spectre::findLevelFiles(string folderPath)
@@ -427,6 +406,9 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	// Get a reference to the objective
 	m_objective = m__currentLevel->GetObjective();
 
+	// Init the HUD
+	initHUD();
+
 	// Initialize the messages
 	// -- Clear any previous messages from any previous levels
 	m_messenger.ClearMessages();
@@ -434,12 +416,14 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	m_messenger.AddMessages(m__currentLevel->GetMessagesFile());
 
 	// Initialize the BGM
+	// -- If main menu bgm is playing, stop it
+	m__soundPlayer[SP_MAIN_MENU]->Pause();
 	// -- Find the BGM
 	static int prevBGM = -1;
 	int bgm = GetSoundResource(m__currentLevel->GetBGMName());
 	
 	// -- if the previous BGM is not the same, then init the new sound
-	if (bgm != prevBGM)
+	if (bgm != prevBGM || m__bgm == NULL)
 	{
 		// -- Stop previous BGM
 		if (m__bgm != NULL)
@@ -532,6 +516,7 @@ void MVC_Model_Spectre::Init(void)
 	MVC_Model::Init();
 
 	// Init Sounds
+	m__soundPlayer[SP_MAIN_MENU] = SoundEngine::CreateSound2D(GetSoundResource("MenuBGM"));
 	m__soundPlayer[SP_SKILL_DIVE_ENTER] = SoundEngine::CreateSound2D(GetSoundResource("EnterDive"));
 	m__soundPlayer[SP_SKILL_DIVE_EXIT] = SoundEngine::CreateSound2D(GetSoundResource("ExitDive"));
 	m__soundPlayer[SP_SKILL_HACK_START] = SoundEngine::CreateSound2D(GetSoundResource("StartHack"));
@@ -564,15 +549,13 @@ void MVC_Model_Spectre::Init(void)
 			GetMeshResource("MinigameBG"),
 			m_viewWidth, m_viewHeight);
 
+	// Search for and store all the level files
 	findLevelFiles("Levels//");
-	loadLevel(m_levelFiles[m_currentLevelID]);
-	float tileSize = m__currentLevel->GetTileMap()->GetTileSize();
-
-	// Load HUD
-	initHUD();
 
 	// Load menu
 	initMenu();
+	// -- Start menu music
+	m__soundPlayer[SP_MAIN_MENU]->Play(true);
 
 	// Init the MessageManager
 	m_messenger.Init(GetMeshResource("MessageBG"), m_defaultFont, m_defaultFont, Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x, 200.0f), S_M_MESSAGE_OFFSET);
@@ -1414,38 +1397,41 @@ void MVC_Model_Spectre::tileMapToRender(TileMap* _ToRender)
 
 void MVC_Model_Spectre::onResolutionChanged(int oldViewWidth, int oldViewHeight)
 {
-	TileMap* _tilemap = m__currentLevel->GetTileMap();
-	float oldTileSize = _tilemap->GetTileSize();
-	_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
-	float newTileSize = _tilemap->GetTileSize();
-	// Update the tilemap
-	resizeTileMap(oldTileSize, newTileSize);
-
-	// Update camera list position
-	for (vector<SecurityCamera*>::iterator cameraIter = m_cameraList.begin(); cameraIter != m_cameraList.end(); ++cameraIter)
+	if (m__currentLevel != NULL)
 	{
-		SecurityCamera* _camera = *cameraIter;
-		Vector2 newPosition(floor(_camera->GetMapPos().x / oldTileSize) * newTileSize, floor(_camera->GetMapPos().y / oldTileSize) * newTileSize);
-		_camera->SetMapPosition(newPosition, _tilemap->GetScrollOffset(), newTileSize);
-	}
+		TileMap* _tilemap = m__currentLevel->GetTileMap();
+		float oldTileSize = _tilemap->GetTileSize();
+		_tilemap->SetTileSize(m_viewWidth / _tilemap->GetNumScreenTile().x);
+		float newTileSize = _tilemap->GetTileSize();
+		// Update the tilemap
+		resizeTileMap(oldTileSize, newTileSize);
 
-	// Update HUD position
-	initHUD();
-
-	// Update enemy position
-	for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
-	{
-		NPC* _enemy = *enemyIter;
-		if (_enemy)
+		// Update camera list position
+		for (vector<SecurityCamera*>::iterator cameraIter = m_cameraList.begin(); cameraIter != m_cameraList.end(); ++cameraIter)
 		{
-			Vector2 enemyTilePos(floor(_enemy->GetMapPos().x / oldTileSize), floor(_enemy->GetMapPos().y / oldTileSize));
-			_enemy->SetMapPosition(enemyTilePos * newTileSize, _tilemap->GetScrollOffset(), newTileSize);
-			_enemy->SetScale(Vector2(newTileSize, newTileSize));
+			SecurityCamera* _camera = *cameraIter;
+			Vector2 newPosition(floor(_camera->GetMapPos().x / oldTileSize) * newTileSize, floor(_camera->GetMapPos().y / oldTileSize) * newTileSize);
+			_camera->SetMapPosition(newPosition, _tilemap->GetScrollOffset(), newTileSize);
 		}
-	}
 
-	// Update the Messenger
-	m_messenger.SetMessageBGScale(Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x * 2, m_messenger.GetMessageBGScale().y));
+		// Update HUD position
+		initHUD();
+
+		// Update enemy position
+		for (vector<NPC*>::iterator enemyIter = m_enemyList.begin(); enemyIter != m_enemyList.end(); ++enemyIter)
+		{
+			NPC* _enemy = *enemyIter;
+			if (_enemy)
+			{
+				Vector2 enemyTilePos(floor(_enemy->GetMapPos().x / oldTileSize), floor(_enemy->GetMapPos().y / oldTileSize));
+				_enemy->SetMapPosition(enemyTilePos * newTileSize, _tilemap->GetScrollOffset(), newTileSize);
+				_enemy->SetScale(Vector2(newTileSize, newTileSize));
+			}
+		}
+
+		// Update the Messenger
+		m_messenger.SetMessageBGScale(Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x * 2, m_messenger.GetMessageBGScale().y));
+	}
 }
 
 void MVC_Model_Spectre::resizeTileMap(float oldTileSize, float newTileSize)
