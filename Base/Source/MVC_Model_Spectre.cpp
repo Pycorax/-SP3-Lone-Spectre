@@ -559,6 +559,7 @@ void MVC_Model_Spectre::Init(void)
 	m__soundPlayer[SP_OBJ_BOMB_DEFUSING] = SoundEngine::CreateSound2D(GetSoundResource("Objective_BombDefuse"));
 	m__soundPlayer[SP_OBJ_ASSASSINATE] = SoundEngine::CreateSound2D(GetSoundResource("Objective_Assassinate"));
 	m__soundPlayer[SP_DEATH] = SoundEngine::CreateSound2D(GetSoundResource("Death"));
+	m__soundPlayer[SP_EXPLOSIVE_DEATH] = SoundEngine::CreateSound2D(GetSoundResource("Explosion"));
 
 	// -- Load Shadow GameObject
 	m__tileMarkerMesh[TM_SHADOW] = GetMeshResource("ShadowOverlay");
@@ -836,8 +837,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 			{
 				m_appState = AS_MENU;
 				m__menu->AssignCurrent(Menu::MENU_LOSE_LEVEL);
-				//TODO: replace sound with explosion sound
-				m__soundPlayer[SP_DEATH]->Play(false);
+				m__soundPlayer[SP_EXPLOSIVE_DEATH]->Play(false);
 				_tempDefuseObjective->ResetBombTimer();
 			}
 		}

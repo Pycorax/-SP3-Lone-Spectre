@@ -53,6 +53,10 @@
 		[Name] Death
 		[FilePath] Sounds//death.ogg
 	}
+	{
+		[Name] Explosion
+		[FilePath] Sounds//explosion.ogg
+	}
 	# BGM
 	{
 		[Name] Level0BGM
