@@ -93,6 +93,8 @@ private:
 	stack<Vector2> m_possessedTourStops;	// vector of tile positions that the enemy has went to while being possessed
 
 	Character* _player;
+
+	int m_viewY;
 public:
 	NPC(void);
 	virtual ~NPC(void);
@@ -130,6 +132,7 @@ public:
 	E_NPC_TYPE GetNPCType(void);
 
 	vector<Vector2> GetPathWay(void)const;
+	void SetDefaultView(Vector2 view);
 protected:
 	// Function to allow the viewer to get the child class's transform details
 	virtual Vector2 viewer_GetTilePos(void);

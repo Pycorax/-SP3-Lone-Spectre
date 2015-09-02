@@ -102,6 +102,12 @@ void NPC::Init(Vector2 pos, Mesh* _mesh)
 	AddAnimation(_a, NPC::EA_WALK_UP);
 }
 
+void NPC::SetDefaultView(Vector2 view)
+{
+	InitViewer(view.x , view.y);
+	m_viewY = view.y;
+}
+
 void NPC::SetPossesion(bool state)
 {
 	m_bPossesion = state;
@@ -121,12 +127,12 @@ bool NPC::Update(double dt, TileMap* _map)
 
 	Character::Update();	
 	
+	ClearViewBox(this, _map);
+
 	//update view distance according to alert level
-	InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + GetMaxRangeY());
-	//ClearViewedTileIndex();
+	InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + m_viewY);
 
 	// Update FOV
-	ClearViewBox(this, _map);
 	CreateViewBox(this, _map);
 
 	// Possession
