@@ -12,8 +12,6 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_COLLECT
-	[ObjectiveActiveTimer] 10
-	[BombTimer] 50
 	[BackgroundMusic] Level0BGM
 	
 	{			
@@ -24,13 +22,11 @@
 			[Mesh] Enemy_ANIMATION
 			[NPCType] NT_ENEMY
 			# based on tile position
-			[SpawnTilePosition] 1.0f, 2.0f
+			[SpawnTilePosition] 13.0f, 12.0f
 			[ViewRange] 1.0f, 2.0f
 			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
-			[PatrolPoint] 0.0f, 4.0f
-			[PatrolPoint] 3.0f, 4.0f
-			[PatrolPoint] 3.0f, 0.0f
-			[PatrolPoint] 0.0f, 0.0f
+			[PatrolPoint] 10.0f, 0.0f
+			[PatrolPoint] -10.0f, 0.0f
 			
 		}
 	}
