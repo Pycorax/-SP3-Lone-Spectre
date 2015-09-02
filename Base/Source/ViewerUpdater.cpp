@@ -20,12 +20,12 @@ void CreateViewBox(Viewer* _viewer, TileMap* _tileMap)
 			int posX = viewerPos.x;
 			int posY = viewerPos.y;
 
-			if (viewerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// Down
+			if (viewerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// Up
 			{
 				posX += rangeX;
 				posY += rangeY;
 			}
-			else if (viewerDir == Direction::DIRECTIONS[Direction::DIR_DOWN])		// Up
+			else if (viewerDir == Direction::DIRECTIONS[Direction::DIR_DOWN])		// Down
 			{
 				posX += rangeX;
 				posY -= rangeY;

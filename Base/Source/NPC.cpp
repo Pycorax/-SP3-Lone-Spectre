@@ -219,21 +219,22 @@ bool NPC::Update(double dt, TileMap* _map)
 			}
 			else if (m_checkAround >= S_WAIT_TIME * 1 && m_checkAround < S_WAIT_TIME * 2)
 			{
-				m_lookDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
+				m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
 			}
 			else if (m_checkAround >= S_WAIT_TIME * 2 && m_checkAround < S_WAIT_TIME * 3)
 			{
-				m_lookDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
+				m_lookDir = Direction::DIRECTIONS[Direction::DIR_DOWN];
 			}
 			else if (m_checkAround >= S_WAIT_TIME * 3 && m_checkAround < S_WAIT_TIME * 4)
 			{
-				m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
+				m_lookDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
 			}
 			else //timing is over
 			{
 				if(m_wasPossessed) // if no need to trace back
 				{
 					//retracing steps back
+					m_checkAround = 0;
 					m_enemyState = ES_GOSTAN;
 				}
 				else
@@ -267,6 +268,8 @@ bool NPC::Update(double dt, TileMap* _map)
 		//if not in view and reset timer hits
 		if(m_ViewingTimer >= 2)
 		{
+			m_AttackCountdown = 0.0;
+			m_ViewingTimer = 0.0;
 			m_enemyState = ES_SCAN;
 		}
 	}
