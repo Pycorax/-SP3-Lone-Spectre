@@ -14,7 +14,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
-	, m_enableShadow(true)
+	, m_enableShadow(false)
 	, m_alertLevel(0.f)
 	, m__alert(NULL)
 	, m__spectreDive(NULL)
@@ -210,12 +210,14 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			}
 
 			//if  objective hsve anyhting to update
-			if(!m__currentLevel->GetObjectiveComplete() && m__currentLevel->GetActiveObjective() && m_appState == AS_MAIN_GAME)
+			if(!m__currentLevel->GetObjectiveComplete() && m_appState == AS_MAIN_GAME)
 			{
 				m__currentLevel->UpdateObjective(dt);
 
 				if (
 					dynamic_cast<ObjectiveDefuse*>(m__currentLevel->GetObjective()) != NULL
+					&& 
+					m__currentLevel->GetActiveObjective()
 					&&
 					m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) != Player::PS_SPECTRAL_DEFUSE
 					)
@@ -225,6 +227,8 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				}
 				else if (
 						dynamic_cast<ObjectiveSetBomb*>(m__currentLevel->GetObjective()) != NULL
+						&& 
+						m__currentLevel->GetActiveObjective()
 						&&
 						m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) != Player::PS_SPECTRAL_SETBOMB
 						)
@@ -443,7 +447,6 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 	m__player->SetInShadow(false);
 	m__player->ForceSetAnimation(Player::PS_IDLE_UP);
 	m_shadowMode = false;
-	
 
 	// Initialize the enemies
 	clearEnemyList();
@@ -457,10 +460,22 @@ void MVC_Model_Spectre::loadLevel(string levelMapFile)
 		_enemy->SetPlayerPtr(m__player);
 		_enemy->SetActive(true);
 		m_enemyList.push_back(_enemy);
+
+		// Assign the target enemy to the current objective
+		if (_enemy->GetNPCType() == NPC::NT_TARGET)
+		{
+			ObjectiveAssassinate* objAss = dynamic_cast<ObjectiveAssassinate*>(m__currentLevel->GetObjective());
+			if (objAss != NULL)
+			{
+				objAss->Init(_enemy);
+			}
+		}
 	}
 
 	// Get a reference to the objective
 	m_objective = m__currentLevel->GetObjective();
+
+	
 
 	// Init the HUD
 	initHUD();
