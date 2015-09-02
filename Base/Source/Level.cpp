@@ -20,7 +20,7 @@ Level::~Level(void)
 {
 }
 
-void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mesh*>& meshList, Vector2 numScreenTile)
+void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mesh*>& meshList/*, Vector2 numScreenTile*/)
 {
 	enum ATTRIBUTE_TYPE
 	{
