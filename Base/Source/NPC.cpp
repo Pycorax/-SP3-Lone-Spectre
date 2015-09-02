@@ -42,9 +42,18 @@ NPC * NPC::CreateCopy(NPC npcToCopy)
 	return newNPC;
 }
 
+void NPC::SetMoveToDist(float TileSize)
+{
+	m_lookDir = (m_pathWay[m_pathPointCounter] - GetMapTilePos()).Normalized();
+	m_moveToDist = (m_pathWay[m_pathPointCounter] - GetMapTilePos()).Length() * TileSize;
+}
+
 void NPC::Init(Vector2 pos, Mesh* _mesh)
 {
 	m_oldPos = pos;
+	m_moveToDist = 0.f;
+	m_moveDist = 0.f;
+
 	SetMesh(_mesh );
 	m_lookDir = Direction::DIRECTIONS[Direction::DIR_RIGHT];
 	m_enemyAction = EA_IDLE_RIGHT;
@@ -102,6 +111,8 @@ static const double S_ALERT_HOSTILE = 4.0f;
 bool NPC::Update(double dt, TileMap* _map)
 {
 	static const int S_MIN_VIEW_DISTANCE = 1;
+	
+	ChangeAnimation(dt);
 
 	if (GetActive() == false)
 	{
@@ -132,10 +143,14 @@ bool NPC::Update(double dt, TileMap* _map)
 				if (m_pathPointCounter < m_pathWay.size() - 1)
 				{
 					m_pathPointCounter++;
+					//set look direction towards next target location base off current tile location on map
+					SetMoveToDist(_map->GetTileSize());
 				}
 				else
 				{
 					m_pathPointCounter = 0;
+					//set look direction towards next target location base off current tile location on map
+					SetMoveToDist(_map->GetTileSize() );
 				}
 			}
 			break;
@@ -271,9 +286,10 @@ bool NPC::Update(double dt, TileMap* _map)
 			m_AttackCountdown = 0.0;
 			m_ViewingTimer = 0.0;
 			m_enemyState = ES_SCAN;
+			m_ViewingTimer = 0;
+			m_AttackCountdown = 0;
 		}
 	}
-	ChangeAnimation(dt);
 	SetMapPosition(GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
 	return false;
 }
@@ -311,7 +327,7 @@ void NPC::AddAnimation(Animation* _anim, E_ENEMY_ACTION enemyState)
 
 void NPC::ChangeAnimation(double dt)
 {
-	//idle animation
+	//NOT WALKING
 	if (m_enemyState == ES_POSSESED || m_enemyState == ES_SCAN || m_enemyState == ES_SPOTTED 
 		|| m_enemyState == ES_ATTACK ||m_enemyState == ES_KNOCKOUT)
 	{
@@ -332,7 +348,7 @@ void NPC::ChangeAnimation(double dt)
 			m_enemyAction = EA_IDLE_RIGHT;
 		}
 	}
-	//walking animation
+	//WALKING
 	else if (m_enemyState == ES_POSSESED  ||  m_enemyState == ES_PATROL ||m_enemyState == ES_GOSTAN)
 	{
 		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
@@ -378,21 +394,64 @@ void NPC::AddPatrolPoint(Vector2 pos)
 bool NPC::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
 	static const float S_MOVE_SPEED = 60.0f;
-
-	//next location by map pos
-	Vector2 newMapPos = GetMapPos() + m_lookDir * S_MOVE_SPEED * dt;
-
-	//go to next position
-	SetMapPosition(newMapPos, _map->GetScrollOffset(), _map->GetTileSize());
-
-	//if standing on the tile
-	if(EndPos == GetMapTilePos())
+	Vector2 s_newOrigin;
+	bool shiftOrigin = false;
+	float tileSize = _map->GetTileSize();
+	if (m_lookDir.x < 0 || m_lookDir.y < 0) // Moving left or down
 	{
+		s_newOrigin = GetMapPos(); // No change in origin (Bottom or Left)
+	}
+	else // Moving right or up
+	{
+		s_newOrigin = GetMapPos() + (m_lookDir * tileSize); // Change in origin (Top or Right)
+		shiftOrigin = true;
+	}
+	Vector2 newPos = s_newOrigin + (m_lookDir * S_MOVE_SPEED * dt); // New position if move
+	if (_map->CheckCollision(newPos) || (m_moveDist + (S_MOVE_SPEED * dt)) >= m_moveToDist )
+	{
+		Vector2 tilePos;
+		if (shiftOrigin)
+		{
+			s_newOrigin -= m_lookDir * 0.5; // Shift origin to half the distance between new and original origin
+		}
+		if (m_lookDir.x == 0) // Moving along y axis, snap y axis and ignore x axis
+		{
+			tilePos = Vector2(s_newOrigin.x, floor(s_newOrigin.y / tileSize) * tileSize); // Position to snap to by axis
+			if (tilePos.y >= _map->GetMapSize().y)
+			{
+				tilePos.y -= _map->GetTileSize();
+			}
+			else if (tilePos.y < 0)
+			{
+				tilePos.y = 0;
+			}
+		}
+		else if (GetLookDir().y == 0) // Moving along x axis, snap x axis and ignore y axis
+		{
+			tilePos = Vector2(floor(s_newOrigin.x / tileSize) * tileSize, s_newOrigin.y); // Position to snap to by axis
+			if (tilePos.x >= _map->GetMapSize().x)
+			{
+				tilePos.x -= _map->GetTileSize();
+			}
+			else if (tilePos.x < 0)
+			{
+				tilePos.x = 0;
+			}
+		}
+		SetMapPosition(tilePos, _map->GetScrollOffset(), _map->GetTileSize()); // Snap player to wall
+
+		m_moveDist = 0.f;
 		return true;
 	}
-
-	//set look direction towards next target location base off current tile location on map
-	m_lookDir = (EndPos - GetMapTilePos()).Normalized();
+	else
+	{
+		if (shiftOrigin) // Moving right or up
+		{
+			newPos -= GetLookDir() * _map->GetTileSize();
+		}
+		SetMapPosition(newPos, _map->GetScrollOffset(), _map->GetTileSize()); // Remove tile size that was added previously
+		m_moveDist += S_MOVE_SPEED * dt;
+	}
 
 	return false;
 

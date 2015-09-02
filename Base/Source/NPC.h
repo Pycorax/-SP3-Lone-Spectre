@@ -72,6 +72,8 @@ private:
 	//time need before next move
 	float m_moveTime;
 
+	float m_moveToDist; // dist between points
+	float m_moveDist;
 	//keep track 
 	int m_pathPointCounter;
 	//use to check if mode start patrolling
@@ -102,6 +104,8 @@ public:
 	void AddPatrolPoint(Vector2 pos);
 	//moving to selected location - return true if reached
 	bool MoveTo(Vector2 Endpos, TileMap* _map, double dt);
+
+	void SetMoveToDist(float TileSize);
 	
 	void SetAlertLevel(int alertlevel);
 	int GetAlertLevel(void);
