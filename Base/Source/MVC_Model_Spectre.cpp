@@ -991,6 +991,7 @@ void MVC_Model_Spectre::initHUD(void)
 
 void MVC_Model_Spectre::updateMainGame(double dt)
 {
+	m_shadowMode = m__player->GetInShadow();
 	if (m_pauseTimer > 0.f)
 	{
 		m_pauseTimer -= dt;
@@ -1098,13 +1099,13 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	m_renderList2D.push(m__spectreHost);
 	m_renderList2D.push(m__spectreHost->GetDisplayCover());
 
-	if (m_shadowMode == false && (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE))
+	if (m__player->GetInShadow() == false && (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE))
 	{
 		// Defuse Bomb
 		m_renderList2D.push(m__defuseBomb);
 		m_renderList2D.push(m__defuseBomb->GetDisplayCover());
 	}
-	if (m_shadowMode == false && (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+	if (m__player->GetInShadow() == false && (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
 	{
 		// Plant Bomb
 		m_renderList2D.push(m__plantBomb);
