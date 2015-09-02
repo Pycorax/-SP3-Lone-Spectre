@@ -122,8 +122,9 @@ bool NPC::Update(double dt, TileMap* _map)
 	Character::Update();	
 	
 	//update view distance according to alert level
-	InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + S_MIN_VIEW_DISTANCE);
-	
+	InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + GetMaxRangeY());
+	//ClearViewedTileIndex();
+
 	// Update FOV
 	ClearViewBox(this, _map);
 	CreateViewBox(this, _map);
