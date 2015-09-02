@@ -8,10 +8,13 @@
 	
 	[TileMapFilePath] TileMap//Level0.csv
 	[TileSize] 64
-	[NumMapTile] 64.0f, 17.0f
+	[NumMapTile] 21.0f, 20.0f
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_COLLECT
 	[MessagesFilePath] Messages//Level0_Messages.son
 	[BackgroundMusic] Level0BGM
+
+	{			
+	}
 }
