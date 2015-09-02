@@ -8,9 +8,256 @@
 	
 	[TileMapFilePath] TileMap//Level8.csv
 	[TileSize] 64
-	[NumMapTile] 64.0f, 29.0f
+	[NumMapTile] 64.0f, 50.0f
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_ESCAPE
 	[BackgroundMusic] Level0BGM
+	
+	{			
+		[Name] EnemyContainer
+		
+		{
+			[Name] LeftEntranceGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 2.0f, 28.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 10.0f
+			[PatrolPoint] 1.0f, 10.0f
+			[PatrolPoint] 1.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] LeftEntranceLeftGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 19.0f, 35.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 9.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] RightEntranceRightGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 21.0f, 44.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -9.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] TopLeftRoomGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 11.0f, 34.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -10.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] CrossRoad_BottomLeftGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 27.0f, 35.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 5.0f
+			[PatrolPoint] 6.0f, 5.0f
+			[PatrolPoint] 6.0f, -1.0f
+			[PatrolPoint] 1.0f, -1.0f
+			[PatrolPoint] 6.0f, -1.0f
+			[PatrolPoint] 6.0f, 5.0f
+			[PatrolPoint] 0.0f, 5.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] CrossRoad_TopLeftGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 27.0f, 46.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -5.0f
+			[PatrolPoint] 6.0f, -5.0f
+			[PatrolPoint] 6.0f, 1.0f
+			[PatrolPoint] 1.0f, 1.0f
+			[PatrolPoint] 6.0f, 1.0f
+			[PatrolPoint] 6.0f, -5.0f
+			[PatrolPoint] 0.0f, -5.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] CrossRoad_TopRightGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 40.0f, 46.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -5.0f
+			[PatrolPoint] -6.0f, -5.0f
+			[PatrolPoint] -6.0f, 1.0f
+			[PatrolPoint] -1.0f, 1.0f
+			[PatrolPoint] -6.0f, 1.0f
+			[PatrolPoint] -6.0f, -5.0f
+			[PatrolPoint] 0.0f, -5.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] CrossRoad_BotRightGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 40.0f, 35.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 5.0f
+			[PatrolPoint] -6.0f, 5.0f
+			[PatrolPoint] -6.0f, -1.0f
+			[PatrolPoint] -1.0f, -1.0f
+			[PatrolPoint] -6.0f, -1.0f
+			[PatrolPoint] -6.0f, 5.0f
+			[PatrolPoint] 0.0f, 5.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Corridor_LeftGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 22.0f, 24.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 9.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Corridor_LeftGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 42.0f, 17.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 7.0f
+			[PatrolPoint] -10.0f, 7.0f
+			[PatrolPoint] -10.0f, -5.0f
+			[PatrolPoint] -13.0f, -5.0f
+			[PatrolPoint] -13.0f, -8.0f
+			[PatrolPoint] -5.0f, -8.0f
+			[PatrolPoint] -5.0f, -5.0f
+			[PatrolPoint] -8.0f, -5.0f
+			[PatrolPoint] -8.0f, 7.0f
+			[PatrolPoint] 0.0f, 7.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] SiloCatwalk_TopGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 26.0f, 11.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] -4.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] SiloCatwalk_BotGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 22.0f, 10.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 4.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] SiloCatwalk_LeftGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 21.0f, 2.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 4.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] AirVent_OuterRoom_LeftEnemy
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 46.0f, 11.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -10.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] AirVent_OuterRoom_RightEnemy
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 49.0f, 1.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 10.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] AirVent_EntranceEnemy
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 37.0f, 2.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 3.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] AirVent_Enemy
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 23.0f, 2.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 6.0f, 0.0f
+			[PatrolPoint] 6.0f, 5.0f
+			[PatrolPoint] 8.0f, 5.0f
+			[PatrolPoint] 6.0f, 5.0f
+			[PatrolPoint] 6.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+	}
 }

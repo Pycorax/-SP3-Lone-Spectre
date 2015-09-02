@@ -14,7 +14,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
-	, m_enableShadow(false)
+	, m_enableShadow(true)
 	, m_alertLevel(0.f)
 	, m__alert(NULL)
 	, m__spectreDive(NULL)
@@ -741,26 +741,6 @@ void MVC_Model_Spectre::initMenu(void)
 		_newMenu->AddButton(_newButton);
 		++buttonCount;
 	}
-
-	/*UIButton* _newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2((WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS), HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
-	_newButton->InitLevel(0, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS) - (m_viewWidth * 0.05f), (HEIGHT_OFFSET * buttonCount) - (m_viewHeight * 0.015f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 00");
-	_newMenu->AddButton(_newButton);
-	++buttonCount;
-
-	_newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
-	_newButton->InitLevel(1, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS) - (m_viewWidth * 0.05f), (HEIGHT_OFFSET * buttonCount) - (m_viewHeight * 0.015f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 01"); 
-	_newMenu->AddButton(_newButton);
-	++buttonCount;
-
-	_newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
-	_newButton->InitLevel(2, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS) - (m_viewWidth * 0.05f), (HEIGHT_OFFSET * buttonCount) - (m_viewHeight * 0.015f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 02"); 
-	_newMenu->AddButton(_newButton);
-	++buttonCount;
-
-	_newButton = new UIButton(UIButton::BUTTON_LEVEL, GetMeshResource("BUTTON_LEVEL_OFF"), startPos - Vector2(WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
-	_newButton->InitLevel(3, m_defaultFont, (startPos - Vector2((WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS) - (m_viewWidth * 0.05f), (HEIGHT_OFFSET * buttonCount) - (m_viewHeight * 0.015f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1, "Level 08");
-	_newMenu->AddButton(_newButton);
-	++buttonCount;*/
 
 	startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
 	_newMenu->AddButton(new UIButton(UIButton::BUTTON_RETURN_TO_MAIN_MENU, GetMeshResource("BUTTON_RETURN_TO_MAIN_MENU_OFF"), startPos, BUTTON_SIZE));
