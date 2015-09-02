@@ -119,7 +119,7 @@ void MVC_Model::Update(double dt)
 
 	if (m_renderList2D.size() > 0)
 	{
-		//throw std::runtime_error("RenderList2D leak detected!");
+		throw std::runtime_error("RenderList2D leak detected!");
 	}
 
 	// Update Sprite Animations in the Mesh List

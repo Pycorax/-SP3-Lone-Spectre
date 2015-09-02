@@ -213,6 +213,25 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			if(!m__currentLevel->GetObjectiveComplete() && m__currentLevel->GetActiveObjective() && m_appState == AS_MAIN_GAME)
 			{
 				m__currentLevel->UpdateObjective(dt);
+
+				if (
+					dynamic_cast<ObjectiveDefuse*>(m__currentLevel->GetObjective()) != NULL
+					&&
+					m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) != Player::PS_SPECTRAL_DEFUSE
+					)
+				{
+					m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
+					m__currentLevel->ResetObjective();
+				}
+				else if (
+						dynamic_cast<ObjectiveSetBomb*>(m__currentLevel->GetObjective()) != NULL
+						&&
+						m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) != Player::PS_SPECTRAL_SETBOMB
+						)
+				{
+					m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Pause();
+					m__currentLevel->ResetObjective();
+				}
 			}
 
 			if (m_bKeyPressed[MOVE_JUMP_KEY] && m__player->Interact(Player::INTERACT_JUMP, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_JUMP) // Spectral Jump
@@ -227,6 +246,17 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 				m_appState = AS_MENU;
 				m__menu->AssignCurrent(Menu::MENU_PAUSE);
 				m_pauseTimer = S_M_MENU_KEYS_INPUT_DELAY;
+
+				if (!m__currentLevel->GetObjectiveComplete() && dynamic_cast<ObjectiveDefuse*>(m__currentLevel->GetObjective()) != NULL)
+				{
+					m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
+					m__currentLevel->ResetObjective();
+				}
+				else if (!m__currentLevel->GetObjectiveComplete() && dynamic_cast<ObjectiveSetBomb*>(m__currentLevel->GetObjective()) != NULL)
+				{
+					m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Pause();
+					m__currentLevel->ResetObjective();
+				}
 			}
 			break;
 		}
@@ -826,6 +856,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	{
 		m_pauseTimer -= dt;
 	}
+
 	m__objectivesHUD->Update(dt, m_objective);
 	// Updates player depending on actions queued.
 	m__player->Update(dt, m__currentLevel->GetTileMap());
@@ -861,6 +892,8 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 			}
 		}
 	}
+
+
 	//if hostage inside tile being viewed
 	/*_tile = m__currentLevel->GetTileMap()->GetTileAt(m__currentLevel->GetTarget()->GetMapPos());
 	if(_tile->IsViewed() )
@@ -910,6 +943,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		
 	}
 
+
 	// Render HUD
 	// Alert
 	m_renderList2D.push(m__alert);
@@ -923,6 +957,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	// Host skill
 	m_renderList2D.push(m__spectreHost);
 	m_renderList2D.push(m__spectreHost->GetDisplayCover());
+
 	if (m_shadowMode == false && (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE))
 	{
 		// Defuse Bomb
@@ -1031,6 +1066,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		m__kKey[ID_KB_MOUSE]->SetActive(false);
 		m__kKey[ID_XINPUT]->SetActive(false);
 	}
+
 	// Objectives
 	m_renderList2D.push(m__objectivesHUD);
 	if (m__objectivesHUD->GetObjectiveText())
@@ -1042,6 +1078,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	pushMessageToRender();
 
 	m_renderList2D.push(m_fpsCount);
+
 	if (m_fps < 55)
 	{
 		cout << m_fpsCount->GetText() << endl;

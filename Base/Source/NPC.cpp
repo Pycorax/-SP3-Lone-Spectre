@@ -338,18 +338,22 @@ void NPC::ChangeAnimation(double dt)
 		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_LEFT])
 		{
 			m_enemyAction = EA_WALK_LEFT;
+			//cout << "LEFT" << endl;
 		}
 		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_RIGHT])
 		{
 			m_enemyAction = EA_WALK_RIGHT;
+			//cout << "RIGHT" << endl;
 		}
 		if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_DOWN])
 		{
 			m_enemyAction = EA_WALK_DOWN;
+			//cout << "DOWN" << endl;
 		}
 		else if (m_lookDir == Direction::DIRECTIONS[Direction::DIR_UP])
 		{
 			m_enemyAction = EA_WALK_UP;
+			//cout << "UP" << endl;
 		}
 	}
 	//updates the sprite animtion with the correct set of animation
@@ -389,7 +393,6 @@ bool NPC::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 
 	//set look direction towards next target location base off current tile location on map
 	m_lookDir = (EndPos - GetMapTilePos()).Normalized();
-
 
 	return false;
 
