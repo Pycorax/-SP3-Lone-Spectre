@@ -6,7 +6,7 @@
 {
 	[Name] LevelContainer
 	
-	[TileMapFilePath] TileMap//Level8.csv
+	[TileMapFilePath] TileMap//Level7.csv
 	[TileSize] 64
 	[NumMapTile] 64.0f, 29.0f
 	

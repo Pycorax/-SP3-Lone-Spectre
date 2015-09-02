@@ -66,5 +66,77 @@
 			[PatrolPoint] 30.0f, 0.0f,
 			[PatrolPoint] 0.0f, 0.0f
 		}
+		
+		{
+			[Name] Enemy4
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 41.0f, 14.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] -2.0f, 0.0f
+			[PatrolPoint] -2.0f, 10.0f
+			[PatrolPoint] 0.0f, 10.0f
+			[PatrolPoint] 0.0f, 20.0f
+			[PatrolPoint] -2.0f, 20.0f
+			[PatrolPoint] -2.0f, 30.0f
+			[PatrolPoint] 0.0f, 30.0f,
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Enemy5
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 8.0f, 11.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 2.0f
+			[PatrolPoint] 10.0f, 2.0f
+			[PatrolPoint] 10.0f, 0.0f
+			[PatrolPoint] 20.0f, 0.0f
+			[PatrolPoint] 20.0f, 2.0f
+			[PatrolPoint] 30.0f, 2.0f
+			[PatrolPoint] 30.0f, 0.0f,
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Enemy6
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 53.0f, 37.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 3.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Enemy7
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 48.0f, 15.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 11.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Enemy8
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 59.0f, 14.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] -11.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
 	}
 }
