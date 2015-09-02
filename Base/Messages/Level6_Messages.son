@@ -1,0 +1,28 @@
+# Level6_Message.son #
+######################
+# A SON File that specifies the messages to push to the player in a level.
+# All Messages must be contained in a main branch named MessageContainer
+{
+	[Name] MessageContainer
+   
+	{
+		[Name] [Radio]???
+		[Message] "Great job on the previous mission!"
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 2.0
+	}
+	
+	{
+		[Name] [Radio]???
+		[Message] "But now, we've got something else."
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 2.0
+	}
+	
+	{
+		[Name] [Radio]???
+		[Message] "We heard North Korea have made some breakthroughs. Find out what they're up to!"
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 5.0
+	}
+}

@@ -1,0 +1,21 @@
+# Level9_Message.son #
+######################
+# A SON File that specifies the messages to push to the player in a level.
+# All Messages must be contained in a main branch named MessageContainer
+{
+	[Name] MessageContainer
+   
+	{
+		[Name] [Radio]???
+		[Message] "You're one tough nut! Missed it but you jump onto the nuke instead?"
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 4.0
+	}
+	
+	{
+		[Name] [Radio]???
+		[Message] "Well, destroy it if you can..."
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 4.0
+	}
+}

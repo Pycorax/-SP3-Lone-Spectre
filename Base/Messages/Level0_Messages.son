@@ -6,19 +6,19 @@
 	[Name] MessageContainer
    
 	{
-			[Name] ???
+			[Name] [Radio]???
 			[Message] "WAKE UP COMMANDER!!!"
 			[MessagePosition] MP_BOT_LEFT
 			[TimeToShow] 0.5
 	}
 	{
-			[Name] ???
+			[Name] [Radio]???
 			[Message] "Welcome back to the land of the living. We don't have much time."
 			[MessagePosition] MP_BOT_LEFT
 			[TimeToShow] 1.5
 	}
 	{
-			[Name] ???
+			[Name] [Radio]???
 			[Message] "Head on right to get out, I'll explain..."
 			[MessagePosition] MP_BOT_LEFT
 			[TimeToShow] 1.5
@@ -28,31 +28,31 @@
 			[TimeToShow] 1.0
 	}
 	{
-			[Name] ???
+			[Name] [Radio]???
 			[Message] "Remember Afghanistan? TL;DR, you were nuked, we brought you back."
 			[MessagePosition] MP_BOT_LEFT
 			[TimeToShow] 3.0
 	}
 	{
-			[Name] ???
+			[Name] [Radio]???
 			[Message] "The revival process was rather..."
 			[MessagePosition] MP_BOT_LEFT
 			[TimeToShow] 2.0
 	}
 	{
-			[Name] ???
+			[Name] [Radio]???
 			[Message] "...mystifying and so you may realize you're now a Spectre."
 			[MessagePosition] MP_BOT_LEFT
 			[TimeToShow] 3.0
 	}
 	{
-			[Name] ???
+			[Name] [Radio]???
 			[Message] "Press [J] to do a Spectral Dive and [Space] while diving, to Spectral Leap across shadows!"
 			[MessagePosition] MP_BOT_LEFT
 			[TimeToShow] 10.0
 	}
 	{
-			[Name] ???
+			[Name] [Radio]???
 			[Message] "Head right on to the exit and we'll continue"
 			[MessagePosition] MP_BOT_LEFT
 			[TimeToShow] 2.5

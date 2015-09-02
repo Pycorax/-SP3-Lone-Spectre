@@ -1,0 +1,28 @@
+# Level8_Message.son #
+######################
+# A SON File that specifies the messages to push to the player in a level.
+# All Messages must be contained in a main branch named MessageContainer
+{
+	[Name] MessageContainer
+   
+	{
+		[Name] [Radio]???
+		[Message] "Don't you know a thing about discretion? Sigh"
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 3.0
+	}
+	
+	{
+		[Name] [Radio]???
+		[Message] "They all saw you and now they ain't happy..."
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 5.0
+	}
+	
+	{
+		[Name] [Radio]???
+		[Message] "They're gonna nuke us commander... Save us all commander, save us all..."
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 6.0
+	}
+}

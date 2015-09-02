@@ -1,0 +1,20 @@
+# Level1_Message.son #
+######################
+# A SON File that specifies the messages to push to the player in a level.
+# All Messages must be contained in a main branch named MessageContainer
+{
+	[Name] MessageContainer
+   
+	{
+		[Name] [Radio]???
+		[Message] "Your first mission...?"
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 1.5
+	}
+	{
+		[Name] [Radio]???
+		[Message] "Find the documents from this terrorist hide out! Good luck!"
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 3.0
+	}
+}

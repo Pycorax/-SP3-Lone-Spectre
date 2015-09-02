@@ -12,6 +12,7 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_COLLECT
+	[MessagesFilePath] Messages//Level1_Messages.son
 	[BackgroundMusic] Level0BGM
 	
 	{			

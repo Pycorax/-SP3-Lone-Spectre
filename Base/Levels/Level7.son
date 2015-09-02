@@ -12,6 +12,7 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_ESCAPE
+	[MessagesFilePath] Messages//Level7_Messages.son
 	[BackgroundMusic] Level3BGM
 	
 	{

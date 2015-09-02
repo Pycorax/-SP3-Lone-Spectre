@@ -11,6 +11,7 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_ASSASSINATE
+	[MessagesFilePath] Messages//Level3_Messages.son
 	[BackgroundMusic] Level3BGM
 	
 	{			

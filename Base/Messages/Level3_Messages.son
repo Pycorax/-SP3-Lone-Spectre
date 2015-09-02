@@ -1,0 +1,14 @@
+# Level3_Message.son #
+######################
+# A SON File that specifies the messages to push to the player in a level.
+# All Messages must be contained in a main branch named MessageContainer
+{
+	[Name] MessageContainer
+   
+	{
+		[Name] [Radio]???
+		[Message] "We've located the weapons owner. Take him out!"
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 3.0
+	}
+}

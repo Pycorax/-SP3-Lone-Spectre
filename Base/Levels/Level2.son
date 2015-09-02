@@ -14,6 +14,7 @@
 	[MissionType] LM_DEFUSE_BOMB
 	[ObjectiveActiveTimer] 10
 	[BombTimer] 50
+	[MessagesFilePath] Messages//Level2_Messages.son
 	[BackgroundMusic] Level0BGM	
 	{			
 		[Name] EnemyContainer

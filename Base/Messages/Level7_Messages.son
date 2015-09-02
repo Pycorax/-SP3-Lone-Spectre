@@ -1,0 +1,21 @@
+# Level7_Message.son #
+######################
+# A SON File that specifies the messages to push to the player in a level.
+# All Messages must be contained in a main branch named MessageContainer
+{
+	[Name] MessageContainer
+   
+	{
+		[Name] [Radio]???
+		[Message] "Sorry buddy, you were captured but I see you've already broke yourself out."
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 5.0
+	}
+	
+	{
+		[Name] [Radio]???
+		[Message] "Quick, get out of there! We've got evac secured for you outside this facility!"
+		[MessagePosition] MP_BOT_LEFT
+		[TimeToShow] 6.0
+	}
+}
