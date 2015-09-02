@@ -98,4 +98,5 @@
 			[PatrolPoint] 3.0f, 0.0f
 			[PatrolPoint] 0.0f, 0.0f
 		}
+	}
 }
