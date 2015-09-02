@@ -69,3 +69,9 @@ GameObject2D* Menu::GetBackground()
 {
 	return m__background;
 }
+
+void Menu::Resize(Vector2 bgPos, Vector2  bgScale)
+{
+	m__background->SetPos(bgPos);
+	m__background->SetScale(bgScale);
+}

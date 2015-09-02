@@ -10,6 +10,7 @@
 #include "ObjectiveDefuse.h"
 #include "ObjectiveHostage.h"
 #include "ObjectiveSetBomb.h"
+#include "ObjectiveEscape.h"
 
 class HUD_Objectives : public HUD
 {
@@ -35,6 +36,8 @@ public:
 		Mesh* _objMesh, string text, Vector2 objPos, Vector2 objScale);
 	virtual void Update(double dt, Objective* _obj);
 	virtual void Clear();
+
+	void NumberToText(float num);
 
 	/*
 	* Setters

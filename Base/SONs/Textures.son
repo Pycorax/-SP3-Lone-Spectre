@@ -192,6 +192,11 @@
 	}
 	
 	{
+		[Name] Objective_Bar_Cover
+		[FilePath] Image//HUD//objective_bar_cover.tga
+	}
+	
+	{
 		[Name] F_Key
 		[FilePath] Image//HUD//f_key.tga
 	}

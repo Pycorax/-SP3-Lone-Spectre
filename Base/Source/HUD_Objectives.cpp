@@ -40,6 +40,7 @@ void HUD_Objectives::Update(double dt, Objective* _obj)
 		ObjectiveDefuse* _objDef = dynamic_cast<ObjectiveDefuse*>(_obj);
 		ObjectiveHostage* _objHos = dynamic_cast<ObjectiveHostage*>(_obj);
 		ObjectiveSetBomb* _objSet = dynamic_cast<ObjectiveSetBomb*>(_obj);
+		ObjectiveEscape* _objEsc = dynamic_cast<ObjectiveEscape*>(_obj);
 		if (_objAss)
 		{
 			if (_objAss->IsCompleted())
@@ -95,6 +96,10 @@ void HUD_Objectives::Update(double dt, Objective* _obj)
 				m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_SET_BOMB]);
 			}
 		}
+		else if (_objEsc)
+		{
+			m__objectiveText->SetText(S_M_OBJECTIVE_TEXTS[OBJECTIVE_ESCAPE]);
+		}
 	}
 }
 
@@ -116,4 +121,9 @@ void HUD_Objectives::SetObjectiveText(TextObject* _objectiveText)
 GameObject2D* HUD_Objectives::GetObjectiveText()
 {
 	return m__objectiveText;
+}
+
+void HUD_Objectives::NumberToText(float num)
+{
+	m__objectiveText->SetText(std::to_string(static_cast<long long>(ceil(num))));
 }

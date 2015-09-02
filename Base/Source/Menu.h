@@ -35,6 +35,8 @@ public:		// Functions
 
 	bool AddButton(UIButton* _button);
 
+	void Resize(Vector2 bgPos, Vector2  bgScale);
+
 	/*
 	 * Getters
 	 */

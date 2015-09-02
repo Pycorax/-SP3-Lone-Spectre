@@ -214,3 +214,18 @@ int UIButton::GetLevelID()
 {
 	return m_levelID;
 }
+
+void UIButton::Resize(Vector2 pos, Vector2 scale)
+{
+	m_transforms.Translation = pos;
+	m_transforms.Scale = scale;
+}
+
+void UIButton::ResizeText(Vector2 textPos, Vector2 textScale)
+{
+	if (m__text)
+	{
+		m__text->SetPos(textPos);
+		m__text->SetScale(textScale);
+	}
+}

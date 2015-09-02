@@ -126,6 +126,7 @@ private:	// Variables
 
 	// Objectives
 	HUD_Objectives* m__objectivesHUD;
+	HUD_Objectives* m__bombTimerHUD;
 	
 	// Cameras
 	vector<SecurityCamera*> m_cameraList;
@@ -200,6 +201,7 @@ protected:
 	// Screen resizing code
 	void onResolutionChanged(int oldViewWidth, int oldViewHeight);
 	void resizeTileMap(float oldTileSize, float newTileSize);
+	void resizeMenu(void);
 };
 
 #endif

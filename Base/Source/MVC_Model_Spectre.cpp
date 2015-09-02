@@ -30,6 +30,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_shadowMode(false)
 	, m_lightUpdateTimer(S_M_LIGHTING_UPDATE_FREQUENCY)
 	, m__objectivesHUD(NULL)
+	, m__bombTimerHUD(NULL)
 {
 	for (size_t input = 0; input < NUM_INPUT_DEVICE; ++input)
 	{
@@ -210,7 +211,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			}
 
 			//if  objective hsve anyhting to update
-			if(!m__currentLevel->GetObjectiveComplete() && m__currentLevel->GetActiveObjective() && m_appState == AS_MAIN_GAME)
+			if(!m__currentLevel->GetObjectiveComplete() && m_appState == AS_MAIN_GAME)
 			{
 				m__currentLevel->UpdateObjective(dt);
 
@@ -723,7 +724,7 @@ void MVC_Model_Spectre::initMenu(void)
 	const int BUTTON_COUNTER_OVER_NUM_BUTTONS = buttonCount / NUM_BUTTONS;
 	const float WIDTH_OFFSET = m_viewWidth * 0.3f;
 	const Vector2 LEVEL_BUTTON_SIZE(m_viewWidth * 0.03125,m_viewHeight * 0.05555);
-	startPos = Vector2((m_viewWidth * 0.2f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.8f) - (BUTTON_SIZE.y * 0.5f));
+	startPos = Vector2((m_viewWidth * 0.2f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.7f) - (BUTTON_SIZE.y * 0.5f));
 	buttonCount = 0;
 	// Button creation
 	_newMenu = new Menu();
@@ -757,16 +758,141 @@ void MVC_Model_Spectre::initMenu(void)
 	m__menu->AssignCurrent(Menu::MENU_MAIN);
 }
 
+void MVC_Model_Spectre::resizeMenu(void)
+{
+	//UIButton::InitMeshLists(meshList); // Generate static mesh list for buttons
+	int buttonCount; // Use this for alignment of buttons
+	//Mesh* genericBG = GetMeshResource("GenericMenuBG");
+	const float HEIGHT_OFFSET = m_viewHeight * 0.1f;
+	const Vector2 BUTTON_SIZE(m_viewWidth * 0.25f, m_viewHeight * 0.08f);
+	Vector2 startPos; // Start position
+
+	vector<Menu*> menuList = m__menu->GetMenuList();
+	for (vector<Menu*>::iterator menuIter = menuList.begin(); menuIter != menuList.end(); ++menuIter)
+	{
+		Menu* _menu = *menuIter;
+		_menu->Resize(Vector2(0,0), Vector2(m_viewWidth, m_viewHeight));
+		switch (_menu->GetType())
+		{
+		case Menu::MENU_MAIN:
+			{
+				startPos = Vector2((m_viewWidth * 0.75f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.5f) - (BUTTON_SIZE.y * 0.5f));
+				buttonCount = 0;
+				vector<UIButton*> buttonList = _menu->GetButtonList();
+				for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+				{
+					UIButton* _button = *buttonIter;
+					_button->Resize(startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
+					++buttonCount;
+				}
+			}
+			break;
+		case Menu::MENU_LEVEL_SELECT:
+			{
+				const int NUM_BUTTONS = 4;
+				const int BUTTON_COUNTER_OVER_NUM_BUTTONS = buttonCount / NUM_BUTTONS;
+				const float WIDTH_OFFSET = m_viewWidth * 0.3f;
+				const Vector2 LEVEL_BUTTON_SIZE(m_viewWidth * 0.03125,m_viewHeight * 0.05555);
+				startPos = Vector2((m_viewWidth * 0.2f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.7f) - (BUTTON_SIZE.y * 0.5f));
+				buttonCount = 0;
+				vector<UIButton*> buttonList = _menu->GetButtonList();
+				for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+				{
+					UIButton* _button = *buttonIter;
+					if (_button->GetType() != UIButton::BUTTON_RETURN_TO_MAIN_MENU)
+					{
+						_button->Resize(startPos - Vector2((WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS), HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
+						_button->ResizeText((startPos - Vector2((WIDTH_OFFSET * BUTTON_COUNTER_OVER_NUM_BUTTONS) - (m_viewWidth * 0.05f), (HEIGHT_OFFSET * buttonCount) - (m_viewHeight * 0.015f))) * 0.1, LEVEL_BUTTON_SIZE * 0.1);
+						++buttonCount;
+					}
+					else
+					{
+						startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
+						_button->Resize(startPos, BUTTON_SIZE);
+						++buttonCount;
+					}
+				}
+			}
+			break;
+		case Menu::MENU_INSTRUCTIONS:
+			{
+				startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
+				buttonCount = 0;
+				vector<UIButton*> buttonList = _menu->GetButtonList();
+				for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+				{
+					UIButton* _button = *buttonIter;
+					_button->Resize(startPos, BUTTON_SIZE);
+					++buttonCount;
+				}
+			}
+			break;
+		case Menu::MENU_CREDITS:
+			{
+				startPos = Vector2((m_viewWidth * 0.14f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.1f) - (BUTTON_SIZE.y * 0.5f));
+				buttonCount = 0;
+				vector<UIButton*> buttonList = _menu->GetButtonList();
+				for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+				{
+					UIButton* _button = *buttonIter;
+					_button->Resize(startPos, BUTTON_SIZE);
+					++buttonCount;
+				}
+			}
+			break;
+		case Menu::MENU_WIN_LEVEL:
+			{
+				startPos = Vector2((m_viewWidth * 0.5f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.5f) - (BUTTON_SIZE.y * 0.5f));
+				buttonCount = 0;
+				vector<UIButton*> buttonList = _menu->GetButtonList();
+				for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+				{
+					UIButton* _button = *buttonIter;
+					_button->Resize(startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
+					++buttonCount;
+				}
+			}
+			break;
+		case Menu::MENU_LOSE_LEVEL:
+			{
+				startPos = Vector2((m_viewWidth * 0.5f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.5f) - (BUTTON_SIZE.y * 0.5f));
+				buttonCount = 0;
+				vector<UIButton*> buttonList = _menu->GetButtonList();
+				for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+				{
+					UIButton* _button = *buttonIter;
+					_button->Resize(startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
+					++buttonCount;
+				}
+			}
+			break;
+		case Menu::MENU_PAUSE:
+			{
+				startPos = Vector2((m_viewWidth * 0.5f) - (BUTTON_SIZE.x * 0.5f), (m_viewHeight * 0.5f) - (BUTTON_SIZE.y * 0.5f));
+				buttonCount = 0;
+				vector<UIButton*> buttonList = _menu->GetButtonList();
+				for (vector<UIButton*>::iterator buttonIter = buttonList.begin(); buttonIter != buttonList.end(); ++buttonIter)
+				{
+					UIButton* _button = *buttonIter;
+					_button->Resize(startPos - Vector2(0.f, HEIGHT_OFFSET * buttonCount), BUTTON_SIZE);
+					++buttonCount;
+				}
+			}
+			break;
+		}
+	}
+}
+
 void MVC_Model_Spectre::initHUD(void)
 {
-	int hudCount = 0;
+	int hudCount = 1;
 	const float HUD_OFFSET = static_cast<float>(m_viewHeight) * 0.15f;
 	if (m__alert == NULL)
 	{
 		m__alert = new HUD_Cooldown();
 	}
 	const Vector2 ALERT_SCALE(static_cast<float>(m_viewWidth) * 0.2f, static_cast<float>(m_viewHeight) * 0.1f);
-	const Vector2 ALERT_POS(static_cast<float>(m_viewWidth) - ALERT_SCALE.x, static_cast<float>(m_viewHeight) - ALERT_SCALE.y - (hudCount * HUD_OFFSET));
+	const Vector2 ALERT_POS(static_cast<float>(m_viewWidth) - ALERT_SCALE.x, static_cast<float>(m_viewHeight)/* - ALERT_SCALE.y*/ - (hudCount * HUD_OFFSET));
 	m__alert->Init(GetMeshResource("AlertBar"), ALERT_POS, ALERT_SCALE, GetMeshResource("AlertCover"), ALERT_POS, ALERT_SCALE, true, false);
 	++hudCount;
 
@@ -775,7 +901,7 @@ void MVC_Model_Spectre::initHUD(void)
 		m__spectreDive = new HUD_Cooldown();
 	}
 	const Vector2 DIVE_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
-	const Vector2 DIVE_POS(static_cast<float>(m_viewWidth) - DIVE_SCALE.x, static_cast<float>(m_viewHeight) - DIVE_SCALE.y - (hudCount * HUD_OFFSET));
+	const Vector2 DIVE_POS(static_cast<float>(m_viewWidth) - DIVE_SCALE.x, static_cast<float>(m_viewHeight)/* - DIVE_SCALE.y*/ - (hudCount * HUD_OFFSET));
 	m__spectreDive->Init(GetMeshResource("Skill_DiveIcon"), DIVE_POS, DIVE_SCALE, GetMeshResource("Skill_Cover"), DIVE_POS, DIVE_SCALE, false, true);
 	++hudCount;
 
@@ -784,7 +910,7 @@ void MVC_Model_Spectre::initHUD(void)
 		m__spectreJump = new HUD_Cooldown();
 	}
 	const Vector2 JUMP_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
-	const Vector2 JUMP_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
+	const Vector2 JUMP_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight)/* - JUMP_SCALE.y*/ - (hudCount * HUD_OFFSET));
 	m__spectreJump->Init(GetMeshResource("Skill_JumpIcon"), JUMP_POS, JUMP_SCALE, GetMeshResource("Skill_Cover"), JUMP_POS, JUMP_SCALE, false, true);
 	++hudCount;
 
@@ -793,7 +919,7 @@ void MVC_Model_Spectre::initHUD(void)
 		m__spectreHost = new HUD_Cooldown();
 	}
 	const Vector2 HOST_SCALE(static_cast<float>(m_viewHeight) * 0.1f, static_cast<float>(m_viewHeight) * 0.1f);
-	const Vector2 HOST_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight) - JUMP_SCALE.y - (hudCount * HUD_OFFSET));
+	const Vector2 HOST_POS(static_cast<float>(m_viewWidth) - JUMP_SCALE.x, static_cast<float>(m_viewHeight)/* - JUMP_SCALE.y*/ - (hudCount * HUD_OFFSET));
 	m__spectreHost->Init(GetMeshResource("Skill_HostIcon"), HOST_POS, HOST_SCALE, GetMeshResource("Skill_Cover"), HOST_POS, HOST_SCALE, false, true);
 	++hudCount;
 
@@ -846,8 +972,15 @@ void MVC_Model_Spectre::initHUD(void)
 	{
 		m__objectivesHUD = new HUD_Objectives();
 	}
-	m__objectivesHUD->Init(NULL, Vector2(0, m_viewHeight * 0.8f), Vector2(1,1), m_defaultFont, "", Vector2(0, m_viewHeight * 0.8f) * 0.1, Vector2 (40,40) * 0.1);
+	const Vector2 TEXT_SIZE(40,40);
+	m__objectivesHUD->Init(GetMeshResource("Objective_Bar_Cover"), Vector2(0, m_viewHeight - TEXT_SIZE.y), Vector2(m_viewWidth, TEXT_SIZE.y), m_defaultFont, "", Vector2(0, m_viewHeight - TEXT_SIZE.y) * 0.1, TEXT_SIZE * 0.1);
 	m__objectivesHUD->Update(0.0, m_objective);
+
+	if (m__bombTimerHUD == NULL)
+	{
+		m__bombTimerHUD = new HUD_Objectives();
+	}
+	m__bombTimerHUD->Init(NULL, Vector2(0, m_viewHeight - TEXT_SIZE.y), Vector2(1,1), m_defaultFont, "", Vector2(m_viewWidth * 0.5f, m_viewHeight - TEXT_SIZE.y) * 0.1, TEXT_SIZE * 0.1);
 }
 
 void MVC_Model_Spectre::updateMainGame(double dt)
@@ -1072,6 +1205,11 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	if (m__objectivesHUD->GetObjectiveText())
 	{
 		m_renderList2D.push(m__objectivesHUD->GetObjectiveText());
+	}
+	m_renderList2D.push(m__bombTimerHUD);
+	if (m__bombTimerHUD->GetObjectiveText())
+	{
+		m_renderList2D.push(m__bombTimerHUD->GetObjectiveText());
 	}
 
 	// Render Messages
@@ -1381,6 +1519,29 @@ void MVC_Model_Spectre::Exit(void)
 		delete m__spectreHost;
 		m__spectreHost = NULL;
 	}
+	for (int fKey = 0; fKey < NUM_INPUT_DEVICE; ++fKey)
+	{
+		HUD* _fKey = m__fKey[fKey];
+		if (_fKey)
+		{
+			delete _fKey;
+			_fKey = NULL;
+		}
+	}
+	for (int kKey = 0; kKey < NUM_INPUT_DEVICE; ++kKey)
+	{
+		HUD* _kKey = m__kKey[kKey];
+		if (_kKey)
+		{
+			delete _kKey;
+			_kKey = NULL;
+		}
+	}
+	if (m__objectivesHUD)
+	{
+		delete m__objectivesHUD;
+		m__objectivesHUD = NULL;
+	}
 	
 	MVC_Model::Exit();
 }
@@ -1560,6 +1721,7 @@ void MVC_Model_Spectre::onResolutionChanged(int oldViewWidth, int oldViewHeight)
 		// Update the Messenger
 		m_messenger.SetMessageBGScale(Vector2(m_viewWidth - S_M_MESSAGE_OFFSET.x * 2, m_messenger.GetMessageBGScale().y));
 	}
+	resizeMenu();
 }
 
 void MVC_Model_Spectre::resizeTileMap(float oldTileSize, float newTileSize)
@@ -1631,6 +1793,12 @@ void MVC_Model_Spectre::updateHUD(double dt)
 	else
 	{
 		m__spectreHost->Update(dt, 0.f, Player::S_SPECTRE_DIVE_COOLDOWN);
+	}
+
+	ObjectiveDefuse* _objDef = dynamic_cast<ObjectiveDefuse*>(m_objective);
+	if (_objDef)
+	{
+		m__bombTimerHUD->NumberToText(_objDef->GetTimeTillBOOM());
 	}
 }
 

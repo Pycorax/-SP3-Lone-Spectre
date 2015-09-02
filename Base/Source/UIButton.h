@@ -64,6 +64,9 @@ class UIButton : public GameObject2D
 		void InitLevel(int levelID, Mesh* _mesh, Vector2 pos, Vector2 scale, string text);
 		void UpdateState(bool pressed, float mouseX, float mouseY);
 
+		void Resize(Vector2 pos, Vector2 scale);
+		void ResizeText(Vector2 textPos, Vector2 textScale);
+
 		/*
 		 * Setters
 		 */
