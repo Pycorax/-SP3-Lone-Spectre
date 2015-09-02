@@ -210,7 +210,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			}
 
 			//if  objective hsve anyhting to update
-			if(!m__currentLevel->GetObjectiveComplete() )
+			if(!m__currentLevel->GetObjectiveComplete() && m__currentLevel->GetActiveObjective() && m_appState == AS_MAIN_GAME)
 			{
 				m__currentLevel->UpdateObjective(dt);
 			}
@@ -883,10 +883,6 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		}
 		
 	}
-	/*if (m__player->GetHealth() <= 0)
-	{
-		std::cout << "K.O." << std::endl;
-	}*/
 	// Update Lighting
 	updateLighting(dt);
 

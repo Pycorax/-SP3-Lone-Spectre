@@ -372,7 +372,6 @@ bool NPC::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
 	static const float S_MOVE_SPEED = 60.0f;
 
-	
 	//next location by map pos
 	Vector2 newMapPos = GetMapPos() + m_lookDir * S_MOVE_SPEED * dt;
 
