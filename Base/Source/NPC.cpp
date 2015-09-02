@@ -44,7 +44,13 @@ NPC * NPC::CreateCopy(NPC npcToCopy)
 
 void NPC::SetMoveToDist(Vector2 pos, float TileSize)
 {
-	m_lookDir = (pos - GetMapTilePos()).Normalized();
+	Vector2 tempMoveDir = (pos - GetMapTilePos());
+
+	if (tempMoveDir != Vector2::ZERO_VECTOR)
+	{
+		m_lookDir = tempMoveDir.Normalized();
+	}
+
 	m_moveToDist = ((pos * TileSize) - GetMapPos()).Length()/* * TileSize*/;
 	m_moveDist = 0;
 }

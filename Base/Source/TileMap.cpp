@@ -45,6 +45,8 @@ void TileMap::UpdateLighting(vector<Vector2> shadowCasters)
 
 	// Reset count for this next loop
 	countX = countY = 0;
+	// The tiles from the start of the map to the current portion of the screen rendered
+	Vector2 tilesFromStart = m_scrollOffset * (1 / m_tileSize);
 	// Calculate the lighting this frame
 	for (vector<vector<Tile*>*>::iterator row = m_map.begin(); row != m_map.end(); ++row, ++countY)
 	{
@@ -53,6 +55,12 @@ void TileMap::UpdateLighting(vector<Vector2> shadowCasters)
 			// If this is a light...
 			if ((*col)->GetType() == Tile::TILE_LIGHT)
 			{
+				// If this is outside of the screen, don't calculate
+				if (countX < tilesFromStart.x - S_LIGHT_RANGE || countX > tilesFromStart.x + m_numScreenTile.x + S_LIGHT_RANGE || countY < tilesFromStart.y - S_LIGHT_RANGE || countY > tilesFromStart.y + m_numScreenTile.x + S_LIGHT_RANGE)
+				{
+					continue;
+				}
+
 				calcLighting(countX, countY, shadowCasters);
 			}
 		}
