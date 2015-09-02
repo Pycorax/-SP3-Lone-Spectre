@@ -18,7 +18,7 @@
 		[Name] EnemyContainer
 		
 		{
-			[Name] Target1
+			[Name] Enemy1
 			[Mesh] Target_ANIMATION
 			[NPCType] NT_ENEMY
 			# based on tile position
@@ -26,6 +26,131 @@
 			[ViewRange] 1.0f, 2.0f
 			# patrol points not relative to enemy and its in tile coord
 			[PatrolPoint] 28.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 55.0f, 30.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 0.0f, 12.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 54.0f, 16.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 0.0f, -11.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 50.0f, 15.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 0.0f, 6.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 50.0f, 27.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 0.0f, 8.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 48.0f, 37.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] -43.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 5.0f, 12.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 43.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 22.0f, 24.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 26.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 48.0f, 24.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 26.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 13.0f, 22.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] -4.0f, 0.0f
+			[PatrolPoint] -4.0f, -3.0f
+			[PatrolPoint] -4.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 13.0f, 27.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] -4.0f, 0.0f
+			[PatrolPoint] -4.0f, 3.0f
+			[PatrolPoint] -4.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Target_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 4.0f, 23.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 0.0f, 3.0f
 			[PatrolPoint] 0.0f, 0.0f
 		}
 	}
