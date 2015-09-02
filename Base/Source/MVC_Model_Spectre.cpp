@@ -1028,6 +1028,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 				m_appState = AS_MENU;
 				m__menu->AssignCurrent(Menu::MENU_LOSE_LEVEL);
 				m__soundPlayer[SP_EXPLOSIVE_DEATH]->Play(false);
+				m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
 				_tempDefuseObjective->ResetBombTimer();
 			}
 		}
@@ -1053,6 +1054,8 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 			m_appState = AS_MENU;
 			m__menu->AssignCurrent(Menu::MENU_LOSE_LEVEL);
 			m__soundPlayer[SP_DEATH]->Play(false);
+			m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
+			m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Pause();
 			break;
 		}
 		
