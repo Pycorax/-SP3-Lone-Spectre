@@ -63,6 +63,14 @@
 		[FilePath] Sounds//creepy_bgm.ogg
 	}
 	{
+		[Name] Level8BGM
+		[FilePath] Sounds//urgent_bgm.ogg
+	}
+	{
+		[Name] Level9BGM
+		[FilePath] Sounds//panic_bgm.ogg
+	}
+	{
 		[Name] MenuBGM
 		[FilePath] Sounds//menu_bgm.ogg
 	}

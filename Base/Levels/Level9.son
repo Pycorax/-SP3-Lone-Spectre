@@ -1,0 +1,83 @@
+# Level0.son #
+##############
+# A SON File that specifies the properties of a level to load
+# All Level Properties must be contained in a main branch named LevelContainer
+# Enemies are to be contained in a child branch named EnemyContainer
+{
+	[Name] LevelContainer
+	
+	[TileMapFilePath] TileMap//Level9.csv
+	[TileSize] 64
+	[NumMapTile] 64.0f, 50.0f
+	
+	[MaxTimer] 999.0f
+	[MissionType] LM_PLANT_BOMB
+	[ObjectiveActivateTimer] 10
+	[BackgroundMusic] Level9BGM
+	
+	{			
+		[Name] EnemyContainer
+		
+		{
+			[Name] LeftMidGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 7.0f, 32.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -23.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] MidGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 8.0f, 40.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -18.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] RightMidGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 9.0f, 32.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -23.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] LeftGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 6.0f, 23.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 10.0f
+			[PatrolPoint] 0.0f, -4.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] RightGuard
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 10.0f, 23.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 10.0f
+			[PatrolPoint] 0.0f, -4.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+	}
+}

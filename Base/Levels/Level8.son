@@ -12,7 +12,7 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_ESCAPE
-	[BackgroundMusic] Level0BGM
+	[BackgroundMusic] Level8BGM
 	
 	{			
 		[Name] EnemyContainer
