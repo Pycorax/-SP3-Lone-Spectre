@@ -393,7 +393,7 @@ void NPC::AddPatrolPoint(Vector2 pos)
 //return true if reached 
 bool NPC::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 {
-	static const float S_MOVE_SPEED = 60.0f;
+	static const float S_MOVE_SPEED = 100.f;
 	Vector2 s_newOrigin;
 	bool shiftOrigin = false;
 	float tileSize = _map->GetTileSize();
@@ -412,7 +412,7 @@ bool NPC::MoveTo(Vector2 EndPos, TileMap* _map, double dt)
 		Vector2 tilePos;
 		if (shiftOrigin)
 		{
-			s_newOrigin -= m_lookDir * 0.5; // Shift origin to half the distance between new and original origin
+			s_newOrigin -= m_lookDir/* * 0.5*/; // Shift origin to half the distance between new and original origin
 		}
 		if (m_lookDir.x == 0) // Moving along y axis, snap y axis and ignore x axis
 		{

@@ -11,7 +11,7 @@ MapEntity::~MapEntity(void)
 
 void MapEntity::SetMapPosition(Vector2 pos, Vector2 scrollOffset, float tileSize)
 {
-	static const float S_DEGREE_OF_ACCURACY = 0.01f; // Degree of accuracy
+	static const float S_DEGREE_OF_ACCURACY = 0.001f; // Degree of accuracy
 	
 	float mapTileX = pos.x / tileSize;
 	float mapTileY = pos.y / tileSize;

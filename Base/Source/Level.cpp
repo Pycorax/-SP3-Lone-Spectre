@@ -85,7 +85,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 
 	// Variables for Initialization
 	string tileMapFilePath;
-	int tileSize;
+	float tileSize;
 	Vector2 numMapTile;
 	double m_defuseTime = 0;
 	double m_BombTime = 0;
