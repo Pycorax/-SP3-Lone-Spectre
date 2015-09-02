@@ -11,7 +11,7 @@
 	[NumMapTile] 21.0f, 20.0f
 	
 	[MaxTimer] 999.0f
-	[MissionType] LM_COLLECT
+	[MissionType] LM_ESCAPE
 	[MessagesFilePath] Messages//Level0_Messages.son
 	[BackgroundMusic] Level0BGM
 

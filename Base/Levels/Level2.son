@@ -1,54 +1,59 @@
 # Level1.son #
 ##############
 # A SON File that specifies the properties of a level to load
-# All Levels must be contained in a branch named LevelContainer
+# All Level Properties must be contained in a main branch named LevelContainer
+# Enemies are to be contained in a child branch named EnemyContainer
 {
 	[Name] LevelContainer
 	
-	[TileMapFilePath] TileMap//Level3.csv
+	[TileMapFilePath] TileMap//Level2.csv
 	[TileSize] 64
-	[NumMapTile] 64.0f, 50.0f
+	[NumMapTile] 25.0f, 30.0f
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_DEFUSE_BOMB
 	[ObjectiveActiveTimer] 10
 	[BombTimer] 50
-	[BackgroundMusic] Level0BGM
-	[BackgroundMusic] Level0BGM
-	
-	#{			
-	#	[Name] EnemyContainer
-	#	
-	#	{
-	#		[Name] Enemy1
-	#		[Mesh] Enemy_ANIMATION
-	#		[NPCType] NT_TARGET
-	#		# based on tile position
-	#		[SpawnTilePosition] 34.0f, 45.0f
-	#		[ViewRange] 1.0f, 2.0f
-	#		# patrol points not relative to enemy and its in tile coord
-	#		[PatrolPoint] 0.0f, 2.0f
-	#		[PatrolPoint] 0.0f, 0.0f
-	#	}
-	#}
-	[MissionType] LM_DEFUSE_BOMB
-	[ObjectiveActiveTimer] 10
-	[BombTimer] 50
-	[BackgroundMusic] Level0BGM
-	
+	[BackgroundMusic] Level0BGM	
 	{			
 		[Name] EnemyContainer
-		
 		{
-			[Name] Target1
-			[Mesh] Target_ANIMATION
-			[NPCType] NT_TARGET
+			[Name] Enemy1
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
 			# based on tile position
-			[SpawnTilePosition] 15.0f, 15.0f
+			[SpawnTilePosition] 12.0f, 19.0f
 			[ViewRange] 1.0f, 2.0f
 			# patrol points relative to enemy tile coord
+			[PatrolPoint] 10.0f, 0.0f
+			[PatrolPoint] 10.0f, -4.0f
+			[PatrolPoint] 0.0f, -4.0f
 			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy2
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 6.0f, 15.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord
+			[PatrolPoint] 0.0f, 8.0f
+			[PatrolPoint] 0.0f, -8.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy3
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 15.0f, 8.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord
 			[PatrolPoint] 0.0f, 4.0f
+			[PatrolPoint] -3.0f, 4.0f
+			[PatrolPoint] -3.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
 		}
 	}
 }
