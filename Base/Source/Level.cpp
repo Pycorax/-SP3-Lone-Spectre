@@ -174,6 +174,8 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 			else if(attrib.name == ATTRIBUTE_NAMES[A_OBJECTIVE_ACTIVE_TIMER])
 			{
 				m_defuseTime = stod(attrib.value);
+				
+				dynamic_cast<ObjectiveSetBomb* >(m__objective)->Init(m_defuseTime);
 			}
 			else if(attrib.name == ATTRIBUTE_NAMES[A_BOMB_TIMER])
 			{
@@ -251,13 +253,13 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 									// Initialize special NPCs to the objective
 									if(enemyType == NPC::NT_HOSTAGE)
 									{
-										ObjectiveHostage* _objHost = dynamic_cast<ObjectiveHostage*>(m__objective);
+										//ObjectiveHostage* _objHost = dynamic_cast<ObjectiveHostage*>(m__objective);
 
 										// Only assign if the objective is a hostage objective
-										if (_objHost != NULL)
+										/*if (_objHost != NULL)
 										{
 											_objHost->Init(_enemy);
-										}
+										}*/
 									}
 									else if (enemyType == NPC::NT_TARGET)
 									{

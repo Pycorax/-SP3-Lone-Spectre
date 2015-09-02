@@ -1,11 +1,10 @@
 #include "ObjectiveSetBomb.h"
 
-const float ObjectiveSetBomb::S_M_MAX_PLANT_TIME = 5.f;
-
 ObjectiveSetBomb::ObjectiveSetBomb(void) :
 m_setBomb(false)
 , m_setting(false)
-, m_setTime(S_M_MAX_PLANT_TIME)
+, m_setTime(0)
+,m_setTimeOriginal(0)
 {
 
 }
@@ -15,10 +14,11 @@ ObjectiveSetBomb::~ObjectiveSetBomb(void)
 
 }
 
-void ObjectiveSetBomb::Init()
+void ObjectiveSetBomb::Init(float TimeToSetBomb)
 {
-
+	m_setTime = m_setTimeOriginal = TimeToSetBomb;
 }
+
 
 void ObjectiveSetBomb::Update(double dt)
 {
@@ -40,9 +40,8 @@ bool ObjectiveSetBomb::IsCompleted()
 
 void ObjectiveSetBomb::Activate() //If the bomb has been set
 {
-	m_setBomb = true;
-	//Reset duration time needed to set the bomb
-	m_setTime = S_M_MAX_PLANT_TIME;
+	m_setting = true;
+	m_setTime = m_setTimeOriginal;
 }
 
 bool ObjectiveSetBomb::Active()
@@ -59,10 +58,19 @@ void ObjectiveSetBomb::Reset()
 {
 	m_setting = false;
 	m_setBomb = false;
-	m_setTime = S_M_MAX_PLANT_TIME;
 }
 
 void ObjectiveSetBomb::ResetActive()
 {
 	m_setting = false;
+}
+
+void ObjectiveSetBomb::ResetTimer()
+{
+	m_setTime = m_setTimeOriginal;
+}
+
+float ObjectiveSetBomb::GetSetMaxTime()const
+{
+	return m_setTimeOriginal;
 }

@@ -184,12 +184,6 @@ Player::E_PLAYER_STATE Player::Interact(E_INTERACTION interact, TileMap* _map)
 	//{
 	//	return PS_SPECTRAL_ASSASSINATE;
 	//}
-
-	/*if(interact == INTERACT_HOSTAGE && tileTypeOnPlayer == Tile::TILE_EXTRACTION && m_currentState != PS_SPECTRAL_HOSTAGE && !m_moving && !m_diving)
-	{
-		return PS_SPECTRAL_HOSTAGE;
-	}*/
-
 	//If next to a document to collect ** NOTE: currently only check if infront is light **s
 	if (interact == INTERACT_COLLECT && (tileTypeOnPlayer == Tile::TILE_DOCUMENT || tileTypeInFrontOfPlayer == Tile::TILE_DOCUMENT) && m_currentState != PS_SPECTRAL_COLLECT && !m_moving && !m_diving)
 	{

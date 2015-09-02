@@ -210,7 +210,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 			}
 
 			//if  objective hsve anyhting to update
-			if(!m__currentLevel->GetObjectiveComplete() && m_appState == AS_MAIN_GAME)
+			if(!m__currentLevel->GetObjectiveComplete() && m__currentLevel->GetActiveObjective() && m_appState == AS_MAIN_GAME)
 			{
 				m__currentLevel->UpdateObjective(dt);
 
@@ -1776,7 +1776,8 @@ void MVC_Model_Spectre::updateHUD(double dt)
 	ObjectiveSetBomb* temp_plant = dynamic_cast<ObjectiveSetBomb*>(m_objective);
 	if (temp_plant)
 	{
-		m__plantBomb->Update(dt, ObjectiveSetBomb::S_M_MAX_PLANT_TIME - temp_plant->GetTimer(), ObjectiveSetBomb::S_M_MAX_PLANT_TIME);
+		static const double S_M_MAX_PLANT_TIME = temp_plant->GetSetMaxTime();
+		m__plantBomb->Update(dt, S_M_MAX_PLANT_TIME - temp_plant->GetTimer(), S_M_MAX_PLANT_TIME);
 	}
 
 	m__spectreDive->Update(dt, Player::S_SPECTRE_DIVE_COOLDOWN - m__player->GetDiveTimer(), Player::S_SPECTRE_DIVE_COOLDOWN);

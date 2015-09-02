@@ -5,13 +5,14 @@
 {
 	[Name] LevelContainer
 	
-	[TileMapFilePath] TileMap//Level3.csv
+	[TileMapFilePath] TileMap//Level4.csv
 	[TileSize] 64
-	[NumMapTile] 35.0f, 50.0f
+	[NumMapTile] 57.0f, 50.0f
 	
 	[MaxTimer] 999.0f
-	[MissionType] LM_ASSASSINATE
+	[MissionType] LM_PLANT_BOMB
 	[BackgroundMusic] Level3BGM
+	[ObjectiveActiveTimer] 5.f;
 	
 	{			
 		[Name] EnemyContainer

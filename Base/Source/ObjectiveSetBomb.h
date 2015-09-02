@@ -10,13 +10,13 @@ private: //Variables
 	bool m_setting;
 	//Time set to plant bomb
 	float m_setTime;
-public: //Variable
-	static const float S_M_MAX_PLANT_TIME;
+	// 
+	float m_setTimeOriginal;
 public: //Functions
 	ObjectiveSetBomb();
 	virtual ~ObjectiveSetBomb();
 
-	void Init();
+	void Init(float TimeToSetBomb);
 	void Update(double dt);
 	void Activate();
 	bool Active();
@@ -25,6 +25,8 @@ public: //Functions
 
 	float GetTimer();
 	void ResetActive();
+	void ResetTimer();
+	float GetSetMaxTime()const;
 };
 
 #endif
