@@ -14,7 +14,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
-	, m_enableShadow(true)
+	, m_enableShadow(false)
 	, m_alertLevel(0.f)
 	, m__alert(NULL)
 	, m__spectreDive(NULL)

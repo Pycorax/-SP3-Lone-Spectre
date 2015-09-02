@@ -7,7 +7,7 @@
 	
 	[TileMapFilePath] TileMap//Level3.csv
 	[TileSize] 64
-	[NumMapTile] 35.0f, 50.0f
+	[NumMapTile] 57.0f, 50.0f
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_ASSASSINATE
@@ -21,10 +21,24 @@
 			[Mesh] Enemy_ANIMATION
 			[NPCType] NT_TARGET
 			# based on tile position
-			[SpawnTilePosition] 4.0f, 2.0f
+			[SpawnTilePosition] 49.0f, 41.0f
 			[ViewRange] 1.0f, 2.0f
 			# patrol points not relative to enemy and its in tile coord
-			[PatrolPoint] 4.0f, 2.0f
+			[PatrolPoint] 0.0f, 4.0f
+			[PatrolPoint] 4.0f, 4.0f
+			[PatrolPoint] 4.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		{
+			[Name] Enemy1
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 8.0f, 1.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points not relative to enemy and its in tile coord
+			[PatrolPoint] 10.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
 		}
 	}
 }

@@ -298,7 +298,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 						}
 					}
 
-					_enemy->SetMoveToDist(m__map->GetTileSize() );
+					_enemy->SetMoveToDist(_enemy->GetPathWay()[0],m__map->GetTileSize());
 					// Add the enemy to the enemy list
 					m_enemyList.push_back(_enemy);
 				}

@@ -42,10 +42,10 @@ NPC * NPC::CreateCopy(NPC npcToCopy)
 	return newNPC;
 }
 
-void NPC::SetMoveToDist(float TileSize)
+void NPC::SetMoveToDist(Vector2 pos, float TileSize)
 {
-	m_lookDir = (m_pathWay[m_pathPointCounter] - GetMapTilePos()).Normalized();
-	m_moveToDist = (m_pathWay[m_pathPointCounter] - GetMapTilePos()).Length() * TileSize;
+	m_lookDir = (pos - GetMapTilePos()).Normalized();
+	m_moveToDist = (pos - GetMapTilePos()).Length() * TileSize;
 }
 
 void NPC::Init(Vector2 pos, Mesh* _mesh)
@@ -144,13 +144,15 @@ bool NPC::Update(double dt, TileMap* _map)
 				{
 					m_pathPointCounter++;
 					//set look direction towards next target location base off current tile location on map
-					SetMoveToDist(_map->GetTileSize());
+					SetMoveToDist(m_pathWay[m_pathPointCounter],_map->GetTileSize());
+					ChangeAnimation(dt);
 				}
 				else
 				{
 					m_pathPointCounter = 0;
 					//set look direction towards next target location base off current tile location on map
-					SetMoveToDist(_map->GetTileSize() );
+					SetMoveToDist(m_pathWay[m_pathPointCounter],_map->GetTileSize() );
+					ChangeAnimation(dt);
 				}
 			}
 			break;
@@ -189,6 +191,7 @@ bool NPC::Update(double dt, TileMap* _map)
 				// Check if finished moving to the top position
 				if (MoveTo(m_possessedTourStops.top(), _map, dt))
 				{
+					SetMoveToDist(m_possessedTourStops.top(), _map->GetTileSize() );
 					std::cout << m_possessedTourStops.top() << std::endl;
 					// If reached, then remove the top so that the next time it checks the top to move to, it is the next position
 					m_possessedTourStops.pop();
@@ -251,6 +254,11 @@ bool NPC::Update(double dt, TileMap* _map)
 					//retracing steps back
 					m_checkAround = 0;
 					m_enemyState = ES_GOSTAN;
+					if(m_possessedTourStops.size() > 0)
+					{
+						m_possessedTourStops.pop();
+						SetMoveToDist(m_possessedTourStops.top() , _map->GetTileSize() );
+					}
 				}
 				else
 				{
@@ -291,6 +299,7 @@ bool NPC::Update(double dt, TileMap* _map)
 		}
 	}
 	SetMapPosition(GetMapPos(), _map->GetScrollOffset(), _map->GetTileSize());
+	ChangeAnimation(dt);
 	return false;
 }
 
@@ -388,6 +397,11 @@ void NPC::ForceSetEnemyState(E_ENEMY_STATE enemyState)
 void NPC::AddPatrolPoint(Vector2 pos)
 {
 	m_pathWay.push_back(pos);
+}
+
+vector<Vector2> NPC::GetPathWay(void)const
+{
+	return m_pathWay;
 }
 
 //return true if reached 

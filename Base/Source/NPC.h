@@ -105,7 +105,7 @@ public:
 	//moving to selected location - return true if reached
 	bool MoveTo(Vector2 Endpos, TileMap* _map, double dt);
 
-	void SetMoveToDist(float TileSize);
+	void SetMoveToDist(Vector2 pos,float TileSize);
 	
 	void SetAlertLevel(int alertlevel);
 	int GetAlertLevel(void);
@@ -128,6 +128,8 @@ public:
 
 	void SetNPCType(E_NPC_TYPE type);
 	E_NPC_TYPE GetNPCType(void);
+
+	vector<Vector2> GetPathWay(void)const;
 protected:
 	// Function to allow the viewer to get the child class's transform details
 	virtual Vector2 viewer_GetTilePos(void);
