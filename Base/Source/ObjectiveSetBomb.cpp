@@ -61,3 +61,8 @@ void ObjectiveSetBomb::Reset()
 	m_setBomb = false;
 	m_setTime = S_M_MAX_PLANT_TIME;
 }
+
+void ObjectiveSetBomb::ResetActive()
+{
+	m_setting = false;
+}

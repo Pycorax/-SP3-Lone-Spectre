@@ -66,4 +66,8 @@
 		[Name] MenuBGM
 		[FilePath] Sounds//menu_bgm.ogg
 	}
+	{
+		[Name] Level3BGM
+		[FilePath] Sounds//battle_music.ogg
+	}
 }

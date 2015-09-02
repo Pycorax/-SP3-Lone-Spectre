@@ -29,6 +29,7 @@ public: //Functions
 	bool IsCompleted();
 	void Reset();
 
+	void ResetActive();
 	float GetTimer();
 	float GetMexTime(void)const;
 	float GetTimeTillBOOM(void) const;

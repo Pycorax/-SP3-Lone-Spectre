@@ -24,6 +24,7 @@ public: //Functions
 	void Reset();
 
 	float GetTimer();
+	void ResetActive();
 };
 
 #endif

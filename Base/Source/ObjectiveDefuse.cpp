@@ -79,3 +79,8 @@ void ObjectiveDefuse::ResetBombTimer(void)
 {
 	m_TimeLeftOnBomb = m_TimeLeft;
 }
+
+void ObjectiveDefuse::ResetActive()
+{
+	m_defusing = false;
+}

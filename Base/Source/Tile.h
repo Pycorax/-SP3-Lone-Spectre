@@ -21,22 +21,27 @@ public:
 		TILE_OBJ_CABINET,
 		TILE_OBJ_CHAIR_LEFT,
 		TILE_OBJ_CHAIR_RIGHT,
-		TILE_OBJ_COMPUTER_1_1, // Row 1 col 1
-		TILE_OBJ_COMPUTER_2_1, // Row 2 col 1
+
+		TILE_OBJ_COMPUTER_1_1, // Top half
+		TILE_OBJ_COMPUTER_2_1, // Bottom half
 		TILE_OBJ_CUPBOARD,
 		TILE_OBJ_SINK,
-		TILE_OBJ_TABLE_1_1, // Row 1 col 1
-		TILE_OBJ_TABLE_1_2, // Row 1 col 2
-		TILE_OBJ_TABLE_2_1, // Row 2 col 1
-		TILE_OBJ_TABLE_2_2, // Row 2 col 2
-		TILE_OBJ_CAMERA_ON_1_1, // Row 1 col 1
-		TILE_OBJ_CAMERA_ON_1_2, // Row 1 col 2
-		TILE_OBJ_CAMERA_ON_1_3, // Row 1 col 3
-		TILE_OBJ_CAMERA_ON_1_4, // Row 1 col 4
-		TILE_OBJ_CAMERA_OFF_1_1, // Row 1 col 1
-		TILE_OBJ_CAMERA_OFF_1_2, // Row 1 col 2
-		TILE_OBJ_CAMERA_OFF_1_3, // Row 1 col 3
-		TILE_OBJ_CAMERA_OFF_1_4, // Row 1 col 4
+
+		TILE_OBJ_TABLE_1_1, // Top left 
+		TILE_OBJ_TABLE_1_2, // Top right
+		TILE_OBJ_TABLE_2_1, // Bottom left
+		TILE_OBJ_TABLE_2_2, // Bottom right
+
+		TILE_OBJ_CAMERA_ON_1_1, // facing down
+		TILE_OBJ_CAMERA_ON_1_2, // facing left
+		TILE_OBJ_CAMERA_ON_1_3, // facing up
+		TILE_OBJ_CAMERA_ON_1_4, // facing right
+
+		TILE_OBJ_CAMERA_OFF_1_1, // facing down
+		TILE_OBJ_CAMERA_OFF_1_2, // facing left
+		TILE_OBJ_CAMERA_OFF_1_3, // facing up
+		TILE_OBJ_CAMERA_OFF_1_4, // facing right
+
 		TILE_LIGHT,
 		TILE_DOCUMENT,
 		TILE_BOMB,

@@ -14,7 +14,7 @@ MVC_Model_Spectre::MVC_Model_Spectre(string configSONFile) : MVC_Model(configSON
 	, m_currentLevelID(0)
 	, m__currentLevel(NULL)
 	, m__player(NULL)
-	, m_enableShadow(false)
+	, m_enableShadow(true)
 	, m_alertLevel(0.f)
 	, m__alert(NULL)
 	, m__spectreDive(NULL)
@@ -222,7 +222,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 					)
 				{
 					m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
-					m__currentLevel->ResetObjective();
+					dynamic_cast<ObjectiveDefuse*>(m__currentLevel->GetObjective())->ResetActive();
 				}
 				else if (
 						dynamic_cast<ObjectiveSetBomb*>(m__currentLevel->GetObjective()) != NULL
@@ -231,7 +231,7 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						)
 				{
 					m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Pause();
-					m__currentLevel->ResetObjective();
+					dynamic_cast<ObjectiveSetBomb*>(m__currentLevel->GetObjective())->ResetActive();
 				}
 			}
 
@@ -1023,7 +1023,9 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 				m__soundPlayer[SP_EXPLOSIVE_DEATH]->Play(false);
 				_tempDefuseObjective->ResetBombTimer();
 			}
+			std::cout << _tempDefuseObjective->GetTimeTillBOOM() << std::endl;
 		}
+		
 	}
 
 

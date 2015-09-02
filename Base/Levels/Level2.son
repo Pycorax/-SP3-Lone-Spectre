@@ -5,26 +5,27 @@
 {
 	[Name] LevelContainer
 	
-	[TileMapFilePath] TileMap//Level2.csv
+	[TileMapFilePath] TileMap//Level3.csv
 	[TileSize] 64
 	[NumMapTile] 64.0f, 50.0f
 	
 	[MaxTimer] 999.0f
-	[MissionType] LM_ASSASSINATE
+	[MissionType] LM_ESCAPE
 	[BackgroundMusic] Level0BGM
 	
-	{			
-		[Name] EnemyContainer
-		
-		{
-			[Name] Enemy1
-			[Mesh] Enemy_ANIMATION
-			[NPCType] NT_TARGET
-			# based on tile position
-			[SpawnTilePosition] 4.0f, 2.0f
-			[ViewRange] 1.0f, 2.0f
-			# patrol points not relative to enemy and its in tile coord
-			[PatrolPoint] 4.0f, 2.0f
-		}
-	}
+	#{			
+	#	[Name] EnemyContainer
+	#	
+	#	{
+	#		[Name] Enemy1
+	#		[Mesh] Enemy_ANIMATION
+	#		[NPCType] NT_TARGET
+	#		# based on tile position
+	#		[SpawnTilePosition] 34.0f, 45.0f
+	#		[ViewRange] 1.0f, 2.0f
+	#		# patrol points not relative to enemy and its in tile coord
+	#		[PatrolPoint] 0.0f, 2.0f
+	#		[PatrolPoint] 0.0f, 0.0f
+	#	}
+	#}
 }
