@@ -190,6 +190,7 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 		InitMap(numMapTile, viewWidth, viewHeight, tileSize, tileMapFilePath, meshList, S_M_SCREEN_SIZE);
 
 		// For Each Branch
+		tileSize = m__map->GetTileSize();
 		for (vector<Branch>::iterator branchIT = level.childBranches.begin(); branchIT != level.childBranches.end(); ++branchIT)
 		{
 			Branch branch = *branchIT;

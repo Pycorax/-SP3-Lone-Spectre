@@ -11,8 +11,24 @@ MapEntity::~MapEntity(void)
 
 void MapEntity::SetMapPosition(Vector2 pos, Vector2 scrollOffset, float tileSize)
 {
+	static const float S_DEGREE_OF_ACCURACY = 0.01f; // Degree of accuracy
+	
+	float mapTileX = pos.x / tileSize;
+	float mapTileY = pos.y / tileSize;
 	m_mapPos = pos;
-	m_mapTilePos = Vector2(floor(pos.x / tileSize), floor(pos.y / tileSize));
+	m_mapTilePos = Vector2(floor(mapTileX), floor(mapTileY));
+	float ceilTileX = ceil(mapTileX);
+	float ceilTileY = ceil(mapTileY);
+	if (mapTileX + S_DEGREE_OF_ACCURACY > ceilTileX)
+	{
+		m_mapTilePos.x = ceilTileX;
+		m_mapPos.x = ceilTileX * tileSize + S_DEGREE_OF_ACCURACY;
+	}
+	if (mapTileY + S_DEGREE_OF_ACCURACY > ceilTileY)
+	{
+		m_mapTilePos.y = ceilTileY;
+		m_mapPos.y = ceilTileY * tileSize + S_DEGREE_OF_ACCURACY;
+	}
 
 	updateScreenPos(calcScreenPos(scrollOffset));
 }
