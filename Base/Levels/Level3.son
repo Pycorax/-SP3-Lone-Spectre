@@ -17,8 +17,8 @@
 		[Name] EnemyContainer
 		
 		{
-			[Name] Enemy1
-			[Mesh] Enemy_ANIMATION
+			[Name] Target1
+			[Mesh] Target_ANIMATION
 			[NPCType] NT_TARGET
 			# based on tile position
 			[SpawnTilePosition] 49.0f, 41.0f
