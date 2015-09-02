@@ -271,10 +271,15 @@ bool NPC::Update(double dt, TileMap* _map)
 					//retracing steps back
 					m_checkAround = 0;
 					m_enemyState = ES_GOSTAN;
-					if(m_possessedTourStops.size() > 0)
+					if(m_possessedTourStops.size() > 1)
 					{
 						m_possessedTourStops.pop();
 						SetMoveToDist(m_possessedTourStops.top() , _map->GetTileSize() );
+					}
+					else
+					{
+						m_enemyState = ES_PATROL;
+						SetMoveToDist(m_pathWay[m_pathPointCounter] , _map->GetTileSize() );
 					}
 				}
 				else

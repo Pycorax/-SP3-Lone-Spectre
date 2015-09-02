@@ -13,7 +13,7 @@
 	[MaxTimer] 999.0f
 	[MissionType] LM_DEFUSE_BOMB
 	[ObjectiveActiveTimer] 10
-	[BombTimer] 999.0f
+	[BombTimer] 120.0f
 	[BackgroundMusic] Level0BGM
 	
 	{			
