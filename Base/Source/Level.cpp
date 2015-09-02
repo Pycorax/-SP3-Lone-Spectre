@@ -174,8 +174,11 @@ void Level::Load(string levelFilePath, int viewWidth, int viewHeight, vector<Mes
 			else if(attrib.name == ATTRIBUTE_NAMES[A_OBJECTIVE_ACTIVE_TIMER])
 			{
 				m_defuseTime = stod(attrib.value);
-				
-				dynamic_cast<ObjectiveSetBomb* >(m__objective)->Init(m_defuseTime);
+
+				if(dynamic_cast<ObjectiveSetBomb* >(m__objective) != NULL)
+				{
+					dynamic_cast<ObjectiveSetBomb* >(m__objective)->Init(m_defuseTime);
+				}
 			}
 			else if(attrib.name == ATTRIBUTE_NAMES[A_BOMB_TIMER])
 			{
