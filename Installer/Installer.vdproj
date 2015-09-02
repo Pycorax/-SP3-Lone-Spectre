@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_07AADD465FBF4B4CBA2F6C8F5AF9CB33"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0822AA4BC8EC48FDA64A2FDD6EDDCCDC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -76,6 +82,12 @@
         "Entry"
         {
         "MsmKey" = "8:_0C9EA2164C1B40BE963E30FCB61F2C44"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0CF2956CFF904A2F941529B7C48CB159"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -237,12 +249,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_3132D0D6CF9741FC9E59D80D0F324D74"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_316CE6881F8B40F69033C210E61AC5B6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -393,7 +399,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4EC69720169546AE81C47B69052F4C92"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4EE5C0DF1AE844579B2EDF361160AB13"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_508EF74BCF6F4FCEB831588C8611A71A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -669,7 +687,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_953C9E20FA6D4547A662B747A0628402"
+        "MsmKey" = "8:_96E81382D7464DEE86097DDE26770057"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -825,12 +843,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B02EF83994044E098005A15650C723C2"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_B090C6BFC73B4DBE83B543A8819CA3FF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -861,7 +873,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BA8D1B094DE243D4BE87BB4872AFEEAD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_BBC704B56EEB4F2396505C710AE3F3A5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BC30C0CF345847B89E1CB61115CB28ED"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -993,12 +1017,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CEC1A15F7E75410D88826A0C03BDC2AA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_D0A29863DBE0497FB1E6DE5051706FD9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1065,6 +1083,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DC4FB325C27342558C9C950244F51651"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DC872A54F7C2440C8FDE1F1C62233443"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E02A1D53CBE84EDD9E9D0D90F170C9A3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1108,6 +1138,12 @@
         "Entry"
         {
         "MsmKey" = "8:_EBDAA0808BC34C779A4A183FF1FAA644"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EC30BDEAAF3A46C38013739285ECFACE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1161,7 +1197,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\LoneSpectre_0.3.1_setup.msi"
+        "OutputFilename" = "8:Debug\\LoneSpectre_1.0.0_setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1193,7 +1229,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\LoneSpectre_0.4.3_setup.msi"
+        "OutputFilename" = "8:Release\\LoneSpectre_1.0.0_setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1289,6 +1325,26 @@
             "TargetName" = "8:skill_jump_icon.tga"
             "Tag" = "8:"
             "Folder" = "8:_DA0A0345C72C4AD899B7116998957E68"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_07AADD465FBF4B4CBA2F6C8F5AF9CB33"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level2.son"
+            "TargetName" = "8:Level2.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1429,6 +1485,26 @@
             "TargetName" = "8:k_key.tga"
             "Tag" = "8:"
             "Folder" = "8:_DA0A0345C72C4AD899B7116998957E68"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0CF2956CFF904A2F941529B7C48CB159"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level5.son"
+            "TargetName" = "8:Level5.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1963,26 +2039,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3132D0D6CF9741FC9E59D80D0F324D74"
-            {
-            "SourcePath" = "8:..\\Base\\Levels\\Level1.son"
-            "TargetName" = "8:Level1.son"
-            "Tag" = "8:"
-            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_316CE6881F8B40F69033C210E61AC5B6"
             {
             "SourcePath" = "8:..\\Base\\Image\\LoseScreen.tga"
@@ -2483,12 +2539,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4EC69720169546AE81C47B69052F4C92"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level8.son"
+            "TargetName" = "8:Level8.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4EE5C0DF1AE844579B2EDF361160AB13"
             {
             "SourcePath" = "8:..\\Base\\SONs\\Colors.son"
             "TargetName" = "8:Colors.son"
             "Tag" = "8:"
             "Folder" = "8:_0C25B827763943D69372043224925523"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_508EF74BCF6F4FCEB831588C8611A71A"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level0.son"
+            "TargetName" = "8:Level0.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3403,10 +3499,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_953C9E20FA6D4547A662B747A0628402"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_96E81382D7464DEE86097DDE26770057"
             {
-            "SourcePath" = "8:..\\Base\\Levels\\Level0.son"
-            "TargetName" = "8:Level0.son"
+            "SourcePath" = "8:..\\Base\\Levels\\Level1.son"
+            "TargetName" = "8:Level1.son"
             "Tag" = "8:"
             "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
             "Condition" = "8:"
@@ -3923,26 +4019,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B02EF83994044E098005A15650C723C2"
-            {
-            "SourcePath" = "8:..\\Base\\Levels\\Level8.son"
-            "TargetName" = "8:Level8.son"
-            "Tag" = "8:"
-            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B090C6BFC73B4DBE83B543A8819CA3FF"
             {
             "SourcePath" = "8:..\\Base\\Sounds\\objective_bomb_plant.ogg"
@@ -4043,12 +4119,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BA8D1B094DE243D4BE87BB4872AFEEAD"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level7.son"
+            "TargetName" = "8:Level7.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BBC704B56EEB4F2396505C710AE3F3A5"
             {
             "SourcePath" = "8:..\\Base\\Image\\Lab_Tiles\\Railings_3x3.tga"
             "TargetName" = "8:Railings_3x3.tga"
             "Tag" = "8:"
             "Folder" = "8:_C8C33B74B603463FA759F127A747798A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BC30C0CF345847B89E1CB61115CB28ED"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level6.son"
+            "TargetName" = "8:Level6.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4483,26 +4599,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CEC1A15F7E75410D88826A0C03BDC2AA"
-            {
-            "SourcePath" = "8:..\\Base\\Levels\\Level2.son"
-            "TargetName" = "8:Level2.son"
-            "Tag" = "8:"
-            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D0A29863DBE0497FB1E6DE5051706FD9"
             {
             "SourcePath" = "8:..\\Base\\Sounds\\exit_spectre_dive.ogg"
@@ -4723,6 +4819,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DC4FB325C27342558C9C950244F51651"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level4.son"
+            "TargetName" = "8:Level4.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DC872A54F7C2440C8FDE1F1C62233443"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level3.son"
+            "TargetName" = "8:Level3.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E02A1D53CBE84EDD9E9D0D90F170C9A3"
             {
             "SourcePath" = "8:..\\Base\\Image\\HUD\\Buttons\\XInput\\rs_xbox_key.tga"
@@ -4869,6 +5005,26 @@
             "TargetName" = "8:y_xbox_key.tga"
             "Tag" = "8:"
             "Folder" = "8:_5893AAC843AD4F00AFABB0FB7674D260"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EC30BDEAAF3A46C38013739285ECFACE"
+            {
+            "SourcePath" = "8:..\\Base\\Levels\\Level9.son"
+            "TargetName" = "8:Level9.son"
+            "Tag" = "8:"
+            "Folder" = "8:_5229CE64EDEA4CE9993F04F3BEB38A66"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -5267,7 +5423,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8: Lone Spectre Version 1.0.0"
         "ProductCode" = "8:{5BFDFA61-19FB-4230-B934-2101A9A7D918}"
-        "PackageCode" = "8:{12E199E5-5499-44A6-845A-3DAEB07922F4}"
+        "PackageCode" = "8:{2CABC489-B186-4B45-9677-C7DEC9DCF57E}"
         "UpgradeCode" = "8:{29788055-3DAA-43DA-B36E-DDB3E9D1E998}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
