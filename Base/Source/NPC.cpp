@@ -45,7 +45,8 @@ NPC * NPC::CreateCopy(NPC npcToCopy)
 void NPC::SetMoveToDist(Vector2 pos, float TileSize)
 {
 	m_lookDir = (pos - GetMapTilePos()).Normalized();
-	m_moveToDist = (pos - GetMapTilePos()).Length() * TileSize;
+	m_moveToDist = ((pos * TileSize) - GetMapPos()).Length()/* * TileSize*/;
+	m_moveDist = 0;
 }
 
 void NPC::Init(Vector2 pos, Mesh* _mesh)
@@ -126,14 +127,20 @@ bool NPC::Update(double dt, TileMap* _map)
 	}
 
 	Character::Update();	
-	
-	ClearViewBox(this, _map);
+	if (m_transforms.Translation.x < 0 || m_transforms.Translation.x > _map->GetScreenSize().x || m_transforms.Translation.y < 0 || m_transforms.Translation.y > _map->GetScreenSize().y)
+	{
+		// Do not update viewbox
+	}
+	else
+	{
+		ClearViewBox(this, _map);
 
-	//update view distance according to alert level
-	InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + m_viewY);
+		//update view distance according to alert level
+		InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + m_viewY);
 
-	// Update FOV
-	CreateViewBox(this, _map);
+		// Update FOV
+		CreateViewBox(this, _map);
+	}
 
 	// Possession
 	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
@@ -254,7 +261,7 @@ bool NPC::Update(double dt, TileMap* _map)
 			{
 				m_lookDir = Direction::DIRECTIONS[Direction::DIR_LEFT];
 			}
-			else //timing is over
+			else if (m_checkAround >= S_WAIT_TIME * 4) //timing is over
 			{
 				if(m_wasPossessed) // if no need to trace back
 				{
@@ -272,6 +279,7 @@ bool NPC::Update(double dt, TileMap* _map)
 					// contnue back to patrol
 					m_checkAround = 0;
 					m_enemyState = ES_PATROL;
+					SetMoveToDist(m_pathWay[m_pathPointCounter], _map->GetTileSize());
 				}
 			}
 			m_checkAround += dt;

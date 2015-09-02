@@ -13,7 +13,7 @@
 	[MaxTimer] 999.0f
 	[MissionType] LM_DEFUSE_BOMB
 	[ObjectiveActiveTimer] 10
-	[BombTimer] 50
+	[BombTimer] 999.0f
 	[BackgroundMusic] Level0BGM
 	
 	{			
@@ -27,22 +27,74 @@
 			[SpawnTilePosition] 5.0f, 4.0f
 			[ViewRange] 1.0f, 2.0f
 			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
-			[PatrolPoint] 0.0f, 4.0f
-			[PatrolPoint] 3.0f, 4.0f
-			[PatrolPoint] 3.0f, 0.0f
+			[PatrolPoint] 0.0f, 15.0f
+			[PatrolPoint] 13.0f, 15.0f
+			[PatrolPoint] 13.0f, 0.0f
 			[PatrolPoint] 0.0f, 0.0f
-			
 		}
+		
 		{
 			[Name] Enemy2
 			[Mesh] Enemy_ANIMATION
 			[NPCType] NT_ENEMY
 			# based on tile position
-			[SpawnTilePosition] 2.0f, 10.0f
+			[SpawnTilePosition] 13.0f, 9.0f
 			[ViewRange] 1.0f, 2.0f
-			# patrol points relative to enemy tile coord
-			[PatrolPoint] 0.0f, 4.0f
-			[PatrolPoint] 3.0f, 4.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] -4.0f, 0.0f
+			[PatrolPoint] -4.0f, 5.0f
+			[PatrolPoint] 0.0f, 5.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Enemy3
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 5.0f, 21.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 17.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Enemy4
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 7.0f, 34.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 18.0f, 0.0f
+			[PatrolPoint] 18.0f, -14.0f
+			[PatrolPoint] 18.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Enemy5
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 13.0f, 27.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, -2.0f
+			[PatrolPoint] 2.0f, -2.0f
+			[PatrolPoint] 2.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+		
+		{
+			[Name] Enemy6
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 34.0f, 19.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
 			[PatrolPoint] 3.0f, 0.0f
 			[PatrolPoint] 0.0f, 0.0f
 		}

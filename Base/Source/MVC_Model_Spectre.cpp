@@ -1015,7 +1015,6 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 				m__soundPlayer[SP_EXPLOSIVE_DEATH]->Play(false);
 				_tempDefuseObjective->ResetBombTimer();
 			}
-			std::cout << _tempDefuseObjective->GetTimeTillBOOM() << std::endl;
 		}
 		
 	}
