@@ -12,5 +12,23 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_ESCAPE
-	[BackgroundMusic] Level0BGM
+	[BackgroundMusic] Level3BGM
+	
+	{
+		[Name] EnemyContainer
+		
+		{
+			[Name] Enemy1
+			[Mesh] Enemy_ANIMATION
+			[NPCType] NT_ENEMY
+			# based on tile position
+			[SpawnTilePosition] 6.0f, 12.0f
+			[ViewRange] 1.0f, 2.0f
+			# patrol points relative to enemy tile coord ** NOTE: Set the last position as spawn position ** 
+			[PatrolPoint] 0.0f, 34.0f
+			[PatrolPoint] 34.0f, 34.0f
+			[PatrolPoint] 34.0f, 0.0f
+			[PatrolPoint] 0.0f, 0.0f
+		}
+	}
 }

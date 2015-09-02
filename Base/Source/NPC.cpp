@@ -126,21 +126,14 @@ bool NPC::Update(double dt, TileMap* _map)
 		return false;
 	}
 
-	Character::Update();	
-	if (m_transforms.Translation.x < 0 || m_transforms.Translation.x > _map->GetScreenSize().x || m_transforms.Translation.y < 0 || m_transforms.Translation.y > _map->GetScreenSize().y)
-	{
-		// Do not update viewbox
-	}
-	else
-	{
-		ClearViewBox(this, _map);
+	Character::Update();
+	ClearViewBox(this, _map);
 
-		//update view distance according to alert level
-		InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + m_viewY);
+	//update view distance according to alert level
+	InitViewer(S_MIN_VIEW_DISTANCE, m_alertLevel + m_viewY);
 
-		// Update FOV
-		CreateViewBox(this, _map);
-	}
+	// Update FOV
+	CreateViewBox(this, _map);
 
 	// Possession
 	if(m_bPossesion == false && m_enemyState == ES_POSSESED)
@@ -199,16 +192,20 @@ bool NPC::Update(double dt, TileMap* _map)
 
 				// Recovered from the previous possession by gostaning
 				m_wasPossessed = false;
+				SetMoveToDist(m_pathWay[m_pathPointCounter], _map->GetTileSize());
 			}
 			else
 			{
 				// Check if finished moving to the top position
 				if (MoveTo(m_possessedTourStops.top(), _map, dt))
 				{
-					SetMoveToDist(m_possessedTourStops.top(), _map->GetTileSize() );
-					std::cout << m_possessedTourStops.top() << std::endl;
 					// If reached, then remove the top so that the next time it checks the top to move to, it is the next position
 					m_possessedTourStops.pop();
+					if (m_possessedTourStops.size() > 0)
+					{
+						SetMoveToDist(m_possessedTourStops.top(), _map->GetTileSize() );
+						//std::cout << m_possessedTourStops.top() << std::endl;
+					}
 
 				}
 			}
