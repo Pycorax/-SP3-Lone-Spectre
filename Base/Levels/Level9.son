@@ -12,7 +12,7 @@
 	
 	[MaxTimer] 999.0f
 	[MissionType] LM_PLANT_BOMB
-	[ObjectiveActivateTimer] 10
+	[ObjectiveActiveTimer] 5.0f
 	[MessagesFilePath] Messages//Level9_Messages.son
 	[BackgroundMusic] Level9BGM
 	
