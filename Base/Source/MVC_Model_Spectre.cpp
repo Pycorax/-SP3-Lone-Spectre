@@ -112,25 +112,25 @@ void MVC_Model_Spectre::processKeyAction(double dt)
 						Tile* _tileOnPlayer = m__currentLevel->GetTileMap()->GetTileAt(m__player->GetMapPos());
 						Tile* _tileInFrontPlayer = m__currentLevel->GetTileMap()->GetTileAt
 							(m__player->GetMapPos() + m__player->GetLookDir() * m__currentLevel->GetTileMap()->GetTileSize());
-						if (_tileOnPlayer->GetType() == Tile::TILE_BOMB || _tileOnPlayer->GetType() == Tile::TILE_DOCUMENT)
+						if (_tileOnPlayer->GetType() == Tile::TILE_BOMB && dynamic_cast<ObjectiveDefuse* >(m__currentLevel->GetObjective()) != NULL || _tileOnPlayer->GetType() == Tile::TILE_DOCUMENT)
 						{
 							_tileOnPlayer->SetMesh(GetMeshResource("TILE_FLOOR"));
 							_tileOnPlayer->SetType(Tile::TILE_FLOOR);
 							m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
 						}
-						else if ((_tileInFrontPlayer->GetType() == Tile::TILE_BOMB || _tileInFrontPlayer->GetType() == Tile::TILE_DOCUMENT))
+						else if ((_tileInFrontPlayer->GetType() == Tile::TILE_BOMB && dynamic_cast<ObjectiveDefuse* >(m__currentLevel->GetObjective()) != NULL || _tileInFrontPlayer->GetType() == Tile::TILE_DOCUMENT))
 						{
 							_tileInFrontPlayer->SetMesh(GetMeshResource("TILE_FLOOR"));
 							_tileInFrontPlayer->SetType(Tile::TILE_FLOOR);
 							m__soundPlayer[SP_OBJ_BOMB_DEFUSING]->Pause();
 						}
-						else if (_tileOnPlayer->GetType() == Tile::TILE_SETBOMBAREA)
+						if (_tileOnPlayer->GetType() == Tile::TILE_SETBOMBAREA && dynamic_cast<ObjectiveSetBomb* >(m__currentLevel->GetObjective()) != NULL)
 						{
 							_tileOnPlayer->SetMesh(GetMeshResource("TILE_BOMB"));
 							_tileOnPlayer->SetType(Tile::TILE_BOMB);
 							m__soundPlayer[SP_OBJ_BOMB_PLANTING]->Pause();
 						}
-						else if (_tileInFrontPlayer->GetType() == Tile::TILE_SETBOMBAREA)
+						else if (_tileInFrontPlayer->GetType() == Tile::TILE_SETBOMBAREA && dynamic_cast<ObjectiveSetBomb* >(m__currentLevel->GetObjective()) != NULL)
 						{
 							_tileInFrontPlayer->SetMesh(GetMeshResource("TILE_BOMB"));
 							_tileInFrontPlayer->SetType(Tile::TILE_BOMB);
@@ -1078,8 +1078,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	{
 		//check if its the same enemy killed
 		NPC* _temp = *enemyIter;
-		//if NOT the target and objective is NOT 
-		//if (_objectiveTarget!= NULL && !(_objectiveTarget->GetTarget()->GetNPCType() == _temp->GetNPCType() && _objectiveTarget->IsCompleted()))
+	
 		if (_temp && _temp->GetActive())
 		{
 			m_renderList2D.push((*enemyIter));
@@ -1102,13 +1101,15 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	m_renderList2D.push(m__spectreHost);
 	m_renderList2D.push(m__spectreHost->GetDisplayCover());
 
-	if (m__player->GetInShadow() == false && (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE))
+	if (m__player->GetInShadow() == false && (m__player->Interact(Player::INTERACT_DEFUSE, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_DEFUSE)
+		&& dynamic_cast<ObjectiveDefuse* >(m__currentLevel->GetObjective()) != NULL)
 	{
 		// Defuse Bomb
 		m_renderList2D.push(m__defuseBomb);
 		m_renderList2D.push(m__defuseBomb->GetDisplayCover());
 	}
-	if (m__player->GetInShadow() == false && (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB))
+	if (m__player->GetInShadow() == false && (m__player->Interact(Player::INTERACT_SETBOMB, m__currentLevel->GetTileMap()) == Player::PS_SPECTRAL_SETBOMB)
+		&& dynamic_cast<ObjectiveSetBomb* >(m__currentLevel->GetObjective()) != NULL)
 	{
 		// Plant Bomb
 		m_renderList2D.push(m__plantBomb);
