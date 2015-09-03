@@ -1169,11 +1169,11 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 		m__kKey[m_lastInputDevice]->SetPos((m__player->GetMapPos() - m__currentLevel->GetTileMap()->GetScrollOffset()) + (spawnDir * tileSize) + S_ACTION_HUD_OFFSET);
 		m_renderList2D.push(m__kKey[m_lastInputDevice]);
 	}
-	else if (tileTypeOnPlayer == Tile::TILE_BOMB
+	else if (tileTypeOnPlayer == Tile::TILE_BOMB && !m__currentLevel->GetObjectiveComplete()
 		||
-		tileTypeOnPlayer == Tile::TILE_DOCUMENT
+		tileTypeOnPlayer == Tile::TILE_DOCUMENT && !m__currentLevel->GetObjectiveComplete()
 		||
-		tileTypeOnPlayer == Tile::TILE_SETBOMBAREA
+		tileTypeOnPlayer == Tile::TILE_SETBOMBAREA && !m__currentLevel->GetObjectiveComplete()
 		||
 		tileTypeOnPlayer == Tile::TILE_EXTRACTION
 		||
@@ -1181,7 +1181,7 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 			||
 			tileTypeInFrontPlayer == Tile::TILE_DOCUMENT
 			||
-			tileTypeInFrontPlayer == Tile::TILE_SETBOMBAREA))) // Spawn F if interactions
+			tileTypeInFrontPlayer == Tile::TILE_SETBOMBAREA) && !m__currentLevel->GetObjectiveComplete() )) // Spawn F if interactions
 	{
 		// Spawn hud key to the right of where player is
 		if (playerDir == Direction::DIRECTIONS[Direction::DIR_UP])			// If facing up, set spawn direction to right
@@ -1231,11 +1231,11 @@ void MVC_Model_Spectre::updateMainGame(double dt)
 	pushMessageToRender();
 
 	m_renderList2D.push(m_fpsCount);
-
+/*
 	if (m_fps < 55)
 	{
 		cout << m_fpsCount->GetText() << endl;
-	}
+	}*/
 }
 
 void MVC_Model_Spectre::updateHackGame(double dt)
