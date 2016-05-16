@@ -1,4 +1,4 @@
-# Lone Spectre  - Convention Document `Revision 4.2.0_BLAZE_IT`
+# Lone Spectre  - Convention Document `Revision 4.2.0`
 
 Lone Spectre is a 2D top down realtime stealth strategy game. It is currently in development to be Team 4's Studio Project 3 game.
 
